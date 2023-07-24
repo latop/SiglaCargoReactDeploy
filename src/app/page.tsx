@@ -1,95 +1,41 @@
-import Image from 'next/image'
-import styles from './page.module.css'
+'use client'
+
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import styles from './page.module.css';
+import { WeatherCard, CitySearch } from '@/components';
 
 export default function Home() {
+  const [selectedCity, setSelectedCity] = useState(null);
+  const [weatherData, setWeatherData] = useState(null);
+
+  // Função chamada quando uma cidade é selecionada na busca
+  const handleCitySelect = city => {
+    setSelectedCity(city);
+  };
+
+  // Quando a cidade selecionada mudar, busque os dados do tempo
+  useEffect(() => {
+    if (selectedCity && selectedCity.lat && selectedCity.lon) {
+      axios.get(`api/weather/data?lat=${selectedCity.lat}&long=${selectedCity.lon}`)
+        .then(res => {
+          const data = res.data;
+          setWeatherData({
+            weatherId: data.weathercode,
+            cityName: selectedCity.name.split(',')[0],
+            temperature: data.temperature,
+            speed: data.windspeed,
+            time: data.time,
+            isDay: Boolean(data.is_day),
+          });
+        });
+    }
+  }, [selectedCity]);
+
   return (
     <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore the Next.js 13 playground.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
+      <CitySearch onSelect={handleCitySelect} />
+      {weatherData && <WeatherCard {...weatherData} />}
     </main>
-  )
+  );
 }
