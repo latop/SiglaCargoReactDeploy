@@ -4,7 +4,7 @@ export const MainContainer = styled('main')`
   display: flex;
   flex-direction: column;
   gap: 20px;
-  alignItems: center;
+  align-items: center;
   padding: 6rem 1rem;
-  minHeight: 100vh;
+  min-height: 100vh;
 `;
