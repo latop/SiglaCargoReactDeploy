@@ -4,6 +4,7 @@ import { useState } from 'react';
 import useSWR from 'swr';
 import axios from 'axios';
 import { WeatherCard, CitySearch } from '@/components';
+import { MainContainer } from './Home.styles';
 
 interface CityProp {
   lat?: number | string;
@@ -35,16 +36,7 @@ export default function Home() {
   const loading = !weatherData && !weatherError;
 
   return (
-    <main
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '20px',
-        alignItems: 'center',
-        padding: '6rem 1rem',
-        minHeight: '100vh',
-      }}
-    >
+    <MainContainer>
       <CitySearch onSelect={handleCitySelect} />
       {selectedCity && (
         <WeatherCard
@@ -57,6 +49,6 @@ export default function Home() {
           isDay={Boolean(weatherData?.is_day)}
         />
       )}
-    </main>
+    </MainContainer>
   );
 }

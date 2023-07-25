@@ -1,27 +1,11 @@
 'use client'
 
 import React, { useState } from 'react';
-import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import { useDebounce } from 'use-debounce';
-import Backdrop from '@mui/material/Backdrop';
-import styled from '@emotion/styled';
 import useSWR from 'swr';
 import axios from 'axios';
-
-const AutocompleteContainer = styled('div')`
-  width: 100%;
-  max-width: 500px;
-`;
-
-const TextFieldContainer = styled(TextField)`
-  z-index: 1000;
-`;
-
-const BackdropContainer = styled(Backdrop)`
-  color: #fff;
-  z-index: 1;
-`;
+import { AutocompleteContainer, TextFieldContainer, BackdropContainer } from './CitySearch.styles';
 
 interface CityProps {
   lat?: number | string;
