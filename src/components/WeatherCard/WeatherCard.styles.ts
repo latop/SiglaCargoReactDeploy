@@ -1,28 +1,39 @@
-import { css } from "@emotion/react";
+import styled from "@emotion/styled";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
 
-export const cardStyles = css({
-  minWidth: 500,
-  textAlign: "center",
-  padding: "1em",
-  borderRadius: '10px',
-});
+export const CardContainer = styled(Card)`
+  display: flex;
+  width: 100%;
+  max-width: 500px;
+  text-align: center;
+  padding: 1em;
+  min-height: 354px;
+  align-items: center;
+  justify-content: space-between;
+`;
 
-export const flexContainerStyles = css({
-  display: "flex",
-  justifyContent: "space-between",
-});
+export const CardContentContainer = styled(CardContent)`
+  width: 100%;
+`;
 
-export const temperatureStyles = css({
-  marginTop: '50px',
-});
+export const FlexContainer = styled(Box)`
+  display: flex;
+  justify-content: space-between;
+`;
 
-export const subtitleStyles = css({
-  marginTop: '10px',
-  color: '#999',
-});
+export const Temperature = styled(Typography)`
+  margin-top: 50px;
+`;
 
-export const iconContainerStyles = css({
-  display: "flex",
-  alignItems: "center",
-  gap: '5px',
-});
+export const Subtitle = styled(Typography)`
+  color: #999;
+`;
+
+export const IconContainer = styled(Box)`
+  display: flex;
+  align-items: center;
+  gap: 5px;
+`;

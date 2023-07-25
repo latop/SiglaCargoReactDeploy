@@ -51,7 +51,8 @@ export const getWeatherCodes = (id: number, isDay: boolean) => [
   { id: 50, name: 'heavySnow', title: 'Neve forte', icon: WiSnow }
 ].find(item => item.id === id);
 
-export function formatTime(dateString: string): string {
+export function formatTime(dateString: string | null): string | null {
+  if (!dateString) return null;
   const date = new Date(dateString);
   date.setHours(date.getHours() - 3);
   return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
