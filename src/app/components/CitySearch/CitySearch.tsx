@@ -32,14 +32,14 @@ export default function CitySearch({ onSelect }: CitySearchProps) {
           loading={!error && !options.length}
           noOptionsText="Nenhum resultado encontrado"
           loadingText="Carregando..."
-          getOptionLabel={(option: CityProps) => option.name}
+          getOptionLabel={(option: ICity) => option.name}
           onInputChange={(event, newInputValue: string) => {
             setInputValue(newInputValue);
           }}
           onBlur={() => {
             setOpen(false);
           }}
-          onChange={(event, newValue: CityProps | null) => {
+          onChange={(event, newValue: ICity | null) => {
             onSelect(newValue);
           }}
           onOpen={() => {
