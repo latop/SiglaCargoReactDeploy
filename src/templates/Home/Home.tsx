@@ -13,12 +13,12 @@ interface CityProp {
 }
 
 interface WeatherData {
-  weatherId: number;
+  weathercode: number;
   cityName: string;
   temperature: number;
-  speed: number;
+  windspeed: number;
   time: string;
-  isDay: boolean;
+  is_day: boolean;
 }
 
 export default function Home() {
@@ -28,11 +28,11 @@ export default function Home() {
     setSelectedCity(city);
   };
 
-  const { data: weatherData, error: weatherError } = useSWR(
+  const { data: weatherData, error: weatherError } = useSWR<WeatherData>(
     selectedCity ? `/api/weather/data?lat=${selectedCity.lat}&long=${selectedCity.lon}` : null,
     (url) => axios.get(url).then((res) => res.data)
   );
-
+  
   const loading = !weatherData && !weatherError;
 
   return (
