@@ -3,7 +3,7 @@ import Autocomplete from '@mui/material/Autocomplete';
 import { useDebounce } from 'use-debounce';
 import useSWR from 'swr';
 import axios from 'axios';
-import { StyledAutocomplete, AutocompleteContainer, TextFieldContainer, BackdropContainer } from './CitySearch.styles';
+import { AutocompleteContainer, TextFieldContainer, BackdropContainer } from './CitySearch.styles';
 
 interface CityProps {
   lat?: number | string;
@@ -28,17 +28,19 @@ export default function CitySearch({ onSelect }: CitySearchProps) {
   return (
     <>
       <AutocompleteContainer>
-        <StyledAutocomplete
+        <Autocomplete
           id="city-search"
           options={options}
           open={open && inputValue.length > 0}
           loading={!error && !options.length}
-          disableCloseOnSelect={false}
           noOptionsText="Nenhum resultado encontrado"
-          loadingText={<span>{inputValue ? 'Carregando...' : 'Digite a cidade'}</span>}
+          loadingText="Carregando..."
           getOptionLabel={(option: CityProps) => option.name}
           onInputChange={(event, newInputValue: string) => {
             setInputValue(newInputValue);
+          }}
+          onBlur={() => {
+            setOpen(false);
           }}
           onChange={(event, newValue: CityProps | null) => {
             onSelect(newValue);
