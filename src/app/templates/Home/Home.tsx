@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import useSWR from 'swr';
 import axios from 'axios';
-import { WeatherCard, CitySearch } from '@/components';
+import { WeatherCard, CitySearch } from '@/app/components';
 import { MainContainer } from './Home.styles';
 
 interface CityProp {
@@ -28,8 +28,9 @@ export default function Home() {
     setSelectedCity(city);
   };
 
-  const { data: weatherData, error: weatherError } = useSWR<WeatherData>(
-    selectedCity ? `/api/weather/data?lat=${selectedCity.lat}&long=${selectedCity.lon}` : null,
+  const urlEndpoint = selectedCity ? `/api/weather/data?lat=${selectedCity.lat}&long=${selectedCity.lon}` : null;
+
+  const { data: weatherData, error: weatherError } = useSWR<WeatherData>(urlEndpoint,
     (url) => axios.get(url).then((res) => res.data)
   );
   

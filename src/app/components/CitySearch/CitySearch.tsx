@@ -1,11 +1,9 @@
-'use client'
-
 import React, { useState } from 'react';
 import Autocomplete from '@mui/material/Autocomplete';
 import { useDebounce } from 'use-debounce';
 import useSWR from 'swr';
 import axios from 'axios';
-import { AutocompleteContainer, TextFieldContainer, BackdropContainer } from './CitySearch.styles';
+import { StyledAutocomplete, AutocompleteContainer, TextFieldContainer, BackdropContainer } from './CitySearch.styles';
 
 interface CityProps {
   lat?: number | string;
@@ -17,11 +15,6 @@ interface CitySearchProps {
   onSelect: (params: CityProps | null) => void;
 }
 
-const fetcher = async (url: string) => {
-  const response = await axios.get(url);
-  return response.data;
-};
-
 export default function CitySearch({ onSelect }: CitySearchProps) {
   const [inputValue, setInputValue] = useState('');
   const [debouncedInputValue] = useDebounce(inputValue, 500);
@@ -29,16 +22,18 @@ export default function CitySearch({ onSelect }: CitySearchProps) {
 
   const { data: options = [], error } = useSWR(
     debouncedInputValue === '' ? null : `/api/weather/cities?address=${debouncedInputValue}`,
-    fetcher
+    (url) => axios.get(url).then((res) => res.data)
   );
 
   return (
     <>
       <AutocompleteContainer>
-        <Autocomplete
+        <StyledAutocomplete
           id="city-search"
           options={options}
+          open={open && inputValue.length > 0}
           loading={!error && !options.length}
+          disableCloseOnSelect={false}
           noOptionsText="Nenhum resultado encontrado"
           loadingText={<span>{inputValue ? 'Carregando...' : 'Digite a cidade'}</span>}
           getOptionLabel={(option: CityProps) => option.name}

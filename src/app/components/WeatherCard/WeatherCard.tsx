@@ -4,7 +4,7 @@ import React, { useMemo } from "react";
 import Box from "@mui/material/Box";
 import { CardContainer, CardContentContainer, FlexContainer, Temperature, Subtitle, IconContainer } from './WeatherCard.styles';
 import Typography from "@mui/material/Typography";
-import { getWeatherCodes, formatTime } from '@/utils';
+import { getWeatherCodes, formatTime } from '@/app/utils';
 import { IconType } from "react-icons";
 import { WiStrongWind } from "react-icons/wi";
 import { CircularProgress } from "@mui/material";
