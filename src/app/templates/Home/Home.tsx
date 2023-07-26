@@ -5,12 +5,7 @@ import useSWR from 'swr';
 import axios from 'axios';
 import { WeatherCard, CitySearch } from '@/app/components';
 import { MainContainer } from './Home.styles';
-
-interface CityProp {
-  lat?: number | string;
-  lon?: number | string;
-  name: string;
-}
+import { ICity } from '@/app/interfaces';
 
 interface WeatherData {
   weathercode: number;
@@ -22,9 +17,9 @@ interface WeatherData {
 }
 
 export default function Home() {
-  const [selectedCity, setSelectedCity] = useState<CityProp | null>(null);
+  const [selectedCity, setSelectedCity] = useState<ICity | null>(null);
 
-  const handleCitySelect = (city: CityProp | null) => {
+  const handleCitySelect = (city: ICity | null) => {
     setSelectedCity(city);
   };
 

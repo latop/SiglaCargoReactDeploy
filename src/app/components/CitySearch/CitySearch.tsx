@@ -4,15 +4,10 @@ import { useDebounce } from 'use-debounce';
 import useSWR from 'swr';
 import axios from 'axios';
 import { AutocompleteContainer, TextFieldContainer, BackdropContainer } from './CitySearch.styles';
-
-interface CityProps {
-  lat?: number | string;
-  lon?: number | string;
-  name: string;
-}
+import { ICity } from '@/app/interfaces';
 
 interface CitySearchProps {
-  onSelect: (params: CityProps | null) => void;
+  onSelect: (params: ICity | null) => void;
 }
 
 export default function CitySearch({ onSelect }: CitySearchProps) {
@@ -20,8 +15,10 @@ export default function CitySearch({ onSelect }: CitySearchProps) {
   const [debouncedInputValue] = useDebounce(inputValue, 500);
   const [open, setOpen] = useState(false);
 
+  const urlEndpoint = debouncedInputValue === '' ? null : `/api/weather/cities?address=${debouncedInputValue}`;
+
   const { data: options = [], error } = useSWR(
-    debouncedInputValue === '' ? null : `/api/weather/cities?address=${debouncedInputValue}`,
+    urlEndpoint,
     (url) => axios.get(url).then((res) => res.data)
   );
 

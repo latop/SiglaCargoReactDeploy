@@ -5,9 +5,9 @@ import Box from "@mui/material/Box";
 import { CardContainer, CardContentContainer, FlexContainer, Temperature, Subtitle, IconContainer } from './WeatherCard.styles';
 import Typography from "@mui/material/Typography";
 import { getWeatherCodes, formatTime } from '@/app/utils';
-import { IconType } from "react-icons";
 import { WiStrongWind } from "react-icons/wi";
 import { CircularProgress } from "@mui/material";
+import { IWeatherInfo } from '@/app/interfaces';
 
 interface WeatherCardProps {
   weatherId?: number;
@@ -19,15 +19,9 @@ interface WeatherCardProps {
   isDay?: boolean;
 }
 
-interface WeatherInfo {
-  id: number;
-  name: string;
-  title: string;
-  icon: IconType;
-}
 
 export default function WeatherCard({ weatherId, loading, isDay, cityName, temperature, speed, time }: WeatherCardProps) {
-  const weatherInfo: WeatherInfo | undefined = useMemo(() => {
+  const weatherInfo: IWeatherInfo | undefined = useMemo(() => {
     return getWeatherCodes(weatherId || 0, !!isDay);
   }, [weatherId, isDay]);
 
