@@ -15,7 +15,7 @@ interface WeatherCardProps {
   temperature?: number;
   speed?: number;
   time?: string;
-  loading: boolean;
+  loading?: boolean;
   isDay?: boolean;
 }
 
