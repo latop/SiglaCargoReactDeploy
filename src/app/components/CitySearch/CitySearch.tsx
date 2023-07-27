@@ -27,6 +27,7 @@ export default function CitySearch({ onSelect }: CitySearchProps) {
       <AutocompleteContainer>
         <Autocomplete
           id="city-search"
+          data-testid="city-search"
           options={options}
           open={open && inputValue.length > 0}
           loading={!error && !options.length}
