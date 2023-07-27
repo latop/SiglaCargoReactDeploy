@@ -23,32 +23,32 @@ yarn
 cp .env.sample .env
 ```
 
-## Running Locally
+### Running Locally
 
 ```bash
 yarn dev
 ```
 
-## Running in Production
-
-```bash
-yarn start
-```
-
-## Building for Production
+### Building for Production
 
 ```bash
 yarn build
 ```
 
-## Lint
+### Running in Production
+
+```bash
+yarn start
+```
+
+### Lint
 
 ```bash
 # lint js code and fix
 yarn lint
 ```
 
-## Test
+### Test
 
 ```bash
 # run all tests with jest
