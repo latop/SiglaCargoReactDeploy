@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent, waitFor } from "@testing-library/react";
+import { render, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import CitySearch from './CitySearch';
 import axios from 'axios';
