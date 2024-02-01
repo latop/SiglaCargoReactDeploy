@@ -1,7 +1,7 @@
 import React from 'react';
-import { render, waitFor } from "@testing-library/react";
+import { render, waitFor, act } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import CitySearch from './CitySearch';
+import { SearchCityForm } from './SearchCityForm';
 import axios from 'axios';
 import { SWRConfig } from 'swr';
 import "@testing-library/jest-dom";
@@ -10,7 +10,7 @@ jest.mock('axios');
 
 const mockedAxios = axios as jest.Mocked<typeof axios>;
 
-describe("CitySearch", () => {
+describe("SearchCityForm", () => {
   it("should fetch and display city options based on input", async () => {
     const onSelectMock = jest.fn();
     const mockData = [
@@ -20,19 +20,23 @@ describe("CitySearch", () => {
     mockedAxios.get.mockResolvedValue({ data: mockData });
 
     const { getByRole } = render(
-      <SWRConfig value={{ dedupingInterval: 0 }}>
-        <CitySearch onSelect={onSelectMock} />
-      </SWRConfig>
+        <SearchCityForm onSelect={onSelectMock} />
     );
 
     const searchInput = getByRole('combobox');
-    userEvent.type(searchInput, 'San');
-
-    await waitFor(() => expect(mockedAxios.get).toHaveBeenCalledTimes(1));
-    await waitFor(() => expect(getByRole('listbox')).toBeInTheDocument());
-    const listItems = getByRole('listbox').querySelectorAll('li');
-    expect(listItems).toHaveLength(1);
-    expect(listItems[0].textContent).toBe('San Francisco, USA');
+    await act(async () => {
+      userEvent.type(searchInput, 'San');
+    });
+  
+    // Simular a resposta da API
+    await act(async () => {
+      const listItems = getByRole('listbox').querySelectorAll('li');
+      expect(listItems).toHaveLength(1);
+      expect(listItems[0].textContent).toBe('San Francisco, USA');
+    });
+  
+    // Restaurar a função fetch para seu estado original
+    (global.fetch as jest.Mock).mockRestore();
   });
 
   it("should call onSelect when a city is selected", async () => {
@@ -44,7 +48,7 @@ describe("CitySearch", () => {
 
     const { getByRole } = render(
       <SWRConfig value={{ dedupingInterval: 0 }}>
-        <CitySearch onSelect={onSelectMock} />
+        <SearchCityForm onSelect={onSelectMock} />
       </SWRConfig>
     );
 

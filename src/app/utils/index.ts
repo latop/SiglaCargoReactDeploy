@@ -48,7 +48,9 @@ export const getWeatherCodes = (id: number, isDay: boolean) => [
   { id: 47, name: 'lightSleet', title: 'Granizo leve', icon: WiSleet },
   { id: 48, name: 'heavySleet', title: 'Granizo forte', icon: WiSleet },
   { id: 49, name: 'lightSnow', title: 'Neve leve', icon: WiSnowflakeCold },
-  { id: 50, name: 'heavySnow', title: 'Neve forte', icon: WiSnow }
+  { id: 50, name: 'heavySnow', title: 'Neve forte', icon: WiSnow },
+  { id: 80, name: 'lightRainShowersAndThunder', title: 'Chuvas leves e trovões', icon: WiDayRainMix },
+  { id: 96, name: 'rainAndThunder', title: 'Chuva e trovões', icon: WiStormShowers },
 ].find(item => item.id === id);
 
 export function formatTime(dateString: string | null): string | null {

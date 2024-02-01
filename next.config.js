@@ -3,8 +3,12 @@ module.exports = {
   async rewrites() {
     return [
       {
-        source: '/api/weather/:path*',
-        destination: `${process.env.API_URL}/weather/:path*`,
+        source: '/api/forecast/:path*',
+        destination: 'https://api.open-meteo.com/v1/forecast/:path*',
+      },
+      {
+        source: '/api/cities/:path*',
+        destination: 'https://geocode.maps.co/search/:path*',
       },
     ];
   },

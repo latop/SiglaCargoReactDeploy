@@ -1,50 +1,47 @@
 'use client'
 
 import React from 'react';
-import { useState } from 'react';
-import useSWR from 'swr';
-import axios from 'axios';
-import { WeatherCard, CitySearch } from '@/app/components';
+import { SearchCityForm } from '@/app/components/SearchCityForm';
+import { WeatherCard } from '@/app/components/WeatherCard';
 import { MainContainer } from './Home.styles';
+import { useRouter } from 'next/navigation';
 import { ICity } from '@/app/interfaces';
-
-interface WeatherData {
-  weathercode: number;
-  cityName: string;
-  temperature: number;
-  windspeed: number;
-  time: string;
-  is_day: boolean;
-}
+import { useWeather } from '@/app/hooks/useWeather';
 
 export default function Home() {
-  const [selectedCity, setSelectedCity] = useState<ICity | null>(null);
+  const { weatherData, isLoading, cityName } = useWeather();
+  const router = useRouter();
 
   const handleCitySelect = (city: ICity | null) => {
-    setSelectedCity(city);
+    if (!city) {
+      router.push(`/add-forecast`);
+    } else {
+      router.push(`/forecasts?lat=${city?.lat}&lon=${city?.lon}&cityName=${city?.name}`);
+    }
   };
-
-  const urlEndpoint = selectedCity ? `/api/weather/data?lat=${selectedCity.lat}&long=${selectedCity.lon}` : null;
-
-  const { data: weatherData, error: weatherError } = useSWR<WeatherData>(urlEndpoint,
-    (url) => axios.get(url).then((res) => res.data)
-  );
-  
-  const loading = !weatherData && !weatherError;
 
   return (
     <MainContainer>
-      <CitySearch onSelect={handleCitySelect} />
-      {selectedCity && (
-        <WeatherCard
-          loading={loading}
-          weatherId={weatherData?.weathercode}
-          cityName={selectedCity.name.split(',')[0]}
-          temperature={weatherData?.temperature}
-          speed={weatherData?.windspeed}
-          time={weatherData?.time}
-          isDay={Boolean(weatherData?.is_day)}
-        />
+      <SearchCityForm onSelect={handleCitySelect} />
+      {cityName && (
+        <WeatherCard>
+          <>
+            {isLoading && <WeatherCard.Loading />}
+            {!isLoading && weatherData && (
+              <>
+                <WeatherCard.Container>
+                  <WeatherCard.CityName>{cityName}</WeatherCard.CityName>
+                  <WeatherCard.Time>{weatherData.time}</WeatherCard.Time>
+                </WeatherCard.Container>
+                <WeatherCard.Temperature temperature={weatherData.temperature} description={weatherData.weatherDescription} />
+                <WeatherCard.Container>
+                  <WeatherCard.WindSpeed>{weatherData.windSpeed}km/h</WeatherCard.WindSpeed>
+                  {weatherData.icon && <WeatherCard.Icon icon={weatherData.icon} />}
+                </WeatherCard.Container>
+              </>
+            )}
+          </>
+        </WeatherCard>
       )}
     </MainContainer>
   );

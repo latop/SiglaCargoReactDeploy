@@ -1,69 +1,89 @@
 'use client'
 
-import React, { useMemo } from "react";
+import React from "react";
 import Box from "@mui/material/Box";
 import { CardContainer, CardContentContainer, FlexContainer, Temperature, Subtitle, IconContainer } from './WeatherCard.styles';
 import Typography from "@mui/material/Typography";
-import { getWeatherCodes, formatTime } from '@/app/utils';
 import { WiStrongWind } from "react-icons/wi";
 import { CircularProgress } from "@mui/material";
-import { IWeatherInfo } from '@/app/interfaces';
 
 interface WeatherCardProps {
-  weatherId?: number;
-  cityName?: string;
-  temperature?: number;
-  speed?: number;
-  time?: string;
-  loading?: boolean;
-  isDay?: boolean;
+  children: React.ReactNode;
 }
 
+interface CityNameProps {
+  children: React.ReactNode;
+}
 
-export default function WeatherCard({ weatherId, loading, isDay, cityName, temperature, speed, time }: WeatherCardProps) {
-  const weatherInfo: IWeatherInfo | undefined = useMemo(() => {
-    return getWeatherCodes(weatherId || 0, !!isDay);
-  }, [weatherId, isDay]);
+interface WeatherTimeProps {
+  children: React.ReactNode;
+}
 
-  const Icon = weatherInfo?.icon;
+interface TemperatureDisplayProps {
+  temperature: string;
+  description?: string;
+}
 
+interface WindSpeedProps {
+  children: React.ReactNode;
+}
+
+interface WeatherIconProps {
+  icon: React.ElementType;
+}
+
+export function WeatherCard({ children }: WeatherCardProps) {
   return (
     <CardContainer>
       <CardContentContainer>
-        {loading && <CircularProgress />}
-        {!loading && (
-          <>
-            <FlexContainer>
-              <Typography variant="h6">
-                {cityName}
-              </Typography>
-              <Typography variant="h6">
-                {!!time && formatTime(time)}
-              </Typography>
-            </FlexContainer>
-            <Box>
-              <Temperature variant="h2">
-                {temperature}°C
-              </Temperature>
-              <Subtitle variant="subtitle1">
-                {weatherInfo?.title}
-              </Subtitle>
-            </Box>
-            <FlexContainer>
-              <IconContainer>
-                <WiStrongWind size={30} />
-                <Typography variant="h6">
-                  {speed}km/h
-                </Typography>
-              </IconContainer>
-              <IconContainer>
-                {Icon && <Icon size={100} />}
-              </IconContainer>
-            </FlexContainer>
-          </>
-        )}
+        {children}
       </CardContentContainer>
     </CardContainer>
   );
 }
 
+function CityName({ children }: CityNameProps) {
+  return (
+    <Typography variant="h6">{children}</Typography>
+  )
+}
+
+function WeatherTime({ children }: WeatherTimeProps) {
+  return (
+    <Typography variant="h6">{children}</Typography>
+  )
+}
+
+function TemperatureDisplay({ temperature, description }: TemperatureDisplayProps) {
+  return (
+    <Box>
+      <Temperature variant="h2">{temperature}</Temperature>
+      {description && <Subtitle variant="subtitle1">{description}</Subtitle>}
+    </Box>
+  )
+};
+
+function WindSpeed({ children }: WindSpeedProps) {
+  return (
+    <IconContainer>
+      <WiStrongWind size={30} />
+      <Typography variant="h6">{children}</Typography>
+    </IconContainer>
+  );
+}
+
+function WeatherIcon({ icon: Icon }: WeatherIconProps) {
+  return (
+    <IconContainer>
+      <Icon size={100} />
+    </IconContainer>
+  )
+}
+
+WeatherCard.CityName = CityName;
+WeatherCard.Time = WeatherTime;
+WeatherCard.Temperature = TemperatureDisplay;
+WeatherCard.WindSpeed = WindSpeed;
+WeatherCard.Icon = WeatherIcon;
+WeatherCard.Container = FlexContainer;
+WeatherCard.Loading = CircularProgress;

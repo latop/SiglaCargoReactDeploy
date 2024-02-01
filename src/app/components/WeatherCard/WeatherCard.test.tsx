@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom';
 import React from "react";
 import { render } from "@testing-library/react";
-import WeatherCard from "./WeatherCard";
+import { WeatherCard } from "./WeatherCard";
 
 test("renders WeatherCard correctly", () => {
   const weatherProps = {
