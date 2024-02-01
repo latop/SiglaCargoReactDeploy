@@ -1,32 +1,11 @@
 import axios from 'axios';
 import { getWeatherCodes, formatTime } from '@/app/utils';
-import React from 'react';
+import { IWeather, WeatherResponse } from '@/app/interfaces/weather.interface';
 
-export interface WeatherData {
-  current_weather: {
-    weathercode: number;
-    display_name: string;
-    temperature: number;
-    windspeed: number;
-    time: string;
-    is_day: boolean;
-  }
-}
 
-export interface IWeather {
-  temperature: string;
-  windSpeed: string;
-  weatherCode: number;
-  time: string | null;
-  icon?: React.ElementType;
-  weatherDescription?: string;
-  name: string;
-  isDay: boolean;
-}
-
-const normalizeData = (data: WeatherData): IWeather => ({
+const normalizeData = (data: WeatherResponse): IWeather => ({
   temperature: `${data.current_weather.temperature.toFixed(0)}°C`,
-  windSpeed: data.current_weather.windspeed.toFixed(0),
+  windSpeed: `${data.current_weather.windspeed.toFixed(0)}km/h`,
   weatherCode: data.current_weather.weathercode,
   time: formatTime(data.current_weather.time),
   icon: getWeatherCodes(data.current_weather.weathercode, data.current_weather.is_day)?.icon,
@@ -45,6 +24,6 @@ export const fetchWeather = async (options: fetchWeatherOptions) => {
     const response = await axios.get(url);
     return normalizeData(response.data);
   } catch (error) {
-    throw new Error('Erro ao buscar cidades');
+    throw new Error('Erro ao buscar temperatura');
   }
 };

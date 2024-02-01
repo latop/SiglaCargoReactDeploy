@@ -1,3 +1,5 @@
-import { HomeTemplate } from '@/app/templates';
+'use client';
 
-export default HomeTemplate;
+import { AddForecastTemplate } from '@/app/templates/AddForecast';
+
+export default AddForecastTemplate;

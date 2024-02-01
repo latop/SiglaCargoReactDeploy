@@ -1,8 +1,11 @@
+'use client';
+
 import React from 'react';
 import Autocomplete from '@mui/material/Autocomplete';
 import { AutocompleteContainer, TextFieldContainer, BackdropContainer } from './SearchCityForm.styles';
-import { ICity } from '@/app/interfaces';
+import { ICity } from '@/app/interfaces/city.interface';
 import { useSearchCityForm } from '@/app/hooks/useSearchCityForm';
+import { LastSelectedCities } from '@/app/components/LastSelectedCities';
 
 interface SearchCityFormProps {
   onSelect: (params: ICity | null) => void;
@@ -10,13 +13,16 @@ interface SearchCityFormProps {
 
 export function SearchCityForm({ onSelect }: SearchCityFormProps) {
   const {
-    openBackdrop,
-    closeBackdrop,
+    onOpenBackdrop,
+    onCloseBackdrop,
     showBackdrop,
     onInputChange,
     options,
     isLoading,
-    openAutoComplete,
+    onSelectCity,
+    onSelectLastCity,
+    showAutoComplete,
+    showLastCities,
     defaultValue,
   } = useSearchCityForm();
 
@@ -28,29 +34,32 @@ export function SearchCityForm({ onSelect }: SearchCityFormProps) {
           data-testid="city-search"
           options={options}
           defaultValue={defaultValue}
-          open={openAutoComplete}
+          open={showAutoComplete}
           loading={isLoading}
           noOptionsText="Nenhum resultado encontrado"
           loadingText="Carregando..."
           getOptionLabel={(option: ICity) => option.name}
           onInputChange={onInputChange}
-          onBlur={closeBackdrop}
           onChange={(event, newValue: ICity | null) => {
             onSelect(newValue);
+            onSelectCity(newValue);
           }}
-          onOpen={openBackdrop}
-          onClose={closeBackdrop}
+          onOpen={onOpenBackdrop}
+          onClose={onCloseBackdrop}
           renderInput={(params) => (
+            <>
             <TextFieldContainer
               hiddenLabel
               {...params}
               placeholder="Busque por uma cidade"
               variant="outlined"
             />
+            </>
           )}
         />
+        {showLastCities && <LastSelectedCities onSelect={onSelectLastCity} />}
       </AutocompleteContainer>
-      <BackdropContainer open={showBackdrop} />
+      <BackdropContainer onClick={onCloseBackdrop} open={showBackdrop} />
     </>
   );
 }

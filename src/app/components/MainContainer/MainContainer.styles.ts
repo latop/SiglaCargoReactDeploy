@@ -1,10 +1,10 @@
 import styled from '@emotion/styled';
 
-export const MainContainer = styled('main')`
+export const Container = styled('main')`
   display: flex;
   flex-direction: column;
   gap: 10px;
   align-items: center;
-  padding: 6rem 1rem;
+  padding: 2rem;
   min-height: 100vh;
 `;
