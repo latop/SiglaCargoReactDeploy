@@ -5,7 +5,7 @@ import {
   Header,
   UpdateContainer,
   CardContentContainer,
-  Bottom,
+  Footer,
   Temperature,
   Subtitle,
   IconContainer,
@@ -18,6 +18,7 @@ import { RxUpdate } from "react-icons/rx";
 
 interface WeatherCardProps {
   children: React.ReactNode;
+  loading: boolean;
 }
 
 interface CityNameProps {
@@ -43,10 +44,11 @@ interface WeatherUpdateProps {
   isUpdating: boolean;
 }
 
-export function WeatherCard({ children }: WeatherCardProps) {
+export function WeatherCard({ children, loading }: WeatherCardProps) {
   return (
     <CardContainer>
-      <CardContentContainer>{children}</CardContentContainer>
+      {loading && <CircularProgress />}
+      {!loading && <CardContentContainer>{children}</CardContentContainer>}
     </CardContainer>
   );
 }
@@ -104,7 +106,6 @@ WeatherCard.CityName = CityName;
 WeatherCard.Temperature = TemperatureDisplay;
 WeatherCard.WeatherInfo = WeatherInfo;
 WeatherCard.Icon = WeatherIcon;
-WeatherCard.Bottom = Bottom;
-WeatherCard.Loading = CircularProgress;
+WeatherCard.Footer = Footer;
 WeatherCard.WeatherUpdate = WeatherUpdate;
 WeatherCard.Header = Header;

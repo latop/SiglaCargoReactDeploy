@@ -20,4 +20,5 @@ export interface IWeather {
   weatherDescription?: string;
   name: string;
   isDay: boolean;
+  cityName: string;
 }

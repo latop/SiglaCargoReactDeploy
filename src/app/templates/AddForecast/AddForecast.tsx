@@ -13,7 +13,7 @@ export function AddForecastTemplate() {
   const handleCitySelect = (city: ICity | null) => {
     if (city) {
       router.push(
-        `/forecasts?lat=${city?.lat}&lon=${city?.lon}&cityName=${city?.name}`,
+        `/forecasts?lat=${city?.lat}&lon=${city?.lon}&cityName=${city?.name}&shortName=${city?.shortName}`,
       );
     }
   };

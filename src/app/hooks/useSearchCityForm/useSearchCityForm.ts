@@ -41,7 +41,7 @@ export function useSearchCityForm() {
   const handleSelectLastCity = (city: ICity) => {
     handleCloseBackdrop();
     router.push(
-      `/forecasts?lat=${city.lat}&lon=${city.lon}&cityName=${city.name}`,
+      `/forecasts?lat=${city.lat}&lon=${city.lon}&cityName=${city.name}&shortName=${city.shortName}`,
     );
   };
 
@@ -53,7 +53,7 @@ export function useSearchCityForm() {
     options,
     isLoading,
     onSelectCity: handleSelectCity,
-    defaultValue: { name: cityName || "" },
+    defaultValue: { name: cityName || "", shortName: "", lat: 0, lon: 0 },
     showAutoComplete: open && inputValue.length > 0,
     inputValue,
     onSelectLastCity: handleSelectLastCity,

@@ -13,14 +13,14 @@ export const CardContainer = styled(Card)`
   padding: 1em;
   min-height: 354px;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
 `;
 
 export const CardContentContainer = styled(CardContent)`
   width: 100%;
 `;
 
-export const Bottom = styled(Box)`
+export const Footer = styled(Box)`
   display: flex;
   justify-content: space-between;
 `;

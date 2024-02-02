@@ -4,9 +4,9 @@ import { fetchWeather } from "@/app/services/weather.service";
 import { IWeather } from "@/app/interfaces/weather.interface";
 
 export const useWeather = () => {
-  const { lon, lat, cityName } = useCityParams();
+  const { lon, lat, shortName } = useCityParams();
 
-  const urlEndpoint = lat && lon ? { lat, lon } : null;
+  const urlEndpoint = lat && lon && shortName ? { lat, lon, cityName: shortName, } : null;
 
   const {
     data: weatherData,
@@ -25,7 +25,6 @@ export const useWeather = () => {
   };
 
   return {
-    cityName,
     weatherData,
     error,
     isLoading,
