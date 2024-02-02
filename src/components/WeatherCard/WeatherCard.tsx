@@ -7,8 +7,6 @@ import {
   UpdateContainer,
   CardContentContainer,
   Footer,
-  Temperature,
-  Subtitle,
   IconContainer,
 } from "./WeatherCard.styles";
 import Typography from "@mui/material/Typography";
@@ -52,8 +50,8 @@ export function WeatherCard({ children, loading, error }: WeatherCardProps) {
     <CardContainer>
       {loading && <CircularProgress data-testid="card-loading" />}
       {error && (
-        <Box gap="10px">
-          <MdOutlineError color={red[500]} size={60} data-testid="card-error" />
+        <Box gap="10px" data-testid="card-error">
+          <MdOutlineError color={red[500]} size={60} />
           <Typography variant="body1" color={grey[500]}>Não foi possível buscar os dados meteorológicos</Typography>
         </Box>
       )}
@@ -75,9 +73,9 @@ function TemperatureDisplay({
   description,
 }: TemperatureDisplayProps) {
   return (
-    <Box>
-      <Temperature variant="h2">{temperature}</Temperature>
-      {description && <Subtitle variant="subtitle1">{description}</Subtitle>}
+    <Box marginTop="50px">
+      <Typography variant="h2">{temperature}</Typography>
+      {description && <Typography variant="subtitle1"  color={grey[500]}>{description}</Typography>}
     </Box>
   );
 }

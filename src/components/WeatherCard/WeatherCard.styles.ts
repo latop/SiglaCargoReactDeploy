@@ -33,14 +33,6 @@ export const Header = styled(Box)`
   align-items: center;
 `;
 
-export const Temperature = styled(Typography)`
-  margin-top: 50px;
-`;
-
-export const Subtitle = styled(Typography)`
-  color: #999;
-`;
-
 export const IconContainer = styled(Box)`
   display: flex;
   align-items: center;
