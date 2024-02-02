@@ -2,6 +2,7 @@
 
 ## About
 ![](https://raw.githubusercontent.com/RMontSerrat/weather-react-app/main/public/demo.gif)
+
 This is a weather information application built using Next.js. It allows users to search for cities and displays the current weather conditions, showcasing a modern user interface and efficient data fetching techniques.
 
 ## Demo
