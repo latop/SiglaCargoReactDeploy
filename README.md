@@ -75,7 +75,7 @@ Run `npm run build` or `yarn build` to build the application for production.
 After building, you can start the production server by running `npm start` or `yarn start`.
 
 ### Testing
-To run tests, execute `npm test` or `yarn test`. This will run Jest tests in watch mode.
+To run tests, execute `npm test` or `yarn test`.
 
 
 ## Contributing

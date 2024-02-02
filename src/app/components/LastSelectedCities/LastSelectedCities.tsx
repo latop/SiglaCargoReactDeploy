@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { ICity } from "@/app/interfaces/city.interface";
 import { GoClock } from "react-icons/go";
 import {
@@ -17,9 +17,9 @@ interface LastSelectedCitiesProps {
 export function LastSelectedCities({ onSelect }: LastSelectedCitiesProps) {
   const { lastSelectedCities } = useLastSelectedCities();
 
-  const handleCitySelect = (city: ICity) => {
+  const handleCitySelect = useCallback((city: ICity) => {
     onSelect(city);
-  };
+  }, []);
 
   if (!lastSelectedCities.length) {
     return null;
@@ -31,7 +31,7 @@ export function LastSelectedCities({ onSelect }: LastSelectedCitiesProps) {
         Buscas recentes
       </Title>
       <Container>
-        {lastSelectedCities.map((city) => (
+        {lastSelectedCities.map((city: ICity) => (
           <Item key={city.name} onClick={() => handleCitySelect(city)}>
             <GoClock />
             <ItemTitle variant="body1">{city.name}</ItemTitle>

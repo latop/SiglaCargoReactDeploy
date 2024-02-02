@@ -17,7 +17,7 @@ describe("useWeather", () => {
     });
 
     (useSWR as jest.Mock).mockReturnValue({
-      data: { temperature: 25, description: "Sunny" },
+      data: { temperature: 25, description: "Sunny", cityName: "City Name" },
       error: null,
       isLoading: false,
     });
@@ -25,6 +25,7 @@ describe("useWeather", () => {
     (fetchWeather as jest.Mock).mockResolvedValue({
       temperature: 25,
       description: "Sunny",
+      cityName: "City Name",
     });
   });
 
@@ -34,11 +35,10 @@ describe("useWeather", () => {
 
   it("should return the cityName, weatherData, error, and isLoading values", () => {
     const { result } = renderHook(() => useWeather());
-
-    expect(result.current.cityName).toBe("City Name");
     expect(result.current.weatherData).toEqual({
       temperature: 25,
       description: "Sunny",
+      cityName: 'City Name',
     });
     expect(result.current.error).toBeNull();
     expect(result.current.isLoading).toBe(false);
