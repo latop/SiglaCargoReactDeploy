@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import { ICity } from '@/app/interfaces/city.interface';
-import { Typography } from '@mui/material';
+import React from "react";
+import { ICity } from "@/app/interfaces/city.interface";
+import { Typography } from "@mui/material";
 import { GoClock } from "react-icons/go";
-import { Container, Card, Item, Title } from './LastSelectedCities.styles'
-import { useLastSelectedCities } from '@/app/hooks/useLastSelectedCities';
+import { Container, Card, Item, Title } from "./LastSelectedCities.styles";
+import { useLastSelectedCities } from "@/app/hooks/useLastSelectedCities";
 
 interface LastSelectedCitiesProps {
   onSelect: (city: ICity) => void;
@@ -22,7 +22,9 @@ export function LastSelectedCities({ onSelect }: LastSelectedCitiesProps) {
 
   return (
     <Card data-testid="last-selected-cities">
-      <Title variant="body1" color="GrayText">Buscas recentes</Title>
+      <Title variant="body1" color="GrayText">
+        Buscas recentes
+      </Title>
       <Container>
         {lastSelectedCities.map((city) => (
           <Item key={city.name} onClick={() => handleCitySelect(city)}>

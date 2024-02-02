@@ -1,4 +1,4 @@
-import { Global, css } from '@emotion/react'
+import { Global, css } from "@emotion/react";
 
 const GlobalStyles = () => (
   <Global
@@ -8,23 +8,23 @@ const GlobalStyles = () => (
         padding: 0;
         margin: 0;
       }
-      
+
       html,
       body {
         max-width: 100vw;
         overflow-x: hidden;
       }
-      
+
       body {
         color: rgb(var(--foreground-rgb));
         background: #dae0e9;
       }
-      
+
       a {
         color: inherit;
         text-decoration: none;
       }
-      
+
       @media (prefers-color-scheme: dark) {
         html {
           color-scheme: dark;
@@ -32,6 +32,6 @@ const GlobalStyles = () => (
       }
     `}
   />
-)
+);
 
 export default GlobalStyles;

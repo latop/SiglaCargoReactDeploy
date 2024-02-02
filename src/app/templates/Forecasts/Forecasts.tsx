@@ -1,22 +1,24 @@
-'use client'
+"use client";
 
-import React from 'react';
-import { SearchCityForm } from '@/app/components/SearchCityForm';
-import { WeatherCard } from '@/app/components/WeatherCard';
-import { MainContainer } from '@/app/components/MainContainer';
-import { useRouter } from 'next/navigation';
-import { ICity } from '@/app/interfaces/city.interface';
-import { useWeather } from '@/app/hooks/useWeather';
+import React from "react";
+import { SearchCityForm } from "@/app/components/SearchCityForm";
+import { WeatherCard } from "@/app/components/WeatherCard";
+import { MainContainer } from "@/app/components/MainContainer";
+import { useRouter } from "next/navigation";
+import { ICity } from "@/app/interfaces/city.interface";
+import { useWeather } from "@/app/hooks/useWeather";
 
 export function ForecastsTemplate() {
-  const { weatherData, isLoading, cityName } = useWeather();
+  const { weatherData, isLoading, cityName, update, isUpdating } = useWeather();
   const router = useRouter();
 
   const handleCitySelect = (city: ICity | null) => {
     if (!city) {
       router.push(`/add-forecast`);
     } else {
-      router.push(`/forecasts?lat=${city?.lat}&lon=${city?.lon}&cityName=${city?.name}`);
+      router.push(
+        `/forecasts?lat=${city?.lat}&lon=${city?.lon}&cityName=${city?.name}`,
+      );
     }
   };
 
@@ -27,15 +29,25 @@ export function ForecastsTemplate() {
         {isLoading && <WeatherCard.Loading />}
         {!isLoading && weatherData && (
           <>
-            <WeatherCard.Container>
+            <WeatherCard.Header>
               <WeatherCard.CityName>{cityName}</WeatherCard.CityName>
-              <WeatherCard.Time>{weatherData.time}</WeatherCard.Time>
-            </WeatherCard.Container>
-            <WeatherCard.Temperature temperature={weatherData.temperature} description={weatherData.weatherDescription} />
-            <WeatherCard.Container>
-              <WeatherCard.WindSpeed>{weatherData.windSpeed}</WeatherCard.WindSpeed>
+              <WeatherCard.WeatherUpdate
+                onClick={update}
+                isUpdating={isUpdating}
+              />
+              {/* <WeatherCard.Time>{weatherData.time}</WeatherCard.Time> */}
+            </WeatherCard.Header>
+            <WeatherCard.Temperature
+              temperature={weatherData.temperature}
+              description={weatherData.weatherDescription}
+            />
+            <WeatherCard.Bottom>
+              <WeatherCard.WeatherInfo
+                windSpeed={weatherData.windSpeed}
+                time={weatherData.time}
+              />
               {weatherData.icon && <WeatherCard.Icon icon={weatherData.icon} />}
-            </WeatherCard.Container>
+            </WeatherCard.Bottom>
           </>
         )}
       </WeatherCard>

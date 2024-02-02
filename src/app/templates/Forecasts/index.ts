@@ -1,1 +1,1 @@
-export * from './Forecasts'
+export * from "./Forecasts";

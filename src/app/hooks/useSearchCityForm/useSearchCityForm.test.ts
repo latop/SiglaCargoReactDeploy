@@ -1,18 +1,18 @@
-import { renderHook, act } from '@testing-library/react-hooks';
-import { useRouter } from 'next/navigation';
-import { useDebounce } from 'use-debounce';
-import { useSearchCity } from '@/app/hooks/useSearchCity';
-import { useCityParams } from '@/app/hooks/useCityParams';
-import { useLastSelectedCities } from '@/app/hooks/useLastSelectedCities';
-import { useSearchCityForm } from './useSearchCityForm';
+import { renderHook, act } from "@testing-library/react-hooks";
+import { useRouter } from "next/navigation";
+import { useDebounce } from "use-debounce";
+import { useSearchCity } from "@/app/hooks/useSearchCity";
+import { useCityParams } from "@/app/hooks/useCityParams";
+import { useLastSelectedCities } from "@/app/hooks/useLastSelectedCities";
+import { useSearchCityForm } from "./useSearchCityForm";
 
-jest.mock('next/navigation');
-jest.mock('use-debounce');
-jest.mock('@/app/hooks/useSearchCity');
-jest.mock('@/app/hooks/useCityParams');
-jest.mock('@/app/hooks/useLastSelectedCities');
+jest.mock("next/navigation");
+jest.mock("use-debounce");
+jest.mock("@/app/hooks/useSearchCity");
+jest.mock("@/app/hooks/useCityParams");
+jest.mock("@/app/hooks/useLastSelectedCities");
 
-describe('useSearchCityForm', () => {
+describe("useSearchCityForm", () => {
   const mockRouter = {
     push: jest.fn(),
   };
@@ -25,13 +25,13 @@ describe('useSearchCityForm', () => {
 
   beforeEach(() => {
     mockUseRouter.mockReturnValue(mockRouter);
-    mockUseDebounce.mockReturnValue(['', jest.fn()]);
+    mockUseDebounce.mockReturnValue(["", jest.fn()]);
     mockUseSearchCity.mockReturnValue({
       data: [],
       isLoading: false,
     });
     mockUseCityParams.mockReturnValue({
-      cityName: '',
+      cityName: "",
     });
     mockUseLastSelectedCities.mockReturnValue({
       addCity: jest.fn(),
@@ -42,20 +42,20 @@ describe('useSearchCityForm', () => {
     jest.clearAllMocks();
   });
 
-  it('should set the input value', () => {
+  it("should set the input value", () => {
     const { result } = renderHook(() => useSearchCityForm());
 
     act(() => {
-      result.current.onInputChange(null, 'New York');
+      result.current.onInputChange(null, "New York");
     });
 
-    expect(result.current.inputValue).toBe('New York');
+    expect(result.current.inputValue).toBe("New York");
   });
 
-  it('should add a city when selecting a city', () => {
+  it("should add a city when selecting a city", () => {
     const { result } = renderHook(() => useSearchCityForm());
 
-    const city = { id: 1, name: 'New York' };
+    const city = { id: "1", name: "New York" };
 
     act(() => {
       result.current.onSelectCity(city);
@@ -64,15 +64,17 @@ describe('useSearchCityForm', () => {
     expect(mockUseLastSelectedCities().addCity).toHaveBeenCalledWith(city);
   });
 
-  it('should navigate to the forecast page when selecting a last city', () => {
+  it("should navigate to the forecast page when selecting a last city", () => {
     const { result } = renderHook(() => useSearchCityForm());
 
-    const city = { id: 1, name: 'New York', lat: 40.7128, lon: -74.0060 };
+    const city = { id: "1", name: "New York", lat: 40.7128, lon: -74.006 };
 
     act(() => {
       result.current.onSelectLastCity(city);
     });
 
-    expect(mockRouter.push).toHaveBeenCalledWith(`/forecasts?lat=${city.lat}&lon=${city.lon}&cityName=${city.name}`);
+    expect(mockRouter.push).toHaveBeenCalledWith(
+      `/forecasts?lat=${city.lat}&lon=${city.lon}&cityName=${city.name}`,
+    );
   });
 });

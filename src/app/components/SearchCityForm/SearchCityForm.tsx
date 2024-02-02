@@ -1,11 +1,15 @@
-'use client';
+"use client";
 
-import React from 'react';
-import Autocomplete from '@mui/material/Autocomplete';
-import { AutocompleteContainer, TextFieldContainer, BackdropContainer } from './SearchCityForm.styles';
-import { ICity } from '@/app/interfaces/city.interface';
-import { useSearchCityForm } from '@/app/hooks/useSearchCityForm';
-import { LastSelectedCities } from '@/app/components/LastSelectedCities';
+import React from "react";
+import Autocomplete from "@mui/material/Autocomplete";
+import {
+  AutocompleteContainer,
+  TextFieldContainer,
+  BackdropContainer,
+} from "./SearchCityForm.styles";
+import { ICity } from "@/app/interfaces/city.interface";
+import { useSearchCityForm } from "@/app/hooks/useSearchCityForm";
+import { LastSelectedCities } from "@/app/components/LastSelectedCities";
 
 interface SearchCityFormProps {
   onSelect: (params: ICity | null) => void;
@@ -48,18 +52,22 @@ export function SearchCityForm({ onSelect }: SearchCityFormProps) {
           onClose={onCloseBackdrop}
           renderInput={(params) => (
             <>
-            <TextFieldContainer
-              hiddenLabel
-              {...params}
-              placeholder="Busque por uma cidade"
-              variant="outlined"
-            />
+              <TextFieldContainer
+                hiddenLabel
+                {...params}
+                placeholder="Busque por uma cidade"
+                variant="outlined"
+              />
             </>
           )}
         />
         {showLastCities && <LastSelectedCities onSelect={onSelectLastCity} />}
       </AutocompleteContainer>
-      <BackdropContainer data-testid="backdrop-container" onClick={onCloseBackdrop} open={showBackdrop} />
+      <BackdropContainer
+        data-testid="backdrop-container"
+        onClick={onCloseBackdrop}
+        open={showBackdrop}
+      />
     </>
   );
 }

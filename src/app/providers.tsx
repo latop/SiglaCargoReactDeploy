@@ -1,9 +1,9 @@
-'use client'
+"use client";
 
-import GlobalStyles from '@/app/styles/GlobalStyles';
-import { RecoilRoot } from 'recoil';
-import theme from '@/app/styles/theme';
-import { ThemeProvider } from '@mui/material/styles';
+import GlobalStyles from "@/app/styles/GlobalStyles";
+import { RecoilRoot } from "recoil";
+import theme from "@/app/styles/theme";
+import { ThemeProvider } from "@mui/material/styles";
 
 export default function Providers({ children }: { children: React.ReactNode }) {
   return (
@@ -13,5 +13,5 @@ export default function Providers({ children }: { children: React.ReactNode }) {
         {children}
       </ThemeProvider>
     </RecoilRoot>
-  )
+  );
 }

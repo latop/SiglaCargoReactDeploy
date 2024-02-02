@@ -8,14 +8,14 @@ export interface WeatherResponse {
     windspeed: number;
     time: string;
     is_day: boolean;
-  }
+  };
 }
 
 export interface IWeather {
   temperature: string;
   windSpeed: string;
   weatherCode: number;
-  time: string | null;
+  time: string;
   icon?: IconType;
   weatherDescription?: string;
   name: string;

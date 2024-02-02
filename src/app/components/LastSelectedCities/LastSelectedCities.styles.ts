@@ -1,5 +1,5 @@
-import styled from '@emotion/styled';
-import { Card as BaseCard, Typography } from '@mui/material';
+import styled from "@emotion/styled";
+import { Card as BaseCard, Typography } from "@mui/material";
 
 export const Card = styled(BaseCard)`
   margin: 10px 0;
@@ -8,7 +8,7 @@ export const Card = styled(BaseCard)`
   z-index: 2;
   height: 50vh;
   overflow: auto;
-`
+`;
 export const Container = styled.ul`
   list-style: none;
   margin: 10px 0;
@@ -35,4 +35,4 @@ export const Item = styled.li`
 
 export const Title = styled(Typography)`
   padding: 15px 15px 5px;
-`
+`;

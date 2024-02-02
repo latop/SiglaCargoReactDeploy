@@ -1,9 +1,20 @@
 import React from "react";
 import Box from "@mui/material/Box";
-import { CardContainer, CardContentContainer, FlexContainer, Temperature, Subtitle, IconContainer } from './WeatherCard.styles';
+import {
+  CardContainer,
+  Header,
+  UpdateContainer,
+  CardContentContainer,
+  Bottom,
+  Temperature,
+  Subtitle,
+  IconContainer,
+} from "./WeatherCard.styles";
 import Typography from "@mui/material/Typography";
 import { WiStrongWind } from "react-icons/wi";
+import { IoMdTime } from "react-icons/io";
 import { CircularProgress } from "@mui/material";
+import { RxUpdate } from "react-icons/rx";
 
 interface WeatherCardProps {
   children: React.ReactNode;
@@ -13,60 +24,63 @@ interface CityNameProps {
   children: React.ReactNode;
 }
 
-interface WeatherTimeProps {
-  children: React.ReactNode;
-}
-
 interface TemperatureDisplayProps {
   temperature: string;
   description?: string;
 }
 
 interface WindSpeedProps {
-  children: React.ReactNode;
+  time: string;
+  windSpeed: string;
 }
 
 interface WeatherIconProps {
   icon: React.ElementType;
 }
 
+interface WeatherUpdateProps {
+  onClick: () => void;
+  isUpdating: boolean;
+}
+
 export function WeatherCard({ children }: WeatherCardProps) {
   return (
     <CardContainer>
-      <CardContentContainer>
-        {children}
-      </CardContentContainer>
+      <CardContentContainer>{children}</CardContentContainer>
     </CardContainer>
   );
 }
 
 function CityName({ children }: CityNameProps) {
-  return (
-    <Typography variant="h6">{children}</Typography>
-  )
+  return <Typography variant="h6">{children}</Typography>;
 }
 
-function WeatherTime({ children }: WeatherTimeProps) {
-  return (
-    <Typography variant="h6">{children}</Typography>
-  )
-}
-
-function TemperatureDisplay({ temperature, description }: TemperatureDisplayProps) {
+function TemperatureDisplay({
+  temperature,
+  description,
+}: TemperatureDisplayProps) {
   return (
     <Box>
       <Temperature variant="h2">{temperature}</Temperature>
       {description && <Subtitle variant="subtitle1">{description}</Subtitle>}
     </Box>
-  )
-};
+  );
+}
 
-function WindSpeed({ children }: WindSpeedProps) {
+function WeatherInfo({ time, windSpeed }: WindSpeedProps) {
   return (
-    <IconContainer>
-      <WiStrongWind size={30} />
-      <Typography variant="h6">{children}</Typography>
-    </IconContainer>
+    <Box display="flex" flexDirection="column" justifyContent="center">
+      <Box display="flex">
+        <IconContainer>
+          <WiStrongWind size={30} />
+          <Typography variant="h6">{windSpeed}</Typography>
+        </IconContainer>
+      </Box>
+      <Box display="flex">
+        <IoMdTime size={30} />
+        <Typography variant="h6">{time}</Typography>
+      </Box>
+    </Box>
   );
 }
 
@@ -75,13 +89,22 @@ function WeatherIcon({ icon: Icon }: WeatherIconProps) {
     <IconContainer>
       <Icon size={100} />
     </IconContainer>
-  )
+  );
+}
+
+function WeatherUpdate({ onClick, isUpdating }: WeatherUpdateProps) {
+  return (
+    <UpdateContainer isUpdating={isUpdating} onClick={onClick}>
+      <RxUpdate size={24} />
+    </UpdateContainer>
+  );
 }
 
 WeatherCard.CityName = CityName;
-WeatherCard.Time = WeatherTime;
 WeatherCard.Temperature = TemperatureDisplay;
-WeatherCard.WindSpeed = WindSpeed;
+WeatherCard.WeatherInfo = WeatherInfo;
 WeatherCard.Icon = WeatherIcon;
-WeatherCard.Container = FlexContainer;
+WeatherCard.Bottom = Bottom;
 WeatherCard.Loading = CircularProgress;
+WeatherCard.WeatherUpdate = WeatherUpdate;
+WeatherCard.Header = Header;
