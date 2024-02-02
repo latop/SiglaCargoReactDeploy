@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ICity, CityResponse } from "@/app/interfaces/city.interface";
+import { ICity, CityResponse } from "@/interfaces/city.interface";
 
 const normalizeData = (data: CityResponse): ICity => ({
   name: data.display_name,

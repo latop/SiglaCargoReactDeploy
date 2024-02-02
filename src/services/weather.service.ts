@@ -1,6 +1,6 @@
 import axios from "axios";
-import { getWeatherCodes, formatTime } from "@/app/utils";
-import { IWeather, WeatherResponse } from "@/app/interfaces/weather.interface";
+import { getWeatherCodes, formatTime } from "@/utils";
+import { IWeather, WeatherResponse } from "@/interfaces/weather.interface";
 
 interface INormalizeData {
   data: WeatherResponse;

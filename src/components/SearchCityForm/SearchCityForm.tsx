@@ -7,9 +7,9 @@ import {
   TextFieldContainer,
   BackdropContainer,
 } from "./SearchCityForm.styles";
-import { ICity } from "@/app/interfaces/city.interface";
-import { useSearchCityForm } from "@/app/hooks/useSearchCityForm";
-import { LastSelectedCities } from "@/app/components/LastSelectedCities";
+import { ICity } from "@/interfaces/city.interface";
+import { useSearchCityForm } from "@/hooks/useSearchCityForm";
+import { LastSelectedCities } from "@/components/LastSelectedCities";
 
 interface SearchCityFormProps {
   onSelect: (params: ICity | null) => void;

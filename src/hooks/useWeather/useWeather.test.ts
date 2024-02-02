@@ -1,12 +1,12 @@
 import { renderHook } from "@testing-library/react-hooks";
 import useSWR from "swr";
-import { useCityParams } from "@/app/hooks/useCityParams";
-import { fetchWeather } from "@/app/services/weather.service";
+import { useCityParams } from "@/hooks/useCityParams";
+import { fetchWeather } from "@/services/weather.service";
 import { useWeather } from "./useWeather";
 
 jest.mock("swr");
-jest.mock("@/app/hooks/useCityParams");
-jest.mock("@/app/services/weather.service");
+jest.mock("@/hooks/useCityParams");
+jest.mock("@/services/weather.service");
 
 describe("useWeather", () => {
   beforeEach(() => {

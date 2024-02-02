@@ -1,11 +1,11 @@
 // SearchCityForm.test.js
 import React from "react";
-import { render } from "@/app/testUtils";
+import { render } from "@/testUtils";
 import { SearchCityForm } from "./SearchCityForm";
 import userEvent from "@testing-library/user-event";
 import { fireEvent } from "@testing-library/react";
 
-jest.mock("@/app/hooks/useSearchCityForm", () => ({
+jest.mock("@/hooks/useSearchCityForm", () => ({
   useSearchCityForm: () => ({
     onOpenBackdrop: jest.fn(),
     onCloseBackdrop: jest.fn(),

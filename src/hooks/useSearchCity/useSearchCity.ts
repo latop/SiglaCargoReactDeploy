@@ -1,6 +1,6 @@
 import useSWR from "swr";
-import { fetchCities } from "@/app/services/city.service";
-import { ICity } from "@/app/interfaces/city.interface";
+import { fetchCities } from "@/services/city.service";
+import { ICity } from "@/interfaces/city.interface";
 
 export const useSearchCity = (value: string) => {
   const urlEndpoint = value === "" ? null : value;

@@ -1,5 +1,5 @@
 "use client";
 
-import { ForecastsTemplate } from "@/app/templates/Forecasts";
+import { ForecastsTemplate } from "@/templates/Forecasts";
 
 export default ForecastsTemplate;

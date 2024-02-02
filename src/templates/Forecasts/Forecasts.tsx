@@ -1,12 +1,12 @@
 "use client";
 
 import React from "react";
-import { SearchCityForm } from "@/app/components/SearchCityForm";
-import { WeatherCard } from "@/app/components/WeatherCard";
-import { MainContainer } from "@/app/components/MainContainer";
+import { SearchCityForm } from "@/components/SearchCityForm";
+import { WeatherCard } from "@/components/WeatherCard";
+import { MainContainer } from "@/components/MainContainer";
 import { useRouter } from "next/navigation";
-import { ICity } from "@/app/interfaces/city.interface";
-import { useWeather } from "@/app/hooks/useWeather";
+import { ICity } from "@/interfaces/city.interface";
+import { useWeather } from "@/hooks/useWeather";
 
 export function ForecastsTemplate() {
   const { weatherData, isLoading, update, isUpdating } = useWeather();

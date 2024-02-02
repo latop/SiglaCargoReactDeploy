@@ -1,11 +1,11 @@
 "use client";
 
 import React from "react";
-import { SearchCityForm } from "@/app/components/SearchCityForm";
-import { MainContainer } from "@/app/components/MainContainer";
+import { SearchCityForm } from "@/components/SearchCityForm";
+import { MainContainer } from "@/components/MainContainer";
 
 import { useRouter } from "next/navigation";
-import { ICity } from "@/app/interfaces/city.interface";
+import { ICity } from "@/interfaces/city.interface";
 
 export function AddForecastTemplate() {
   const router = useRouter();

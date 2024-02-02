@@ -1,6 +1,6 @@
 import React from "react";
 import '@testing-library/jest-dom/extend-expect';
-import { render, screen } from "@/app/testUtils";
+import { render, screen } from "@/testUtils";
 import { WeatherCard } from "./WeatherCard";
 
 describe("WeatherCard", () => {

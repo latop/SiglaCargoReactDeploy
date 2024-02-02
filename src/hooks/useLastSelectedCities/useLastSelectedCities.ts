@@ -1,5 +1,5 @@
 import { atom, useRecoilState } from "recoil";
-import { ICity } from "@/app/interfaces/city.interface";
+import { ICity } from "@/interfaces/city.interface";
 import { recoilPersist } from "recoil-persist";
 
 const { persistAtom } = recoilPersist();

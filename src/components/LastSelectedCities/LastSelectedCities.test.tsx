@@ -1,10 +1,10 @@
 import React from "react";
-import { render, screen, fireEvent } from "@/app/testUtils";
+import { render, screen, fireEvent } from "@/testUtils";
 import { LastSelectedCities } from "./LastSelectedCities";
 
 const mockCities = [{ name: "City 1" }, { name: "City 2" }, { name: "City 3" }];
 
-jest.mock("@/app/hooks/useLastSelectedCities", () => ({
+jest.mock("@/hooks/useLastSelectedCities", () => ({
   useLastSelectedCities: () => ({
     lastSelectedCities: mockCities,
   }),

@@ -1,5 +1,5 @@
 import React, { useCallback } from "react";
-import { ICity } from "@/app/interfaces/city.interface";
+import { ICity } from "@/interfaces/city.interface";
 import { GoClock } from "react-icons/go";
 import {
   Container,
@@ -8,7 +8,7 @@ import {
   Title,
   ItemTitle,
 } from "./LastSelectedCities.styles";
-import { useLastSelectedCities } from "@/app/hooks/useLastSelectedCities";
+import { useLastSelectedCities } from "@/hooks/useLastSelectedCities";
 
 interface LastSelectedCitiesProps {
   onSelect: (city: ICity) => void;

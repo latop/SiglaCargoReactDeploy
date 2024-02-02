@@ -1,9 +1,9 @@
 import { useState, SyntheticEvent } from "react";
 import { useDebounce } from "use-debounce";
-import { useSearchCity } from "@/app/hooks/useSearchCity";
-import { useCityParams } from "@/app/hooks/useCityParams";
-import { ICity } from "@/app/interfaces/city.interface";
-import { useLastSelectedCities } from "@/app/hooks/useLastSelectedCities";
+import { useSearchCity } from "@/hooks/useSearchCity";
+import { useCityParams } from "@/hooks/useCityParams";
+import { ICity } from "@/interfaces/city.interface";
+import { useLastSelectedCities } from "@/hooks/useLastSelectedCities";
 import { useRouter } from "next/navigation";
 
 export function useSearchCityForm() {

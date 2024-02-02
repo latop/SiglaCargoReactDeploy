@@ -1,16 +1,16 @@
 import { renderHook, act } from "@testing-library/react-hooks";
 import { useRouter } from "next/navigation";
 import { useDebounce } from "use-debounce";
-import { useSearchCity } from "@/app/hooks/useSearchCity";
-import { useCityParams } from "@/app/hooks/useCityParams";
-import { useLastSelectedCities } from "@/app/hooks/useLastSelectedCities";
+import { useSearchCity } from "@/hooks/useSearchCity";
+import { useCityParams } from "@/hooks/useCityParams";
+import { useLastSelectedCities } from "@/hooks/useLastSelectedCities";
 import { useSearchCityForm } from "./useSearchCityForm";
 
 jest.mock("next/navigation");
 jest.mock("use-debounce");
-jest.mock("@/app/hooks/useSearchCity");
-jest.mock("@/app/hooks/useCityParams");
-jest.mock("@/app/hooks/useLastSelectedCities");
+jest.mock("@/hooks/useSearchCity");
+jest.mock("@/hooks/useCityParams");
+jest.mock("@/hooks/useLastSelectedCities");
 
 describe("useSearchCityForm", () => {
   const mockRouter = {

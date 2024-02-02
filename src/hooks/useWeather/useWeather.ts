@@ -1,7 +1,7 @@
 import useSWR from "swr";
-import { useCityParams } from "@/app/hooks/useCityParams";
-import { fetchWeather } from "@/app/services/weather.service";
-import { IWeather } from "@/app/interfaces/weather.interface";
+import { useCityParams } from "@/hooks/useCityParams";
+import { fetchWeather } from "@/services/weather.service";
+import { IWeather } from "@/interfaces/weather.interface";
 
 export const useWeather = () => {
   const { lon, lat, shortName } = useCityParams();
