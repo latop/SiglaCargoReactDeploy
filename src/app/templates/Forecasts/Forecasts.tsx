@@ -29,7 +29,9 @@ export function ForecastsTemplate() {
         {weatherData && (
           <>
             <WeatherCard.Header>
-              <WeatherCard.CityName>{weatherData.cityName}</WeatherCard.CityName>
+              <WeatherCard.CityName>
+                {weatherData.cityName}
+              </WeatherCard.CityName>
               <WeatherCard.WeatherUpdate
                 onClick={update}
                 isUpdating={isUpdating}

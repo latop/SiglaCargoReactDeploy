@@ -7,10 +7,10 @@ export const useCityParams = (): {
   lat: string;
 } => {
   const searchParams = useSearchParams();
-  const cityName = searchParams.get("cityName") || '';
-  const shortName = searchParams.get("shortName") || '';
-  const lon = searchParams.get("lon") || '';
-  const lat = searchParams.get("lat") || '';
+  const cityName = searchParams.get("cityName") || "";
+  const shortName = searchParams.get("shortName") || "";
+  const lon = searchParams.get("lon") || "";
+  const lat = searchParams.get("lat") || "";
 
   return { cityName, lon, lat, shortName };
 };

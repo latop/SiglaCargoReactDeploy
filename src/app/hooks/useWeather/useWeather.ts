@@ -6,7 +6,8 @@ import { IWeather } from "@/app/interfaces/weather.interface";
 export const useWeather = () => {
   const { lon, lat, shortName } = useCityParams();
 
-  const urlEndpoint = lat && lon && shortName ? { lat, lon, cityName: shortName, } : null;
+  const urlEndpoint =
+    lat && lon && shortName ? { lat, lon, cityName: shortName } : null;
 
   const {
     data: weatherData,

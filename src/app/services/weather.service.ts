@@ -33,7 +33,7 @@ interface fetchWeatherOptions {
 
 export const fetchWeather = async (options: fetchWeatherOptions) => {
   try {
-    const response = await axios.get('https://api.open-meteo.com/v1/forecast', {
+    const response = await axios.get("https://api.open-meteo.com/v1/forecast", {
       params: {
         latitude: options.lat,
         longitude: options.lon,
