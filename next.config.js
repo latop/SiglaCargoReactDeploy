@@ -1,7 +1,6 @@
 /** @type {import('next').NextConfig} */
 module.exports = {
   reactStrictMode: true,
-  basePath: '/weather-react-app/',
   async rewrites() {
     return [
       {
