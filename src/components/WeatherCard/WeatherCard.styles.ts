@@ -10,7 +10,7 @@ export const CardContainer = styled(Card)`
   max-width: 500px;
   text-align: center;
   padding: 1em;
-  min-height: 354px;
+  min-height: 365px;
   align-items: center;
   justify-content: center;
 `;
