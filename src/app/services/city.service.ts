@@ -10,7 +10,7 @@ const normalizeData = (data: CityResponse): ICity => ({
 });
 
 export const fetchCities = async (query: string) => {
-  const url = `/api/cities?q=${query}&api_key=${process.env.NEXT_PUBLIC_GEOCODE_API_KEY}`;
+  const url = `https://geocode.maps.co/search?q=${query}&api_key=${process.env.NEXT_PUBLIC_GEOCODE_API_KEY}`;
   try {
     const response = await axios.get(url);
     return response.data?.map((item: CityResponse) => normalizeData(item));

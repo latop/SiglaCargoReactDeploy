@@ -25,7 +25,7 @@ interface fetchWeatherOptions {
 }
 
 export const fetchWeather = async (options: fetchWeatherOptions) => {
-  const url = `/api/forecast?latitude=${options.lat}&longitude=${options.lon}&current_weather=true`;
+  const url = `https://api.open-meteo.com/v1/forecast?latitude=${options.lat}&longitude=${options.lon}&current_weather=true`;
   try {
     const response = await axios.get(url);
     return normalizeData(response.data);

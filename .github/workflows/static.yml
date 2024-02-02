@@ -5,6 +5,16 @@ on:
     branches:
       - main  # Set this to your default branch
 
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow one concurrent deployment
+concurrency:
+  group: 'pages'
+  cancel-in-progress: true
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -28,7 +38,6 @@ jobs:
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@releases/v3
         with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: gh-pages  # The branch the action should deploy to.
-          FOLDER: .next  # The folder the action should deploy.
+          FOLDER: out  # The folder the action should deploy.
           CLEAN: true  # Automatically remove deleted files from the deploy branch
