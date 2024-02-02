@@ -47,8 +47,8 @@ interface WeatherUpdateProps {
 export function WeatherCard({ children, loading }: WeatherCardProps) {
   return (
     <CardContainer>
-      {loading && <CircularProgress />}
-      {!loading && <CardContentContainer>{children}</CardContentContainer>}
+      {loading && <CircularProgress data-testid="card-loading" />}
+      {!loading && <CardContentContainer data-testid="card-container">{children}</CardContentContainer>}
     </CardContainer>
   );
 }
