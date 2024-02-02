@@ -35,7 +35,6 @@ export function ForecastsTemplate() {
                 onClick={update}
                 isUpdating={isUpdating}
               />
-              {/* <WeatherCard.Time>{weatherData.time}</WeatherCard.Time> */}
             </WeatherCard.Header>
             <WeatherCard.Temperature
               temperature={weatherData.temperature}

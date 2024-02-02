@@ -6,7 +6,6 @@ export const Card = styled(BaseCard)`
   position: absolute;
   width: 100%;
   z-index: 2;
-  height: 50vh;
   overflow: auto;
 `;
 export const Container = styled.ul`
@@ -28,11 +27,19 @@ export const Item = styled.li`
   }
 
   svg {
-    width: 100px;
+    width: 20px;
     height: 20px;
   }
 `;
 
 export const Title = styled(Typography)`
   padding: 15px 15px 5px;
+`;
+
+export const ItemTitle = styled(Typography)`
+  white-space: nowrap; /* Garante que o texto fique em uma única linha */
+  overflow: hidden; /* Esconde o texto que excede o contêiner */
+  text-overflow: ellipsis; /* Adiciona reticências ao texto que excede o contêiner */
+  width: 100%; /* Define a largura do contêiner (ajuste conforme necessário) */
+  display: block; /* Garante que as propriedades de layout sejam aplicadas corretamente */
 `;

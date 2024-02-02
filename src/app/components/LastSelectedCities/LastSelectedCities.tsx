@@ -2,7 +2,7 @@ import React from "react";
 import { ICity } from "@/app/interfaces/city.interface";
 import { Typography } from "@mui/material";
 import { GoClock } from "react-icons/go";
-import { Container, Card, Item, Title } from "./LastSelectedCities.styles";
+import { Container, Card, Item, Title, ItemTitle } from "./LastSelectedCities.styles";
 import { useLastSelectedCities } from "@/app/hooks/useLastSelectedCities";
 
 interface LastSelectedCitiesProps {
@@ -29,7 +29,7 @@ export function LastSelectedCities({ onSelect }: LastSelectedCitiesProps) {
         {lastSelectedCities.map((city) => (
           <Item key={city.name} onClick={() => handleCitySelect(city)}>
             <GoClock />
-            <Typography variant="body1">{city.name}</Typography>
+            <ItemTitle variant="body1">{city.name}</ItemTitle>
           </Item>
         ))}
       </Container>

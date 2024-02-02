@@ -17,6 +17,7 @@ export const useWeather = () => {
   } = useSWR<IWeather>(urlEndpoint, fetchWeather, {
     revalidateOnFocus: false,
     revalidateOnReconnect: false,
+    revalidateIfStale: false,
   });
 
   const handleUpdate = () => {

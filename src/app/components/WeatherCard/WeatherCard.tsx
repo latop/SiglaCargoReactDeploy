@@ -76,7 +76,7 @@ function WeatherInfo({ time, windSpeed }: WindSpeedProps) {
           <Typography variant="h6">{windSpeed}</Typography>
         </IconContainer>
       </Box>
-      <Box display="flex">
+      <Box display="flex" gap="5px">
         <IoMdTime size={30} />
         <Typography variant="h6">{time}</Typography>
       </Box>

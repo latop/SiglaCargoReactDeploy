@@ -23,8 +23,8 @@ export function useLastSelectedCities() {
       }
 
       const updatedCities =
-        prevCities.length >= 5 ? prevCities.slice(1) : prevCities;
-      return [...updatedCities, newCity];
+        prevCities.length >= 5 ? prevCities.slice(0, 4) : prevCities;
+      return [newCity, ...updatedCities];
     });
   };
 

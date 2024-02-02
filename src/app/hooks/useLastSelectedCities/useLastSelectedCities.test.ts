@@ -30,6 +30,6 @@ describe("useLastSelectedCities", () => {
     });
 
     expect(result.current.lastSelectedCities.length).toBe(5);
-    expect(result.current.lastSelectedCities[0].name).toBe("City 2");
+    expect(result.current.lastSelectedCities[0].name).toBe("City 6");
   });
 });
