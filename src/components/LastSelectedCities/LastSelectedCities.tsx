@@ -1,6 +1,7 @@
 import React, { useCallback } from "react";
 import { ICity } from "@/interfaces/city.interface";
 import { GoClock } from "react-icons/go";
+import { grey } from "@mui/material/colors";
 import {
   Container,
   Card,
@@ -27,7 +28,7 @@ export function LastSelectedCities({ onSelect }: LastSelectedCitiesProps) {
 
   return (
     <Card data-testid="last-selected-cities">
-      <Title variant="body1" color="GrayText">
+      <Title variant="body1" color={grey[900]}>
         Buscas recentes
       </Title>
       <Container>

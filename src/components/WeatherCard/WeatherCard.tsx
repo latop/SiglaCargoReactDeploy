@@ -1,5 +1,6 @@
 import React from "react";
 import Box from "@mui/material/Box";
+import { red, grey } from '@mui/material/colors';
 import {
   CardContainer,
   Header,
@@ -14,11 +15,13 @@ import Typography from "@mui/material/Typography";
 import { WiStrongWind } from "react-icons/wi";
 import { IoMdTime } from "react-icons/io";
 import { CircularProgress } from "@mui/material";
+import { MdOutlineError } from "react-icons/md";
 import { RxUpdate } from "react-icons/rx";
 
 interface WeatherCardProps {
   children: React.ReactNode;
   loading: boolean;
+  error: boolean;
 }
 
 interface CityNameProps {
@@ -44,11 +47,17 @@ interface WeatherUpdateProps {
   isUpdating: boolean;
 }
 
-export function WeatherCard({ children, loading }: WeatherCardProps) {
+export function WeatherCard({ children, loading, error }: WeatherCardProps) {
   return (
     <CardContainer>
       {loading && <CircularProgress data-testid="card-loading" />}
-      {!loading && (
+      {error && (
+        <Box gap="10px">
+          <MdOutlineError color={red[500]} size={60} data-testid="card-error" />
+          <Typography variant="body1" color={grey[500]}>Não foi possível buscar os dados meteorológicos</Typography>
+        </Box>
+      )}
+      {!loading && !error && (
         <CardContentContainer data-testid="card-container">
           {children}
         </CardContentContainer>

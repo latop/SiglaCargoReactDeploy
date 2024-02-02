@@ -34,6 +34,7 @@ export const Item = styled.li`
 
 export const Title = styled(Typography)`
   padding: 15px 15px 5px;
+  font-weight: 500;
 `;
 
 export const ItemTitle = styled(Typography)`

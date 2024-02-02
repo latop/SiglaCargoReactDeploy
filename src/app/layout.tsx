@@ -4,6 +4,15 @@ export const metadata = {
 
 import Providers from "../providers";
 
+import { Roboto } from 'next/font/google'
+
+const roboto = Roboto({
+  weight: ['400', '500', '700'],
+  style: ['normal', 'italic'],
+  subsets: ['latin'],
+  variable: '--font-roboto',
+});
+
 export default function RootLayout({
   children,
 }: {
@@ -11,7 +20,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>
+      <body className={roboto.className}>
         <Providers>{children}</Providers>
       </body>
     </html>

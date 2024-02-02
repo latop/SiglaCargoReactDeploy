@@ -9,7 +9,7 @@ import { ICity } from "@/interfaces/city.interface";
 import { useWeather } from "@/hooks/useWeather";
 
 export function ForecastsTemplate() {
-  const { weatherData, isLoading, update, isUpdating } = useWeather();
+  const { weatherData, isLoading, update, isUpdating, error } = useWeather();
   const router = useRouter();
 
   const handleCitySelect = (city: ICity | null) => {
@@ -25,7 +25,7 @@ export function ForecastsTemplate() {
   return (
     <MainContainer>
       <SearchCityForm onSelect={handleCitySelect} />
-      <WeatherCard loading={isLoading}>
+      <WeatherCard loading={isLoading} error={error}>
         {weatherData && (
           <>
             <WeatherCard.Header>
