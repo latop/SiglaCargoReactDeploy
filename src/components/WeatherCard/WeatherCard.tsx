@@ -1,6 +1,6 @@
 import React from "react";
 import Box from "@mui/material/Box";
-import { red, grey } from '@mui/material/colors';
+import { red, grey } from "@mui/material/colors";
 import {
   CardContainer,
   Header,
@@ -52,7 +52,9 @@ export function WeatherCard({ children, loading, error }: WeatherCardProps) {
       {error && (
         <Box gap="10px" data-testid="card-error">
           <MdOutlineError color={red[500]} size={60} />
-          <Typography variant="body1" color={grey[500]}>Não foi possível buscar os dados meteorológicos</Typography>
+          <Typography variant="body1" color={grey[500]}>
+            Não foi possível buscar os dados meteorológicos
+          </Typography>
         </Box>
       )}
       {!loading && !error && (
@@ -75,7 +77,11 @@ function TemperatureDisplay({
   return (
     <Box marginTop="50px">
       <Typography variant="h2">{temperature}</Typography>
-      {description && <Typography variant="subtitle1"  color={grey[500]}>{description}</Typography>}
+      {description && (
+        <Typography variant="subtitle1" color={grey[500]}>
+          {description}
+        </Typography>
+      )}
     </Box>
   );
 }

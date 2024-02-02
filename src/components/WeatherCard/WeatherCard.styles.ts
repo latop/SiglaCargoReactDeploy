@@ -1,9 +1,8 @@
+import { css, keyframes } from "@emotion/react";
 import styled from "@emotion/styled";
-import { keyframes, css } from "@emotion/react";
+import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import Typography from "@mui/material/Typography";
-import Box from "@mui/material/Box";
 
 export const CardContainer = styled(Card)`
   display: flex;

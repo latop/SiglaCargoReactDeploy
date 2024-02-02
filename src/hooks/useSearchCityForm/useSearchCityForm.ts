@@ -51,7 +51,8 @@ export function useSearchCityForm() {
     showBackdrop: open,
     onInputChange: handleInputChange,
     options: data || [],
-    noOptionsText: !data && !error ? 'Carregando...' : "Nenhum resultado encontrado",
+    noOptionsText:
+      !data && !error ? "Carregando..." : "Nenhum resultado encontrado",
     isLoading,
     onSelectCity: handleSelectCity,
     defaultValue: { name: cityName || "", shortName: "", lat: 0, lon: 0 },

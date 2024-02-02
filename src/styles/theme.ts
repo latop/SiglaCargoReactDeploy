@@ -7,14 +7,14 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           backgroundColor: "#ffffff",
-          fontFamily: 'var(--font-roboto)',
+          fontFamily: "var(--font-roboto)",
         },
       },
     },
     MuiTypography: {
       styleOverrides: {
         root: {
-          fontFamily: 'var(--font-roboto)',
+          fontFamily: "var(--font-roboto)",
           color: grey[800],
         },
       },
@@ -22,7 +22,7 @@ const theme = createTheme({
     MuiInput: {
       styleOverrides: {
         root: {
-          fontFamily: 'var(--font-roboto)',
+          fontFamily: "var(--font-roboto)",
           color: grey[800],
         },
       },
@@ -31,11 +31,11 @@ const theme = createTheme({
       styleOverrides: {
         input: {
           color: grey[800],
-          fontFamily: 'var(--font-roboto)',
+          fontFamily: "var(--font-roboto)",
         },
         root: {
           color: grey[800],
-          fontFamily: 'var(--font-roboto)',
+          fontFamily: "var(--font-roboto)",
         },
         popper: {
           marginTop: "10px !important",
