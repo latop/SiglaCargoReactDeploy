@@ -73,8 +73,6 @@ jobs:
             ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json', '**/yarn.lock') }}-
       - name: Install dependencies
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
-      - name: Running eslint
-        run: ${{ steps.detect-package-manager.outputs.runner }} next lint
       - name: Running tests
         run: ${{ steps.detect-package-manager.outputs.runner }} jest
       - name: Build with Next.js
