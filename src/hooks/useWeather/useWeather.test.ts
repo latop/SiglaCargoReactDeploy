@@ -38,7 +38,7 @@ describe("useWeather", () => {
     expect(result.current.weatherData).toEqual({
       temperature: 25,
       description: "Sunny",
-      cityName: 'City Name',
+      cityName: "City Name",
     });
     expect(result.current.error).toBeNull();
     expect(result.current.isLoading).toBe(false);

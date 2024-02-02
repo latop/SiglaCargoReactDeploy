@@ -55,7 +55,7 @@ describe("useSearchCityForm", () => {
   it("should add a city when selecting a city", () => {
     const { result } = renderHook(() => useSearchCityForm());
 
-    const city = { id: "1", name: "New York", shortName: 'New York' };
+    const city = { id: "1", name: "New York", shortName: "New York" };
 
     act(() => {
       result.current.onSelectCity(city);
@@ -67,7 +67,13 @@ describe("useSearchCityForm", () => {
   it("should navigate to the forecast page when selecting a last city", () => {
     const { result } = renderHook(() => useSearchCityForm());
 
-    const city = { id: "1", name: "New York", lat: 40.7128, lon: -74.006, shortName: 'New York' };
+    const city = {
+      id: "1",
+      name: "New York",
+      lat: 40.7128,
+      lon: -74.006,
+      shortName: "New York",
+    };
 
     act(() => {
       result.current.onSelectLastCity(city);

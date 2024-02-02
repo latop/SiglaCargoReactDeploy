@@ -9,11 +9,11 @@ describe("useLastSelectedCities", () => {
     });
 
     act(() => {
-      result.current.addCity({ name: "City 1", shortName: 'city' });
+      result.current.addCity({ name: "City 1", shortName: "city" });
     });
 
     expect(result.current.lastSelectedCities).toEqual([
-      { name: "City 1", shortName: 'city' },
+      { name: "City 1", shortName: "city" },
     ]);
   });
 
@@ -24,7 +24,7 @@ describe("useLastSelectedCities", () => {
 
     act(() => {
       for (let i = 1; i <= 6; i++) {
-        result.current.addCity({ name: `City ${i}`, shortName: 'city' });
+        result.current.addCity({ name: `City ${i}`, shortName: "city" });
       }
     });
 

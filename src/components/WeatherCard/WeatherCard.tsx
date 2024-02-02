@@ -48,7 +48,11 @@ export function WeatherCard({ children, loading }: WeatherCardProps) {
   return (
     <CardContainer>
       {loading && <CircularProgress data-testid="card-loading" />}
-      {!loading && <CardContentContainer data-testid="card-container">{children}</CardContentContainer>}
+      {!loading && (
+        <CardContentContainer data-testid="card-container">
+          {children}
+        </CardContentContainer>
+      )}
     </CardContainer>
   );
 }
