@@ -9,20 +9,20 @@ Check out the live demo here: [Weather React App Demo](https://rmontserrat.githu
 This demo allows you to interact with the application, search for cities, and view the current weather conditions. Explore the features and user interface to understand the app's functionality.
 
 ## Key Features
-- **Weather Search:** Users can search for cities to find current weather conditions.
-- **User Interface:** Modern and responsive UI using MUI and Emotion for a seamless experience across devices.
-- **State Management:** State management with Recoil for a more efficient and scalable application.
-- **Responsive Design:** Fully responsive design that looks great on mobile, tablet, and desktop.
+- **🌍 Weather Search:** Users can search for cities to find current weather conditions.
+- **🖥 User Interface:** Modern and responsive UI using MUI and Emotion for a seamless experience across devices.
+- **🔄 State Management:** State management with Recoil for a more efficient and scalable application.
+- **📱 Responsive Design:** Fully responsive design that looks great on mobile, tablet, and desktop.
 
 ## Technologies Used
-- **React:** A JavaScript library for building user interfaces.
-- **Next.js:** A React framework for building user interfaces with server-side rendering and generating static websites.
-- **Recoil:** A state management library for React.
-- **MUI UI:** A popular React UI framework with a set of components.
-- **Emotion:** A library designed for writing css styles with JavaScript.
-- **Prettier:** An opinionated code formatter.
-- **ESLint:** A tool for identifying and reporting on patterns found in ECMAScript/JavaScript code.
-- **React Testing Library:** A very light-weight solution for testing React components.
+- **⚛️ React:** A JavaScript library for building user interfaces.
+- **🏗 Next.js:** A React framework for building user interfaces with server-side rendering and generating static websites.
+- **🔄 Recoil:** A state management library for React.
+- **🎨 MUI UI:** A popular React UI framework with a set of components.
+- **💅 Emotion:** A library designed for writing css styles with JavaScript.
+- **🧹 Prettier:** An opinionated code formatter.
+- **🔍 ESLint:** A tool for identifying and reporting on patterns found in ECMAScript/JavaScript code.
+- **🧪 React Testing Library:** A very light-weight solution for testing React components.
 
 ## Getting Started
 
