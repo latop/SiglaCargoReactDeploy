@@ -25,7 +25,7 @@ export const useWeather = () => {
   };
 
   return {
-    cityName: cityName?.split(",")[0],
+    cityName,
     weatherData,
     error,
     isLoading,

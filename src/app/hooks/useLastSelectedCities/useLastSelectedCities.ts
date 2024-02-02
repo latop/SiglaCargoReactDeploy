@@ -17,7 +17,7 @@ export function useLastSelectedCities() {
 
   const addCity = (newCity: ICity) => {
     setLastSelectedCities((prevCities) => {
-      const isExisting = prevCities.some((city) => city.id === newCity.id);
+      const isExisting = prevCities.some((city) => city.name === newCity.name);
       if (isExisting) {
         return prevCities;
       }
