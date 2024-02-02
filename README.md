@@ -66,7 +66,7 @@ Make sure you have Node.js installed on your system (the latest version is recom
 ### Running the Application
 
 - **Development Mode**:
-Run `npm run dev` or `yarn dev`. This will start the development server on `http://localhost:3000`.
+Run `npm run dev` or `yarn dev`. This will start the development server on `http://localhost:3000/add-forecast`.
 
 - **Production Build**:
 Run `npm run build` or `yarn build` to build the application for production.
