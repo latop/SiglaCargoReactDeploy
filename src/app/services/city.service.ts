@@ -10,10 +10,9 @@ const normalizeData = (data: CityResponse): ICity => ({
 export const fetchCities = async (query: string) => {
   try {
     const response = await axios.get('https://api.api-ninjas.com/v1/city', {
-      params: { name: query },
+      params: { name: query, limit: 5 },
       headers: { 'X-Api-Key': process.env.NEXT_PUBLIC_GEOCODE_API_KEY },
     });
-    console.log(response, 'response')
     return response.data?.map((item: CityResponse) => normalizeData(item));
   } catch (error) {
     throw new Error("Erro ao buscar cidades");
