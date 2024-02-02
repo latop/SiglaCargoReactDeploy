@@ -12,7 +12,7 @@ export function useSearchCityForm() {
   const { addCity } = useLastSelectedCities();
   const [inputValue, setInputValue] = useState("");
   const [debouncedInputValue] = useDebounce(inputValue, 500);
-  const { data: options = [], isLoading } = useSearchCity(debouncedInputValue);
+  const { data, isLoading, error } = useSearchCity(debouncedInputValue);
   const [open, setOpen] = useState(false);
 
   const showLastCities = open && !inputValue;
@@ -50,7 +50,8 @@ export function useSearchCityForm() {
     onCloseBackdrop: handleCloseBackdrop,
     showBackdrop: open,
     onInputChange: handleInputChange,
-    options,
+    options: data || [],
+    noOptionsText: !data && !error ? 'Carregando...' : "Nenhum resultado encontrado",
     isLoading,
     onSelectCity: handleSelectCity,
     defaultValue: { name: cityName || "", shortName: "", lat: 0, lon: 0 },

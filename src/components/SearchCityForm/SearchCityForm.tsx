@@ -28,6 +28,7 @@ export function SearchCityForm({ onSelect }: SearchCityFormProps) {
     showAutoComplete,
     showLastCities,
     defaultValue,
+    noOptionsText,
   } = useSearchCityForm();
 
   return (
@@ -40,7 +41,7 @@ export function SearchCityForm({ onSelect }: SearchCityFormProps) {
           defaultValue={defaultValue}
           open={showAutoComplete}
           loading={isLoading}
-          noOptionsText="Nenhum resultado encontrado"
+          noOptionsText={noOptionsText}
           loadingText="Carregando..."
           getOptionLabel={(option: ICity) => option.name}
           onInputChange={onInputChange}
