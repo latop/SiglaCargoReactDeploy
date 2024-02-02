@@ -37,9 +37,9 @@ export const Title = styled(Typography)`
 `;
 
 export const ItemTitle = styled(Typography)`
-  white-space: nowrap; /* Garante que o texto fique em uma única linha */
-  overflow: hidden; /* Esconde o texto que excede o contêiner */
-  text-overflow: ellipsis; /* Adiciona reticências ao texto que excede o contêiner */
-  width: 100%; /* Define a largura do contêiner (ajuste conforme necessário) */
-  display: block; /* Garante que as propriedades de layout sejam aplicadas corretamente */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+  display: block;
 `;
