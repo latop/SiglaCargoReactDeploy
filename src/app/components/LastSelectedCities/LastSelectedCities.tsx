@@ -3,7 +3,7 @@ import { ICity } from '@/app/interfaces/city.interface';
 import { Typography } from '@mui/material';
 import { GoClock } from "react-icons/go";
 import { Container, Card, Item, Title } from './LastSelectedCities.styles'
-import { useLastSelectedCities } from '@/app/hooks/useLastSelectedCities/useLastSelectedCities';
+import { useLastSelectedCities } from '@/app/hooks/useLastSelectedCities';
 
 interface LastSelectedCitiesProps {
   onSelect: (city: ICity) => void;
@@ -21,7 +21,7 @@ export function LastSelectedCities({ onSelect }: LastSelectedCitiesProps) {
   }
 
   return (
-    <Card>
+    <Card data-testid="last-selected-cities">
       <Title variant="body1" color="GrayText">Buscas recentes</Title>
       <Container>
         {lastSelectedCities.map((city) => (

@@ -59,7 +59,7 @@ export function SearchCityForm({ onSelect }: SearchCityFormProps) {
         />
         {showLastCities && <LastSelectedCities onSelect={onSelectLastCity} />}
       </AutocompleteContainer>
-      <BackdropContainer onClick={onCloseBackdrop} open={showBackdrop} />
+      <BackdropContainer data-testid="backdrop-container" onClick={onCloseBackdrop} open={showBackdrop} />
     </>
   );
 }

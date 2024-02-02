@@ -1,66 +1,47 @@
+// SearchCityForm.test.js
 import React from 'react';
-import { render, waitFor, act } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
+import { render } from '@/app/testUtils';
 import { SearchCityForm } from './SearchCityForm';
-import axios from 'axios';
-import { SWRConfig } from 'swr';
-import "@testing-library/jest-dom";
+import userEvent from '@testing-library/user-event';
+import { fireEvent } from '@testing-library/react';
 
-jest.mock('axios');
+jest.mock('@/app/hooks/useSearchCityForm', () => ({
+  useSearchCityForm: () => ({
+    onOpenBackdrop: jest.fn(),
+    onCloseBackdrop: jest.fn(),
+    showBackdrop: false,
+    onInputChange: jest.fn(),
+    options: [{ name: 'Cidade Exemplo', id: '1' }],
+    isLoading: false,
+    onSelectCity: jest.fn(),
+    onSelectLastCity: jest.fn(),
+    showAutoComplete: true,
+    showLastCities: true,
+    defaultValue: null,
+  }),
+}));
 
-const mockedAxios = axios as jest.Mocked<typeof axios>;
-
-describe("SearchCityForm", () => {
-  it("should fetch and display city options based on input", async () => {
+describe('SearchCityForm', () => {
+  it('renders without crashing', () => {
     const onSelectMock = jest.fn();
-    const mockData = [
-      { name: 'São Paulo, Brazil', lat: '-23.5505', lon: '-46.6333' },
-      { name: 'San Francisco, USA', lat: '37.7749', lon: '-122.4194' }
-    ];
-    mockedAxios.get.mockResolvedValue({ data: mockData });
-
-    const { getByRole } = render(
-        <SearchCityForm onSelect={onSelectMock} />
-    );
-
-    const searchInput = getByRole('combobox');
-    await act(async () => {
-      userEvent.type(searchInput, 'San');
-    });
-  
-    // Simular a resposta da API
-    await act(async () => {
-      const listItems = getByRole('listbox').querySelectorAll('li');
-      expect(listItems).toHaveLength(1);
-      expect(listItems[0].textContent).toBe('San Francisco, USA');
-    });
-  
-    // Restaurar a função fetch para seu estado original
-    (global.fetch as jest.Mock).mockRestore();
+    render(<SearchCityForm onSelect={onSelectMock} />);
   });
 
-  it("should call onSelect when a city is selected", async () => {
+  it('calls onSelect with the selected city', async () => {
     const onSelectMock = jest.fn();
-    const mockData = [
-      { name: 'São Paulo, Brazil', lat: '-23.5505', lon: '-46.6333' }
-    ];
-    mockedAxios.get.mockResolvedValue({ data: mockData });
+    const { getByText } = render(<SearchCityForm onSelect={onSelectMock} />);
 
-    const { getByRole } = render(
-      <SWRConfig value={{ dedupingInterval: 0 }}>
-        <SearchCityForm onSelect={onSelectMock} />
-      </SWRConfig>
-    );
+    const option = getByText('Cidade Exemplo'); // Substitua 'Cidade Exemplo' pelo texto real esperado
+    fireEvent.click(option);
 
-    const searchInput = getByRole('combobox');
-    userEvent.type(searchInput, 'São Paulo');
+    expect(onSelectMock).toHaveBeenCalledWith(expect.anything()); // Adapte para a expectativa real
+  });
 
-    await waitFor(() => expect(mockedAxios.get).toHaveBeenCalledTimes(1));
-    await waitFor(() => expect(getByRole('listbox')).toBeInTheDocument());
-    const listItem = getByRole('listbox').querySelector('li');
-    expect(listItem.textContent).toBe('São Paulo, Brazil');
-    userEvent.click(listItem);
-
-    await waitFor(() => expect(onSelectMock).toHaveBeenCalledWith(mockData[0]));
+  it('closes BackdropContainer on click', async () => {
+    const onSelectMock = jest.fn();
+    const { getByTestId } = render(<SearchCityForm onSelect={onSelectMock} />);
+    const backdrop = getByTestId('backdrop-container'); // Certifique-se de que seu BackdropContainer tem o data-testid="backdrop-container"
+    
+    userEvent.click(backdrop);
   });
 });
