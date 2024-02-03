@@ -12,8 +12,11 @@ import { ICity } from "@/interfaces/city.interface";
 import { useSearchCityForm } from "@/hooks/useSearchCityForm";
 
 const LastSelectedCities = dynamic(
-  () => import("@/components/LastSelectedCities").then((mod) => mod.LastSelectedCities),
-  { ssr: false }
+  () =>
+    import("@/components/LastSelectedCities").then(
+      (mod) => mod.LastSelectedCities,
+    ),
+  { ssr: false },
 );
 
 interface SearchCityFormProps {

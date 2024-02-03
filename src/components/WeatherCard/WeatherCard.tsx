@@ -45,7 +45,11 @@ interface WeatherUpdateProps {
   isUpdating: boolean;
 }
 
-export function WeatherCard({ children, loading = false, error = false }: WeatherCardProps) {
+export function WeatherCard({
+  children,
+  loading = false,
+  error = false,
+}: WeatherCardProps) {
   return (
     <CardContainer>
       {loading && <CircularProgress data-testid="card-loading" />}
