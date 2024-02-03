@@ -10,7 +10,7 @@ export const CardContainer = styled(Card)`
   max-width: 500px;
   text-align: center;
   padding: 1em;
-  min-height: 332px;
+  min-height: 364px;
   align-items: center;
   justify-content: center;
 `;
@@ -35,9 +35,6 @@ export const Header = styled(Box)`
 export const IconContainer = styled(Box)`
   display: flex;
   align-items: center;
-  position: absolute;
-  right: 0;
-  bottom: -8px;
 `;
 
 const rotate = keyframes`

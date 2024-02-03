@@ -18,8 +18,8 @@ import { RxUpdate } from "react-icons/rx";
 
 interface WeatherCardProps {
   children: React.ReactNode;
-  loading: boolean;
-  error: boolean;
+  loading?: boolean;
+  error?: boolean;
 }
 
 interface CityNameProps {
@@ -45,7 +45,7 @@ interface WeatherUpdateProps {
   isUpdating: boolean;
 }
 
-export function WeatherCard({ children, loading, error }: WeatherCardProps) {
+export function WeatherCard({ children, loading = false, error = false }: WeatherCardProps) {
   return (
     <CardContainer>
       {loading && <CircularProgress data-testid="card-loading" />}

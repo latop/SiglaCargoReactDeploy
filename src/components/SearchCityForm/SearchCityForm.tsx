@@ -2,6 +2,7 @@
 
 import React from "react";
 import Autocomplete from "@mui/material/Autocomplete";
+import dynamic from "next/dynamic";
 import {
   AutocompleteContainer,
   TextFieldContainer,
@@ -9,7 +10,11 @@ import {
 } from "./SearchCityForm.styles";
 import { ICity } from "@/interfaces/city.interface";
 import { useSearchCityForm } from "@/hooks/useSearchCityForm";
-import { LastSelectedCities } from "@/components/LastSelectedCities";
+
+const LastSelectedCities = dynamic(
+  () => import("@/components/LastSelectedCities").then((mod) => mod.LastSelectedCities),
+  { ssr: false }
+);
 
 interface SearchCityFormProps {
   onSelect: (params: ICity | null) => void;
@@ -37,6 +42,7 @@ export function SearchCityForm({ onSelect }: SearchCityFormProps) {
         <Autocomplete
           id="city-search"
           data-testid="city-search"
+          clearOnEscape
           options={options}
           defaultValue={defaultValue}
           open={showAutoComplete}
