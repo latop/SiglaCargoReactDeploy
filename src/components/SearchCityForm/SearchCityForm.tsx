@@ -2,7 +2,6 @@
 
 import React from "react";
 import Autocomplete from "@mui/material/Autocomplete";
-import dynamic from "next/dynamic";
 import {
   AutocompleteContainer,
   TextFieldContainer,
@@ -10,14 +9,7 @@ import {
 } from "./SearchCityForm.styles";
 import { ICity } from "@/interfaces/city.interface";
 import { useSearchCityForm } from "@/hooks/useSearchCityForm";
-
-const LastSelectedCities = dynamic(
-  () =>
-    import("@/components/LastSelectedCities").then(
-      (mod) => mod.LastSelectedCities,
-    ),
-  { ssr: false },
-);
+import { LastSelectedCities } from "@/components/LastSelectedCities";
 
 interface SearchCityFormProps {
   onSelect: (params: ICity | null) => void;
