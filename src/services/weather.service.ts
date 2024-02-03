@@ -8,10 +8,11 @@ interface INormalizeData {
 }
 
 const normalizeData = ({ data, cityName }: INormalizeData): IWeather => ({
-  temperature: `${data.current_weather.temperature.toFixed(0)}°C`,
-  windSpeed: `${data.current_weather.windspeed.toFixed(0)}km/h`,
+  temperature: `${data.current_weather.temperature.toFixed(0)}${data.current_weather_units.temperature}`,
+  windSpeed: `${data.current_weather.windspeed.toFixed(0)}${data.current_weather_units.windspeed}`,
   weatherCode: data.current_weather.weathercode,
   time: formatTime(data.current_weather.time),
+  windDirection: `${data.current_weather.winddirection}${data.current_weather_units.winddirection}`,
   icon: getWeatherCodes(
     data.current_weather.weathercode,
     data.current_weather.is_day,
@@ -38,6 +39,8 @@ export const fetchWeather = async (options: fetchWeatherOptions) => {
         latitude: options.lat,
         longitude: options.lon,
         current_weather: true,
+        forecast_days: 7,
+        hourly: 'temperature_2m',
       },
     });
     return normalizeData({ data: response.data, cityName: options.cityName });

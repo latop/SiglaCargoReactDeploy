@@ -13,6 +13,7 @@ import Typography from "@mui/material/Typography";
 import { WiStrongWind } from "react-icons/wi";
 import { IoMdTime } from "react-icons/io";
 import { CircularProgress } from "@mui/material";
+import { GiWindsock } from "react-icons/gi";
 import { MdOutlineError } from "react-icons/md";
 import { RxUpdate } from "react-icons/rx";
 
@@ -32,8 +33,8 @@ interface TemperatureDisplayProps {
 }
 
 interface WindSpeedProps {
-  time: string;
   windSpeed: string;
+  windDirection: string;
 }
 
 interface WeatherIconProps {
@@ -67,7 +68,7 @@ export function WeatherCard({ children, loading, error }: WeatherCardProps) {
 }
 
 function CityName({ children }: CityNameProps) {
-  return <Typography variant="h6">{children}</Typography>;
+  return <Typography variant="h6" fontWeight={400}>{children}</Typography>;
 }
 
 function TemperatureDisplay({
@@ -75,7 +76,7 @@ function TemperatureDisplay({
   description,
 }: TemperatureDisplayProps) {
   return (
-    <Box marginTop="50px">
+    <Box marginTop="40px" marginBottom="40px">
       <Typography variant="h2">{temperature}</Typography>
       {description && (
         <Typography variant="subtitle1" color={grey[500]}>
@@ -86,18 +87,16 @@ function TemperatureDisplay({
   );
 }
 
-function WeatherInfo({ time, windSpeed }: WindSpeedProps) {
+function WeatherInfo({ windSpeed, windDirection }: WindSpeedProps) {
   return (
     <Box display="flex" flexDirection="column" justifyContent="center">
-      <Box display="flex">
-        <IconContainer>
-          <WiStrongWind size={30} />
-          <Typography variant="h6">{windSpeed}</Typography>
-        </IconContainer>
+      <Box display="flex" gap="5px">
+        <WiStrongWind size={20} color={grey[800]} />
+        <Typography variant="body1">{windSpeed}</Typography>
       </Box>
       <Box display="flex" gap="5px">
-        <IoMdTime size={30} />
-        <Typography variant="h6">{time}</Typography>
+        <GiWindsock size={20} color={grey[800]} />
+        <Typography variant="body1">{windDirection}</Typography>
       </Box>
     </Box>
   );
@@ -106,7 +105,7 @@ function WeatherInfo({ time, windSpeed }: WindSpeedProps) {
 function WeatherIcon({ icon: Icon }: WeatherIconProps) {
   return (
     <IconContainer>
-      <Icon size={100} />
+      <Icon color={grey[800]} size={100} />
     </IconContainer>
   );
 }
@@ -114,7 +113,7 @@ function WeatherIcon({ icon: Icon }: WeatherIconProps) {
 function WeatherUpdate({ onClick, isUpdating }: WeatherUpdateProps) {
   return (
     <UpdateContainer isUpdating={isUpdating} onClick={onClick}>
-      <RxUpdate size={24} />
+      <RxUpdate size={24}  color={grey[800]} />
     </UpdateContainer>
   );
 }

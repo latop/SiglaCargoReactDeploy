@@ -44,7 +44,7 @@ export function ForecastsTemplate() {
             <WeatherCard.Footer>
               <WeatherCard.WeatherInfo
                 windSpeed={weatherData.windSpeed}
-                time={weatherData.time}
+                windDirection={weatherData.windDirection}
               />
               {weatherData.icon && <WeatherCard.Icon icon={weatherData.icon} />}
             </WeatherCard.Footer>

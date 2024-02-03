@@ -10,13 +10,15 @@ export const CardContainer = styled(Card)`
   max-width: 500px;
   text-align: center;
   padding: 1em;
-  min-height: 365px;
+  min-height: 332px;
   align-items: center;
   justify-content: center;
 `;
 
 export const CardContentContainer = styled(CardContent)`
   width: 100%;
+  position: relative;
+  padding: 10px !important;
 `;
 
 export const Footer = styled(Box)`
@@ -27,15 +29,15 @@ export const Footer = styled(Box)`
 export const Header = styled(Box)`
   display: flex;
   justify-content: space-between;
-  border-bottom: 1px solid #f4f4f4;
-  padding-bottom: 10px;
   align-items: center;
 `;
 
 export const IconContainer = styled(Box)`
   display: flex;
   align-items: center;
-  gap: 5px;
+  position: absolute;
+  right: 0;
+  bottom: -8px;
 `;
 
 const rotate = keyframes`

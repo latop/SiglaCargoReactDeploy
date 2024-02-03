@@ -8,12 +8,19 @@ export interface WeatherResponse {
     windspeed: number;
     time: string;
     is_day: boolean;
+    winddirection: number;
+  };
+  current_weather_units: {
+    temperature: string;
+    windspeed: string;
+    winddirection: string;
   };
 }
 
 export interface IWeather {
   temperature: string;
   windSpeed: string;
+  windDirection: string;
   weatherCode: number;
   time: string;
   icon?: IconType;
