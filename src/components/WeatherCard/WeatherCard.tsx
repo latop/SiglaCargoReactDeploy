@@ -11,7 +11,6 @@ import {
 } from "./WeatherCard.styles";
 import Typography from "@mui/material/Typography";
 import { WiStrongWind } from "react-icons/wi";
-import { IoMdTime } from "react-icons/io";
 import { CircularProgress } from "@mui/material";
 import { GiWindsock } from "react-icons/gi";
 import { MdOutlineError } from "react-icons/md";
@@ -68,7 +67,11 @@ export function WeatherCard({ children, loading, error }: WeatherCardProps) {
 }
 
 function CityName({ children }: CityNameProps) {
-  return <Typography variant="h6" fontWeight={400}>{children}</Typography>;
+  return (
+    <Typography variant="h6" fontWeight={400}>
+      {children}
+    </Typography>
+  );
 }
 
 function TemperatureDisplay({
@@ -113,7 +116,7 @@ function WeatherIcon({ icon: Icon }: WeatherIconProps) {
 function WeatherUpdate({ onClick, isUpdating }: WeatherUpdateProps) {
   return (
     <UpdateContainer isUpdating={isUpdating} onClick={onClick}>
-      <RxUpdate size={24}  color={grey[800]} />
+      <RxUpdate size={24} color={grey[800]} />
     </UpdateContainer>
   );
 }

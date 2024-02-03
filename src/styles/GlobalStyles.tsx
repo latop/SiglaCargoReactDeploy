@@ -1,5 +1,5 @@
 import { Global, css } from "@emotion/react";
-import { grey, blueGrey } from "@mui/material/colors";
+import { blueGrey } from "@mui/material/colors";
 
 const GlobalStyles = () => (
   <Global
