@@ -18,12 +18,12 @@ export function ForecastsTemplate() {
 
   const handleCitySelect = useCallback(
     (city: ICity | null) => {
-      if (!city) {
-        router.push(`/add-forecast`);
-      } else {
+      if (city) {
         router.push(
           `/forecasts?lat=${city.lat}&lon=${city.lon}&cityName=${city.name}&shortName=${city.shortName}`,
         );
+      } else {
+        router.push(`/add-forecast`);
       }
     },
     [router],

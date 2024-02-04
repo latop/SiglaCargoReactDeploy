@@ -5,10 +5,8 @@ import { useCityParams } from "@/hooks/useCityParams";
 import { useBackdrop } from "@/hooks/useBackdrop";
 import { ICity } from "@/interfaces/city.interface";
 import { useLastSelectedCities } from "@/hooks/useLastSelectedCities";
-import { useRouter } from "next/navigation";
 
 export function useSearchCityForm() {
-  const router = useRouter();
   const { cityName } = useCityParams();
   const { addCity } = useLastSelectedCities();
   const [inputValue, setInputValue] = useState("");
@@ -21,7 +19,7 @@ export function useSearchCityForm() {
 
   const handleOpenAutocomplete = useCallback(() => {
     setIsOpenAutocomplete(true);
-    openBackdrop();
+    openBackdrop({ onClose: handleCloseAutocomplete });
   }, [openBackdrop]);
 
   const handleCloseAutocomplete = useCallback(() => {
@@ -38,21 +36,12 @@ export function useSearchCityForm() {
 
   const handleSelectCity = useCallback(
     (city: ICity | null) => {
+      handleCloseAutocomplete();
       if (city) {
         addCity(city);
       }
     },
-    [addCity],
-  );
-
-  const handleSelectLastCity = useCallback(
-    (city: ICity) => {
-      handleCloseAutocomplete();
-      router.push(
-        `/forecasts?lat=${city.lat}&lon=${city.lon}&cityName=${city.name}&shortName=${city.shortName}`,
-      );
-    },
-    [router, handleCloseAutocomplete],
+    [addCity, handleCloseAutocomplete],
   );
 
   return {
@@ -67,7 +56,6 @@ export function useSearchCityForm() {
     defaultValue: { name: cityName || "", shortName: "", lat: 0, lon: 0 },
     showAutoComplete: isOpenAutocomplete && inputValue.length > 0,
     inputValue,
-    onSelectLastCity: handleSelectLastCity,
     showLastCities,
   };
 }

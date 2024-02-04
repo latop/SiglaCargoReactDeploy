@@ -63,24 +63,4 @@ describe("useSearchCityForm", () => {
 
     expect(mockUseLastSelectedCities().addCity).toHaveBeenCalledWith(city);
   });
-
-  it("should navigate to the forecast page when selecting a last city", () => {
-    const { result } = renderHook(() => useSearchCityForm());
-
-    const city = {
-      id: "1",
-      name: "New York",
-      lat: 40.7128,
-      lon: -74.006,
-      shortName: "New York",
-    };
-
-    act(() => {
-      result.current.onSelectLastCity(city);
-    });
-
-    expect(mockRouter.push).toHaveBeenCalledWith(
-      `/forecasts?lat=${city.lat}&lon=${city.lon}&cityName=${city.name}&shortName=${city.shortName}`,
-    );
-  });
 });

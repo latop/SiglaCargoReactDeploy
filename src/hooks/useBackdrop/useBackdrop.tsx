@@ -2,13 +2,21 @@ import React, { createContext, useContext } from "react";
 import Backdrop from "@mui/material/Backdrop";
 import { atom, useRecoilState } from "recoil";
 
-export const backdropState = atom<boolean>({
+interface BackdropState {
+  open: boolean;
+  onClose: () => void;
+}
+
+export const backdropState = atom<BackdropState>({
   key: "backdropState",
-  default: false,
+  default: {
+    open: false,
+    onClose: () => {},
+  },
 });
 
 interface BackdropContextType {
-  openBackdrop: () => void;
+  openBackdrop: (options?: { onClose: () => void }) => void;
   closeBackdrop: () => void;
   isOpenBackdrop: boolean;
 }
@@ -24,21 +32,32 @@ const BackdropContext = createContext<BackdropContextType>({
 });
 
 const BackdropProvider = ({ children }: BackdropProviderProps) => {
-  const [isOpenBackdrop, setIsBackdrop] = useRecoilState(backdropState);
+  const [backdrop, setIsBackdrop] = useRecoilState(backdropState);
 
-  const openBackdrop = () => setIsBackdrop(true);
-  const closeBackdrop = () => setIsBackdrop(false);
+  const openBackdrop = (options?: { onClose: () => void }) => {
+    setIsBackdrop({
+      open: true,
+      onClose: options?.onClose || (() => {}),
+    });
+  };
+  const closeBackdrop = () => {
+    backdrop.onClose?.();
+    setIsBackdrop({
+      open: false,
+      onClose: () => {},
+    });
+  };
 
   return (
     <BackdropContext.Provider
-      value={{ openBackdrop, closeBackdrop, isOpenBackdrop }}
+      value={{ openBackdrop, closeBackdrop, isOpenBackdrop: backdrop.open }}
     >
       {children}
       <Backdrop
         data-testid="backdrop-container"
-        open={isOpenBackdrop}
-        data-visible={isOpenBackdrop}
+        open={backdrop.open}
         onClick={closeBackdrop}
+        data-visible={backdrop.open}
       />
     </BackdropContext.Provider>
   );

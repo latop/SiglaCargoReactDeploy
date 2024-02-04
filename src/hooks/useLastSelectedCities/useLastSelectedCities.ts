@@ -21,7 +21,10 @@ export function useLastSelectedCities() {
         (city: ICity) => city.name === newCity.name,
       );
       if (isExisting) {
-        return prevCities;
+        const updatedCities = prevCities.filter(
+          (city: ICity) => city.name !== newCity.name,
+        );
+        return [newCity, ...updatedCities];
       }
 
       const updatedCities =

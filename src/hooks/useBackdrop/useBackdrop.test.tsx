@@ -10,7 +10,7 @@ describe("useBackdrop", () => {
 
       return (
         <div>
-          <button data-testid="open-button" onClick={openBackdrop}>
+          <button data-testid="open-button" onClick={() => openBackdrop()}>
             Open Backdrop
           </button>
           <button data-testid="close-button" onClick={closeBackdrop}>

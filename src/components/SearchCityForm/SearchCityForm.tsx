@@ -22,7 +22,6 @@ export function SearchCityForm({ onSelect }: SearchCityFormProps) {
     options,
     isLoading,
     onSelectCity,
-    onSelectLastCity,
     showLastCities,
     showAutoComplete,
     defaultValue,
@@ -31,6 +30,14 @@ export function SearchCityForm({ onSelect }: SearchCityFormProps) {
 
   const handleChange = useCallback(
     (event: React.SyntheticEvent, newValue: ICity | null) => {
+      onSelect(newValue);
+      onSelectCity(newValue);
+    },
+    [onSelect, onSelectCity],
+  );
+
+  const handleSelectLastCity = useCallback(
+    (newValue: ICity | null) => {
       onSelect(newValue);
       onSelectCity(newValue);
     },
@@ -63,7 +70,7 @@ export function SearchCityForm({ onSelect }: SearchCityFormProps) {
           />
         )}
       />
-      {showLastCities && <LastSelectedCities onSelect={onSelectLastCity} />}
+      {showLastCities && <LastSelectedCities onSelect={handleSelectLastCity} />}
     </AutocompleteContainer>
   );
 }

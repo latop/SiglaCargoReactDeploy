@@ -11,7 +11,6 @@ jest.mock("@/hooks/useSearchCityForm", () => ({
     options: [{ name: "Cidade Exemplo", id: "1" }],
     isLoading: false,
     onSelectCity: jest.fn(),
-    onSelectLastCity: jest.fn(),
     showAutoComplete: true,
     showLastCities: true,
     defaultValue: null,
