@@ -119,7 +119,7 @@ function WeatherIcon({ icon: Icon }: WeatherIconProps) {
 
 function WeatherUpdate({ onClick, isUpdating }: WeatherUpdateProps) {
   return (
-    <UpdateContainer isUpdating={isUpdating} onClick={onClick}>
+    <UpdateContainer isUpdating={isUpdating} onClick={onClick} aria-label="Atualizar Previsão do Tempo" role="button">
       <RxUpdate size={24} color={grey[800]} />
     </UpdateContainer>
   );

@@ -35,12 +35,4 @@ describe("SearchCityForm", () => {
 
     expect(onSelectMock).toHaveBeenCalledWith(expect.anything());
   });
-
-  it("closes BackdropContainer on click", async () => {
-    const onSelectMock = jest.fn();
-    const { getByTestId } = render(<SearchCityForm onSelect={onSelectMock} />);
-    const backdrop = getByTestId("backdrop-container");
-
-    userEvent.click(backdrop);
-  });
 });

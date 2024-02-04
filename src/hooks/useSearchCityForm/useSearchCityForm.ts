@@ -2,10 +2,10 @@ import { useState, SyntheticEvent, useCallback } from "react";
 import { useDebounce } from "use-debounce";
 import { useSearchCity } from "@/hooks/useSearchCity";
 import { useCityParams } from "@/hooks/useCityParams";
+import { useBackdrop } from "@/hooks/useBackdrop";
 import { ICity } from "@/interfaces/city.interface";
 import { useLastSelectedCities } from "@/hooks/useLastSelectedCities";
 import { useRouter } from "next/navigation";
-import { useBackdrop } from "../useBackdrop";
 
 export function useSearchCityForm() {
   const router = useRouter();

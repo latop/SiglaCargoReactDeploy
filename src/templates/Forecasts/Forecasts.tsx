@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useCallback } from "react";
 import { SearchCityForm } from "@/components/SearchCityForm";
 import { WeatherCard } from "@/components/WeatherCard";
 import { MainContainer } from "@/components/MainContainer";
@@ -12,15 +12,16 @@ export function ForecastsTemplate() {
   const { weatherData, isLoading, update, isUpdating, error } = useWeather();
   const router = useRouter();
 
-  const handleCitySelect = (city: ICity | null) => {
+  const handleCitySelect = useCallback((city: ICity | null) => {
     if (!city) {
       router.push(`/add-forecast`);
     } else {
       router.push(
-        `/forecasts?lat=${city?.lat}&lon=${city?.lon}&cityName=${city?.name}&shortName=${city?.shortName}`,
+        `/forecasts?lat=${city.lat}&lon=${city.lon}&cityName=${city.name}&shortName=${city.shortName}`,
       );
     }
-  };
+  }, [router]);
+  
 
   return (
     <MainContainer>

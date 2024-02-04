@@ -43,8 +43,6 @@ export const fetchWeather = async (options: fetchWeatherOptions) => {
         latitude: options.lat,
         longitude: options.lon,
         current_weather: true,
-        forecast_days: 7,
-        hourly: "temperature_2m",
       },
     });
     return normalizeData({ data: response.data, cityName: options.cityName });
