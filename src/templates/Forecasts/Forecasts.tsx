@@ -13,8 +13,8 @@ export function ForecastsTemplate() {
   const router = useRouter();
 
   useEffect(() => {
-    router.prefetch('/add-forecast')
-  }, [router])
+    router.prefetch("/add-forecast");
+  }, [router]);
 
   const handleCitySelect = useCallback(
     (city: ICity | null) => {

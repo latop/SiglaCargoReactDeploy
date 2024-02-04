@@ -22,8 +22,8 @@ export function AddForecastTemplate() {
   );
 
   useEffect(() => {
-    router.prefetch('/forecasts')
-  }, [router])
+    router.prefetch("/forecasts");
+  }, [router]);
 
   return (
     <MainContainer>

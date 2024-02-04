@@ -36,7 +36,7 @@ const LastSelectedCityItem = React.memo(
   },
 );
 
-LastSelectedCityItem.displayName = 'LastSelectedCityItem';
+LastSelectedCityItem.displayName = "LastSelectedCityItem";
 
 export function LastSelectedCities({ onSelect }: LastSelectedCitiesProps) {
   const { lastSelectedCities } = useLastSelectedCities();
