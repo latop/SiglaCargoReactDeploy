@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect } from "react";
 import { SearchCityForm } from "@/components/SearchCityForm";
 import { WeatherCard } from "@/components/WeatherCard";
 import { MainContainer } from "@/components/MainContainer";
@@ -11,6 +11,10 @@ import { useWeather } from "@/hooks/useWeather";
 export function ForecastsTemplate() {
   const { weatherData, isLoading, update, isUpdating, error } = useWeather();
   const router = useRouter();
+
+  useEffect(() => {
+    router.prefetch('/add-forecast')
+  }, [router])
 
   const handleCitySelect = useCallback(
     (city: ICity | null) => {

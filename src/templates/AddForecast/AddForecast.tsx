@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect } from "react";
 import { SearchCityForm } from "@/components/SearchCityForm";
 import { MainContainer } from "@/components/MainContainer";
 
@@ -20,6 +20,10 @@ export function AddForecastTemplate() {
     },
     [router],
   );
+
+  useEffect(() => {
+    router.prefetch('/forecasts')
+  }, [router])
 
   return (
     <MainContainer>
