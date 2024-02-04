@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React from "react";
 import { ICity } from "@/interfaces/city.interface";
 import { GoClock } from "react-icons/go";
 import { grey } from "@mui/material/colors";
@@ -20,33 +20,25 @@ interface LastSelectedCityItemProps {
   onClick: () => void;
 }
 
-const LastSelectedCityItem = React.memo(
-  ({ cityName, onClick }: LastSelectedCityItemProps) => {
-    return (
-      <Item
-        onClick={onClick}
-        role="button"
-        tabIndex={0}
-        aria-label={`Selecionar ${cityName}`}
-      >
-        <GoClock />
-        <ItemTitle variant="body1">{cityName}</ItemTitle>
-      </Item>
-    );
-  },
-);
-
-LastSelectedCityItem.displayName = "LastSelectedCityItem";
+function LastSelectedCityItem({
+  cityName,
+  onClick,
+}: LastSelectedCityItemProps) {
+  return (
+    <Item
+      onClick={onClick}
+      role="button"
+      tabIndex={0}
+      aria-label={`Selecionar ${cityName}`}
+    >
+      <GoClock />
+      <ItemTitle variant="body1">{cityName}</ItemTitle>
+    </Item>
+  );
+}
 
 export function LastSelectedCities({ onSelect }: LastSelectedCitiesProps) {
   const { lastSelectedCities } = useLastSelectedCities();
-
-  const handleCitySelect = useCallback(
-    (city: ICity) => {
-      onSelect(city);
-    },
-    [onSelect],
-  );
 
   if (!lastSelectedCities.length) {
     return null;
@@ -62,7 +54,7 @@ export function LastSelectedCities({ onSelect }: LastSelectedCitiesProps) {
           <LastSelectedCityItem
             key={city.name}
             cityName={city.name}
-            onClick={() => handleCitySelect(city)}
+            onClick={() => onSelect(city)}
           />
         ))}
       </Container>

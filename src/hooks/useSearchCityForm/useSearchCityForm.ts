@@ -1,4 +1,4 @@
-import { useState, SyntheticEvent, useCallback } from "react";
+import { useState, SyntheticEvent } from "react";
 import { useDebounce } from "use-debounce";
 import { useSearchCity } from "@/hooks/useSearchCity";
 import { useCityParams } from "@/hooks/useCityParams";
@@ -16,36 +16,33 @@ export function useSearchCityForm() {
 
   const showLastCities = isOpenAutocomplete && isOpenBackdrop && !inputValue;
 
-  const handleCloseBackdrop = useCallback(() => {
+  const handleCloseBackdrop = () => {
     setIsOpenBackdrop(false);
-  }, []);
+  };
 
-  const handleOpenAutocomplete = useCallback(() => {
+  const handleOpenAutocomplete = () => {
     setIsOpenAutocomplete(true);
     setIsOpenBackdrop(true);
-  }, []);
+  };
 
-  const handleCloseAutocomplete = useCallback(() => {
+  const handleCloseAutocomplete = () => {
     setIsOpenAutocomplete(false);
     setIsOpenBackdrop(false);
-  }, []);
+  };
 
-  const handleInputChange = useCallback(
-    (event: SyntheticEvent<Element, Event>, newInputValue: string) => {
-      setInputValue(newInputValue);
-    },
-    [],
-  );
+  const handleInputChange = (
+    event: SyntheticEvent<Element, Event>,
+    newInputValue: string,
+  ) => {
+    setInputValue(newInputValue);
+  };
 
-  const handleSelectCity = useCallback(
-    (city: ICity | null) => {
-      handleCloseAutocomplete();
-      if (city) {
-        addCity(city);
-      }
-    },
-    [addCity, handleCloseAutocomplete],
-  );
+  const handleSelectCity = (city: ICity | null) => {
+    handleCloseAutocomplete();
+    if (city) {
+      addCity(city);
+    }
+  };
 
   return {
     onOpenAutocomplete: handleOpenAutocomplete,

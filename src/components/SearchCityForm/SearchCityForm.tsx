@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback } from "react";
+import React from "react";
 import Autocomplete from "@mui/material/Autocomplete";
 import {
   AutocompleteContainer,
@@ -31,21 +31,18 @@ export function SearchCityForm({ onSelect }: SearchCityFormProps) {
     noOptionsText,
   } = useSearchCityForm();
 
-  const handleChange = useCallback(
-    (event: React.SyntheticEvent, newValue: ICity | null) => {
-      onSelect(newValue);
-      onSelectCity(newValue);
-    },
-    [onSelect, onSelectCity],
-  );
+  const handleChange = (
+    event: React.SyntheticEvent,
+    newValue: ICity | null,
+  ) => {
+    onSelect(newValue);
+    onSelectCity(newValue);
+  };
 
-  const handleSelectLastCity = useCallback(
-    (newValue: ICity | null) => {
-      onSelect(newValue);
-      onSelectCity(newValue);
-    },
-    [onSelect, onSelectCity],
-  );
+  const handleSelectLastCity = (newValue: ICity | null) => {
+    onSelect(newValue);
+    onSelectCity(newValue);
+  };
 
   return (
     <AutocompleteContainer>
