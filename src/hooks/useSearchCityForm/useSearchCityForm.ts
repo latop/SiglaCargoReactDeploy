@@ -16,9 +16,9 @@ export function useSearchCityForm() {
 
   const showLastCities = isOpenAutocomplete && isOpenBackdrop && !inputValue;
 
-  const handleCloseBackdrop = () => {
+  const handleCloseBackdrop = useCallback(() => {
     setIsOpenBackdrop(false);
-  }
+  }, []);
 
   const handleOpenAutocomplete = useCallback(() => {
     setIsOpenAutocomplete(true);
