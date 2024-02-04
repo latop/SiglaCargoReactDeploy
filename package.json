@@ -6,8 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "npx serve@latest out",
-    "lint": "next lint",
-    "test": "jest"
+    "lint": "next lint --fix",
+    "test": "jest",
+    "prepare": "husky"
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",
