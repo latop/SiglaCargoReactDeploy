@@ -12,7 +12,7 @@ jest.mock("@/hooks/useLastSelectedCities", () => ({
 describe("LastSelectedCities", () => {
   it("renders the correct number of cities", () => {
     render(<LastSelectedCities onSelect={() => {}} />);
-    expect(screen.getAllByRole("listitem")).toHaveLength(mockCities.length);
+    expect(screen.getAllByRole("button")).toHaveLength(mockCities.length);
   });
 
   it("calls the onSelect function when a city is clicked", () => {
