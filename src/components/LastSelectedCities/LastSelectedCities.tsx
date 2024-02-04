@@ -15,12 +15,26 @@ interface LastSelectedCitiesProps {
   onSelect: (city: ICity) => void;
 }
 
+interface LastSelectedCityItemProps {
+  cityName: string;
+  onClick: () => void;
+}
+
+const LastSelectedCityItem = React.memo(({ cityName, onClick }: LastSelectedCityItemProps) => {
+  return (
+    <Item onClick={onClick} role="button" tabIndex={0} aria-label={`Selecionar ${cityName}`}>
+      <GoClock />
+      <ItemTitle variant="body1">{cityName}</ItemTitle>
+    </Item>
+  );
+});
+
 export function LastSelectedCities({ onSelect }: LastSelectedCitiesProps) {
   const { lastSelectedCities } = useLastSelectedCities();
 
   const handleCitySelect = useCallback((city: ICity) => {
     onSelect(city);
-  }, []);
+  }, [onSelect]);
 
   if (!lastSelectedCities.length) {
     return null;
@@ -33,10 +47,7 @@ export function LastSelectedCities({ onSelect }: LastSelectedCitiesProps) {
       </Title>
       <Container>
         {lastSelectedCities.map((city: ICity) => (
-          <Item key={city.name} onClick={() => handleCitySelect(city)}>
-            <GoClock />
-            <ItemTitle variant="body1">{city.name}</ItemTitle>
-          </Item>
+          <LastSelectedCityItem key={city.name} cityName={city.name} onClick={() => handleCitySelect(city)} />
         ))}
       </Container>
     </Card>

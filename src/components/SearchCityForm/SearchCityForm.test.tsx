@@ -7,9 +7,8 @@ import { fireEvent } from "@testing-library/react";
 
 jest.mock("@/hooks/useSearchCityForm", () => ({
   useSearchCityForm: () => ({
-    onOpenBackdrop: jest.fn(),
-    onCloseBackdrop: jest.fn(),
-    showBackdrop: false,
+    onOpenAutocomplete: jest.fn(),
+    onCloseAutocomplete: jest.fn(),
     onInputChange: jest.fn(),
     options: [{ name: "Cidade Exemplo", id: "1" }],
     isLoading: false,

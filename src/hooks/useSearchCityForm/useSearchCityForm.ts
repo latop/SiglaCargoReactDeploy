@@ -1,10 +1,11 @@
-import { useState, SyntheticEvent } from "react";
+import { useState, SyntheticEvent, useCallback } from "react";
 import { useDebounce } from "use-debounce";
 import { useSearchCity } from "@/hooks/useSearchCity";
 import { useCityParams } from "@/hooks/useCityParams";
 import { ICity } from "@/interfaces/city.interface";
 import { useLastSelectedCities } from "@/hooks/useLastSelectedCities";
 import { useRouter } from "next/navigation";
+import { useBackdrop } from "../useBackdrop";
 
 export function useSearchCityForm() {
   const router = useRouter();
@@ -13,42 +14,44 @@ export function useSearchCityForm() {
   const [inputValue, setInputValue] = useState("");
   const [debouncedInputValue] = useDebounce(inputValue, 500);
   const { data, isLoading, error } = useSearchCity(debouncedInputValue);
-  const [open, setOpen] = useState(false);
+  const [isOpenAutocomplete, setIsOpenAutocomplete] = useState(false);
+  const { openBackdrop, closeBackdrop } = useBackdrop();
 
-  const showLastCities = open && !inputValue;
+  const showLastCities = isOpenAutocomplete && !inputValue;
 
-  const handleOpenBackdrop = () => {
-    setOpen(true);
-  };
-
-  const handleCloseBackdrop = () => {
-    setOpen(false);
-  };
-
-  const handleInputChange = (
-    event: SyntheticEvent<Element, Event>,
-    newInputValue: string,
-  ) => {
-    setInputValue(newInputValue);
-  };
-
-  const handleSelectCity = (city: ICity | null) => {
+  const handleOpenAutocomplete = useCallback(() => {
+    setIsOpenAutocomplete(true);
+    openBackdrop();
+  }, [openBackdrop]);
+  
+  const handleCloseAutocomplete = useCallback(() => {
+    setIsOpenAutocomplete(false);
+    closeBackdrop();
+  }, [closeBackdrop]);
+  
+  const handleInputChange = useCallback(
+    (event: SyntheticEvent<Element, Event>, newInputValue: string) => {
+      setInputValue(newInputValue);
+    },
+    []
+  );
+  
+  const handleSelectCity = useCallback((city: ICity | null) => {
     if (city) {
       addCity(city);
     }
-  };
-
-  const handleSelectLastCity = (city: ICity) => {
-    handleCloseBackdrop();
+  }, [addCity]);
+  
+  const handleSelectLastCity = useCallback((city: ICity) => {
+    handleCloseAutocomplete();
     router.push(
       `/forecasts?lat=${city.lat}&lon=${city.lon}&cityName=${city.name}&shortName=${city.shortName}`,
     );
-  };
-
+  }, [router, handleCloseAutocomplete]);
+  
   return {
-    onOpenBackdrop: handleOpenBackdrop,
-    onCloseBackdrop: handleCloseBackdrop,
-    showBackdrop: open,
+    onOpenAutocomplete: handleOpenAutocomplete,
+    onCloseAutocomplete: handleCloseAutocomplete,
     onInputChange: handleInputChange,
     options: data || [],
     noOptionsText:
@@ -56,7 +59,7 @@ export function useSearchCityForm() {
     isLoading,
     onSelectCity: handleSelectCity,
     defaultValue: { name: cityName || "", shortName: "", lat: 0, lon: 0 },
-    showAutoComplete: open && inputValue.length > 0,
+    showAutoComplete: isOpenAutocomplete && inputValue.length > 0,
     inputValue,
     onSelectLastCity: handleSelectLastCity,
     showLastCities,
