@@ -9,6 +9,7 @@ import {
 import { ICity } from "@/interfaces/city.interface";
 import { useSearchCityForm } from "@/hooks/useSearchCityForm";
 import { LastSelectedCities } from "@/components/LastSelectedCities";
+import { Backdrop } from "@mui/material";
 
 interface SearchCityFormProps {
   onSelect: (params: ICity | null) => void;
@@ -24,6 +25,8 @@ export function SearchCityForm({ onSelect }: SearchCityFormProps) {
     onSelectCity,
     showLastCities,
     showAutoComplete,
+    isOpenBackdrop,
+    closeBackdrop,
     defaultValue,
     noOptionsText,
   } = useSearchCityForm();
@@ -71,6 +74,7 @@ export function SearchCityForm({ onSelect }: SearchCityFormProps) {
         )}
       />
       {showLastCities && <LastSelectedCities onSelect={handleSelectLastCity} />}
+      <Backdrop open={isOpenBackdrop} onClick={closeBackdrop} data-testid="backdrop-container" data-visible={isOpenBackdrop} />
     </AutocompleteContainer>
   );
 }
