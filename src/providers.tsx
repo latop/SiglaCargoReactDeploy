@@ -9,12 +9,10 @@ import { BackdropProvider } from "./hooks/useBackdrop/useBackdrop";
 export default function Providers({ children }: { children: React.ReactNode }) {
   return (
     <RecoilRoot>
-        <ThemeProvider theme={theme}>
-          <GlobalStyles />
-          <BackdropProvider>
-            {children}
-          </BackdropProvider>
-        </ThemeProvider>
+      <ThemeProvider theme={theme}>
+        <GlobalStyles />
+        <BackdropProvider>{children}</BackdropProvider>
+      </ThemeProvider>
     </RecoilRoot>
   );
 }

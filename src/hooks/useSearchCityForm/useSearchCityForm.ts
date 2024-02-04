@@ -23,32 +23,38 @@ export function useSearchCityForm() {
     setIsOpenAutocomplete(true);
     openBackdrop();
   }, [openBackdrop]);
-  
+
   const handleCloseAutocomplete = useCallback(() => {
     setIsOpenAutocomplete(false);
     closeBackdrop();
   }, [closeBackdrop]);
-  
+
   const handleInputChange = useCallback(
     (event: SyntheticEvent<Element, Event>, newInputValue: string) => {
       setInputValue(newInputValue);
     },
-    []
+    [],
   );
-  
-  const handleSelectCity = useCallback((city: ICity | null) => {
-    if (city) {
-      addCity(city);
-    }
-  }, [addCity]);
-  
-  const handleSelectLastCity = useCallback((city: ICity) => {
-    handleCloseAutocomplete();
-    router.push(
-      `/forecasts?lat=${city.lat}&lon=${city.lon}&cityName=${city.name}&shortName=${city.shortName}`,
-    );
-  }, [router, handleCloseAutocomplete]);
-  
+
+  const handleSelectCity = useCallback(
+    (city: ICity | null) => {
+      if (city) {
+        addCity(city);
+      }
+    },
+    [addCity],
+  );
+
+  const handleSelectLastCity = useCallback(
+    (city: ICity) => {
+      handleCloseAutocomplete();
+      router.push(
+        `/forecasts?lat=${city.lat}&lon=${city.lon}&cityName=${city.name}&shortName=${city.shortName}`,
+      );
+    },
+    [router, handleCloseAutocomplete],
+  );
+
   return {
     onOpenAutocomplete: handleOpenAutocomplete,
     onCloseAutocomplete: handleCloseAutocomplete,

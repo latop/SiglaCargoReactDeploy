@@ -1,5 +1,4 @@
 import TextField from "@mui/material/TextField";
-import Backdrop from "@mui/material/Backdrop";
 import styled from "@emotion/styled";
 
 export const AutocompleteContainer = styled("div")`
@@ -11,4 +10,3 @@ export const AutocompleteContainer = styled("div")`
 export const TextFieldContainer = styled(TextField)`
   z-index: 1000;
 `;
-

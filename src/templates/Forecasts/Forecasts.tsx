@@ -12,16 +12,18 @@ export function ForecastsTemplate() {
   const { weatherData, isLoading, update, isUpdating, error } = useWeather();
   const router = useRouter();
 
-  const handleCitySelect = useCallback((city: ICity | null) => {
-    if (!city) {
-      router.push(`/add-forecast`);
-    } else {
-      router.push(
-        `/forecasts?lat=${city.lat}&lon=${city.lon}&cityName=${city.name}&shortName=${city.shortName}`,
-      );
-    }
-  }, [router]);
-  
+  const handleCitySelect = useCallback(
+    (city: ICity | null) => {
+      if (!city) {
+        router.push(`/add-forecast`);
+      } else {
+        router.push(
+          `/forecasts?lat=${city.lat}&lon=${city.lon}&cityName=${city.name}&shortName=${city.shortName}`,
+        );
+      }
+    },
+    [router],
+  );
 
   return (
     <MainContainer>

@@ -29,10 +29,13 @@ export function SearchCityForm({ onSelect }: SearchCityFormProps) {
     noOptionsText,
   } = useSearchCityForm();
 
-  const handleChange = useCallback((event: React.SyntheticEvent, newValue: ICity | null) => {
-    onSelect(newValue);
-    onSelectCity(newValue);
-  },[onSelect, onSelectCity]);
+  const handleChange = useCallback(
+    (event: React.SyntheticEvent, newValue: ICity | null) => {
+      onSelect(newValue);
+      onSelectCity(newValue);
+    },
+    [onSelect, onSelectCity],
+  );
 
   return (
     <AutocompleteContainer>

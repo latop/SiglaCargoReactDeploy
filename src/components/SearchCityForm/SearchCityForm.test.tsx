@@ -1,8 +1,6 @@
-// SearchCityForm.test.js
 import React from "react";
 import { render } from "@/testUtils";
 import { SearchCityForm } from "./SearchCityForm";
-import userEvent from "@testing-library/user-event";
 import { fireEvent } from "@testing-library/react";
 
 jest.mock("@/hooks/useSearchCityForm", () => ({

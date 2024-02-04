@@ -1,9 +1,9 @@
-import React, { createContext, useContext } from 'react';
-import Backdrop from '@mui/material/Backdrop';
-import { atom, useRecoilState } from 'recoil';
+import React, { createContext, useContext } from "react";
+import Backdrop from "@mui/material/Backdrop";
+import { atom, useRecoilState } from "recoil";
 
 export const backdropState = atom<boolean>({
-  key: 'backdropState',
+  key: "backdropState",
   default: false,
 });
 
@@ -30,8 +30,10 @@ const BackdropProvider = ({ children }: BackdropProviderProps) => {
   const closeBackdrop = () => setIsBackdrop(false);
 
   return (
-    <BackdropContext.Provider value={{ openBackdrop, closeBackdrop, isOpenBackdrop }}>
-        {children}
+    <BackdropContext.Provider
+      value={{ openBackdrop, closeBackdrop, isOpenBackdrop }}
+    >
+      {children}
       <Backdrop
         data-testid="backdrop-container"
         open={isOpenBackdrop}
@@ -47,7 +49,7 @@ export { BackdropProvider, BackdropContext };
 export const useBackdrop = (): BackdropContextType => {
   const context = useContext(BackdropContext);
   if (context === undefined) {
-    throw new Error('useBackdrop must be used within a BackdropProvider');
+    throw new Error("useBackdrop must be used within a BackdropProvider");
   }
   return context;
 };

@@ -1,12 +1,12 @@
-import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
-import { RecoilRoot } from 'recoil';
-import { BackdropProvider, useBackdrop } from './useBackdrop';
+import React from "react";
+import { render, fireEvent } from "@testing-library/react";
+import { RecoilRoot } from "recoil";
+import { BackdropProvider, useBackdrop } from "./useBackdrop";
 
-describe('useBackdrop', () => {
-  it('should open and close the backdrop', () => {
+describe("useBackdrop", () => {
+  it("should open and close the backdrop", () => {
     const TestComponent = () => {
-      const { openBackdrop, closeBackdrop, isOpenBackdrop } = useBackdrop();
+      const { openBackdrop, closeBackdrop } = useBackdrop();
 
       return (
         <div>
@@ -25,19 +25,19 @@ describe('useBackdrop', () => {
         <BackdropProvider>
           <TestComponent />
         </BackdropProvider>
-      </RecoilRoot>
+      </RecoilRoot>,
     );
 
-    const openButton = getByTestId('open-button');
-    const closeButton = getByTestId('close-button');
-    const backdrop = getByTestId('backdrop-container');
+    const openButton = getByTestId("open-button");
+    const closeButton = getByTestId("close-button");
+    const backdrop = getByTestId("backdrop-container");
 
-    expect(backdrop.getAttribute('data-visible')).toEqual("false");
+    expect(backdrop.getAttribute("data-visible")).toEqual("false");
 
     fireEvent.click(openButton);
-    expect(backdrop.getAttribute('data-visible')).toEqual("true");
+    expect(backdrop.getAttribute("data-visible")).toEqual("true");
 
     fireEvent.click(closeButton);
-    expect(backdrop.getAttribute('data-visible')).toEqual("false");
+    expect(backdrop.getAttribute("data-visible")).toEqual("false");
   });
 });
