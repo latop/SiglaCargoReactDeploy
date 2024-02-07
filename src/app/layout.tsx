@@ -2,7 +2,7 @@ export const metadata = {
   title: "Weather App",
 };
 
-import Providers from "../providers";
+import { Providers } from "@/providers";
 
 import { Roboto } from "next/font/google";
 

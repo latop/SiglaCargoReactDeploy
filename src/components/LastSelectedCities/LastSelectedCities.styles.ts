@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import { Card as BaseCard, Typography } from "@mui/material";
+import  { grey } from "@mui/material/colors";
 
 export const Card = styled(BaseCard)`
   margin: 10px 0;
@@ -23,7 +24,7 @@ export const Item = styled.li`
   cursor: pointer;
   padding: 10px;
   &:hover {
-    background-color: #f5f5f5;
+    background-color: ${grey[100]};
   }
 
   svg {
