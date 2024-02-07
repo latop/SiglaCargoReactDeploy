@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import { Card as BaseCard, Typography } from "@mui/material";
-import  { grey } from "@mui/material/colors";
+import { grey } from "@mui/material/colors";
 
 export const Card = styled(BaseCard)`
   margin: 10px 0;
