@@ -18,7 +18,7 @@ const GlobalStyles = () => (
 
       body {
         color: rgb(var(--foreground-rgb));
-        background: ${blueGrey[100]};
+        background: ${blueGrey[50]};
       }
 
       a {

@@ -1,5 +1,5 @@
 export const metadata = {
-  title: "Weather App",
+  title: "Sigla Cargo",
 };
 
 import { Providers } from "@/providers";

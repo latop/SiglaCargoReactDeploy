@@ -1,13 +1,53 @@
 import { createTheme } from "@mui/material/styles";
-import { grey } from "@mui/material/colors";
+import { red, blue, grey, blueGrey } from "@mui/material/colors";
 
 const theme = createTheme({
+  palette: {
+    primary: {
+      main: blue[700],
+    },
+    secondary: {
+      main: red[700],
+    },
+    background: {
+      default: blueGrey[50],
+      paper: "#ffffff",
+    },
+    text: {
+      primary: grey[800],
+    },
+  },
   components: {
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          textTransform: "none",
+        },
+        containedPrimary: {
+          backgroundColor: blue[700],
+          "&:hover": {
+            backgroundColor: blue[800],
+          },
+        },
+      },
+    },
     MuiInputBase: {
       styleOverrides: {
         root: {
           backgroundColor: "#ffffff",
           fontFamily: "var(--font-roboto)",
+          "& input:-webkit-autofill": {
+            WebkitTextFillColor: grey[800],
+            WebkitBoxShadow: "0 0 0 100px #ffffff inset",
+            transition: "background-color 5000s ease-in-out 0s",
+          },
+          "& input:-webkit-autofill:focus": {
+            WebkitTextFillColor: grey[800],
+            WebkitBoxShadow: "0 0 0 100px #ffffff inset",
+          },
+          "& .MuiInputLabel-shrink": {
+            transform: "translate(14px, -6px) scale(0.75)",
+          },
         },
       },
     },

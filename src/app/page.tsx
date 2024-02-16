@@ -1,5 +1,5 @@
 "use client";
 
-import { AddForecastTemplate } from "@/templates/AddForecast";
+import { Login } from "@/templates/Login";
 
-export default AddForecastTemplate;
+export default Login;
