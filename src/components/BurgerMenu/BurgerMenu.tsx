@@ -4,11 +4,12 @@ import {
   List,
   ListItem,
   ListItemIcon,
-  ListItemButton,
   ListItemText,
+  ListItemButton,
 } from "@mui/material";
+import Link from "next/link";
 import HomeIcon from "@mui/icons-material/Home";
-import BarChartIcon from "@mui/icons-material/BarChart";
+import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 
 interface BurgerMenuProps {
   isOpen: boolean;
@@ -17,27 +18,35 @@ interface BurgerMenuProps {
   ) => (event: React.KeyboardEvent | React.MouseEvent) => void;
 }
 
+interface RouteItem {
+  text: string;
+  icon: React.ReactElement;
+  path: string;
+}
+
+const routes: RouteItem[] = [
+  { text: "Home", icon: <HomeIcon />, path: "/dashboard" },
+  {
+    text: "Escala de Motoristas",
+    icon: <LocalShippingIcon />,
+    path: "/drivers-schedule",
+  },
+];
+
 export function BurgerMenu({ isOpen, toggleDrawer }: BurgerMenuProps) {
   return (
     <Drawer anchor="left" open={isOpen} onClose={toggleDrawer(false)}>
       <List>
-        <ListItem key="Home" disablePadding>
-          <ListItemButton>
-            <ListItemIcon>
-              <HomeIcon />
-            </ListItemIcon>
-            <ListItemText primary="Home" />
-          </ListItemButton>
-        </ListItem>
-
-        <ListItem key="Gráfico" disablePadding>
-          <ListItemButton>
-            <ListItemIcon>
-              <BarChartIcon />
-            </ListItemIcon>
-            <ListItemText primary="Gráfico" />
-          </ListItemButton>
-        </ListItem>
+        {routes.map(({ text, icon, path }) => (
+          <ListItem key={text} disablePadding>
+            <Link href={path} passHref>
+              <ListItemButton component="a">
+                <ListItemIcon>{icon}</ListItemIcon>
+                <ListItemText primary={text} />
+              </ListItemButton>
+            </Link>
+          </ListItem>
+        ))}
       </List>
     </Drawer>
   );

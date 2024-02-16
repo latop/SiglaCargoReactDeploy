@@ -1,11 +1,23 @@
 "use client";
 
-import React, { useState } from "react";
-import { AppBar as AppBarBase, Toolbar, IconButton } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import {
+  AppBar as AppBarBase,
+  Toolbar,
+  IconButton,
+  Button,
+  Box,
+  Typography,
+} from "@mui/material";
+import ExitToAppIcon from "@mui/icons-material/ExitToApp";
+
 import MenuIcon from "@mui/icons-material/Menu";
+import { useRouter } from "next/navigation";
 import { BurgerMenu } from "../BurgerMenu";
+import { grey } from "@mui/material/colors";
 
 export function AppBar({ children }: { children: React.ReactNode }) {
+  const router = useRouter();
   const [open, setOpen] = useState(false);
 
   const handleDrawerOpen = () => {
@@ -26,10 +38,18 @@ export function AppBar({ children }: { children: React.ReactNode }) {
       setOpen(open);
     };
 
+  useEffect(() => {
+    router.prefetch("/");
+  }, []);
+
+  const handleLogout = () => {
+    router.push("/");
+  };
+
   return (
     <>
       <BurgerMenu toggleDrawer={toggleDrawer} isOpen={open} />
-      <AppBarBase>
+      <AppBarBase position="static">
         <Toolbar>
           <IconButton
             color="inherit"
@@ -40,6 +60,15 @@ export function AppBar({ children }: { children: React.ReactNode }) {
             <MenuIcon />
           </IconButton>
           {children}
+          <Box sx={{ flexGrow: 1 }} />
+          <Button
+            color="inherit"
+            onClick={handleLogout}
+            variant="text"
+            startIcon={<ExitToAppIcon />}
+          >
+            <Typography color={grey[50]}>Logout</Typography>
+          </Button>
         </Toolbar>
       </AppBarBase>
     </>
