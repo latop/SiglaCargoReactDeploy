@@ -1,4 +1,5 @@
 import { Global, css } from "@emotion/react";
+import { colors } from "@mui/material";
 import { blueGrey } from "@mui/material/colors";
 
 const GlobalStyles = () => (
@@ -17,7 +18,7 @@ const GlobalStyles = () => (
       }
 
       body {
-        color: rgb(var(--foreground-rgb));
+        color: ${colors.grey[800]};
         background: ${blueGrey[50]};
       }
 
