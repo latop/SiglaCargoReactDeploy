@@ -189,7 +189,7 @@ export function JourneyFilterBar() {
               fullWidth
               sx={{ height: "54px" }}
             >
-              Filtrar
+              Buscar
             </Button>
           </Grid>
         </Grid>
