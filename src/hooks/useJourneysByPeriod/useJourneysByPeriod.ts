@@ -3,8 +3,8 @@ import { JourneysByPeriodResponse } from "@/interfaces/schedule";
 import useSWR, { Fetcher } from "swr";
 
 type Params = {
-  startDate: string;
-  endDate: string;
+  startDate?: string;
+  endDate?: string;
   nickName?: string;
   gpId?: string;
   locationGroupId?: string;
@@ -14,7 +14,7 @@ type Params = {
 export const useJourneysByPeriod = (params: Params) => {
   const queryParams = new URLSearchParams(params as Record<string, string>);
   const { data, error, isLoading } = useSWR<JourneysByPeriodResponse>(
-    `/Schedule/GetJourneysByPeriod?${queryParams}`,
+    queryParams.size ? `/Schedule/GetJourneysByPeriod?${queryParams}` : null,
     fetchJourneysByPeriod as Fetcher<JourneysByPeriodResponse>,
   );
 

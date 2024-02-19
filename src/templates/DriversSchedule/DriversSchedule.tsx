@@ -1,27 +1,63 @@
 "use client";
 
-import React from "react";
-import dayjs from "dayjs";
+import React, { useMemo } from "react";
 import { MainContainer } from "@/components/MainContainer";
 import { AppBar } from "@/components/AppBar";
 import { useJourneysByPeriod } from "@/hooks/useJourneysByPeriod";
 import { GianttTable } from "@/components/GianttTable";
 import { HeaderTitle } from "@/components/HeaderTitle/HeaderTitle";
+import { JourneyFilterBar } from "@/components/JourneyFilterBar";
+import { useSearchParams } from "next/navigation";
+
+interface JourneySearchParams {
+  startDate?: string;
+  endDate?: string;
+  nickName?: string;
+  fleetGroupCode?: string;
+  locationGroupCode?: string;
+  positionCode?: string;
+}
 
 export function DriversSchedule() {
-  const { data, isLoading } = useJourneysByPeriod({
-    startDate: dayjs().format("YYYY-MM-DD"),
-    endDate: dayjs().add(2, "days").format("YYYY-MM-DD"),
-  });
+  const params = useSearchParams();
+  const searchParams: Partial<JourneySearchParams> = useMemo(() => {
+    const tempSearchParams: Partial<JourneySearchParams> = {};
+    const paramKeys: (keyof JourneySearchParams)[] = [
+      "startDate",
+      "endDate",
+      "nickName",
+      "fleetGroupCode",
+      "locationGroupCode",
+      "positionCode",
+    ];
+
+    paramKeys.forEach((key) => {
+      const value = params.get(key);
+      if (value !== null) {
+        tempSearchParams[key] = value;
+      }
+    });
+
+    return tempSearchParams;
+  }, [params]);
+
+  const hasRelevantParams = Object.keys(searchParams).length > 0;
+
+  const { data, isLoading } = useJourneysByPeriod(searchParams);
 
   return (
     <MainContainer>
       <AppBar>
-        <HeaderTitle>Drivers Schedule</HeaderTitle>
+        <HeaderTitle>Escala de Motoristas</HeaderTitle>
       </AppBar>
-      <MainContainer.Content loading={isLoading}>
-        {data && <GianttTable trips={data.trips} />}
-      </MainContainer.Content>
+      <JourneyFilterBar />
+      {hasRelevantParams && (
+        <MainContainer.Content loading={isLoading}>
+          {data?.trips && data.trips.length > 0 && (
+            <GianttTable trips={data.trips} />
+          )}
+        </MainContainer.Content>
+      )}
     </MainContainer>
   );
 }

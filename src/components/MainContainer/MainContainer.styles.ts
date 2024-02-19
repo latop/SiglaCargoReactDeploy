@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
 
 export const Container = styled("main")`
-  display: block;
+  display: flex;
   min-height: 100vh;
+  flex-direction: column;
 `;

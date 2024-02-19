@@ -12,22 +12,19 @@ function Content({
   children: React.ReactNode;
   loading: boolean;
 }) {
-  if (loading) {
-    return (
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "calc(100vh - 56px)",
-        }}
-      >
-        <CircularProgress />
-      </Box>
-    );
-  }
-
-  return <Box sx={{ padding: "20px" }}>{!loading && children}</Box>;
+  return (
+    <Box
+      sx={{
+        padding: "20px",
+        flex: 1,
+        display: "flex",
+        flexDirection: "column",
+      }}
+    >
+      {loading && <CircularProgress sx={{ margin: "auto" }} />}
+      {!loading && children}
+    </Box>
+  );
 }
 
 MainContainer.Content = Content;

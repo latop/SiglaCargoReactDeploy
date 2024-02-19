@@ -39,8 +39,8 @@ export function BurgerMenu({ isOpen, toggleDrawer }: BurgerMenuProps) {
       <List>
         {routes.map(({ text, icon, path }) => (
           <ListItem key={text} disablePadding>
-            <Link href={path} passHref>
-              <ListItemButton component="a">
+            <Link href={path} passHref style={{ width: "100%" }}>
+              <ListItemButton>
                 <ListItemIcon>{icon}</ListItemIcon>
                 <ListItemText primary={text} />
               </ListItemButton>
