@@ -48,8 +48,12 @@ export function JourneyFilterBar() {
   } = useForm<FormFields>({
     resolver: zodResolver(schema),
     defaultValues: {
-      startDate: dayjs(params.get("startDate")) || dayjs(),
-      endDate: dayjs(params.get("endDate")) || dayjs().add(7, "days"),
+      startDate: params.get("startDate")
+        ? dayjs(params.get("startDate"))
+        : dayjs(),
+      endDate: params.get("endDate")
+        ? dayjs(params.get("endDate"))
+        : dayjs().add(7, "days"),
       nickName: params.get("nickName") || "",
       fleetGroupCode: params.get("fleetGroupCode") || "",
       locationGroupCode: params.get("locationGroupCode") || "",
