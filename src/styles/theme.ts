@@ -4,7 +4,7 @@ import { red, blue, grey, blueGrey } from "@mui/material/colors";
 const theme = createTheme({
   palette: {
     primary: {
-      main: blue[700],
+      main: "#24438F",
     },
     secondary: {
       main: red[700],
@@ -18,13 +18,21 @@ const theme = createTheme({
     },
   },
   components: {
+    MuiCard: {
+      styleOverrides: {
+        root: {
+          borderRadius: "6px",
+        },
+      },
+    },
     MuiButton: {
       styleOverrides: {
         root: {
           textTransform: "none",
+          padding: "10px 16px",
         },
         containedPrimary: {
-          backgroundColor: blue[700],
+          backgroundColor: "#24438F",
           "&:hover": {
             backgroundColor: blue[800],
           },
@@ -71,15 +79,12 @@ const theme = createTheme({
       styleOverrides: {
         input: {
           color: grey[800],
+          padding: "14px",
           fontFamily: "var(--font-roboto)",
         },
         root: {
           color: grey[800],
           fontFamily: "var(--font-roboto)",
-        },
-        inputRoot: {
-          boxShadow:
-            "0px 2px 1px -1px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)",
         },
         popper: {
           marginTop: "10px !important",

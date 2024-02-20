@@ -1,0 +1,7 @@
+.react-calendar-timeline {
+  font-family: var(--font-roboto);
+}
+
+.react-calendar-timeline .rct-header-root {
+  background-color: #24438F;
+}

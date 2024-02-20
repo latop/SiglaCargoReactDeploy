@@ -23,13 +23,10 @@ export function Login() {
   const {
     control,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm({
     resolver: zodResolver(schema),
   });
-
-  console.log(watch("email"));
 
   const onSubmit = () => {
     router.push("/dashboard");
@@ -42,15 +39,17 @@ export function Login() {
   return (
     <Container
       component="main"
-      maxWidth="xs"
       sx={{
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
         height: "100vh",
+        maxWidth: "none !important",
+        alignItems: "center",
+        background: "#24438F",
       }}
     >
-      <Card sx={{ mt: 8 }}>
+      <Card sx={{ mt: 2, maxWidth: "400px" }}>
         <CardContent
           sx={{
             display: "flex",
@@ -58,8 +57,9 @@ export function Login() {
             alignItems: "center",
           }}
         >
-          <Typography component="h1" variant="h5">
-            Login
+          <img src="/pepsico-logo.png" width={250} alt="PepsiCo" />
+          <Typography component="h1" variant="h5" marginTop={5}>
+            Entre na sua conta
           </Typography>
           <Box
             component="form"

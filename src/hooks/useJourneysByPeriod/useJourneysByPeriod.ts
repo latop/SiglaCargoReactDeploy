@@ -19,7 +19,8 @@ export const useJourneysByPeriod = (params: Params) => {
   );
 
   return {
-    data,
+    trips: data?.trips,
+    drivers: data?.drivers,
     error,
     isLoading,
   };

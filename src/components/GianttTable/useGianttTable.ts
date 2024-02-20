@@ -1,17 +1,22 @@
 import { useMemo } from "react";
-import { Trip } from "@/interfaces/schedule";
+import { DriverSchedule, Trip } from "@/interfaces/schedule";
 import dayjs from "dayjs";
 
-export function useGianttTable(trips: Trip[]) {
+export function useGianttTable({
+  trips,
+  drivers,
+}: {
+  trips: Trip[];
+  drivers: DriverSchedule[];
+}) {
   const { groups, items } = useMemo(() => {
     const groupsMap = new Map();
     const itemsMap = new Map();
-
-    trips.forEach((trip: Trip) => {
-      if (!groupsMap.has(trip.driverId)) {
-        groupsMap.set(trip.driverId, {
-          id: trip.driverId,
-          title: trip.driverName,
+    drivers.forEach((driver: DriverSchedule) => {
+      if (!groupsMap.has(driver.driverId)) {
+        groupsMap.set(driver.driverId, {
+          id: driver.driverId,
+          title: driver.driverName,
         });
       }
     });

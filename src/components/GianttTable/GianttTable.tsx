@@ -1,12 +1,22 @@
 import Timeline from "react-calendar-timeline";
 import "react-calendar-timeline/lib/Timeline.css";
-import { Trip } from "@/interfaces/schedule";
+import { DriverSchedule, Trip } from "@/interfaces/schedule";
 import { useGianttTable } from "./useGianttTable";
 import { Box } from "@mui/material";
+import "./GianttTable.css";
+import "dayjs/locale/pt-br";
 
-export function GianttTable({ trips }: { trips: Trip[] }) {
-  const { groups, items, defaultTimeStart, defaultTimeEnd } =
-    useGianttTable(trips);
+export function GianttTable({
+  trips,
+  drivers,
+}: {
+  trips: Trip[];
+  drivers: DriverSchedule[];
+}) {
+  const { groups, items, defaultTimeStart, defaultTimeEnd } = useGianttTable({
+    trips,
+    drivers,
+  });
 
   return (
     <Box>

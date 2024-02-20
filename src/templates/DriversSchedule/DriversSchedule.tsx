@@ -43,7 +43,7 @@ export function DriversSchedule() {
 
   const hasRelevantParams = Object.keys(searchParams).length > 0;
 
-  const { data, isLoading } = useJourneysByPeriod(searchParams);
+  const { trips, drivers, isLoading } = useJourneysByPeriod(searchParams);
 
   return (
     <MainContainer>
@@ -53,9 +53,7 @@ export function DriversSchedule() {
       <JourneyFilterBar />
       {hasRelevantParams && (
         <MainContainer.Content loading={isLoading}>
-          {data?.trips && data.trips.length > 0 && (
-            <GianttTable trips={data.trips} />
-          )}
+          {trips && drivers && <GianttTable trips={trips} drivers={drivers} />}
         </MainContainer.Content>
       )}
     </MainContainer>

@@ -1,6 +1,6 @@
-export interface Driver {
-  id: string;
-  name: string;
+export interface DriverSchedule {
+  driverId: string;
+  driverName: string;
 }
 
 export interface Trip {
@@ -20,6 +20,6 @@ export interface Trip {
 }
 
 export interface JourneysByPeriodResponse {
-  drivers: Driver[];
+  drivers: DriverSchedule[];
   trips: Trip[];
 }

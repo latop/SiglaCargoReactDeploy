@@ -23,6 +23,12 @@ describe("useJourneysByPeriod", () => {
           locationDestCode: null,
         },
       ],
+      drivers: [
+        {
+          driverId: "e76b158d-fc70-43f3-b2a4-04c65f020f66",
+          driverName: "JEFFERSON",
+        },
+      ],
     };
 
     const params = {
@@ -44,6 +50,6 @@ describe("useJourneysByPeriod", () => {
 
     expect(result.current.isLoading).toBe(false);
     expect(result.current.error).toBeFalsy();
-    expect(result.current.data).toEqual(mockedData);
+    expect(result.current.trips).toEqual(mockedData.trips);
   });
 });
