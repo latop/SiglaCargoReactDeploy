@@ -21,7 +21,7 @@ const theme = createTheme({
     MuiCard: {
       styleOverrides: {
         root: {
-          borderRadius: "6px",
+          borderRadius: "4px",
         },
       },
     },
@@ -75,12 +75,21 @@ const theme = createTheme({
         },
       },
     },
+    MuiOutlinedInput: {
+      styleOverrides: {
+        input: {
+          padding: "13.5px 14px",
+        },
+      },
+    },
     MuiAutocomplete: {
       styleOverrides: {
         input: {
           color: grey[800],
-          padding: "14px",
           fontFamily: "var(--font-roboto)",
+        },
+        inputRoot: {
+          padding: "6px",
         },
         root: {
           color: grey[800],

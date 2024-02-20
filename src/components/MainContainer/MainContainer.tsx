@@ -19,6 +19,8 @@ function Content({
         flex: 1,
         display: "flex",
         flexDirection: "column",
+        overflowY: "auto",
+        position: "relative",
       }}
     >
       {loading && <CircularProgress sx={{ margin: "auto" }} />}
