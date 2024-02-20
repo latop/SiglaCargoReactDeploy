@@ -39,7 +39,11 @@ export function AutocompleteLocationGroup() {
               ? "Carregando..."
               : "Nenhum resultado encontrado"
           }
-          getOptionLabel={(option: LocationGroup) => option.code}
+          getOptionLabel={(option: LocationGroup) =>
+            option.description
+              ? `${option.code} - ${option.description}`
+              : option.code
+          }
           renderInput={(params) => (
             <TextField
               {...field}

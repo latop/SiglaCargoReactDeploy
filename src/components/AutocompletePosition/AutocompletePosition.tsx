@@ -45,7 +45,7 @@ export function AutocompletePosition() {
               onChange={debounce(field.onChange, 300)}
               variant="outlined"
               fullWidth
-              label="Cód da frota"
+              label="Posição"
               error={!!errors[field.name]}
               helperText={errors[field.name]?.message?.toString()}
             />

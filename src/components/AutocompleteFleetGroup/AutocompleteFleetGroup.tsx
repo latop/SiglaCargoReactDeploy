@@ -37,7 +37,11 @@ export function AutocompleteFleetGroup() {
               ? "Carregando..."
               : "Nenhum resultado encontrado"
           }
-          getOptionLabel={(option: FleetGroup) => option.code}
+          getOptionLabel={(option: FleetGroup) =>
+            option.description
+              ? `${option.code} - ${option.description}`
+              : option.code
+          }
           renderInput={(params) => (
             <TextField
               {...field}
