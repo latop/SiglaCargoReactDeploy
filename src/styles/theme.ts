@@ -98,6 +98,10 @@ const theme = createTheme({
         popper: {
           marginTop: "10px !important",
         },
+        option: {
+          fontSize: "13px",
+          fontFamily: "var(--font-roboto)",
+        },
       },
     },
   },
