@@ -30,8 +30,12 @@
   border-right-color: #b0bec5;
 }
 
-.rct-item  {
-  background-color: #4663ab !important;
+.rct-item {
   border-radius: 4px;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
+}
+
+.react-calendar-timeline .rct-sidebar .rct-sidebar-row {
+  font-size: 14px;
+  padding: 0 10px;
 }

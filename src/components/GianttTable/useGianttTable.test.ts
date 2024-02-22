@@ -5,7 +5,27 @@ import { DriverSchedule, Trip } from "@/interfaces/schedule";
 jest.mock("react", () => ({
   ...jest.requireActual("react"),
   useMemo: jest.fn((fn) => fn()),
+  useState: jest.fn().mockImplementation((initialState) => {
+    let state = initialState;
+    const setState = jest.fn((newState) => {
+      state = typeof newState === "function" ? newState(state) : newState;
+    });
+    return [state, setState];
+  }),
 }));
+jest.mock("next/navigation", () => ({
+  useSearchParams: jest.fn().mockReturnValue({
+    get: jest.fn((key) => {
+      switch (key) {
+        case "startDate":
+          return "2023-01-01";
+        default:
+          return null;
+      }
+    }),
+  }),
+}));
+
 describe("useGianttTable", () => {
   it("should return correct groups and items", () => {
     const trips: Trip[] = [

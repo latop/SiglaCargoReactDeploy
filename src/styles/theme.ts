@@ -82,6 +82,15 @@ const theme = createTheme({
         },
       },
     },
+    MuiToggleButton: {
+      styleOverrides: {
+        root: {
+          fontFamily: "var(--font-roboto)",
+          padding: "5px 10px",
+          fontSize: "13px",
+        },
+      },
+    },
     MuiAutocomplete: {
       styleOverrides: {
         input: {

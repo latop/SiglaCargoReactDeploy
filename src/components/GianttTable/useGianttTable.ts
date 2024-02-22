@@ -1,6 +1,14 @@
-import { useMemo } from "react";
+import React, { useMemo, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { DriverSchedule, Trip } from "@/interfaces/schedule";
 import dayjs from "dayjs";
+import { match } from "ts-pattern";
+
+enum Zoom {
+  OneDay = "1",
+  ThreeDay = "3",
+  SevenDay = "7",
+}
 
 export function useGianttTable({
   trips,
@@ -9,6 +17,46 @@ export function useGianttTable({
   trips: Trip[];
   drivers: DriverSchedule[];
 }) {
+  const params = useSearchParams();
+  const startDate = params.get("startDate");
+  const [visibleTimeStart, setVisibleTimeStart] = useState<Date>(
+    dayjs(startDate).toDate(),
+  );
+  const [visibleTimeEnd, setVisibleTimeEnd] = useState<Date>(
+    dayjs(startDate).add(Number(Zoom.SevenDay), "day").toDate(),
+  );
+
+  const handleTimeChange = (
+    visibleTimeStart: number,
+    visibleTimeEnd: number,
+  ) => {
+    const start = dayjs(visibleTimeStart).toDate();
+    const end = dayjs(visibleTimeEnd).toDate();
+    setVisibleTimeStart(start);
+    setVisibleTimeEnd(end);
+  };
+
+  const differenceInDays = dayjs(visibleTimeEnd).diff(
+    dayjs(visibleTimeStart),
+    "day",
+  );
+
+  const zoom = match(differenceInDays)
+    .with(1, () => Zoom.OneDay)
+    .with(3, () => Zoom.ThreeDay)
+    .with(7, () => Zoom.SevenDay)
+    .otherwise(() => undefined);
+
+  const handleChangeZoom = (
+    event: React.MouseEvent<HTMLElement>,
+    newZoom: Zoom,
+  ) => {
+    if (newZoom) {
+      setVisibleTimeStart(dayjs(startDate).toDate());
+      setVisibleTimeEnd(dayjs(startDate).add(Number(newZoom), "day").toDate());
+    }
+  };
+
   const { groups, items } = useMemo(() => {
     const groupsMap = new Map();
     const itemsMap = new Map();
@@ -37,8 +85,13 @@ export function useGianttTable({
     };
   }, [trips]);
 
-  const defaultTimeStart = dayjs().add(-12, "hour").toDate();
-  const defaultTimeEnd = dayjs().add(12, "hour").toDate();
-
-  return { groups, items, defaultTimeStart, defaultTimeEnd };
+  return {
+    groups,
+    items,
+    visibleTimeStart,
+    visibleTimeEnd,
+    handleTimeChange,
+    handleChangeZoom,
+    zoom,
+  };
 }

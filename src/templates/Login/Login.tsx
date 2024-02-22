@@ -57,7 +57,7 @@ export function Login() {
             alignItems: "center",
           }}
         >
-          <img src="/pepsico-logo.png" width={250} alt="PepsiCo" />
+          <img src="/pepsico-logo.png" width={250} height={69} alt="PepsiCo" />
           <Typography component="h1" variant="h5" marginTop={5}>
             Entre na sua conta
           </Typography>

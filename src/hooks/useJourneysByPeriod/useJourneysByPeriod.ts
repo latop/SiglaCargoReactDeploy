@@ -1,21 +1,17 @@
-import { fetchJourneysByPeriod } from "@/services/schedule";
+import {
+  fetchJourneysByPeriod,
+  JourneysByPeriodParams,
+} from "@/services/schedule";
 import { JourneysByPeriodResponse } from "@/interfaces/schedule";
-import useSWR, { Fetcher } from "swr";
+import useSWR from "swr";
 
-type Params = {
-  startDate?: string;
-  endDate?: string;
-  nickName?: string;
-  gpId?: string;
-  locationGroupId?: string;
-  demand?: string;
-};
-
-export const useJourneysByPeriod = (params: Params) => {
+export const useJourneysByPeriod = (params: JourneysByPeriodParams) => {
   const queryParams = new URLSearchParams(params as Record<string, string>);
   const { data, error, isLoading } = useSWR<JourneysByPeriodResponse>(
-    queryParams.size ? `/Schedule/GetJourneysByPeriod?${queryParams}` : null,
-    fetchJourneysByPeriod as Fetcher<JourneysByPeriodResponse>,
+    Object.keys(params).length > 0
+      ? `/get-journeys-by-period?${queryParams}`
+      : null,
+    () => fetchJourneysByPeriod(params) as Promise<JourneysByPeriodResponse>,
   );
 
   return {
