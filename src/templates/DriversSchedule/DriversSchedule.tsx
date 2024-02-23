@@ -8,6 +8,9 @@ import { GianttTable } from "@/components/GianttTable";
 import { HeaderTitle } from "@/components/HeaderTitle/HeaderTitle";
 import { JourneyFilterBar } from "@/components/JourneyFilterBar";
 import { useSearchParams } from "next/navigation";
+import { GianttZoom } from "@/components/GianttZoom";
+import { TimelineTrips } from "@/components/TimelineTrips";
+import { GianttProvider } from "@/hooks/useGiantt";
 
 interface JourneySearchParams {
   startDate?: string;
@@ -53,7 +56,14 @@ export function DriversSchedule() {
       <JourneyFilterBar />
       {hasRelevantParams && (
         <MainContainer.Content loading={isLoading}>
-          {trips && drivers && <GianttTable trips={trips} drivers={drivers} />}
+          <GianttProvider>
+            <GianttTable>
+              <GianttZoom />
+              {trips && drivers && (
+                <TimelineTrips trips={trips} drivers={drivers} />
+              )}
+            </GianttTable>
+          </GianttProvider>
         </MainContainer.Content>
       )}
     </MainContainer>

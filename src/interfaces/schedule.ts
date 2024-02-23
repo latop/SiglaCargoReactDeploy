@@ -10,6 +10,8 @@ export interface Trip {
   plannedStop: string;
   driverId: string;
   driverName: string;
+  locationDestCode?: string;
+  locationOrigCode?: string;
 }
 
 export interface JourneysByPeriodResponse {

@@ -45,10 +45,10 @@ const schema = z
         dayjs(startDate as Dayjs | Date),
         "day",
       );
+
       return diffDays <= 45;
     },
     {
-      // Mensagemde erro para validação falha
       message: "O intervalo entre as datas deve ser de no máximo 45 dias",
       path: ["startDate"],
     },
