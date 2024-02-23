@@ -9,6 +9,13 @@ import { DriverSchedule, Trip } from "@/interfaces/schedule";
 import { useTimelineTrips } from "./useTimelineTrips";
 import { TripDetailsDialog } from "@/components/TripDetailsDialog";
 import { red } from "@mui/material/colors";
+import {
+  TimelineItem,
+  TimelineItemSubtitle,
+  TimelineItemDestination,
+  TimelineItemOrigin,
+  TimelineItemTitle,
+} from "./TimelineTrips.styles";
 import "dayjs/locale/pt-br";
 import "react-calendar-timeline/lib/Timeline.css";
 import "./Timeline.css";
@@ -56,29 +63,32 @@ export function TimelineTrips({
     const borderColor = itemContext.resizing ? red[500] : item.color;
     const currentTrip = trips.find((trip) => trip.id === itemContext.title);
     return (
-      <div {...getItemProps({})} className="giantt-item">
+      <TimelineItem {...getItemProps({})} className="giantt-item">
         {!!itemContext.useResizeHandle && <div {...leftResizeProps} />}
         {itemContext.dimensions.width > 50 &&
           currentTrip?.locationDestCode &&
           currentTrip?.locationOrigCode && (
-            <div className="giantt-item-subtitle">
-              <span>{currentTrip?.locationDestCode}</span>
-              <span>{currentTrip?.locationOrigCode}</span>
-            </div>
+            <TimelineItemSubtitle>
+              <TimelineItemOrigin>
+                {currentTrip.locationOrigCode}
+              </TimelineItemOrigin>
+              <TimelineItemDestination>
+                {currentTrip.locationDestCode}
+              </TimelineItemDestination>
+            </TimelineItemSubtitle>
           )}
-        <div
+        <TimelineItemTitle
           style={{
             height: `calc(${itemContext.dimensions.height} - 8px)`,
             backgroundColor,
             borderColor,
           }}
-          className="giantt-item-title"
         >
           {currentTrip?.code}
-        </div>
+        </TimelineItemTitle>
 
         {!!itemContext.useResizeHandle && <div {...rightResizeProps} />}
-      </div>
+      </TimelineItem>
     );
   };
 

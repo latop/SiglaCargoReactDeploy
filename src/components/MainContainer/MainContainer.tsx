@@ -15,7 +15,7 @@ function Content({
   return (
     <Box
       sx={{
-        padding: "20px",
+        padding: "0 20px",
         flex: 1,
         display: "flex",
         flexDirection: "column",

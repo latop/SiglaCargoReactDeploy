@@ -17,8 +17,7 @@ dayjs.extend(customParseFormat);
 
 export function JourneyFilterBar() {
   const { methods, onSubmit } = useJourneyFilterBar();
-  const { control, handleSubmit, watch, formState } = methods;
-  console.log(formState.errors);
+  const { control, handleSubmit, watch } = methods;
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
@@ -30,10 +29,10 @@ export function JourneyFilterBar() {
             alignItems="flex-start"
             spacing={2}
             sx={{
-              margin: "20px 0",
+              margin: "10px 0 20px",
             }}
           >
-            <Grid item xs={1.5}>
+            <Grid item xs={1.6}>
               <Controller
                 name="startDate"
                 rules={{ required: true }}
@@ -47,7 +46,7 @@ export function JourneyFilterBar() {
                 )}
               />
             </Grid>
-            <Grid item xs={1.5}>
+            <Grid item xs={1.6}>
               <Controller
                 name="endDate"
                 control={control}
@@ -79,7 +78,7 @@ export function JourneyFilterBar() {
               <AutocompletePosition />
             </Grid>
 
-            <Grid item xs={1}>
+            <Grid item xs={0.9}>
               <Button
                 type="submit"
                 variant="contained"
