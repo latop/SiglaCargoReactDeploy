@@ -28,9 +28,7 @@ export function JourneyFilterBar() {
             xs={12}
             alignItems="flex-start"
             spacing={2}
-            sx={{
-              margin: "10px 0 20px",
-            }}
+            margin="10px 0 20px"
           >
             <Grid item xs={1.6}>
               <Controller

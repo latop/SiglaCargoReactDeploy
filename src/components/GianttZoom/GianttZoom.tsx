@@ -10,7 +10,6 @@ export function GianttZoom() {
     <ToggleButtonGroup
       color="primary"
       value={zoom}
-      sx={{ padding: "0 0 10px" }}
       exclusive
       onChange={handleChangeZoom}
       aria-label="Platform"
