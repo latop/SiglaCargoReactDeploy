@@ -1,4 +1,3 @@
-import { LocationGroup } from "@/interfaces/trip";
 import axios from "axios";
 
 axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_URL;
@@ -8,9 +7,11 @@ export interface FetchLocationGroupParams {
   code?: string;
 }
 
-export async function fetchLocationGroup(
-  params: FetchLocationGroupParams,
-): Promise<LocationGroup[] | unknown> {
+export async function fetchLocationGroup({
+  args: params,
+}: {
+  args: FetchLocationGroupParams;
+}) {
   try {
     const locationGroupParams = {
       PageSize: params.pageSize,

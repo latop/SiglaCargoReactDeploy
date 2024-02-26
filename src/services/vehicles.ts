@@ -1,4 +1,3 @@
-import { FleetGroup } from "@/interfaces/vehicle";
 import axios from "axios";
 
 axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_URL;
@@ -8,9 +7,11 @@ export interface FetchFleetGroupParams {
   code?: string;
 }
 
-export async function fetchFleetGroup(
-  params: FetchFleetGroupParams,
-): Promise<FleetGroup[] | unknown> {
+export async function fetchFleetGroup({
+  args: params,
+}: {
+  args: FetchFleetGroupParams;
+}) {
   try {
     const fleetGroupParams = {
       PageSize: params.pageSize,

@@ -1,4 +1,3 @@
-import { Driver, Position } from "@/interfaces/driver";
 import axios from "axios";
 
 axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_URL;
@@ -13,9 +12,11 @@ export interface FetchPositionParams {
   code?: string;
 }
 
-export async function fetchDrivers(
-  params: FetchDriversParams,
-): Promise<Driver[] | unknown> {
+export async function fetchDrivers({
+  args: params,
+}: {
+  args: FetchDriversParams;
+}) {
   try {
     const driversParams = {
       PageSize: params.pageSize,
@@ -30,9 +31,11 @@ export async function fetchDrivers(
   }
 }
 
-export async function fetchPositions(
-  params: FetchPositionParams,
-): Promise<Position[] | unknown> {
+export async function fetchPositions({
+  args: params,
+}: {
+  args: FetchPositionParams;
+}) {
   try {
     const positionParams = {
       PageSize: params.pageSize,

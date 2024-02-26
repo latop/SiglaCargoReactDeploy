@@ -1,52 +1,27 @@
 "use client";
 
-import React, { useMemo } from "react";
+import React from "react";
 import { MainContainer } from "@/components/MainContainer";
 import { AppBar } from "@/components/AppBar";
-import { useJourneysByPeriod } from "@/hooks/useJourneysByPeriod";
 import { GianttTable } from "@/components/GianttTable";
 import { HeaderTitle } from "@/components/HeaderTitle/HeaderTitle";
 import { JourneyFilterBar } from "@/components/JourneyFilterBar";
-import { useSearchParams } from "next/navigation";
 import { GianttZoom } from "@/components/GianttZoom";
 import { TimelineTrips } from "@/components/TimelineTrips";
 import { GianttProvider } from "@/hooks/useGiantt";
+import { useDriverSchedule } from "./useDriversSchedule";
+import dynamic from "next/dynamic";
 
-interface JourneySearchParams {
-  startDate?: string;
-  endDate?: string;
-  nickName?: string;
-  fleetGroupCode?: string;
-  locationGroupCode?: string;
-  positionCode?: string;
-}
+const EmptyResult = dynamic(
+  () => import("@/components/EmptyResult").then((module) => module.EmptyResult),
+  {
+    ssr: false,
+  },
+);
 
 export function DriversSchedule() {
-  const params = useSearchParams();
-  const searchParams: Partial<JourneySearchParams> = useMemo(() => {
-    const tempSearchParams: Partial<JourneySearchParams> = {};
-    const paramKeys: (keyof JourneySearchParams)[] = [
-      "startDate",
-      "endDate",
-      "nickName",
-      "fleetGroupCode",
-      "locationGroupCode",
-      "positionCode",
-    ];
-
-    paramKeys.forEach((key) => {
-      const value = params.get(key);
-      if (value !== null) {
-        tempSearchParams[key] = value;
-      }
-    });
-
-    return tempSearchParams;
-  }, [params]);
-
-  const hasRelevantParams = Object.keys(searchParams).length > 0;
-
-  const { trips, drivers, isLoading } = useJourneysByPeriod(searchParams);
+  const { trips, drivers, isLoading, showContent, isEmpty } =
+    useDriverSchedule();
 
   return (
     <MainContainer>
@@ -54,16 +29,17 @@ export function DriversSchedule() {
         <HeaderTitle>Escala de Motoristas</HeaderTitle>
       </AppBar>
       <JourneyFilterBar />
-      {hasRelevantParams && (
+      {showContent && (
         <MainContainer.Content loading={isLoading}>
-          <GianttProvider>
-            <GianttTable>
-              <GianttZoom />
-              {trips && drivers && (
+          {!isEmpty && trips && drivers && (
+            <GianttProvider>
+              <GianttTable>
+                <GianttZoom />
                 <TimelineTrips trips={trips} drivers={drivers} />
-              )}
-            </GianttTable>
-          </GianttProvider>
+              </GianttTable>
+            </GianttProvider>
+          )}
+          {isEmpty && <EmptyResult />}
         </MainContainer.Content>
       )}
     </MainContainer>

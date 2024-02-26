@@ -30,6 +30,7 @@ const theme = createTheme({
         root: {
           textTransform: "none",
           padding: "10px 16px",
+          fontFamily: "var(--font-openSans)",
         },
         containedPrimary: {
           backgroundColor: "#24438F",
@@ -43,7 +44,7 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           backgroundColor: "#ffffff",
-          fontFamily: "var(--font-roboto)",
+          fontFamily: "var(--font-openSans)",
           "& input:-webkit-autofill": {
             WebkitTextFillColor: grey[800],
             WebkitBoxShadow: "0 0 0 100px #ffffff inset",
@@ -62,15 +63,22 @@ const theme = createTheme({
     MuiTypography: {
       styleOverrides: {
         root: {
-          fontFamily: "var(--font-roboto)",
+          fontFamily: "var(--font-openSans)",
           color: grey[800],
+        },
+      },
+    },
+    MuiInputLabel: {
+      styleOverrides: {
+        root: {
+          fontFamily: "var(--font-openSans)",
         },
       },
     },
     MuiInput: {
       styleOverrides: {
         root: {
-          fontFamily: "var(--font-roboto)",
+          fontFamily: "var(--font-openSans)",
           color: grey[800],
         },
       },
@@ -85,7 +93,7 @@ const theme = createTheme({
     MuiToggleButton: {
       styleOverrides: {
         root: {
-          fontFamily: "var(--font-roboto)",
+          fontFamily: "var(--font-openSans)",
           padding: "5px 10px",
           fontSize: "13px",
         },
@@ -95,21 +103,21 @@ const theme = createTheme({
       styleOverrides: {
         input: {
           color: grey[800],
-          fontFamily: "var(--font-roboto)",
+          fontFamily: "var(--font-openSans)",
         },
         inputRoot: {
           padding: "6px",
         },
         root: {
           color: grey[800],
-          fontFamily: "var(--font-roboto)",
+          fontFamily: "var(--font-openSans)",
         },
         popper: {
           marginTop: "10px !important",
         },
         option: {
           fontSize: "13px",
-          fontFamily: "var(--font-roboto)",
+          fontFamily: "var(--font-openSans)",
         },
       },
     },

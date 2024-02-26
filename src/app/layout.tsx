@@ -1,16 +1,16 @@
 export const metadata = {
-  title: "Sigla Cargo",
+  title: "Sigla Cargo - Pepsico",
 };
 
 import { Providers } from "@/providers";
 
-import { Roboto } from "next/font/google";
+import { Open_Sans } from "next/font/google";
 
-const roboto = Roboto({
+const openSans = Open_Sans({
   weight: ["400", "500", "700"],
   style: ["normal", "italic"],
   subsets: ["latin"],
-  variable: "--font-roboto",
+  variable: "--font-openSans",
 });
 
 export default function RootLayout({
@@ -20,7 +20,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={roboto.className}>
+      <body className={openSans.className}>
         <Providers>{children}</Providers>
       </body>
     </html>
