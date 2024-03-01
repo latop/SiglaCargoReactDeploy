@@ -21,24 +21,6 @@ const EmptyResult = dynamic(
   },
 );
 
-interface CustomButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant: "primary" | "secondary";
-}
-
-function CustomButton({ variant, children, ...rest }: CustomButtonProps) {
-  const className = {
-    primary: "primaryButton",
-    secondary: "secondaryButton",
-  }[variant];
-
-  return (
-    <button className={className} {...rest}>
-      {children}
-    </button>
-  );
-}
-
 export function DriversSchedule() {
   const {
     trips,
@@ -78,11 +60,6 @@ export function DriversSchedule() {
           )}
         </MainContainer.Content>
       )}
-      <CustomButton variant="primary" disabled>
-        Enviar
-      </CustomButton>
     </MainContainer>
   );
 }
-
-export default CustomButton;
