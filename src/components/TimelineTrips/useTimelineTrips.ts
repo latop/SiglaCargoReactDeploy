@@ -4,6 +4,8 @@ import { DriverSchedule, Trip } from "@/interfaces/schedule";
 import { Unit } from "react-calendar-timeline";
 import dayjs from "dayjs";
 import { match } from "ts-pattern";
+import { useDriverSchedule } from "@/templates/DriversSchedule/useDriversSchedule";
+import { useToast } from "@/hooks/useToast";
 
 export function useTimelineTrips({
   trips,
@@ -12,6 +14,8 @@ export function useTimelineTrips({
   trips: Trip[];
   drivers: DriverSchedule[];
 }) {
+  const { addToast } = useToast();
+  const { updatedTrip } = useDriverSchedule();
   const {
     visibleTimeEnd,
     visibleTimeStart,
@@ -112,6 +116,35 @@ export function useTimelineTrips({
     setTripDetailId(null);
   };
 
+  const handleMoveItem = (
+    itemId: string,
+    dragTime: number,
+    newGroupOrder: number,
+  ) => {
+    if (!trips || !drivers) return;
+    const newDriver = drivers?.[newGroupOrder];
+
+    const tripIndex = trips?.findIndex((trip) => trip.id === itemId);
+
+    if (tripIndex !== undefined && tripIndex >= 0) {
+      const currentTrip = trips[tripIndex];
+      const difference = dayjs(currentTrip.plannedStop).diff(
+        currentTrip.plannedStart,
+      );
+      const newPlannedStop = dayjs(dragTime).add(difference, "millisecond");
+      const plannedStart = dayjs(dragTime).format("YYYY-MM-DDTHH:mm:ss");
+      const plannedStop = newPlannedStop.format("YYYY-MM-DDTHH:mm:ss");
+
+      updatedTrip({
+        tripId: itemId,
+        newPlannedStart: plannedStart,
+        newPlannedStop: plannedStop,
+        newDriverId: newDriver.driverId,
+      });
+      addToast("Viagem movida com sucesso.", { type: "success" });
+    }
+  };
+
   return {
     groups,
     items,
@@ -124,5 +157,6 @@ export function useTimelineTrips({
     tripDetailId,
     showTripDetails: !!tripDetailId,
     handleCloseTripDetails,
+    handleMoveItem,
   };
 }

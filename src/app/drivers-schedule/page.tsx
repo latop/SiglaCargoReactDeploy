@@ -1,5 +1,5 @@
-"use client";
+import { DriversSchedule as DriversScheduleTemplate } from "@/templates/DriversSchedule";
 
-import { DriversSchedule } from "@/templates/DriversSchedule";
-
-export default DriversSchedule;
+export default function DriversSchedule() {
+  return <DriversScheduleTemplate />;
+}

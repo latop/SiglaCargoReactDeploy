@@ -11,6 +11,8 @@ import { TimelineTrips } from "@/components/TimelineTrips";
 import { GianttProvider } from "@/hooks/useGiantt";
 import { useDriverSchedule } from "./useDriversSchedule";
 import dynamic from "next/dynamic";
+import { Waypoint } from "react-waypoint";
+import { Box, CircularProgress } from "@mui/material";
 
 const EmptyResult = dynamic(
   () => import("@/components/EmptyResult").then((module) => module.EmptyResult),
@@ -19,9 +21,35 @@ const EmptyResult = dynamic(
   },
 );
 
+interface CustomButtonProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  variant: "primary" | "secondary";
+}
+
+function CustomButton({ variant, children, ...rest }: CustomButtonProps) {
+  const className = {
+    primary: "primaryButton",
+    secondary: "secondaryButton",
+  }[variant];
+
+  return (
+    <button className={className} {...rest}>
+      {children}
+    </button>
+  );
+}
+
 export function DriversSchedule() {
-  const { trips, drivers, isLoading, showContent, isEmpty } =
-    useDriverSchedule();
+  const {
+    trips,
+    drivers,
+    isLoading,
+    showContent,
+    isEmpty,
+    isLoadingMore,
+    isReachingEnd,
+    loadMore,
+  } = useDriverSchedule();
 
   return (
     <MainContainer>
@@ -40,8 +68,21 @@ export function DriversSchedule() {
             </GianttProvider>
           )}
           {isEmpty && <EmptyResult />}
+          {!isReachingEnd && (
+            <Waypoint onEnter={loadMore} bottomOffset={-100} />
+          )}
+          {isLoadingMore && (
+            <Box display="flex" justifyContent="center" mt={2} marginBottom={2}>
+              <CircularProgress />
+            </Box>
+          )}
         </MainContainer.Content>
       )}
+      <CustomButton variant="primary" disabled>
+        Enviar
+      </CustomButton>
     </MainContainer>
   );
 }
+
+export default CustomButton;

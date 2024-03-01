@@ -29,6 +29,9 @@ export function AutocompleteFleetGroup() {
           options={fleetGroups || []}
           loadingText="Carregando..."
           defaultValue={{ code: field.value } as FleetGroup}
+          isOptionEqualToValue={(option: FleetGroup, value: FleetGroup) =>
+            option.code === value.code
+          }
           onChange={(_, value) => setValue("fleetGroupCode", value?.code || "")}
           noOptionsText={
             !field.value

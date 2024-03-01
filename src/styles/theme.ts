@@ -99,6 +99,15 @@ const theme = createTheme({
         },
       },
     },
+    MuiAlert: {
+      styleOverrides: {
+        root: {
+          fontFamily: "var(--font-openSans)",
+          backgroundColor: grey[100],
+          color: grey[800],
+        },
+      },
+    },
     MuiAutocomplete: {
       styleOverrides: {
         input: {

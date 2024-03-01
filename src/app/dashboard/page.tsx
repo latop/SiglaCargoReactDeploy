@@ -1,5 +1,5 @@
-"use client";
+import { Home as HomeTemplate } from "@/templates/Home";
 
-import { Home } from "@/templates/Home";
-
-export default Home;
+export default function Home() {
+  return <HomeTemplate />;
+}

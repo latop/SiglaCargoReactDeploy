@@ -29,6 +29,9 @@ export function AutocompletePosition() {
           options={positions || []}
           loadingText="Carregando..."
           defaultValue={{ code: field.value } as Position}
+          isOptionEqualToValue={(option: Position, value: Position) =>
+            option.code === value.code
+          }
           onChange={(_, value) => setValue("positionCode", value?.code || "")}
           noOptionsText={
             !field.value

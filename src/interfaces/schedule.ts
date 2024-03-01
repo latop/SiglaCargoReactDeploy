@@ -17,4 +17,6 @@ export interface Trip {
 export interface JourneysByPeriodResponse {
   drivers: DriverSchedule[];
   trips: Trip[];
+  hasNext: boolean;
+  currentPage: number;
 }

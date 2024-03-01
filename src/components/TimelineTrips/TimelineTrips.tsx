@@ -20,13 +20,12 @@ import "dayjs/locale/pt-br";
 import "react-calendar-timeline/lib/Timeline.css";
 import "./Timeline.css";
 
-export function TimelineTrips({
-  trips,
-  drivers,
-}: {
+interface TimelineTripsProps {
   trips: Trip[];
   drivers: DriverSchedule[];
-}) {
+}
+
+export function TimelineTrips({ trips, drivers }: TimelineTripsProps) {
   const {
     groups,
     items,
@@ -38,6 +37,7 @@ export function TimelineTrips({
     showTripDetails,
     handleCloseTripDetails,
     handleLabelFormatItem,
+    handleMoveItem,
     handleLabelFormatHeader,
   } = useTimelineTrips({
     trips,
@@ -99,9 +99,12 @@ export function TimelineTrips({
         onItemDoubleClick={handleDoubleClick}
         groups={groups}
         items={items}
-        canMove={false}
-        maxZoom={604800000}
+        canMove
         canResize={false}
+        canChangeGroup
+        onItemMove={handleMoveItem}
+        minZoom={60 * 60 * 24}
+        maxZoom={604800000}
         onTimeChange={handleTimeChange}
         visibleTimeStart={visibleTimeStart}
         itemRenderer={itemRenderer}

@@ -9,6 +9,8 @@ export type JourneysByPeriodParams = {
   gpId?: string;
   locationGroupId?: string;
   demand?: string;
+  pageSize?: number;
+  pageNumber?: number;
 };
 
 export async function fetchJourneysByPeriod({

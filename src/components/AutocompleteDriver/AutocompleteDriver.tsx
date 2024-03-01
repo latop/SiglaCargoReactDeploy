@@ -29,6 +29,9 @@ export function AutocompleteDriver() {
           options={drivers || []}
           loadingText="Carregando..."
           defaultValue={{ nickName: field.value } as Driver}
+          isOptionEqualToValue={(option: Driver, value: Driver) =>
+            option.nickName === value.nickName
+          }
           onChange={(_, value) => setValue("nickName", value?.nickName || "")}
           noOptionsText={
             !field.value

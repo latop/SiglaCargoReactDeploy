@@ -25,7 +25,6 @@ export function JourneyFilterBar() {
         <form onSubmit={handleSubmit(onSubmit)}>
           <Grid
             container
-            xs={12}
             alignItems="flex-start"
             spacing={2}
             margin="10px 0 20px"
@@ -60,7 +59,7 @@ export function JourneyFilterBar() {
               />
             </Grid>
 
-            <Grid item xs={2.5}>
+            <Grid item xs={2.4}>
               <AutocompleteDriver />
             </Grid>
 

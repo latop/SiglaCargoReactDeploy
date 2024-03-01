@@ -1,5 +1,5 @@
-"use client";
+import { Login as LoginTemplate } from "@/templates/Login";
 
-import { Login } from "@/templates/Login";
-
-export default Login;
+export default function Login() {
+  return <LoginTemplate />;
+}

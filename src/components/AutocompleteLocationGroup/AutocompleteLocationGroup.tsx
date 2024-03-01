@@ -29,6 +29,9 @@ export function AutocompleteLocationGroup() {
           options={locationGroups || []}
           loadingText="Carregando..."
           defaultValue={{ code: field.value } as LocationGroup}
+          isOptionEqualToValue={(option: LocationGroup, value: LocationGroup) =>
+            option.code === value.code
+          }
           onChange={(_, value) =>
             setValue("locationGroupCode", value?.code || "")
           }
