@@ -12,7 +12,7 @@ interface JourneySearchParams {
   positionCode?: string;
 }
 
-const PAGE_SIZE = 10;
+const PAGE_SIZE = 20;
 
 export function useDriverSchedule() {
   const params = useSearchParams();
@@ -52,13 +52,13 @@ export function useDriverSchedule() {
 
   const handleUpdateTrip = ({
     tripId,
-    newPlannedStart,
-    newPlannedStop,
+    newStartPlanned,
+    newEndPlanned,
     newDriverId,
   }: {
     tripId: string;
-    newPlannedStart: string;
-    newPlannedStop: string;
+    newStartPlanned: string;
+    newEndPlanned: string;
     newDriverId: string;
   }) => {
     if (!trips || !drivers) return;
@@ -67,8 +67,8 @@ export function useDriverSchedule() {
     const currentTrip = trips[tripIndex];
     const updatedTrip = {
       ...currentTrip,
-      plannedStart: newPlannedStart,
-      plannedStop: newPlannedStop,
+      startPlanned: newStartPlanned,
+      endPlanned: newEndPlanned,
       driverId: newDriverId,
     };
     updateTrip(updatedTrip);

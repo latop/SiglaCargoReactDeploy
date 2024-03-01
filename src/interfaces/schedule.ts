@@ -6,8 +6,8 @@ export interface DriverSchedule {
 export interface Trip {
   id: string;
   code: string;
-  plannedStart: string;
-  plannedStop: string;
+  startPlanned: string;
+  endPlanned: string;
   driverId: string;
   driverName: string;
   locationDestCode?: string;

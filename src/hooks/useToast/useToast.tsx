@@ -54,8 +54,8 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
         <Snackbar
           key={snackbar.id}
           anchorOrigin={{
-            vertical: snackbar.options?.vertical || "bottom",
-            horizontal: snackbar.options?.horizontal || "center",
+            vertical: snackbar.options?.vertical || "top",
+            horizontal: snackbar.options?.horizontal || "right",
           }}
           open
           autoHideDuration={snackbar.options?.autoHideDuration || 6000}

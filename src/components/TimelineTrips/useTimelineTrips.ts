@@ -101,8 +101,8 @@ export function useTimelineTrips({
         group: trip.driverId,
         title: trip.id,
         blah: 2,
-        start_time: dayjs(trip.plannedStart, "YYYY-MM-DDTHH:mm:ss"),
-        end_time: dayjs(trip.plannedStop, "YYYY-MM-DDTHH:mm:ss"),
+        start_time: dayjs(trip.startPlanned, "YYYY-MM-DDTHH:mm:ss"),
+        end_time: dayjs(trip.endPlanned, "YYYY-MM-DDTHH:mm:ss"),
       });
     });
 
@@ -128,17 +128,17 @@ export function useTimelineTrips({
 
     if (tripIndex !== undefined && tripIndex >= 0) {
       const currentTrip = trips[tripIndex];
-      const difference = dayjs(currentTrip.plannedStop).diff(
-        currentTrip.plannedStart,
+      const difference = dayjs(currentTrip.endPlanned).diff(
+        currentTrip.startPlanned,
       );
-      const newPlannedStop = dayjs(dragTime).add(difference, "millisecond");
-      const plannedStart = dayjs(dragTime).format("YYYY-MM-DDTHH:mm:ss");
-      const plannedStop = newPlannedStop.format("YYYY-MM-DDTHH:mm:ss");
+      const newEndPlanned = dayjs(dragTime).add(difference, "millisecond");
+      const startPlanned = dayjs(dragTime).format("YYYY-MM-DDTHH:mm:ss");
+      const endPlanned = newEndPlanned.format("YYYY-MM-DDTHH:mm:ss");
 
       updatedTrip({
         tripId: itemId,
-        newPlannedStart: plannedStart,
-        newPlannedStop: plannedStop,
+        newStartPlanned: startPlanned,
+        newEndPlanned: endPlanned,
         newDriverId: newDriver.driverId,
       });
       addToast("Viagem movida com sucesso.", { type: "success" });

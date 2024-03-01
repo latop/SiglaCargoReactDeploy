@@ -1,3 +1,5 @@
+"use client";
+
 import { CircularProgress, Box } from "@mui/material";
 import { Container } from "./MainContainer.styles";
 

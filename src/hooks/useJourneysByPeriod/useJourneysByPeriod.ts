@@ -26,8 +26,7 @@ export const useJourneysByPeriod = (params: JourneysByPeriodParams) => {
       },
     });
 
-  // const trips = data?.map((page) => page.trips).flat();
-  const trips = data?.[0]?.trips;
+  const trips = data?.map((page) => page.trips).flat();
   const drivers = data?.map((page) => page.drivers).flat();
   const hasNext = data?.[data.length - 1]?.hasNext;
 
