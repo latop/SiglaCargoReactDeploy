@@ -21,9 +21,7 @@ export const useJourneysByPeriod = (params: JourneysByPeriodParams) => {
     useSWRInfinite<JourneysByPeriodResponse>(getKey, fetchJourneysByPeriod, {
       revalidateOnFocus: false,
       revalidateOnMount: true,
-      onSuccess: (data, key, config) => {
-        console.log({ data, key, config });
-      },
+      revalidateFirstPage: false,
     });
 
   const trips = data?.map((page) => page.trips).flat();

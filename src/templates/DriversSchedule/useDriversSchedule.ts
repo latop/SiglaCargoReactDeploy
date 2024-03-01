@@ -12,7 +12,7 @@ interface JourneySearchParams {
   positionCode?: string;
 }
 
-const PAGE_SIZE = 20;
+const PAGE_SIZE = 10;
 
 export function useDriverSchedule() {
   const params = useSearchParams();
@@ -46,7 +46,10 @@ export function useDriverSchedule() {
     setSize,
     updateTrip,
     isValidating,
-  } = useJourneysByPeriod({ ...searchParams, pageSize: PAGE_SIZE });
+  } = useJourneysByPeriod({
+    ...searchParams,
+    pageSize: PAGE_SIZE,
+  });
 
   const hasRelevantParams = Object.keys(searchParams).length > 0;
 
@@ -83,7 +86,6 @@ export function useDriverSchedule() {
 
   const loadMore = () => {
     if (hasNext && !isLoadingMore) {
-      console.log("entroou aqui no loadMore", size);
       setSize((prevSize) => prevSize + 1);
     }
   };

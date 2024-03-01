@@ -58,7 +58,7 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
             horizontal: snackbar.options?.horizontal || "right",
           }}
           open
-          autoHideDuration={snackbar.options?.autoHideDuration || 6000}
+          autoHideDuration={snackbar.options?.autoHideDuration || 3000}
           onClose={() => removeToast(snackbar.id)}
         >
           <Alert

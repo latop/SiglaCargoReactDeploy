@@ -51,7 +51,7 @@ export function DriversSchedule() {
           )}
           {isEmpty && <EmptyResult />}
           {!isReachingEnd && (
-            <Waypoint onEnter={loadMore} bottomOffset={-100} />
+            <Waypoint onEnter={loadMore} bottomOffset={-200} />
           )}
           {isLoadingMore && (
             <Box display="flex" justifyContent="center" mt={2} marginBottom={2}>

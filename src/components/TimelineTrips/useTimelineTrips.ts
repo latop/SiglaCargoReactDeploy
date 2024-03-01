@@ -100,7 +100,6 @@ export function useTimelineTrips({
         id: trip.id,
         group: trip.driverId,
         title: trip.id,
-        blah: 2,
         start_time: dayjs(trip.startPlanned, "YYYY-MM-DDTHH:mm:ss"),
         end_time: dayjs(trip.endPlanned, "YYYY-MM-DDTHH:mm:ss"),
       });
