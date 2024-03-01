@@ -99,9 +99,9 @@ export function TimelineTrips({ trips, drivers }: TimelineTripsProps) {
         onItemDoubleClick={handleDoubleClick}
         groups={groups}
         items={items}
-        canMove
+        canMove={false}
         canResize={false}
-        canChangeGroup
+        canChangeGroup={false}
         onItemMove={handleMoveItem}
         minZoom={60 * 60 * 24}
         maxZoom={604800000}
