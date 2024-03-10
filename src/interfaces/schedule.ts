@@ -20,3 +20,21 @@ export interface JourneysByPeriodResponse {
   hasNext: boolean;
   currentPage: number;
 }
+
+export interface Journey {
+  nickName: string;
+  journeyDate: string;
+  status: string;
+  publishedDate: string | null;
+  presentationDate: string;
+  cutoffDate: string;
+  presentationDateActual: string | null;
+  cutoffDateActual: string | null;
+  notes: string | null;
+  awareDate: string | null;
+  restTime: number;
+  circuitJourneyId: string | null;
+  otmId: string | null;
+  journeyId: string;
+  driverSchedules: (DriverSchedule | null)[];
+}

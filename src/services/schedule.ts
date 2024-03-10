@@ -29,3 +29,25 @@ export async function fetchJourneysByPeriod({
     return error;
   }
 }
+
+export type FetchJourneyParams = {
+  driverId: string;
+  journeyDate: string;
+};
+
+export async function fetchJourney({
+  args: { driverId, journeyDate },
+}: {
+  args: FetchJourneyParams;
+}) {
+  try {
+    const response = await axios.get(`/gantt/GetJourney`, {
+      params: { driverId, journeyDate },
+    });
+    const data = response.data;
+    return data;
+  } catch (error) {
+    console.error(error);
+    return error;
+  }
+}
