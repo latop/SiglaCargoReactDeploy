@@ -39,7 +39,7 @@ export function TripDetailsDialog({
   };
 
   return (
-    <Dialog onClose={onClose} open={open} maxWidth="lg" sx={{ height: "70vh" }}>
+    <Dialog onClose={onClose} open={open} maxWidth="lg">
       <>
         <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
           Circuito do motorista {currentTrip?.driverName} -{" "}
