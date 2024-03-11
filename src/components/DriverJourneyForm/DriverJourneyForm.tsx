@@ -2,7 +2,7 @@ import React from "react";
 import { useForm, Controller } from "react-hook-form";
 import { TextField, MenuItem, Grid, Box } from "@mui/material";
 import styled from "@emotion/styled";
-import { DatePicker } from "@/components/DatePicker";
+import { DatePicker, DateTimePicker } from "@/components/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
@@ -57,14 +57,14 @@ export const DriverJourneyForm = ({
                 defaultValue=""
                 render={({ field }) => (
                   <TextField
-                    disabled
+                    disabled={false}
                     {...field}
                     label="Status"
                     fullWidth
                     select
                   >
-                    <MenuItem value="N">Não avisado</MenuItem>
                     <MenuItem value="S">Avisado</MenuItem>
+                    <MenuItem value="N">Não avisado</MenuItem>
                   </TextField>
                 )}
               />
@@ -75,7 +75,7 @@ export const DriverJourneyForm = ({
                 control={control}
                 render={({ field, fieldState: { error } }) => (
                   <DatePicker
-                    disabled
+                    disabled={false}
                     label="Publicado em"
                     error={error?.message}
                     {...field}
@@ -91,8 +91,8 @@ export const DriverJourneyForm = ({
                 name="awareDate"
                 control={control}
                 render={({ field, fieldState: { error } }) => (
-                  <DatePicker
-                    disabled
+                  <DateTimePicker
+                    disabled={false}
                     label="Avisado em"
                     error={error?.message}
                     {...field}
@@ -108,7 +108,7 @@ export const DriverJourneyForm = ({
                 control={control}
                 render={({ field }) => (
                   <TextField
-                    disabled
+                    disabled={false}
                     {...field}
                     label="Otm"
                     variant="outlined"
@@ -125,8 +125,8 @@ export const DriverJourneyForm = ({
                   name="presentationDate"
                   control={control}
                   render={({ field, fieldState: { error } }) => (
-                    <DatePicker
-                      disabled
+                    <DateTimePicker
+                      disabled={false}
                       label="Apresentação prevista"
                       error={error?.message}
                       {...field}
@@ -141,8 +141,8 @@ export const DriverJourneyForm = ({
                   name="presentationDateActual"
                   control={control}
                   render={({ field, fieldState: { error } }) => (
-                    <DatePicker
-                      disabled
+                    <DateTimePicker
+                      disabled={false}
                       label="Apresentação realizada"
                       error={error?.message}
                       {...field}
@@ -158,8 +158,8 @@ export const DriverJourneyForm = ({
                   name="cutoffDate"
                   control={control}
                   render={({ field, fieldState: { error } }) => (
-                    <DatePicker
-                      disabled
+                    <DateTimePicker
+                      disabled={false}
                       label="Finalização prevista"
                       error={error?.message}
                       {...field}
@@ -174,8 +174,8 @@ export const DriverJourneyForm = ({
                   name="cutoffDateActual"
                   control={control}
                   render={({ field, fieldState: { error } }) => (
-                    <DatePicker
-                      disabled
+                    <DateTimePicker
+                      disabled={false}
                       label="Finalização realizada"
                       error={error?.message}
                       {...field}
@@ -194,7 +194,7 @@ export const DriverJourneyForm = ({
                   render={({ field }) => (
                     <TextArea
                       {...field}
-                      disabled
+                      disabled={false}
                       label="Observações"
                       variant="outlined"
                       fullWidth
