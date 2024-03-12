@@ -11,7 +11,36 @@ import { IJourneyForm, JourneyForm } from "@/components/JourneyForm";
 import { useJourney } from "@/hooks/useJourney";
 import { Box, CircularProgress, Typography, Button } from "@mui/material";
 import { FormProvider, useForm } from "react-hook-form";
-import { IDriverJourneyForm } from "../DriverJourneyForm";
+import { Journey, DriverJourneySchedule } from "@/interfaces/schedule";
+
+const normalizeData = (data: Journey) => {
+  const journeyDefaultValues: IJourneyForm = {
+    status: data?.status || "",
+    publishedDate: data?.publishedDate || "",
+    awareDate: data?.awareDate || "",
+    otmId: data?.otmId || "",
+    presentationDate: data?.presentationDate || "",
+    presentationDateActual: data?.presentationDateActual || "",
+    cutoffDate: data?.cutoffDate || "",
+    cutoffDateActual: data?.cutoffDateActual || "",
+    notes: data?.notes || "",
+    driverSchedules:
+      data?.driverSchedules?.map((driverSchedule: DriverJourneySchedule) => ({
+        type: driverSchedule?.type || "",
+        task: driverSchedule?.task || "",
+        locCodeOrig: driverSchedule?.locCodeOrig || "",
+        locCodeDest: driverSchedule?.locCodeDest || "",
+        lineCode: driverSchedule?.lineCode || "",
+        licensePlate: driverSchedule?.licensePlate || "",
+        startPlanned: driverSchedule?.startPlanned || "",
+        endPlanned: driverSchedule?.endPlanned || "",
+        startActual: driverSchedule?.startActual || "",
+        endActual: driverSchedule?.endActual || "",
+        new: false,
+      })) || [],
+  };
+  return journeyDefaultValues;
+};
 
 export function TripDetailsDialog({
   open,
@@ -23,47 +52,22 @@ export function TripDetailsDialog({
   id: string;
 }) {
   const methods = useForm();
-  const { reset } = methods;
+  const {
+    reset,
+    formState: { defaultValues },
+  } = methods;
   const { trips } = useDriverSchedule();
   const currentTrip = trips?.find((trip) => trip.id === id);
-  const { isLoading } = useJourney(
-    {
-      driverId: currentTrip?.driverId,
-      journeyDate: dayjs(currentTrip?.startPlanned).format("YYYY-MM-DD"),
-    },
-    {
-      onSuccess: (data) => {
-        const journeyDefaultValues: IJourneyForm = {
-          status: data?.status || "",
-          publishedDate: data?.publishedDate || "",
-          awareDate: data?.awareDate || "",
-          otmId: data?.otmId || "",
-          presentationDate: data?.presentationDate || "",
-          presentationDateActual: data?.presentationDateActual || "",
-          cutoffDate: data?.cutoffDate || "",
-          cutoffDateActual: data?.cutoffDateActual || "",
-          notes: data?.notes || "",
-          driverSchedules:
-            data?.driverSchedules?.map(
-              (driverSchedule: IDriverJourneyForm) => ({
-                type: driverSchedule?.type || "",
-                task: driverSchedule?.task || "",
-                locCodeOrig: driverSchedule?.locCodeOrig || "",
-                locCodeDest: driverSchedule?.locCodeDest || "",
-                lineCode: driverSchedule?.lineCode || "",
-                licensePlate: driverSchedule?.licensePlate || "",
-                startPlanned: driverSchedule?.startPlanned || "",
-                endPlanned: driverSchedule?.endPlanned || "",
-                startActual: driverSchedule?.startActual || "",
-                endActual: driverSchedule?.endActual || "",
-                new: false,
-              }),
-            ) || [],
-        };
-        reset(journeyDefaultValues);
-      },
-    },
-  );
+  const { data, isLoading } = useJourney({
+    driverId: currentTrip?.driverId,
+    journeyDate: dayjs(currentTrip?.startPlanned).format("YYYY-MM-DD"),
+  });
+
+  React.useEffect(() => {
+    if (data && !defaultValues) {
+      reset(normalizeData(data));
+    }
+  }, [data, defaultValues]);
 
   return (
     <Dialog

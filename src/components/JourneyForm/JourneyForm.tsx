@@ -258,7 +258,7 @@ export const JourneyForm = () => {
                 </Typography>
               </Button>
             </Box>
-            {watch("driverSchedules").length === 0 && (
+            {watch("driverSchedules")?.length === 0 && (
               <Box display="flex">
                 <Typography variant="body1" color={colors.grey[700]}>
                   Não há jornadas para este motorista, adicione uma nova
