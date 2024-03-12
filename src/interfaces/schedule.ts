@@ -21,6 +21,19 @@ export interface JourneysByPeriodResponse {
   currentPage: number;
 }
 
+export interface DriverJourneySchedule {
+  type: string;
+  task: string;
+  locCodeOrig: string | null;
+  locCodeDest: string | null;
+  lineCode: string | null;
+  licensePlate: string | null;
+  startPlanned: string;
+  endPlanned: string;
+  startActual: string | null;
+  endActual: string | null;
+}
+
 export interface Journey {
   nickName: string;
   journeyDate: string;
@@ -36,5 +49,5 @@ export interface Journey {
   circuitJourneyId: string | null;
   otmId: string | null;
   journeyId: string;
-  driverSchedules: (DriverSchedule | null)[];
+  driverSchedules: DriverJourneySchedule[];
 }

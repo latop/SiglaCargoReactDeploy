@@ -1,45 +1,47 @@
 import React from "react";
 import { useForm, Controller } from "react-hook-form";
-import { TextField, MenuItem, Grid, Box } from "@mui/material";
-import styled from "@emotion/styled";
-import { DatePicker, DateTimePicker } from "@/components/DatePicker";
+import {
+  TextField,
+  Grid,
+  Box,
+  MenuItem,
+  IconButton,
+  colors,
+  Icon,
+} from "@mui/material";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DateTimePicker } from "@/components/DatePicker";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import "dayjs/locale/pt-br";
-
+import DeleteIcon from "@mui/icons-material/Delete";
 dayjs.extend(customParseFormat);
 
-const TextArea = styled(TextField)`
-  && {
-    height: 100%;
-
-    .MuiInputBase-root,
-    textarea {
-      height: 100% !important;
-    }
-  }
-`;
+export interface IDriverJourneyForm {
+  type: string;
+  task: string;
+  locCodeOrig: string | null;
+  locCodeDest: string | null;
+  lineCode: string | null;
+  licensePlate: string | null;
+  startPlanned: string;
+  endPlanned: string;
+  startActual: string | null;
+  endActual: string | null;
+  new: boolean;
+}
 
 interface DriverJourneyFormProps {
-  defaultValues?: {
-    status: string;
-    publishedDate: string;
-    awareDate: string;
-    otmId: string;
-    presentationDate: string;
-    presentationDateActual: string;
-    cutoffDate: string;
-    cutoffDateActual: string;
-    notes: string;
-  };
+  onDelete: () => void;
+  defaultValues?: IDriverJourneyForm;
 }
 
 export const DriverJourneyForm = ({
   defaultValues,
+  onDelete,
 }: DriverJourneyFormProps) => {
-  const { control, handleSubmit } = useForm({
+  const { control, handleSubmit, watch } = useForm({
     defaultValues: defaultValues || {},
   });
 
@@ -48,169 +50,157 @@ export const DriverJourneyForm = ({
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Box display={"flex"} flexDirection="column" gap="20px">
-          <Grid container spacing={2}>
-            <Grid item xs={3}>
-              <Controller
-                name="status"
-                control={control}
-                defaultValue=""
-                render={({ field }) => (
-                  <TextField
-                    disabled={false}
-                    {...field}
-                    label="Status"
-                    fullWidth
-                    select
-                  >
-                    <MenuItem value="S">Avisado</MenuItem>
-                    <MenuItem value="N">Não avisado</MenuItem>
-                  </TextField>
-                )}
-              />
-            </Grid>
-            <Grid item xs={3}>
-              <Controller
-                name="publishedDate"
-                control={control}
-                render={({ field, fieldState: { error } }) => (
-                  <DatePicker
-                    disabled={false}
-                    label="Publicado em"
-                    error={error?.message}
-                    {...field}
-                    value={field.value ? dayjs(field.value) : null}
-                    onChange={(date) => field.onChange(date?.format())}
-                  />
-                )}
-              />
-            </Grid>
-
-            <Grid item xs={3}>
-              <Controller
-                name="awareDate"
-                control={control}
-                render={({ field, fieldState: { error } }) => (
-                  <DateTimePicker
-                    disabled={false}
-                    label="Avisado em"
-                    error={error?.message}
-                    {...field}
-                    value={field.value ? dayjs(field.value) : null}
-                    onChange={(date) => field.onChange(date?.format())}
-                  />
-                )}
-              />
-            </Grid>
-            <Grid item xs={3}>
-              <Controller
-                name="otmId"
-                control={control}
-                render={({ field }) => (
-                  <TextField
-                    disabled={false}
-                    {...field}
-                    label="Otm"
-                    variant="outlined"
-                    fullWidth
-                  />
-                )}
-              />
-            </Grid>
-          </Grid>
-          <Box display="flex" gap="20px">
-            <Grid container spacing={2} xs={3.03} columns={6}>
-              <Grid item xs={3}>
+        <Box
+          display={"flex"}
+          flexDirection="column"
+          gap="20px"
+          padding="20px"
+          bgcolor={colors.grey[100]}
+          borderRadius="4px"
+        >
+          <Box display="flex" gap="10px" alignItems="center">
+            <Grid container spacing={2}>
+              <Grid item xs={1.5}>
                 <Controller
-                  name="presentationDate"
-                  control={control}
-                  render={({ field, fieldState: { error } }) => (
-                    <DateTimePicker
-                      disabled={false}
-                      label="Apresentação prevista"
-                      error={error?.message}
-                      {...field}
-                      value={field.value ? dayjs(field.value) : null}
-                      onChange={(date) => field.onChange(date?.format())}
-                    />
-                  )}
-                />
-              </Grid>
-              <Grid item xs={3}>
-                <Controller
-                  name="presentationDateActual"
-                  control={control}
-                  render={({ field, fieldState: { error } }) => (
-                    <DateTimePicker
-                      disabled={false}
-                      label="Apresentação realizada"
-                      error={error?.message}
-                      {...field}
-                      value={field.value ? dayjs(field.value) : null}
-                      onChange={(date) => field.onChange(date?.format())}
-                    />
-                  )}
-                />
-              </Grid>
-
-              <Grid item xs={3}>
-                <Controller
-                  name="cutoffDate"
-                  control={control}
-                  render={({ field, fieldState: { error } }) => (
-                    <DateTimePicker
-                      disabled={false}
-                      label="Finalização prevista"
-                      error={error?.message}
-                      {...field}
-                      value={field.value ? dayjs(field.value) : null}
-                      onChange={(date) => field.onChange(date?.format())}
-                    />
-                  )}
-                />
-              </Grid>
-              <Grid item xs={3}>
-                <Controller
-                  name="cutoffDateActual"
-                  control={control}
-                  render={({ field, fieldState: { error } }) => (
-                    <DateTimePicker
-                      disabled={false}
-                      label="Finalização realizada"
-                      error={error?.message}
-                      {...field}
-                      value={field.value ? dayjs(field.value) : null}
-                      onChange={(date) => field.onChange(date?.format())}
-                    />
-                  )}
-                />
-              </Grid>
-            </Grid>
-            <Grid container spacing={2} xs={6.1}>
-              <Grid item xs={12}>
-                <Controller
-                  name="notes"
+                  name="type"
                   control={control}
                   render={({ field }) => (
-                    <TextArea
+                    <TextField {...field} select label="Tipo" fullWidth>
+                      <MenuItem value="A">Atividade</MenuItem>
+                      <MenuItem value="V">Viagem</MenuItem>
+                    </TextField>
+                  )}
+                />
+              </Grid>
+              <Grid item xs={1.5}>
+                <Controller
+                  name="licensePlate"
+                  control={control}
+                  render={({ field }) => (
+                    <TextField {...field} label="Placa" fullWidth />
+                  )}
+                />
+              </Grid>
+              <Grid item xs={2}>
+                <Controller
+                  name="locCodeOrig"
+                  control={control}
+                  render={({ field }) => (
+                    <TextField {...field} label="Origem" fullWidth />
+                  )}
+                />
+              </Grid>
+              <Grid item xs={2}>
+                <Controller
+                  name="locCodeDest"
+                  control={control}
+                  render={({ field }) => (
+                    <TextField
                       {...field}
-                      disabled={false}
-                      label="Observações"
-                      variant="outlined"
+                      label="Destino"
                       fullWidth
-                      multiline
-                      maxRows={3}
+                      disabled={watch("type") === "A"}
+                    />
+                  )}
+                />
+              </Grid>
+              <Grid item xs={2}>
+                <Controller
+                  name="lineCode"
+                  control={control}
+                  render={({ field }) => (
+                    <TextField
+                      {...field}
+                      label="Cód. frota"
+                      fullWidth
+                      disabled={!defaultValues?.new}
+                    />
+                  )}
+                />
+              </Grid>
+              <Grid item xs={3}>
+                <Controller
+                  name="task"
+                  control={control}
+                  render={({ field }) => (
+                    <TextField
+                      {...field}
+                      label="Atividade"
+                      fullWidth
+                      disabled={watch("type") !== "A"}
+                    />
+                  )}
+                />
+              </Grid>
+              <Grid item xs={3}>
+                <Controller
+                  name="startPlanned"
+                  control={control}
+                  render={({ field, fieldState: { error } }) => (
+                    <DateTimePicker
+                      label="Início planejado"
+                      error={error?.message}
+                      {...field}
+                      disabled={!defaultValues?.new}
+                      value={field.value ? dayjs(field.value) : null}
+                      onChange={(date) => field.onChange(date?.format())}
+                    />
+                  )}
+                />
+              </Grid>
+              <Grid item xs={3}>
+                <Controller
+                  name="endPlanned"
+                  control={control}
+                  render={({ field, fieldState: { error } }) => (
+                    <DateTimePicker
+                      label="Fim planejado"
+                      error={error?.message}
+                      {...field}
+                      disabled={!defaultValues?.new}
+                      value={field.value ? dayjs(field.value) : null}
+                      onChange={(date) => field.onChange(date?.format())}
+                    />
+                  )}
+                />
+              </Grid>
+              <Grid item xs={3}>
+                <Controller
+                  name="startActual"
+                  control={control}
+                  render={({ field, fieldState: { error } }) => (
+                    <DateTimePicker
+                      label="Início realizado"
+                      error={error?.message}
+                      {...field}
+                      disabled={!defaultValues?.new}
+                      value={field.value ? dayjs(field.value) : null}
+                      onChange={(date) => field.onChange(date?.format())}
+                    />
+                  )}
+                />
+              </Grid>
+              <Grid item xs={3}>
+                <Controller
+                  name="endActual"
+                  control={control}
+                  render={({ field, fieldState: { error } }) => (
+                    <DateTimePicker
+                      label="Fim realizado"
+                      error={error?.message}
+                      {...field}
+                      disabled={!defaultValues?.new}
+                      value={field.value ? dayjs(field.value) : null}
+                      onChange={(date) => field.onChange(date?.format())}
                     />
                   )}
                 />
               </Grid>
             </Grid>
+            <IconButton size="medium" onClick={onDelete}>
+              <Icon component={DeleteIcon} fontSize="medium" />
+            </IconButton>
           </Box>
-          {/* <Box display="flex" justifyContent="flex-end">
-            <Button type="submit" variant="contained">
-              Salvar
-            </Button>
-          </Box> */}
         </Box>
       </form>
     </LocalizationProvider>

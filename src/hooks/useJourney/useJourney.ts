@@ -11,7 +11,6 @@ export const useJourney = (params: UseJourneyParams) => {
     { url: "/journey", args: params },
     fetchJourney,
   );
-
   return {
     data,
     error,
