@@ -1,5 +1,5 @@
 import React from "react";
-import { useForm, Controller } from "react-hook-form";
+import { Controller, useFormContext } from "react-hook-form";
 import {
   TextField,
   Grid,
@@ -47,15 +47,9 @@ export interface IJourneyForm {
   driverSchedules: IDriverJourneyForm[];
 }
 
-interface JourneyFormProps {
-  defaultValues?: IJourneyForm;
-}
-
-export const JourneyForm = ({ defaultValues }: JourneyFormProps) => {
+export const JourneyForm = () => {
   const { addToast } = useToast();
-  const { control, handleSubmit, watch, setValue } = useForm({
-    defaultValues: defaultValues || {},
-  });
+  const { control, handleSubmit, watch, setValue } = useFormContext();
 
   const onSubmit = () => {};
 
@@ -284,12 +278,6 @@ export const JourneyForm = ({ defaultValues }: JourneyFormProps) => {
                 ),
               )}
             </Box>
-          </Box>
-
-          <Box display="flex" justifyContent="flex-end">
-            <Button type="submit" variant="contained">
-              Salvar
-            </Button>
           </Box>
         </Box>
       </form>
