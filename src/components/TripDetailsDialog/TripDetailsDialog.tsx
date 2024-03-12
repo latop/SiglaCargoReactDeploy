@@ -54,7 +54,7 @@ export function TripDetailsDialog({
 
   console.log(data?.driverSchedules);
   return (
-    <Dialog onClose={onClose} open={open} fullWidth maxWidth="none">
+    <Dialog onClose={onClose} open={open} fullWidth maxWidth={false}>
       <>
         <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
           Circuito do motorista
