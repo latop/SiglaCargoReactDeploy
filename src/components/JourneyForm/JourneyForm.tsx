@@ -1,16 +1,7 @@
 import React from "react";
 import { Controller, useFormContext } from "react-hook-form";
-import {
-  TextField,
-  Grid,
-  Box,
-  Typography,
-  Button,
-  colors,
-  Icon,
-} from "@mui/material";
+import { TextField, Grid, Box, Typography, colors, Chip } from "@mui/material";
 
-import AddIcon from "@mui/icons-material/Add";
 import styled from "@emotion/styled";
 import { DateTimePicker } from "@/components/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -53,24 +44,6 @@ export const JourneyForm = () => {
 
   const onSubmit = () => {};
 
-  const handleAddJourney = () => {
-    const driverSchedules = watch("driverSchedules");
-    driverSchedules.push({
-      type: "",
-      task: "",
-      locCodeOrig: "",
-      locCodeDest: "",
-      lineCode: "",
-      licensePlate: "",
-      startPlanned: "",
-      endPlanned: "",
-      startActual: "",
-      endActual: "",
-      new: true,
-    });
-    setValue("driverSchedules", driverSchedules);
-  };
-
   const handleDeleteDriverSchedule = (index: number) => {
     const driverSchedules = watch("driverSchedules");
     driverSchedules.splice(index, 1);
@@ -78,75 +51,12 @@ export const JourneyForm = () => {
     addToast("Jornada removida com sucesso");
   };
 
+  const countJourneys = watch("driverSchedules")?.length;
+
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
       <form onSubmit={handleSubmit(onSubmit)}>
         <Box display={"flex"} flexDirection="column" gap="20px">
-          <Grid container spacing={2}>
-            <Grid item xs={3}>
-              <Controller
-                name="status"
-                control={control}
-                render={({ field }) => (
-                  <TextField disabled {...field} label="Status" fullWidth />
-                )}
-              />
-            </Grid>
-            <Grid item xs={3}>
-              <Controller
-                name="publishedDate"
-                control={control}
-                render={({ field }) => (
-                  <TextField
-                    {...field}
-                    disabled
-                    label="Publicado em"
-                    fullWidth
-                    value={
-                      field.value
-                        ? dayjs(field.value).format("DD/MM/YYYY HH:mm")
-                        : ""
-                    }
-                  />
-                )}
-              />
-            </Grid>
-
-            <Grid item xs={3}>
-              <Controller
-                name="awareDate"
-                control={control}
-                render={({ field }) => (
-                  <TextField
-                    {...field}
-                    disabled
-                    label="Avisado em"
-                    fullWidth
-                    value={
-                      field.value
-                        ? dayjs(field.value).format("DD/MM/YYYY HH:mm")
-                        : ""
-                    }
-                  />
-                )}
-              />
-            </Grid>
-            <Grid item xs={3}>
-              <Controller
-                name="otmId"
-                control={control}
-                render={({ field }) => (
-                  <TextField
-                    disabled
-                    {...field}
-                    label="Otm"
-                    variant="outlined"
-                    fullWidth
-                  />
-                )}
-              />
-            </Grid>
-          </Grid>
           <Box display="flex" gap="20px">
             <Grid container spacing={2} xs={3.03} columns={6}>
               <Grid item xs={3}>
@@ -235,39 +145,21 @@ export const JourneyForm = () => {
               </Grid>
             </Grid>
           </Box>
-          <Box gap="20px" mt="30px" display="flex" flexDirection="column">
-            <Box
-              display="flex"
-              justifyContent="space-between"
-              alignItems="center"
-            >
-              <Typography variant="h6">Jornadas do motorista</Typography>
-              <Button
-                variant="contained"
-                onClick={handleAddJourney}
-                color="secondary"
-                size="small"
-              >
-                <Icon component={AddIcon} fontSize="small" />
-                <Typography
-                  variant="body2"
-                  ml="5px"
-                  color={colors.common.white}
-                >
-                  Adicionar jornada
-                </Typography>
-              </Button>
+          <Box gap="10px" mt="5px" display="flex" flexDirection="column">
+            <Box display="flex" alignItems="center" gap="8px">
+              <Typography variant="subtitle1">Jornadas do motorista</Typography>
+              <Chip label={countJourneys} color="default" size="small" />
             </Box>
             {watch("driverSchedules")?.length === 0 && (
               <Box display="flex">
-                <Typography variant="body1" color={colors.grey[700]}>
+                <Typography variant="body2" color={colors.grey[700]}>
                   Não há jornadas para este motorista, adicione uma nova
                   jornada.
                 </Typography>
               </Box>
             )}
 
-            <Box gap="30px" display="flex" flexDirection="column">
+            <Box gap="16px" display="flex" flexDirection="column">
               {watch("driverSchedules")?.map(
                 (driverSchedule: IDriverJourneyForm, index: number) => (
                   <DriverJourneyForm

@@ -5,11 +5,13 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
+import AddIcon from "@mui/icons-material/Add";
+import theme from "@/styles/theme";
 import { useDriverSchedule } from "@/templates/DriversSchedule/useDriversSchedule";
 import dayjs from "dayjs";
 import { IJourneyForm, JourneyForm } from "@/components/JourneyForm";
 import { useJourney } from "@/hooks/useJourney";
-import { Box, CircularProgress, Typography, Button } from "@mui/material";
+import { Box, CircularProgress, Typography, Button, Icon } from "@mui/material";
 import { FormProvider, useForm } from "react-hook-form";
 import { Journey, DriverJourneySchedule } from "@/interfaces/schedule";
 
@@ -55,6 +57,8 @@ export function TripDetailsDialog({
   const {
     reset,
     formState: { defaultValues },
+    watch,
+    setValue,
   } = methods;
   const { trips } = useDriverSchedule();
   const currentTrip = trips?.find((trip) => trip.id === id);
@@ -69,6 +73,24 @@ export function TripDetailsDialog({
     }
   }, [data, defaultValues]);
 
+  const handleAddJourney = () => {
+    const driverSchedules = watch("driverSchedules");
+    driverSchedules.push({
+      type: "",
+      task: "",
+      locCodeOrig: "",
+      locCodeDest: "",
+      lineCode: "",
+      licensePlate: "",
+      startPlanned: "",
+      endPlanned: "",
+      startActual: "",
+      endActual: "",
+      new: true,
+    });
+    setValue("driverSchedules", driverSchedules);
+  };
+
   return (
     <Dialog
       onClose={onClose}
@@ -79,11 +101,49 @@ export function TripDetailsDialog({
     >
       <FormProvider {...methods}>
         <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
-          Circuito do motorista
-          <Typography variant="body2">
-            {currentTrip?.driverName} -{" "}
-            {dayjs(currentTrip?.startPlanned).format("DD/MM/YYYY")}
-          </Typography>
+          <Box display="flex" justifyContent="space-between">
+            <Box>
+              Circuito do motorista
+              <Typography variant="body2">
+                {currentTrip?.driverName} -{" "}
+                {dayjs(currentTrip?.startPlanned).format("DD/MM/YYYY")}
+              </Typography>
+            </Box>
+            <Box
+              display="flex"
+              gap="20px"
+              alignItems="flex-end"
+              paddingRight="40px"
+            >
+              <Box gap="5px" display="flex" flexDirection="column">
+                <Typography variant="body2">
+                  <strong>Status:</strong> {data?.status}
+                </Typography>
+                {data?.otmId && (
+                  <Typography variant="body2">
+                    <strong>OTM:</strong> {data?.otmId}
+                  </Typography>
+                )}
+              </Box>
+
+              {(data?.publishedDate || data?.awareDate) && (
+                <Box gap="5px" display="flex" flexDirection="column">
+                  {data?.publishedDate && (
+                    <Typography variant="body2">
+                      <strong>Publicado em:</strong>{" "}
+                      {dayjs(data?.publishedDate).format("DD/MM/YYYY")}
+                    </Typography>
+                  )}
+                  {data?.awareDate && (
+                    <Typography variant="body2">
+                      <strong>Avisado em:</strong>{" "}
+                      {dayjs(data?.awareDate).format("DD/MM/YYYY")}
+                    </Typography>
+                  )}
+                </Box>
+              )}
+            </Box>
+          </Box>
         </DialogTitle>
         <IconButton
           aria-label="close"
@@ -116,7 +176,27 @@ export function TripDetailsDialog({
           )}
         </DialogContent>
         <DialogActions>
-          <Box display="flex" justifyContent="flex-end" padding="10px 16px">
+          <Box
+            display="flex"
+            justifyContent="space-between"
+            padding="10px 16px"
+            width="100%"
+          >
+            <Button
+              variant="outlined"
+              onClick={handleAddJourney}
+              color="primary"
+              size="small"
+            >
+              <Icon component={AddIcon} fontSize="small" />
+              <Typography
+                variant="body2"
+                ml="5px"
+                color={theme.palette.primary.main}
+              >
+                Adicionar jornada
+              </Typography>
+            </Button>
             <Button type="submit" variant="contained">
               Salvar
             </Button>

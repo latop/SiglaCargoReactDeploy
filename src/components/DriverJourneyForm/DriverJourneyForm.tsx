@@ -53,8 +53,8 @@ export const DriverJourneyForm = ({
         <Box
           display={"flex"}
           flexDirection="column"
-          gap="20px"
-          padding="20px"
+          gap="16px"
+          padding="16px"
           bgcolor={colors.grey[100]}
           borderRadius="4px"
         >

@@ -40,9 +40,20 @@ const theme = createTheme({
         },
       },
     },
+    MuiOutlinedInput: {
+      styleOverrides: {
+        input: {
+          padding: "11.5px 14px",
+        },
+      },
+    },
     MuiInputBase: {
       styleOverrides: {
+        input: {
+          padding: "11.5px 14px",
+        },
         root: {
+          fontSize: "14px",
           backgroundColor: "#ffffff",
           fontFamily: "var(--font-openSans)",
           "& input:-webkit-autofill": {
@@ -60,18 +71,25 @@ const theme = createTheme({
         },
       },
     },
+    MuiInputLabel: {
+      styleOverrides: {
+        root: {
+          fontFamily: "var(--font-openSans)",
+          fontSize: "14px",
+          lineHeight: "10px",
+          overflow: "inherit",
+        },
+        shrink: {
+          lineHeight: "normal",
+          overflow: "hidden",
+        },
+      },
+    },
     MuiTypography: {
       styleOverrides: {
         root: {
           fontFamily: "var(--font-openSans)",
           color: grey[800],
-        },
-      },
-    },
-    MuiInputLabel: {
-      styleOverrides: {
-        root: {
-          fontFamily: "var(--font-openSans)",
         },
       },
     },
@@ -83,19 +101,12 @@ const theme = createTheme({
         },
       },
     },
-    MuiOutlinedInput: {
-      styleOverrides: {
-        input: {
-          padding: "13.5px 14px",
-        },
-      },
-    },
     MuiToggleButton: {
       styleOverrides: {
         root: {
           fontFamily: "var(--font-openSans)",
           padding: "5px 10px",
-          fontSize: "13px",
+          fontSize: "14px",
         },
       },
     },
@@ -113,6 +124,7 @@ const theme = createTheme({
         input: {
           color: grey[800],
           fontFamily: "var(--font-openSans)",
+          padding: "5.5px 4px 5.5px 5px !important",
         },
         inputRoot: {
           padding: "6px",
@@ -125,7 +137,7 @@ const theme = createTheme({
           marginTop: "10px !important",
         },
         option: {
-          fontSize: "13px",
+          fontSize: "14px",
           fontFamily: "var(--font-openSans)",
         },
       },

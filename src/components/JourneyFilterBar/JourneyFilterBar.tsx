@@ -81,7 +81,6 @@ export function JourneyFilterBar() {
                 variant="contained"
                 color="primary"
                 fullWidth
-                sx={{ height: "50px" }}
               >
                 Buscar
               </Button>
