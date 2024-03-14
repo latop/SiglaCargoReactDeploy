@@ -148,7 +148,9 @@ export const JourneyForm = () => {
           <Box gap="10px" mt="5px" display="flex" flexDirection="column">
             <Box display="flex" alignItems="center" gap="8px">
               <Typography variant="subtitle1">Jornadas do motorista</Typography>
-              <Chip label={countJourneys} color="default" size="small" />
+              {countJourneys > 0 && (
+                <Chip label={countJourneys} color="default" size="small" />
+              )}
             </Box>
             {watch("driverSchedules")?.length === 0 && (
               <Box display="flex">
