@@ -34,6 +34,14 @@
 }
 
 .react-calendar-timeline .rct-sidebar .rct-sidebar-row {
-  font-size: 14px;
+  font-size: 13px;
   padding: 0 10px;
+}
+
+.timeline-trips-unallocated-header {
+  display: none !important;
+}
+
+.timeline-trips-unallocated {
+  background-color: #e7e2e1;
 }

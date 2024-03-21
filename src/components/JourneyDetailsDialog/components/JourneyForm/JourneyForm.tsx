@@ -9,7 +9,10 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import "dayjs/locale/pt-br";
-import { DriverJourneyForm, IDriverJourneyForm } from "../DriverJourneyForm";
+import {
+  DriverJourneyForm,
+  IDriverJourneyForm,
+} from "../../../DriverJourneyForm";
 import { useToast } from "@/hooks/useToast";
 
 dayjs.extend(customParseFormat);

@@ -1,23 +1,13 @@
 import { useMemo } from "react";
 import { useGiantt } from "@/hooks/useGiantt";
-import { DriverSchedule, Trip } from "@/interfaces/schedule";
+import { DailyTrip, DailyTripSection } from "@/interfaces/schedule";
 import { Unit } from "react-calendar-timeline";
 import dayjs from "dayjs";
 import { match } from "ts-pattern";
-import { useDriverSchedule } from "@/templates/DriversSchedule/useDriversSchedule";
-import { useToast } from "@/hooks/useToast";
 import { useHash } from "@/hooks/useHash";
 
-export function useTimelineTrips({
-  trips,
-  drivers,
-}: {
-  trips: Trip[];
-  drivers: DriverSchedule[];
-}) {
+export function useTimelineTripsUnallocated(tripsUnallocated: DailyTrip[]) {
   const [, setHash] = useHash();
-  const { addToast } = useToast();
-  const { updatedTrip } = useDriverSchedule();
   const {
     visibleTimeEnd,
     visibleTimeStart,
@@ -88,22 +78,25 @@ export function useTimelineTrips({
   const { groups, items } = useMemo(() => {
     const groupsMap = new Map();
     const itemsMap = new Map();
-    drivers.forEach((driver: DriverSchedule) => {
-      if (!groupsMap.has(driver.driverId)) {
-        groupsMap.set(driver.driverId, {
-          id: driver.driverId,
-          title: driver.driverName,
+
+    tripsUnallocated.forEach((trip: DailyTrip) => {
+      if (!groupsMap.has(trip.dailyTripId)) {
+        groupsMap.set(trip.dailyTripId, {
+          id: trip.dailyTripId,
+          title: trip.sto,
         });
       }
     });
 
-    trips.forEach((trip: Trip) => {
-      itemsMap.set(trip.id, {
-        id: trip.id,
-        group: trip.driverId,
-        title: trip.id,
-        start_time: dayjs(trip.startPlanned, "YYYY-MM-DDTHH:mm:ss"),
-        end_time: dayjs(trip.endPlanned, "YYYY-MM-DDTHH:mm:ss"),
+    tripsUnallocated.forEach((trip) => {
+      trip.sectionsUnallocated.forEach((section: DailyTripSection) => {
+        itemsMap.set(section.dailyTripSectionId, {
+          id: section.dailyTripSectionId,
+          group: section.dailyTripId,
+          title: section.dailyTripSectionId,
+          start_time: dayjs(section.startPlanned, "YYYY-MM-DDTHH:mm:ss"),
+          end_time: dayjs(section.endPlanned, "YYYY-MM-DDTHH:mm:ss"),
+        });
       });
     });
 
@@ -111,36 +104,36 @@ export function useTimelineTrips({
       groups: Array.from(groupsMap.values()),
       items: Array.from(itemsMap.values()),
     };
-  }, [trips]);
+  }, [tripsUnallocated]);
 
-  const handleMoveItem = (
-    itemId: string,
-    dragTime: number,
-    newGroupOrder: number,
-  ) => {
-    if (!trips || !drivers) return;
-    const newDriver = drivers?.[newGroupOrder];
+  // const handleMoveItem = (
+  //   itemId: string,
+  //   dragTime: number,
+  //   newGroupOrder: number,
+  // ) => {
+  //   if (!trips || !drivers) return;
+  //   const newDriver = drivers?.[newGroupOrder];
 
-    const tripIndex = trips?.findIndex((trip) => trip.id === itemId);
+  //   const tripIndex = trips?.findIndex((trip) => trip.id === itemId);
 
-    if (tripIndex !== undefined && tripIndex >= 0) {
-      const currentTrip = trips[tripIndex];
-      const difference = dayjs(currentTrip.endPlanned).diff(
-        currentTrip.startPlanned,
-      );
-      const newEndPlanned = dayjs(dragTime).add(difference, "millisecond");
-      const startPlanned = dayjs(dragTime).format("YYYY-MM-DDTHH:mm:ss");
-      const endPlanned = newEndPlanned.format("YYYY-MM-DDTHH:mm:ss");
+  //   if (tripIndex !== undefined && tripIndex >= 0) {
+  //     const currentTrip = trips[tripIndex];
+  //     const difference = dayjs(currentTrip.endPlanned).diff(
+  //       currentTrip.startPlanned,
+  //     );
+  //     const newEndPlanned = dayjs(dragTime).add(difference, "millisecond");
+  //     const startPlanned = dayjs(dragTime).format("YYYY-MM-DDTHH:mm:ss");
+  //     const endPlanned = newEndPlanned.format("YYYY-MM-DDTHH:mm:ss");
 
-      updatedTrip({
-        tripId: itemId,
-        newStartPlanned: startPlanned,
-        newEndPlanned: endPlanned,
-        newDriverId: newDriver.driverId,
-      });
-      addToast("Viagem movida com sucesso.", { type: "success" });
-    }
-  };
+  //     updatedTrip({
+  //       tripId: itemId,
+  //       newStartPlanned: startPlanned,
+  //       newEndPlanned: endPlanned,
+  //       newDriverId: newDriver.driverId,
+  //     });
+  //     addToast("Viagem movida com sucesso.", { type: "success" });
+  //   }
+  // };
 
   return {
     groups,
@@ -151,6 +144,6 @@ export function useTimelineTrips({
     handleLabelFormatItem,
     handleLabelFormatHeader,
     handleDoubleClick,
-    handleMoveItem,
+    // handleMoveItem,
   };
 }

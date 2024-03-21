@@ -51,3 +51,29 @@ export interface Journey {
   journeyId: string;
   driverSchedules: DriverJourneySchedule[];
 }
+
+export interface DailyTripSection {
+  dailyTripSectionId: string;
+  dailyTripId: string;
+  section: number;
+  locOrig: string;
+  locDest: string;
+  startPlanned: string;
+  endPlanned: string;
+  startActual: string | null;
+  endActual: string | null;
+  startEstimated: string;
+  endEstimated: string;
+  licensePlate: string | null;
+  flgStatus: string;
+}
+
+export interface DailyTrip {
+  dailyTripId: string;
+  tripNumber: string;
+  tripDate: string;
+  fleetGroupCode: string | null;
+  flgStatus: string;
+  sto: string;
+  sectionsUnallocated: DailyTripSection[];
+}

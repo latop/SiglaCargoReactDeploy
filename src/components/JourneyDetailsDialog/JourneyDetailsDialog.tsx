@@ -7,14 +7,15 @@ import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import AddIcon from "@mui/icons-material/Add";
 import theme from "@/styles/theme";
-import { useDriverSchedule } from "@/templates/DriversSchedule/useDriversSchedule";
-import dayjs from "dayjs";
-import { IJourneyForm, JourneyForm } from "@/components/JourneyForm";
-import { useJourney } from "@/hooks/useJourney";
+import {
+  IJourneyForm,
+  JourneyForm,
+} from "@/components/JourneyDetailsDialog/components/JourneyForm";
 import { Box, CircularProgress, Typography, Button, Icon } from "@mui/material";
-import { FormProvider, useForm } from "react-hook-form";
+import { FormProvider } from "react-hook-form";
 import { Journey, DriverJourneySchedule } from "@/interfaces/schedule";
-import { JourneyFormHeader } from "@/components/JourneyFormHeader";
+import { JourneyFormHeader } from "@/components/JourneyDetailsDialog/components/JourneyFormHeader";
+import { useJourneyDetails } from "./useJourneyDetails";
 
 const normalizeData = (data: Journey) => {
   const journeyDefaultValues: IJourneyForm = {
@@ -45,52 +46,26 @@ const normalizeData = (data: Journey) => {
   return journeyDefaultValues;
 };
 
-export function TripDetailsDialog({
-  open,
-  onClose,
-  id,
-}: {
+interface JourneyDetailsDialogProps {
   open: boolean;
-  onClose: () => void;
   id: string;
-}) {
-  const methods = useForm();
-  const {
-    reset,
-    formState: { defaultValues },
-    watch,
-    setValue,
-  } = methods;
-  const { trips } = useDriverSchedule();
-  const currentTrip = trips?.find((trip) => trip.id === id);
-  const { data, isLoading } = useJourney({
-    driverId: currentTrip?.driverId,
-    journeyDate: dayjs(currentTrip?.startPlanned).format("YYYY-MM-DD"),
-  });
+  onClose: () => void;
+}
+
+export function JourneyDetailsDialog({
+  open,
+  id,
+  onClose,
+}: JourneyDetailsDialogProps) {
+  const { data, isLoading, methods, handleAddJourney } = useJourneyDetails(id);
+  const { reset, formState } = methods;
+  const { defaultValues } = formState;
 
   React.useEffect(() => {
     if (data && !defaultValues) {
       reset(normalizeData(data));
     }
   }, [data, defaultValues]);
-
-  const handleAddJourney = () => {
-    const driverSchedules = watch("driverSchedules");
-    driverSchedules.push({
-      type: "",
-      task: "",
-      locCodeOrig: "",
-      locCodeDest: "",
-      lineCode: "",
-      licensePlate: "",
-      startPlanned: "",
-      endPlanned: "",
-      startActual: "",
-      endActual: "",
-      new: true,
-    });
-    setValue("driverSchedules", driverSchedules);
-  };
 
   return (
     <Dialog

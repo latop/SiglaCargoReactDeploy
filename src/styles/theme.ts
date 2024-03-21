@@ -105,8 +105,8 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           fontFamily: "var(--font-openSans)",
-          padding: "5px 10px",
-          fontSize: "14px",
+          padding: "3px 10px",
+          fontSize: "12px",
         },
       },
     },

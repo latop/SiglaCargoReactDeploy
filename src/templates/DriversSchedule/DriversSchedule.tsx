@@ -11,8 +11,11 @@ import { TimelineTrips } from "@/components/TimelineTrips";
 import { GianttProvider } from "@/hooks/useGiantt";
 import { useDriverSchedule } from "./useDriversSchedule";
 import dynamic from "next/dynamic";
-import { Waypoint } from "react-waypoint";
-import { Box, CircularProgress } from "@mui/material";
+import { JourneyDetailsDialog } from "@/components/JourneyDetailsDialog";
+import { useHash } from "@/hooks/useHash";
+import { useDailyTripsUnallocated } from "@/hooks/useDailyTripsUnallocated";
+import { useSearchParams } from "next/navigation";
+import { TimelineTripsUnallocated } from "@/components/TimelineTripsUnallocated";
 
 const EmptyResult = dynamic(
   () => import("@/components/EmptyResult").then((module) => module.EmptyResult),
@@ -22,6 +25,15 @@ const EmptyResult = dynamic(
 );
 
 export function DriversSchedule() {
+  const [hash, setHash] = useHash();
+  const params = useSearchParams();
+  const { data } = useDailyTripsUnallocated({
+    startDate: params.get("startDate") ?? "",
+    endDate: params.get("endDate") ?? "",
+  });
+  const formattedData = data?.slice(0, 20);
+  const match = (hash as string)?.match(/#journeyDetails-(.+)/);
+  const tripDetailId = match?.[1];
   const {
     trips,
     drivers,
@@ -32,6 +44,10 @@ export function DriversSchedule() {
     isReachingEnd,
     loadMore,
   } = useDriverSchedule();
+
+  const handleCloseTripDetails = () => {
+    setHash("");
+  };
 
   return (
     <MainContainer>
@@ -45,20 +61,28 @@ export function DriversSchedule() {
             <GianttProvider>
               <GianttTable>
                 <GianttZoom />
-                <TimelineTrips trips={trips} drivers={drivers} />
+                <TimelineTrips
+                  trips={trips}
+                  drivers={drivers}
+                  onPaginate={loadMore}
+                  isReachingEnd={isReachingEnd}
+                  isLoadingMore={!!isLoadingMore}
+                />
+                {formattedData && (
+                  <TimelineTripsUnallocated tripsUnallocated={formattedData} />
+                )}
               </GianttTable>
             </GianttProvider>
           )}
           {isEmpty && <EmptyResult />}
-          {!isReachingEnd && (
-            <Waypoint onEnter={loadMore} bottomOffset={-200} />
-          )}
-          {isLoadingMore && (
-            <Box display="flex" justifyContent="center" mt={2} marginBottom={2}>
-              <CircularProgress />
-            </Box>
-          )}
         </MainContainer.Content>
+      )}
+      {tripDetailId && (
+        <JourneyDetailsDialog
+          open={!!tripDetailId}
+          id={tripDetailId}
+          onClose={handleCloseTripDetails}
+        />
       )}
     </MainContainer>
   );

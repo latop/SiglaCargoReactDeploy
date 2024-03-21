@@ -1,16 +1,10 @@
 import * as React from "react";
-import { useDriverSchedule } from "@/templates/DriversSchedule/useDriversSchedule";
 import dayjs from "dayjs";
-import { useJourney } from "@/hooks/useJourney";
 import { Box, Typography } from "@mui/material";
+import { useJourneyDetails } from "../../useJourneyDetails";
 
 export function JourneyFormHeader({ id }: { id: string }) {
-  const { trips } = useDriverSchedule();
-  const currentTrip = trips?.find((trip) => trip.id === id);
-  const { data, isLoading } = useJourney({
-    driverId: currentTrip?.driverId,
-    journeyDate: dayjs(currentTrip?.startPlanned).format("YYYY-MM-DD"),
-  });
+  const { currentTrip, isLoading, data } = useJourneyDetails(id);
 
   return (
     <Box display="flex" justifyContent="space-between">

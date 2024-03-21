@@ -1,13 +1,13 @@
 import React from "react";
-import { Waypoint } from "react-waypoint";
 import Timeline, {
   ItemContext,
   TimelineHeaders,
   SidebarHeader,
   DateHeader,
 } from "react-calendar-timeline";
-import { DriverSchedule, Trip } from "@/interfaces/schedule";
-import { useTimelineTrips } from "./useTimelineTrips";
+import { DailyTrip, DailyTripSection } from "@/interfaces/schedule";
+import { useTimelineTripsUnallocated } from "./useTimelineTripsUnallocated";
+import { Card } from "@mui/material";
 import { red } from "@mui/material/colors";
 import {
   TimelineItem,
@@ -15,27 +15,18 @@ import {
   TimelineItemDestination,
   TimelineItemOrigin,
   TimelineItemTitle,
-} from "./TimelineTrips.styles";
+} from "./TimelineTripsUnallocated.styles";
 import "dayjs/locale/pt-br";
 import "react-calendar-timeline/lib/Timeline.css";
 import "./Timeline.css";
-import { Box, Card, CircularProgress } from "@mui/material";
 
-interface TimelineTripsProps {
-  trips: Trip[];
-  isReachingEnd: boolean;
-  drivers: DriverSchedule[];
-  onPaginate: () => void;
-  isLoadingMore: boolean;
+interface TimelineTripsUnallocatedProps {
+  tripsUnallocated: DailyTrip[];
 }
 
-export function TimelineTrips({
-  trips,
-  drivers,
-  onPaginate,
-  isReachingEnd,
-  isLoadingMore,
-}: TimelineTripsProps) {
+export function TimelineTripsUnallocated({
+  tripsUnallocated,
+}: TimelineTripsUnallocatedProps) {
   const {
     groups,
     items,
@@ -44,12 +35,21 @@ export function TimelineTrips({
     visibleTimeEnd,
     handleDoubleClick,
     handleLabelFormatItem,
-    handleMoveItem,
+    // handleMoveItem,
     handleLabelFormatHeader,
-  } = useTimelineTrips({
-    trips,
-    drivers,
-  });
+  } = useTimelineTripsUnallocated(tripsUnallocated);
+
+  function findSectionById(tripsData: DailyTrip[], sectionId: string) {
+    for (const trip of tripsData) {
+      const section = trip.sectionsUnallocated.find(
+        (section: DailyTripSection) => section.dailyTripSectionId === sectionId,
+      );
+      if (section) {
+        return section;
+      }
+    }
+    return null;
+  }
 
   const itemRenderer = ({
     item,
@@ -68,31 +68,28 @@ export function TimelineTrips({
     const { left: leftResizeProps, right: rightResizeProps } = getResizeProps();
     const backgroundColor = itemContext.selected ? red[500] : "#4663ab";
     const borderColor = itemContext.resizing ? red[500] : item.color;
-    const currentTrip = trips.find((trip) => trip.id === itemContext.title);
+    const currentTrip = findSectionById(tripsUnallocated, item.id);
+
     return (
       <TimelineItem {...getItemProps({})} className="giantt-item">
         {!!itemContext.useResizeHandle && <div {...leftResizeProps} />}
-        {itemContext.dimensions.width > 50 &&
-          currentTrip?.locationDestCode &&
-          currentTrip?.locationOrigCode && (
+        {itemContext.dimensions.width > 40 &&
+          currentTrip?.locDest &&
+          currentTrip?.locOrig && (
             <TimelineItemSubtitle>
-              <TimelineItemOrigin>
-                {currentTrip.locationOrigCode}
-              </TimelineItemOrigin>
+              <TimelineItemOrigin>{currentTrip.locOrig}</TimelineItemOrigin>
               <TimelineItemDestination>
-                {currentTrip.locationDestCode}
+                {currentTrip.locDest}
               </TimelineItemDestination>
             </TimelineItemSubtitle>
           )}
         <TimelineItemTitle
           style={{
-            height: `calc(${itemContext.dimensions.height} - 8px)`,
+            height: `calc(${itemContext.dimensions.height} - 15px)`,
             backgroundColor,
             borderColor,
           }}
-        >
-          {currentTrip?.code}
-        </TimelineItemTitle>
+        />
 
         {!!itemContext.useResizeHandle && <div {...rightResizeProps} />}
       </TimelineItem>
@@ -100,16 +97,17 @@ export function TimelineTrips({
   };
 
   return (
-    <Card sx={{ height: "52vh", overflow: "auto", marginTop: "10px" }}>
+    <Card sx={{ height: "20vh", overflow: "auto", marginTop: "15px" }}>
       <Timeline
-        lineHeight={55}
+        lineHeight={40}
         onItemDoubleClick={handleDoubleClick}
         groups={groups}
         items={items}
         canMove={false}
         canResize={false}
         canChangeGroup={false}
-        onItemMove={handleMoveItem}
+        // onItemMove={handleMoveItem}
+        className="timeline-trips-unallocated"
         minZoom={60 * 60 * 24}
         stackItems
         maxZoom={604800000}
@@ -118,7 +116,10 @@ export function TimelineTrips({
         itemRenderer={itemRenderer}
         visibleTimeEnd={visibleTimeEnd}
       >
-        <TimelineHeaders style={{ position: "sticky", top: 0, zIndex: 100 }}>
+        <TimelineHeaders
+          className="timeline-trips-unallocated-header"
+          style={{ position: "sticky", top: 0 }}
+        >
           <SidebarHeader>
             {({ getRootProps }) => {
               return <div {...getRootProps()} />;
@@ -135,12 +136,6 @@ export function TimelineTrips({
           <DateHeader labelFormat={handleLabelFormatItem} />
         </TimelineHeaders>
       </Timeline>
-      {!isReachingEnd && <Waypoint onEnter={onPaginate} bottomOffset={-250} />}
-      {isLoadingMore && (
-        <Box display="flex" justifyContent="center" mt={2} marginBottom={2}>
-          <CircularProgress />
-        </Box>
-      )}
     </Card>
   );
 }

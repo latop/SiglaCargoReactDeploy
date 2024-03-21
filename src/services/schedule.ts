@@ -51,3 +51,25 @@ export async function fetchJourney({
     return error;
   }
 }
+
+export type FetchDailyTripsUnallocatedParams = {
+  startDate: string;
+  endDate: string;
+};
+
+export async function fetchDailyTripsUnallocated({
+  args: { startDate, endDate },
+}: {
+  args: FetchDailyTripsUnallocatedParams;
+}) {
+  try {
+    const response = await axios.get(`/gantt/GetDailyTripUnallocated`, {
+      params: { startDate, endDate },
+    });
+    const data = response.data;
+    return data;
+  } catch (error) {
+    console.error(error);
+    return error;
+  }
+}
