@@ -56,6 +56,8 @@ export function useDriverSchedule() {
     useDailyTripsUnallocated({
       startDate: params.get("startDate") ?? "",
       endDate: params.get("endDate") ?? "",
+      pageSize: 20,
+      pageNumber: 1,
     });
 
   const isLoading = loadingJourneys || loadingTripsUnallocated;
