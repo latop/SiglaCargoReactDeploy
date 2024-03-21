@@ -97,7 +97,9 @@ export function TimelineTripsUnallocated({
   };
 
   return (
-    <Card sx={{ height: "20vh", overflow: "auto", marginTop: "15px" }}>
+    <Card
+      sx={{ height: "calc(25% - 15px)", overflow: "auto", marginTop: "15px" }}
+    >
       <Timeline
         lineHeight={40}
         onItemDoubleClick={handleDoubleClick}

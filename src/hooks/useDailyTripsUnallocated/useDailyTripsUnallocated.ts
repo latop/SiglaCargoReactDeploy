@@ -18,7 +18,7 @@ export const useDailyTripsUnallocated = (
     options,
   );
   return {
-    data,
+    dailyTripsUnallocated: data,
     error,
     isLoading,
   };

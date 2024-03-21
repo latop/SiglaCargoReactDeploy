@@ -100,7 +100,9 @@ export function TimelineTrips({
   };
 
   return (
-    <Card sx={{ height: "52vh", overflow: "auto", marginTop: "10px" }}>
+    <Card
+      sx={{ height: "calc(75% - 10px)", overflow: "auto", marginTop: "10px" }}
+    >
       <Timeline
         lineHeight={55}
         onItemDoubleClick={handleDoubleClick}

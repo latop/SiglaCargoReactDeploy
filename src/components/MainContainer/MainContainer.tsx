@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { CircularProgress, Box } from "@mui/material";
@@ -10,9 +11,11 @@ export function MainContainer({ children }: { children: React.ReactNode }) {
 function Content({
   children,
   loading,
+  sx,
 }: {
   children: React.ReactNode;
   loading: boolean;
+  sx?: any;
 }) {
   return (
     <Box
@@ -23,6 +26,7 @@ function Content({
         flexDirection: "column",
         overflowY: "auto",
         position: "relative",
+        ...sx,
       }}
     >
       {loading && <CircularProgress sx={{ margin: "auto" }} />}

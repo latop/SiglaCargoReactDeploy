@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import { useJourneysByPeriod } from "@/hooks/useJourneysByPeriod";
 import { useSearchParams } from "next/navigation";
 import { Trip } from "@/interfaces/schedule";
+import { useDailyTripsUnallocated } from "@/hooks/useDailyTripsUnallocated";
 
 interface JourneySearchParams {
   startDate?: string;
@@ -41,7 +42,7 @@ export function useDriverSchedule() {
     trips,
     drivers,
     hasNext,
-    isLoading,
+    isLoading: loadingJourneys,
     size,
     setSize,
     updateTrip,
@@ -50,6 +51,14 @@ export function useDriverSchedule() {
     ...searchParams,
     pageSize: PAGE_SIZE,
   });
+
+  const { dailyTripsUnallocated, isLoading: loadingTripsUnallocated } =
+    useDailyTripsUnallocated({
+      startDate: params.get("startDate") ?? "",
+      endDate: params.get("endDate") ?? "",
+    });
+
+  const isLoading = loadingJourneys || loadingTripsUnallocated;
 
   const hasRelevantParams = Object.keys(searchParams).length > 0;
 
@@ -93,6 +102,7 @@ export function useDriverSchedule() {
   return {
     trips,
     drivers,
+    dailyTripsUnallocated: dailyTripsUnallocated?.slice(0, 20),
     isLoading,
     isEmpty,
     showContent: hasRelevantParams,
