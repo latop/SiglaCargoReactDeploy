@@ -16,7 +16,11 @@ import { useRouter } from "next/navigation";
 import { BurgerMenu } from "../BurgerMenu";
 import { grey } from "@mui/material/colors";
 
-export function AppBar({ children }: { children: React.ReactNode }) {
+interface AppBarProps extends React.HTMLAttributes<HTMLDivElement> {
+  children: React.ReactNode;
+}
+
+export function AppBar({ children, ...props }: AppBarProps) {
   const router = useRouter();
   const [open, setOpen] = useState(false);
 
@@ -47,7 +51,7 @@ export function AppBar({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <>
+    <Box {...props}>
       <BurgerMenu toggleDrawer={toggleDrawer} isOpen={open} />
       <AppBarBase position="static">
         <Toolbar>
@@ -71,6 +75,6 @@ export function AppBar({ children }: { children: React.ReactNode }) {
           </Button>
         </Toolbar>
       </AppBarBase>
-    </>
+    </Box>
   );
 }

@@ -15,19 +15,19 @@ import "dayjs/locale/pt-br";
 
 dayjs.extend(customParseFormat);
 
-export function JourneyFilterBar() {
+export function JourneyFilterBar(props: React.HTMLProps<HTMLFormElement>) {
   const { methods, onSubmit } = useJourneyFilterBar();
   const { control, handleSubmit, watch } = methods;
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
       <FormProvider {...methods}>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)} {...props}>
           <Grid
             container
             alignItems="flex-start"
             spacing={2}
-            margin="10px 0 20px"
+            margin="10px 0 10px"
           >
             <Grid item xs={1.6}>
               <Controller
