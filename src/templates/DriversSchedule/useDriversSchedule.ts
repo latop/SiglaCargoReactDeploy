@@ -41,24 +41,29 @@ export function useDriverSchedule() {
   const {
     trips,
     drivers,
-    hasNext,
+    hasNext: hasNextJourney,
     isLoading: loadingJourneys,
-    size,
-    setSize,
+    size: sizeDrivers,
+    setSize: setSizeDrivers,
     updateTrip,
-    isValidating,
+    isValidating: isValidatingDrivers,
   } = useJourneysByPeriod({
     ...searchParams,
     pageSize: PAGE_SIZE,
   });
 
-  const { dailyTripsUnallocated, isLoading: loadingTripsUnallocated } =
-    useDailyTripsUnallocated({
-      startDate: params.get("startDate") ?? "",
-      endDate: params.get("endDate") ?? "",
-      pageSize: 20,
-      pageNumber: 1,
-    });
+  const {
+    dailyTripsUnallocated,
+    isLoading: loadingTripsUnallocated,
+    hasNext: hasNextTripsUnallocated,
+    size: sizeTripsUnallocated,
+    setSize: setSizeTripsUnallocated,
+    isValidating: isValidatingTripsUnallocated,
+  } = useDailyTripsUnallocated({
+    startDate: params.get("startDate") ?? "",
+    endDate: params.get("endDate") ?? "",
+    pageSize: PAGE_SIZE,
+  });
 
   const isLoading = loadingJourneys || loadingTripsUnallocated;
 
@@ -89,28 +94,51 @@ export function useDriverSchedule() {
   };
 
   const isEmpty = !isLoading && !trips?.length && !drivers?.length;
-  const isLoadingMore =
-    isValidating ||
-    (size > 0 && drivers && typeof drivers[size - 1] === "undefined");
 
-  const isReachingEnd = !hasNext;
+  const isLoadingMoreDrivers =
+    isValidatingDrivers ||
+    (sizeDrivers > 0 &&
+      drivers &&
+      typeof drivers[sizeDrivers - 1] === "undefined");
 
-  const loadMore = () => {
-    if (hasNext && !isLoadingMore) {
-      setSize((prevSize) => prevSize + 1);
+  const isLoadingMoreTripsUnallocated =
+    isValidatingTripsUnallocated ||
+    (sizeTripsUnallocated > 0 &&
+      dailyTripsUnallocated &&
+      typeof dailyTripsUnallocated[sizeTripsUnallocated - 1] === "undefined");
+
+  const isReachingEndDrivers = !hasNextJourney;
+  const isReachingEndTripsUnallocated = !hasNextTripsUnallocated;
+
+  const loadMoreDrivers = () => {
+    if (hasNextJourney && !isLoadingMoreDrivers) {
+      setSizeDrivers((prevSize) => prevSize + 1);
+    }
+  };
+
+  const loadMoreTripsUnallocated = () => {
+    if (hasNextTripsUnallocated && !isLoadingMoreTripsUnallocated) {
+      setSizeTripsUnallocated((prevSize) => prevSize + 1);
     }
   };
 
   return {
     trips,
     drivers,
-    dailyTripsUnallocated: dailyTripsUnallocated?.slice(0, 20),
+    dailyTripsUnallocated,
     isLoading,
     isEmpty,
     showContent: hasRelevantParams,
     updatedTrip: handleUpdateTrip,
-    isLoadingMore,
-    isReachingEnd,
-    loadMore,
+    isLoadingMoreDrivers,
+    isReachingEndDrivers,
+    loadMoreDrivers,
+    hasNextTripsUnallocated,
+    sizeTripsUnallocated,
+    setSizeTripsUnallocated,
+    isValidatingTripsUnallocated,
+    loadMoreTripsUnallocated,
+    isLoadingMoreTripsUnallocated,
+    isReachingEndTripsUnallocated,
   };
 }

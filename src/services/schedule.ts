@@ -55,16 +55,18 @@ export async function fetchJourney({
 export type FetchDailyTripsUnallocatedParams = {
   startDate: string;
   endDate: string;
+  pageSize: number;
+  pageNumber: number;
 };
 
 export async function fetchDailyTripsUnallocated({
-  args: { startDate, endDate },
+  args: params,
 }: {
   args: FetchDailyTripsUnallocatedParams;
 }) {
   try {
     const response = await axios.get(`/gantt/GetDailyTripUnallocated`, {
-      params: { startDate, endDate },
+      params,
     });
     const data = response.data;
     return data;

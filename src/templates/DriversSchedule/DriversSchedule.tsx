@@ -36,10 +36,13 @@ export function DriversSchedule() {
     isLoading,
     showContent,
     isEmpty,
-    isLoadingMore,
+    isLoadingMoreDrivers,
     dailyTripsUnallocated,
-    isReachingEnd,
-    loadMore,
+    isReachingEndDrivers,
+    loadMoreDrivers,
+    isLoadingMoreTripsUnallocated,
+    loadMoreTripsUnallocated,
+    isReachingEndTripsUnallocated,
   } = useDriverSchedule();
 
   const handleCloseTripDetails = () => {
@@ -82,13 +85,16 @@ export function DriversSchedule() {
                   <TimelineTrips
                     trips={trips}
                     drivers={drivers}
-                    onPaginate={loadMore}
-                    isReachingEnd={isReachingEnd}
-                    isLoadingMore={!!isLoadingMore}
+                    onPaginate={loadMoreDrivers}
+                    isReachingEnd={isReachingEndDrivers}
+                    isLoadingMore={!!isLoadingMoreDrivers}
                   />
                   {dailyTripsUnallocated && (
                     <TimelineTripsUnallocated
                       tripsUnallocated={dailyTripsUnallocated}
+                      onPaginate={loadMoreTripsUnallocated}
+                      isReachingEnd={isReachingEndTripsUnallocated}
+                      isLoadingMore={!!isLoadingMoreTripsUnallocated}
                     />
                   )}
                 </Box>

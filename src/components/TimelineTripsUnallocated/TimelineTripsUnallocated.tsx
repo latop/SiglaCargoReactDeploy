@@ -1,4 +1,5 @@
 import React from "react";
+import { Waypoint } from "react-waypoint";
 import Timeline, {
   ItemContext,
   TimelineHeaders,
@@ -7,7 +8,7 @@ import Timeline, {
 } from "react-calendar-timeline";
 import { DailyTrip, DailyTripSection } from "@/interfaces/schedule";
 import { useTimelineTripsUnallocated } from "./useTimelineTripsUnallocated";
-import { Card } from "@mui/material";
+import { Box, Card, CircularProgress } from "@mui/material";
 import { red } from "@mui/material/colors";
 import {
   TimelineItem,
@@ -22,10 +23,16 @@ import "./Timeline.css";
 
 interface TimelineTripsUnallocatedProps {
   tripsUnallocated: DailyTrip[];
+  isReachingEnd: boolean;
+  onPaginate: () => void;
+  isLoadingMore: boolean;
 }
 
 export function TimelineTripsUnallocated({
   tripsUnallocated,
+  onPaginate,
+  isReachingEnd,
+  isLoadingMore,
 }: TimelineTripsUnallocatedProps) {
   const {
     groups,
@@ -33,7 +40,7 @@ export function TimelineTripsUnallocated({
     visibleTimeStart,
     handleTimeChange,
     visibleTimeEnd,
-    handleDoubleClick,
+    // handleDoubleClick,
     handleLabelFormatItem,
     // handleMoveItem,
     handleLabelFormatHeader,
@@ -98,11 +105,11 @@ export function TimelineTripsUnallocated({
 
   return (
     <Card
-      sx={{ height: "calc(25% - 15px)", overflow: "auto", marginTop: "15px" }}
+      sx={{ height: "calc(25% - 25px)", overflow: "auto", marginTop: "15px" }}
     >
       <Timeline
         lineHeight={40}
-        onItemDoubleClick={handleDoubleClick}
+        // onItemDoubleClick={handleDoubleClick}
         groups={groups}
         items={items}
         canMove={false}
@@ -138,6 +145,12 @@ export function TimelineTripsUnallocated({
           <DateHeader labelFormat={handleLabelFormatItem} />
         </TimelineHeaders>
       </Timeline>
+      {!isReachingEnd && <Waypoint onEnter={onPaginate} bottomOffset={-250} />}
+      {isLoadingMore && (
+        <Box display="flex" justifyContent="center" mt={2} marginBottom={2}>
+          <CircularProgress />
+        </Box>
+      )}
     </Card>
   );
 }
