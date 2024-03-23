@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 import { SWRConfiguration } from "swr";
 import { useSearchParams } from "next/navigation";
 import useSWRInfinite from "swr/infinite";
@@ -14,8 +15,8 @@ export const useDailyTripsUnallocated = (options?: SWRConfiguration) => {
   const searchParams = useSearchParams();
 
   const params = {
-    startDate: searchParams.get("startDate"),
-    endDate: searchParams.get("endDate"),
+    startDate: dayjs(searchParams.get("startDate")).format("YYYY-MM-DD"),
+    endDate: dayjs(searchParams.get("endDate")).format("YYYY-MM-DD"),
   };
 
   const getKey = (pageIndex: number, previousPageData: DailyTripResponse) => {

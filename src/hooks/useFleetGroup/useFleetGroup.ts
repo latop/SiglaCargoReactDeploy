@@ -6,6 +6,10 @@ export const useFleetGroup = (params: FetchFleetGroupParams) => {
   const { data, error, isLoading } = useSWR<FleetGroup[]>(
     { url: "/fleet-group", args: params },
     fetchFleetGroup,
+    {
+      revalidateIfStale: false,
+      revalidateOnFocus: false,
+    },
   );
 
   return {

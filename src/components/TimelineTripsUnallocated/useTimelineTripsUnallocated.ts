@@ -116,7 +116,11 @@ export function useTimelineTripsUnallocated(tripsUnallocated: DailyTrip[]) {
     const query = new URLSearchParams(searchParams.toString());
     Object.entries(newParams).forEach(([key, value]) => {
       if (searchParams.get(key)) {
-        query.set(key, value);
+        if (!value) {
+          query.delete(key);
+        } else {
+          query.set(key, value);
+        }
       } else {
         query.append(key, value);
       }

@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 import { useSearchParams } from "next/navigation";
 import { fetchJourneysByPeriod } from "@/services/schedule";
 import { JourneysByPeriodResponse, Trip } from "@/interfaces/schedule";
@@ -6,8 +7,8 @@ import useSWRInfinite from "swr/infinite";
 export const useJourneysByPeriod = () => {
   const params = useSearchParams();
   const searchParams = {
-    startDate: params.get("startDate"),
-    endDate: params.get("endDate"),
+    startDate: dayjs(params.get("startDate")).format("YYYY-MM-DD"),
+    endDate: dayjs(params.get("endDate")).format("YYYY-MM-DD"),
     nickName: params.get("nickName"),
     fleetGroupCode: params.get("fleetGroupCode"),
     locationGroupCode: params.get("locationGroupCode"),
@@ -29,6 +30,8 @@ export const useJourneysByPeriod = () => {
   const { data, error, isLoading, mutate, size, setSize, isValidating } =
     useSWRInfinite<JourneysByPeriodResponse>(getKey, fetchJourneysByPeriod, {
       revalidateFirstPage: false,
+      revalidateIfStale: false,
+      revalidateOnFocus: false,
     });
 
   const trips = data?.map((page) => page.trips).flat();
