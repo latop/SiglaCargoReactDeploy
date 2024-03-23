@@ -19,7 +19,7 @@ import {
 import "dayjs/locale/pt-br";
 import "react-calendar-timeline/lib/Timeline.css";
 import "./Timeline.css";
-import { Box, Card, CircularProgress } from "@mui/material";
+import { Box, CircularProgress } from "@mui/material";
 
 interface TimelineTripsProps {
   trips: Trip[];
@@ -46,6 +46,7 @@ export function TimelineTrips({
     handleLabelFormatItem,
     handleMoveItem,
     handleLabelFormatHeader,
+    handleCanvasClick,
   } = useTimelineTrips({
     trips,
     drivers,
@@ -91,7 +92,7 @@ export function TimelineTrips({
             borderColor,
           }}
         >
-          {currentTrip?.code}
+          {/* {currentTrip?.code} */}
         </TimelineItemTitle>
 
         {!!itemContext.useResizeHandle && <div {...rightResizeProps} />}
@@ -100,11 +101,9 @@ export function TimelineTrips({
   };
 
   return (
-    <Card
-      sx={{ height: "calc(75% - 10px)", overflow: "auto", marginTop: "10px" }}
-    >
+    <>
       <Timeline
-        lineHeight={55}
+        lineHeight={50}
         onItemDoubleClick={handleDoubleClick}
         groups={groups}
         items={items}
@@ -112,6 +111,7 @@ export function TimelineTrips({
         canResize={false}
         canChangeGroup={false}
         onItemMove={handleMoveItem}
+        onCanvasClick={handleCanvasClick}
         minZoom={60 * 60 * 24}
         stackItems
         maxZoom={604800000}
@@ -143,6 +143,6 @@ export function TimelineTrips({
           <CircularProgress />
         </Box>
       )}
-    </Card>
+    </>
   );
 }

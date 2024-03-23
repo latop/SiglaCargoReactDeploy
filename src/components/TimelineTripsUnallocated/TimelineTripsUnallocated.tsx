@@ -8,7 +8,7 @@ import Timeline, {
 } from "react-calendar-timeline";
 import { DailyTrip, DailyTripSection } from "@/interfaces/schedule";
 import { useTimelineTripsUnallocated } from "./useTimelineTripsUnallocated";
-import { Box, Card, CircularProgress } from "@mui/material";
+import { Box, CircularProgress } from "@mui/material";
 import { red } from "@mui/material/colors";
 import {
   TimelineItem,
@@ -39,11 +39,11 @@ export function TimelineTripsUnallocated({
     items,
     visibleTimeStart,
     handleTimeChange,
+    selectedDailyTrip,
     visibleTimeEnd,
-    // handleDoubleClick,
     handleLabelFormatItem,
-    // handleMoveItem,
     handleLabelFormatHeader,
+    handleCanvasClick,
   } = useTimelineTripsUnallocated(tripsUnallocated);
 
   function findSectionById(tripsData: DailyTrip[], sectionId: string) {
@@ -73,9 +73,12 @@ export function TimelineTripsUnallocated({
     getResizeProps: any;
   }) => {
     const { left: leftResizeProps, right: rightResizeProps } = getResizeProps();
-    const backgroundColor = itemContext.selected ? red[500] : "#4663ab";
-    const borderColor = itemContext.resizing ? red[500] : item.color;
     const currentTrip = findSectionById(tripsUnallocated, item.id);
+    const selected =
+      currentTrip?.dailyTripId === selectedDailyTrip?.dailyTripId ||
+      itemContext.selected;
+    const backgroundColor = selected ? red[500] : "#4663ab";
+    const borderColor = itemContext.resizing ? red[500] : item.color;
 
     return (
       <TimelineItem {...getItemProps({})} className="giantt-item">
@@ -104,12 +107,9 @@ export function TimelineTripsUnallocated({
   };
 
   return (
-    <Card
-      sx={{ height: "calc(25% - 25px)", overflow: "auto", marginTop: "15px" }}
-    >
+    <>
       <Timeline
         lineHeight={40}
-        // onItemDoubleClick={handleDoubleClick}
         groups={groups}
         items={items}
         canMove={false}
@@ -119,6 +119,7 @@ export function TimelineTripsUnallocated({
         className="timeline-trips-unallocated"
         minZoom={60 * 60 * 24}
         stackItems
+        onCanvasClick={handleCanvasClick}
         maxZoom={604800000}
         onTimeChange={handleTimeChange}
         visibleTimeStart={visibleTimeStart}
@@ -151,6 +152,6 @@ export function TimelineTripsUnallocated({
           <CircularProgress />
         </Box>
       )}
-    </Card>
+    </>
   );
 }

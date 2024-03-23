@@ -1,12 +1,16 @@
 import { useMemo } from "react";
 import { useGiantt } from "@/hooks/useGiantt";
-import { DriverSchedule, Trip } from "@/interfaces/schedule";
+import { DailyTripSection, DriverSchedule, Trip } from "@/interfaces/schedule";
 import { Unit } from "react-calendar-timeline";
 import dayjs from "dayjs";
 import { match } from "ts-pattern";
 import { useDriverSchedule } from "@/templates/DriversSchedule/useDriversSchedule";
 import { useToast } from "@/hooks/useToast";
 import { useHash } from "@/hooks/useHash";
+import { useJourneysByPeriod } from "@/hooks/useJourneysByPeriod";
+import { useDailyTripsUnallocated } from "@/hooks/useDailyTripsUnallocated";
+import { useDialog } from "@/hooks/useDialog/useDialog";
+import { Box, Typography } from "@mui/material";
 
 export function useTimelineTrips({
   trips,
@@ -17,6 +21,7 @@ export function useTimelineTrips({
 }) {
   const [, setHash] = useHash();
   const { addToast } = useToast();
+  const { openDialog } = useDialog();
   const { updatedTrip } = useDriverSchedule();
   const {
     visibleTimeEnd,
@@ -24,6 +29,9 @@ export function useTimelineTrips({
     setVisibleTimeStart,
     setVisibleTimeEnd,
   } = useGiantt();
+
+  const { addNewTrips } = useJourneysByPeriod();
+  const { selectedDailyTrip } = useDailyTripsUnallocated();
 
   const handleLabelFormatItem = (
     [startTime]: [Date],
@@ -88,8 +96,8 @@ export function useTimelineTrips({
   const { groups, items } = useMemo(() => {
     const groupsMap = new Map();
     const itemsMap = new Map();
-    drivers.forEach((driver: DriverSchedule) => {
-      if (!groupsMap.has(driver.driverId)) {
+    drivers?.forEach((driver: DriverSchedule) => {
+      if (!groupsMap.has(driver?.driverId)) {
         groupsMap.set(driver.driverId, {
           id: driver.driverId,
           title: driver.driverName,
@@ -142,6 +150,74 @@ export function useTimelineTrips({
     }
   };
 
+  const handleConfirmAllocate = (driverId: string) => {
+    const currentDriver = drivers?.find(
+      (driver) => driver.driverId === driverId,
+    );
+    if (!currentDriver || !selectedDailyTrip) return;
+
+    const newTrips = selectedDailyTrip.sectionsUnallocated.map(
+      (section: DailyTripSection) => {
+        const newTrip: Trip = {
+          id: section.dailyTripSectionId,
+          code: selectedDailyTrip.sto,
+          startPlanned: section.startPlanned,
+          endPlanned: section.endPlanned,
+          driverId: driverId,
+          driverName: currentDriver.driverName,
+          locationOrigCode: section.locOrig,
+          locationDestCode: section.locDest,
+        };
+        return newTrip;
+      },
+    );
+    addNewTrips(newTrips);
+    addToast("Viagem alocada com sucesso.", { type: "success" });
+  };
+
+  const handleCanvasClick = (driverId: string) => {
+    const currentDriver = drivers?.find(
+      (driver) => driver.driverId === driverId,
+    );
+    if (!currentDriver || !selectedDailyTrip) return;
+
+    openDialog({
+      title: "Alocar motorista",
+      body: (
+        <Box>
+          <Typography>
+            Deseja associar o motorista{" "}
+            <strong>{currentDriver?.driverName}</strong> a todas as viagens
+            desta rota?
+          </Typography>
+          <Box marginTop="10px">
+            <Box display="flex" flexDirection="row" gap="3px">
+              <Typography variant="caption" fontWeight="bold">
+                Início da jornada:{" "}
+              </Typography>
+              <Typography variant="caption">
+                {dayjs(selectedDailyTrip.startPlanned).format(
+                  "DD/MM/YYYY [as] HH:mm",
+                )}
+              </Typography>
+            </Box>
+            <Box display="flex" flexDirection="row" gap="3px">
+              <Typography variant="caption" fontWeight="bold">
+                Fim da jornada:{" "}
+              </Typography>
+              <Typography variant="caption">
+                {dayjs(selectedDailyTrip.endPlanned).format(
+                  "DD/MM/YYYY [as] HH:mm",
+                )}
+              </Typography>
+            </Box>
+          </Box>
+        </Box>
+      ),
+      onConfirm: () => handleConfirmAllocate(driverId),
+    });
+  };
+
   return {
     groups,
     items,
@@ -152,5 +228,6 @@ export function useTimelineTrips({
     handleLabelFormatHeader,
     handleDoubleClick,
     handleMoveItem,
+    handleCanvasClick,
   };
 }

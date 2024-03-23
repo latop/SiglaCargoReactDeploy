@@ -3,8 +3,8 @@ import axios from "axios";
 axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_URL;
 
 export type JourneysByPeriodParams = {
-  startDate?: string;
-  endDate?: string;
+  startDate: string;
+  endDate: string;
   nickName?: string;
   gpId?: string;
   locationGroupId?: string;
@@ -19,7 +19,7 @@ export async function fetchJourneysByPeriod({
   args: JourneysByPeriodParams;
 }) {
   try {
-    const response = await axios.get(`/Schedule/GetJourneysByPeriod`, {
+    const response = await axios.get(`/gantt/GetJourneysByPeriod`, {
       params,
     });
     const data = response.data;

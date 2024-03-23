@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { useJourneysByPeriod } from "@/hooks/useJourneysByPeriod";
 import { useSearchParams } from "next/navigation";
-import { Trip } from "@/interfaces/schedule";
+import { DailyTripSection, Trip } from "@/interfaces/schedule";
 import { useDailyTripsUnallocated } from "@/hooks/useDailyTripsUnallocated";
 
 interface JourneySearchParams {
@@ -12,8 +12,6 @@ interface JourneySearchParams {
   locationGroupCode?: string;
   positionCode?: string;
 }
-
-const PAGE_SIZE = 10;
 
 export function useDriverSchedule() {
   const params = useSearchParams();
@@ -42,30 +40,22 @@ export function useDriverSchedule() {
     trips,
     drivers,
     hasNext: hasNextJourney,
-    isLoading: loadingJourneys,
+    isLoading: isLoadingJourneys,
     size: sizeDrivers,
     setSize: setSizeDrivers,
     updateTrip,
+    addNewTrips,
     isValidating: isValidatingDrivers,
-  } = useJourneysByPeriod({
-    ...searchParams,
-    pageSize: PAGE_SIZE,
-  });
+  } = useJourneysByPeriod();
 
   const {
     dailyTripsUnallocated,
-    isLoading: loadingTripsUnallocated,
+    isLoading: isLoadingTripsUnallocated,
     hasNext: hasNextTripsUnallocated,
     size: sizeTripsUnallocated,
     setSize: setSizeTripsUnallocated,
     isValidating: isValidatingTripsUnallocated,
-  } = useDailyTripsUnallocated({
-    startDate: params.get("startDate") ?? "",
-    endDate: params.get("endDate") ?? "",
-    pageSize: PAGE_SIZE,
-  });
-
-  const isLoading = loadingJourneys || loadingTripsUnallocated;
+  } = useDailyTripsUnallocated();
 
   const hasRelevantParams = Object.keys(searchParams).length > 0;
 
@@ -93,7 +83,7 @@ export function useDriverSchedule() {
     updateTrip(updatedTrip);
   };
 
-  const isEmpty = !isLoading && !trips?.length && !drivers?.length;
+  const isEmpty = !isLoadingJourneys && !trips?.length && !drivers?.length;
 
   const isLoadingMoreDrivers =
     isValidatingDrivers ||
@@ -122,21 +112,58 @@ export function useDriverSchedule() {
     }
   };
 
+  function findTripBySectionId(sectionId: string) {
+    if (!dailyTripsUnallocated) return null;
+
+    for (const trip of dailyTripsUnallocated) {
+      const section = trip.sectionsUnallocated.find(
+        (section: DailyTripSection) => section.dailyTripSectionId === sectionId,
+      );
+      if (section) {
+        return trip;
+      }
+    }
+    return null;
+  }
+
+  const handleAllocateDriver = (dailyTripId: string, driverId: string) => {
+    const currentDriver = drivers?.find(
+      (driver) => driver.driverId === driverId,
+    );
+    const currentDailyTripUnallocated = findTripBySectionId(dailyTripId);
+
+    if (!currentDriver || !currentDailyTripUnallocated) return;
+
+    const newTrips = currentDailyTripUnallocated.sectionsUnallocated.map(
+      (section) => {
+        const newTrip: Trip = {
+          id: section.dailyTripSectionId,
+          startPlanned: section.startPlanned,
+          endPlanned: section.endPlanned,
+          driverId: driverId,
+          driverName: currentDriver.driverName,
+          locationOrigCode: section.locOrig,
+          locationDestCode: section.locDest,
+        };
+        return newTrip;
+      },
+    );
+    addNewTrips(newTrips);
+  };
+
   return {
     trips,
     drivers,
     dailyTripsUnallocated,
-    isLoading,
+    isLoadingJourneys,
+    isLoadingTripsUnallocated,
+    handleAllocateDriver,
     isEmpty,
     showContent: hasRelevantParams,
     updatedTrip: handleUpdateTrip,
     isLoadingMoreDrivers,
     isReachingEndDrivers,
     loadMoreDrivers,
-    hasNextTripsUnallocated,
-    sizeTripsUnallocated,
-    setSizeTripsUnallocated,
-    isValidatingTripsUnallocated,
     loadMoreTripsUnallocated,
     isLoadingMoreTripsUnallocated,
     isReachingEndTripsUnallocated,

@@ -14,7 +14,7 @@ function Content({
   sx,
 }: {
   children: React.ReactNode;
-  loading: boolean;
+  loading?: boolean;
   sx?: any;
 }) {
   return (

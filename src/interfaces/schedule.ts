@@ -4,8 +4,8 @@ export interface DriverSchedule {
 }
 
 export interface Trip {
-  id: string;
-  code: string;
+  id?: string;
+  code?: string;
   startPlanned: string;
   endPlanned: string;
   driverId: string;
@@ -76,4 +76,7 @@ export interface DailyTrip {
   flgStatus: string;
   sto: string;
   sectionsUnallocated: DailyTripSection[];
+  selected?: boolean;
+  startPlanned?: string;
+  endPlanned?: string;
 }

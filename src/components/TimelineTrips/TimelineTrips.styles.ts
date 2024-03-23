@@ -50,5 +50,5 @@ export const TimelineItemTitle = styled.div`
   border-right-width: 1px;
   display: flex;
   align-items: center;
-  height: 20px !important;
+  height: 15px !important;
 `;

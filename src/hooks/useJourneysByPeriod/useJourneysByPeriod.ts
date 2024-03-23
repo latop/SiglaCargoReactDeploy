@@ -1,26 +1,33 @@
-import {
-  fetchJourneysByPeriod,
-  JourneysByPeriodParams,
-} from "@/services/schedule";
+import { useSearchParams } from "next/navigation";
+import { fetchJourneysByPeriod } from "@/services/schedule";
 import { JourneysByPeriodResponse, Trip } from "@/interfaces/schedule";
 import useSWRInfinite from "swr/infinite";
 
-export const useJourneysByPeriod = (params: JourneysByPeriodParams) => {
+export const useJourneysByPeriod = () => {
+  const params = useSearchParams();
+  const searchParams = {
+    startDate: params.get("startDate"),
+    endDate: params.get("endDate"),
+    nickName: params.get("nickName"),
+    fleetGroupCode: params.get("fleetGroupCode"),
+    locationGroupCode: params.get("locationGroupCode"),
+    positionCode: params.get("positionCode"),
+    demand: params.get("demand"),
+  };
+
   const getKey = (
     pageIndex: number,
     previousPageData: JourneysByPeriodResponse,
   ) => {
-    if (Object.keys(params).length === 0) return null;
+    if (!Object.values(searchParams).some(Boolean)) return null;
     if (previousPageData && !previousPageData.hasNext) return null;
     return {
       url: "/journeys-by-period",
-      args: { ...params, pageNumber: pageIndex + 1 },
+      args: { ...searchParams, pageSize: 10, pageNumber: pageIndex + 1 },
     };
   };
   const { data, error, isLoading, mutate, size, setSize, isValidating } =
     useSWRInfinite<JourneysByPeriodResponse>(getKey, fetchJourneysByPeriod, {
-      revalidateOnFocus: false,
-      revalidateOnMount: true,
       revalidateFirstPage: false,
     });
 
@@ -44,6 +51,25 @@ export const useJourneysByPeriod = (params: JourneysByPeriodParams) => {
     mutate(updatedData, false);
   };
 
+  const addNewTrips = (newTrips: Trip[]) => {
+    const updatedData = data?.map((page) => ({
+      ...page,
+      trips: [...newTrips, ...page.trips],
+    }));
+    mutate(updatedData, false);
+  };
+
+  const selectDriver = (driverId: string) => {
+    const updatedData = data?.map((page) => ({
+      ...page,
+      drivers: page.drivers.map((driver) => ({
+        ...driver,
+        selected: driver.driverId === driverId,
+      })),
+    }));
+    mutate(updatedData, false);
+  };
+
   return {
     trips: trips,
     drivers: drivers,
@@ -53,6 +79,8 @@ export const useJourneysByPeriod = (params: JourneysByPeriodParams) => {
     mutate,
     isValidating,
     updateTrip,
+    addNewTrips,
+    selectDriver,
     size,
     setSize,
   };

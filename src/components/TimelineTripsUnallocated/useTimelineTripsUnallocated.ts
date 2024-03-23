@@ -5,8 +5,12 @@ import { Unit } from "react-calendar-timeline";
 import dayjs from "dayjs";
 import { match } from "ts-pattern";
 import { useHash } from "@/hooks/useHash";
+import { useDailyTripsUnallocated } from "@/hooks/useDailyTripsUnallocated";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export function useTimelineTripsUnallocated(tripsUnallocated: DailyTrip[]) {
+  const searchParams = useSearchParams();
+  const router = useRouter();
   const [, setHash] = useHash();
   const {
     visibleTimeEnd,
@@ -14,6 +18,8 @@ export function useTimelineTripsUnallocated(tripsUnallocated: DailyTrip[]) {
     setVisibleTimeStart,
     setVisibleTimeEnd,
   } = useGiantt();
+
+  const { selectedDailyTrip } = useDailyTripsUnallocated();
 
   const handleLabelFormatItem = (
     [startTime]: [Date],
@@ -89,7 +95,7 @@ export function useTimelineTripsUnallocated(tripsUnallocated: DailyTrip[]) {
     });
 
     tripsUnallocated.forEach((trip) => {
-      trip.sectionsUnallocated.forEach((section: DailyTripSection) => {
+      trip?.sectionsUnallocated?.forEach((section: DailyTripSection) => {
         itemsMap.set(section.dailyTripSectionId, {
           id: section.dailyTripSectionId,
           group: section.dailyTripId,
@@ -106,34 +112,32 @@ export function useTimelineTripsUnallocated(tripsUnallocated: DailyTrip[]) {
     };
   }, [tripsUnallocated]);
 
-  // const handleMoveItem = (
-  //   itemId: string,
-  //   dragTime: number,
-  //   newGroupOrder: number,
-  // ) => {
-  //   if (!trips || !drivers) return;
-  //   const newDriver = drivers?.[newGroupOrder];
+  const updateSearchParams = (newParams: Record<string, string>) => {
+    const query = new URLSearchParams(searchParams.toString());
+    Object.entries(newParams).forEach(([key, value]) => {
+      if (searchParams.get(key)) {
+        query.set(key, value);
+      } else {
+        query.append(key, value);
+      }
+    });
+    return query;
+  };
 
-  //   const tripIndex = trips?.findIndex((trip) => trip.id === itemId);
+  const handleCanvasClick = (dailyTripId: string) => {
+    const currentTrip = tripsUnallocated.find(
+      (trip: DailyTrip) => trip.dailyTripId === dailyTripId,
+    );
+    if (!currentTrip) return;
 
-  //   if (tripIndex !== undefined && tripIndex >= 0) {
-  //     const currentTrip = trips[tripIndex];
-  //     const difference = dayjs(currentTrip.endPlanned).diff(
-  //       currentTrip.startPlanned,
-  //     );
-  //     const newEndPlanned = dayjs(dragTime).add(difference, "millisecond");
-  //     const startPlanned = dayjs(dragTime).format("YYYY-MM-DDTHH:mm:ss");
-  //     const endPlanned = newEndPlanned.format("YYYY-MM-DDTHH:mm:ss");
-
-  //     updatedTrip({
-  //       tripId: itemId,
-  //       newStartPlanned: startPlanned,
-  //       newEndPlanned: endPlanned,
-  //       newDriverId: newDriver.driverId,
-  //     });
-  //     addToast("Viagem movida com sucesso.", { type: "success" });
-  //   }
-  // };
+    if (selectedDailyTrip?.dailyTripId === dailyTripId) {
+      const params = updateSearchParams({ demand: "" });
+      router.push(`/drivers-schedule?${params.toString()}`);
+      return;
+    }
+    const params = updateSearchParams({ demand: currentTrip.sto });
+    router.push(`/drivers-schedule?${params.toString()}`);
+  };
 
   return {
     groups,
@@ -142,8 +146,9 @@ export function useTimelineTripsUnallocated(tripsUnallocated: DailyTrip[]) {
     visibleTimeEnd,
     handleTimeChange,
     handleLabelFormatItem,
+    selectedDailyTrip,
     handleLabelFormatHeader,
     handleDoubleClick,
-    // handleMoveItem,
+    handleCanvasClick,
   };
 }
