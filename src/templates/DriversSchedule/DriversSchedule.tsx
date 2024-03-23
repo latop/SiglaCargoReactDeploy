@@ -11,18 +11,10 @@ import { GianttZoom } from "@/components/GianttZoom";
 import { TimelineTrips } from "@/components/TimelineTrips";
 import { GianttProvider } from "@/hooks/useGiantt";
 import { useDriverSchedule } from "./useDriversSchedule";
-import dynamic from "next/dynamic";
 import { JourneyDetailsDialog } from "@/components/JourneyDetailsDialog";
 import { useHash } from "@/hooks/useHash";
 import { TimelineTripsUnallocated } from "@/components/TimelineTripsUnallocated";
 import { Box, Card, IconButton, CircularProgress } from "@mui/material";
-
-const EmptyResult = dynamic(
-  () => import("@/components/EmptyResult").then((module) => module.EmptyResult),
-  {
-    ssr: false,
-  },
-);
 
 export function DriversSchedule() {
   const [expanded, setExpanded] = React.useState(false);
@@ -146,7 +138,6 @@ export function DriversSchedule() {
               </GianttTable>
             </GianttProvider>
           )}
-          {isEmpty && <EmptyResult />}
         </MainContainer.Content>
       )}
       {tripDetailId && (
