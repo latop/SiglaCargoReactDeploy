@@ -83,7 +83,7 @@ export function useDriverSchedule() {
     updateTrip(updatedTrip);
   };
 
-  const isEmpty = !isLoadingJourneys && !trips?.length && !drivers?.length;
+  const isEmpty = !isLoadingJourneys && drivers && drivers?.length <= 0;
 
   const isLoadingMoreDrivers =
     isValidatingDrivers ||

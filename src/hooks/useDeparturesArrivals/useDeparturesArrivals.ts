@@ -23,8 +23,7 @@ export const useDeparturesArrivals = (options?: SWRConfiguration) => {
     id: item.sto,
   }));
 
-  const showContent =
-    !isLoading && departuresArrivals && !error && params.locationCode;
+  const showContent = params.locationCode;
 
   const isEmpty = !isLoading && departuresArrivals?.length === 0;
 
