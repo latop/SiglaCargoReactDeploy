@@ -142,6 +142,8 @@ const theme = createTheme({
         },
       },
     },
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore next line
     MuiDataGrid: {
       styleOverrides: {
         root: {
