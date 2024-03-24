@@ -26,6 +26,8 @@ function Content({
         flexDirection: "column",
         overflowY: "auto",
         position: "relative",
+        alignItems: "center",
+        justifyContent: "center",
         ...sx,
       }}
     >

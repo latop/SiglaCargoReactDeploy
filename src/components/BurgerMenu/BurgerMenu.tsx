@@ -11,6 +11,7 @@ import {
 import Link from "next/link";
 import HomeIcon from "@mui/icons-material/Home";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
+import SwapVertIcon from "@mui/icons-material/SwapVert";
 
 interface BurgerMenuProps {
   isOpen: boolean;
@@ -27,6 +28,11 @@ interface RouteItem {
 
 const routes: RouteItem[] = [
   { text: "Home", icon: <HomeIcon />, path: "/dashboard" },
+  {
+    text: "Partidas e chegadas",
+    icon: <SwapVertIcon />,
+    path: "/departures-and-arrivals",
+  },
   {
     text: "Escala de Motoristas",
     icon: <LocalShippingIcon />,

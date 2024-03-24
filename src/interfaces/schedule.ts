@@ -80,3 +80,15 @@ export interface DailyTrip {
   startPlanned?: string;
   endPlanned?: string;
 }
+
+export interface DeparturesArrivals {
+  timePlanned: string;
+  locCode: string;
+  sto: string;
+  dt: string | null;
+  statusTrip: string;
+  timeEstimated: string;
+  truckFleetCode: string | null;
+  nickName: string;
+  direction: string;
+}

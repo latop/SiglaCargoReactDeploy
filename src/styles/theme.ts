@@ -142,6 +142,14 @@ const theme = createTheme({
         },
       },
     },
+    MuiDataGrid: {
+      styleOverrides: {
+        root: {
+          fontFamily: "var(--font-openSans)",
+          color: grey[800],
+        },
+      },
+    },
   },
 });
 

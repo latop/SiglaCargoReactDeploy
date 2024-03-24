@@ -75,3 +75,24 @@ export async function fetchDailyTripsUnallocated({
     return error;
   }
 }
+
+export type FetchDeparturesArrivalsParams = {
+  locationCode: string;
+};
+
+export async function fetchDeparturesArrivals({
+  args: params,
+}: {
+  args: FetchDeparturesArrivalsParams;
+}) {
+  try {
+    const response = await axios.get(`/gantt/GetArrivalDeparture`, {
+      params,
+    });
+    const data = response.data;
+    return data;
+  } catch (error) {
+    console.error(error);
+    return error;
+  }
+}
