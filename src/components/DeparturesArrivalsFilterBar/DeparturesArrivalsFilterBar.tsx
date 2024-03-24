@@ -25,7 +25,7 @@ export function DeparturesArrivalsFilterBar(
             width="1080px"
             gap="16px"
           >
-            <Grid item xs={2} paddingLeft="0">
+            <Grid item xs={3} paddingLeft="0">
               <Controller
                 name="locationCode"
                 control={control}
@@ -41,7 +41,7 @@ export function DeparturesArrivalsFilterBar(
                 )}
               />
             </Grid>
-            <Grid item xs={2} paddingLeft="0">
+            <Grid item xs={3} paddingLeft="0">
               <Controller
                 name="direction"
                 control={control}

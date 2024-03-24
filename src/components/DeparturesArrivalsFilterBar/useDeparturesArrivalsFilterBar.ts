@@ -9,8 +9,8 @@ interface FormFields {
 }
 
 const schema = z.object({
-  locationCode: z.string(),
-  direction: z.string(),
+  locationCode: z.string().nonempty("Cód. localização é obrigatório"),
+  direction: z.string().nonempty("Direção é obrigatória"),
 });
 
 export function useDeparturesArrivalsFilterBar() {
