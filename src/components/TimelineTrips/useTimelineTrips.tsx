@@ -31,7 +31,7 @@ export function useTimelineTrips({
   } = useGiantt();
 
   const { addNewTrips } = useJourneysByPeriod();
-  const { selectedDailyTrip } = useDailyTripsUnallocated();
+  const { selectedDailyTrip, removeDailyTrip } = useDailyTripsUnallocated();
 
   const handleLabelFormatItem = (
     [startTime]: [Date],
@@ -146,6 +146,7 @@ export function useTimelineTrips({
         newEndPlanned: endPlanned,
         newDriverId: newDriver.driverId,
       });
+
       addToast("Viagem movida com sucesso.", { type: "success" });
     }
   };
@@ -172,6 +173,11 @@ export function useTimelineTrips({
       },
     );
     addNewTrips(newTrips);
+
+    setTimeout(() => {
+      removeDailyTrip(selectedDailyTrip.dailyTripId);
+    }, 300);
+
     addToast("Viagem alocada com sucesso.", { type: "success" });
   };
 

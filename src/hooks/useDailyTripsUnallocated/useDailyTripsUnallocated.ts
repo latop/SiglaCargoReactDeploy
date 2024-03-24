@@ -28,9 +28,12 @@ export const useDailyTripsUnallocated = (options?: SWRConfiguration) => {
     };
   };
 
-  const { data, error, isLoading, size, setSize, isValidating } =
+  const { data, error, isLoading, size, setSize, isValidating, mutate } =
     useSWRInfinite<DailyTripResponse>(getKey, fetchDailyTripsUnallocated, {
       revalidateFirstPage: false,
+      revalidateIfStale: false,
+      revalidateOnMount: true,
+      revalidateOnFocus: false,
       ...options,
     });
 
@@ -54,9 +57,21 @@ export const useDailyTripsUnallocated = (options?: SWRConfiguration) => {
     (trip) => trip.selected === true,
   );
 
+  const removeDailyTrip = (dailyTripId: string) => {
+    const newDailyTrips = data?.map((page) => ({
+      ...page,
+      dailyTripsUnallocated: page.dailyTripsUnallocated.filter(
+        (trip) => trip.dailyTripId !== dailyTripId,
+      ),
+    }));
+
+    mutate(newDailyTrips, false);
+  };
+
   return {
     dailyTripsUnallocated,
     selectedDailyTrip,
+    removeDailyTrip,
     error,
     isLoading,
     hasNext,

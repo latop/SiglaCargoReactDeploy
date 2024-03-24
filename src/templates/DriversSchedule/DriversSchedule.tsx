@@ -15,6 +15,7 @@ import { JourneyDetailsDialog } from "@/components/JourneyDetailsDialog";
 import { useHash } from "@/hooks/useHash";
 import { TimelineTripsUnallocated } from "@/components/TimelineTripsUnallocated";
 import { Box, Card, IconButton, CircularProgress } from "@mui/material";
+import { EmptyResult } from "@/components/EmptyResult";
 
 export function DriversSchedule() {
   const [expanded, setExpanded] = React.useState(false);
@@ -54,91 +55,90 @@ export function DriversSchedule() {
       <JourneyFilterBar style={{ display: expanded ? "none" : "block" }} />
       {showContent && (
         <MainContainer.Content sx={{ overflow: "hidden" }}>
-          {!isEmpty && (
-            <GianttProvider>
-              <GianttTable>
-                <Box
-                  width="100%"
+          <GianttProvider>
+            <GianttTable>
+              <Box
+                width="100%"
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "flex-end",
+                }}
+              >
+                <GianttZoom />
+                <IconButton
+                  sx={{ padding: 0 }}
+                  onClick={toggleExpanded}
+                  aria-label="expandir tabela de motoristas"
+                >
+                  <AspectRatioIcon />
+                </IconButton>
+              </Box>
+              <Box sx={{ height: "calc(100% - 40px)", width: "100%" }}>
+                <Card
                   sx={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "flex-end",
+                    height: "calc(75% - 10px)",
+                    overflow: "auto",
+                    marginTop: "10px",
+                    position: "relative",
+                    width: "100%",
                   }}
                 >
-                  <GianttZoom />
-                  <IconButton
-                    sx={{ padding: 0 }}
-                    onClick={toggleExpanded}
-                    aria-label="expandir tabela de motoristas"
-                  >
-                    <AspectRatioIcon />
-                  </IconButton>
-                </Box>
-                <Box sx={{ height: "calc(100% - 40px)", width: "100%" }}>
-                  <Card
-                    sx={{
-                      height: "calc(75% - 10px)",
-                      overflow: "auto",
-                      marginTop: "10px",
-                      position: "relative",
-                      width: "100%",
-                    }}
-                  >
-                    {isLoadingJourneys && (
-                      <CircularProgress
-                        sx={{
-                          margin: "auto",
-                          position: "absolute",
-                          top: 0,
-                          left: 0,
-                          bottom: 0,
-                          right: 0,
-                        }}
-                      />
-                    )}
-                    {!isLoadingJourneys && trips && drivers && (
-                      <TimelineTrips
-                        trips={trips}
-                        drivers={drivers}
-                        onPaginate={loadMoreDrivers}
-                        isReachingEnd={isReachingEndDrivers}
-                        isLoadingMore={!!isLoadingMoreDrivers}
-                      />
-                    )}
-                  </Card>
-                  <Card
-                    sx={{
-                      height: "calc(25% - 25px)",
-                      overflow: "auto",
-                      marginTop: "15px",
-                      position: "relative",
-                    }}
-                  >
-                    {isLoadingTripsUnallocated && (
-                      <CircularProgress
-                        sx={{
-                          margin: "auto",
-                          position: "absolute",
-                          top: 0,
-                          left: 0,
-                          bottom: 0,
-                          right: 0,
-                        }}
-                      />
-                    )}
-                    {!isLoadingTripsUnallocated && dailyTripsUnallocated && (
-                      <TimelineTripsUnallocated
-                        tripsUnallocated={dailyTripsUnallocated}
-                        onPaginate={loadMoreTripsUnallocated}
-                        isReachingEnd={isReachingEndTripsUnallocated}
-                        isLoadingMore={!!isLoadingMoreTripsUnallocated}
-                      />
-                    )}
-                  </Card>
-                </Box>
-              </GianttTable>
-            </GianttProvider>
-          )}
+                  {isLoadingJourneys && (
+                    <CircularProgress
+                      sx={{
+                        margin: "auto",
+                        position: "absolute",
+                        top: 0,
+                        left: 0,
+                        bottom: 0,
+                        right: 0,
+                      }}
+                    />
+                  )}
+                  {isEmpty && <EmptyResult />}
+                  {!isLoadingJourneys && trips && drivers && !isEmpty && (
+                    <TimelineTrips
+                      trips={trips}
+                      drivers={drivers}
+                      onPaginate={loadMoreDrivers}
+                      isReachingEnd={isReachingEndDrivers}
+                      isLoadingMore={!!isLoadingMoreDrivers}
+                    />
+                  )}
+                </Card>
+                <Card
+                  sx={{
+                    height: "calc(25% - 25px)",
+                    overflow: "auto",
+                    marginTop: "15px",
+                    position: "relative",
+                  }}
+                >
+                  {isLoadingTripsUnallocated && (
+                    <CircularProgress
+                      sx={{
+                        margin: "auto",
+                        position: "absolute",
+                        top: 0,
+                        left: 0,
+                        bottom: 0,
+                        right: 0,
+                      }}
+                    />
+                  )}
+                  {!isLoadingTripsUnallocated && dailyTripsUnallocated && (
+                    <TimelineTripsUnallocated
+                      tripsUnallocated={dailyTripsUnallocated}
+                      onPaginate={loadMoreTripsUnallocated}
+                      isReachingEnd={isReachingEndTripsUnallocated}
+                      isLoadingMore={!!isLoadingMoreTripsUnallocated}
+                    />
+                  )}
+                </Card>
+              </Box>
+            </GianttTable>
+          </GianttProvider>
         </MainContainer.Content>
       )}
       {tripDetailId && (
