@@ -74,13 +74,14 @@ export function DriversSchedule() {
                     <AspectRatioIcon />
                   </IconButton>
                 </Box>
-                <Box sx={{ height: "calc(100% - 40px)" }}>
+                <Box sx={{ height: "calc(100% - 40px)", width: "100%" }}>
                   <Card
                     sx={{
                       height: "calc(75% - 10px)",
                       overflow: "auto",
                       marginTop: "10px",
                       position: "relative",
+                      width: "100%",
                     }}
                   >
                     {isLoadingJourneys && (

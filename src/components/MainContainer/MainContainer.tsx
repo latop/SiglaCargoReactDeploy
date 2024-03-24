@@ -28,6 +28,7 @@ function Content({
         position: "relative",
         alignItems: "center",
         justifyContent: "center",
+        width: "100%",
         ...sx,
       }}
     >
