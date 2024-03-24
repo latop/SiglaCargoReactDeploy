@@ -5,12 +5,12 @@ import { useRouter, useSearchParams } from "next/navigation";
 
 interface FormFields {
   locationCode: string;
-  direction?: string;
+  direction: string;
 }
 
 const schema = z.object({
   locationCode: z.string(),
-  direction: z.string().optional(),
+  direction: z.string(),
 });
 
 export function useDeparturesArrivalsFilterBar() {

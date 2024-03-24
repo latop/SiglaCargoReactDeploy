@@ -11,7 +11,9 @@ export const useDeparturesArrivals = (options?: SWRConfiguration) => {
   };
 
   const { data, error, isLoading } = useSWR<DeparturesArrivals[]>(
-    params.locationCode ? { url: "/departures-arrivals", args: params } : null,
+    params.locationCode && params.direction
+      ? { url: "/departures-arrivals", args: params }
+      : null,
     fetchDeparturesArrivals,
     options,
   );
