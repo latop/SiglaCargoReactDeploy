@@ -19,7 +19,7 @@ export function useTimelineTripsUnallocated(tripsUnallocated: DailyTrip[]) {
     setVisibleTimeEnd,
   } = useGiantt();
 
-  const { selectedDailyTrip } = useDailyTripsUnallocated();
+  const { selectedDailyTrip, selectDailyTrip } = useDailyTripsUnallocated();
 
   const handleLabelFormatItem = (
     [startTime]: [Date],
@@ -128,19 +128,23 @@ export function useTimelineTripsUnallocated(tripsUnallocated: DailyTrip[]) {
     return query;
   };
 
-  const handleCanvasClick = (dailyTripId: string) => {
+  const handleGroupItemClick = (dailyTripId: string) => {
     const currentTrip = tripsUnallocated.find(
       (trip: DailyTrip) => trip.dailyTripId === dailyTripId,
     );
     if (!currentTrip) return;
 
-    if (selectedDailyTrip?.dailyTripId === dailyTripId) {
+    if (currentTrip.sto === searchParams.get("demand")) {
       const params = updateSearchParams({ demand: "" });
       router.push(`/drivers-schedule?${params.toString()}`);
       return;
     }
     const params = updateSearchParams({ demand: currentTrip.sto });
     router.push(`/drivers-schedule?${params.toString()}`);
+  };
+
+  const handleCanvasClick = (dailyTripId: string) => {
+    selectDailyTrip(dailyTripId);
   };
 
   return {
@@ -153,6 +157,7 @@ export function useTimelineTripsUnallocated(tripsUnallocated: DailyTrip[]) {
     selectedDailyTrip,
     handleLabelFormatHeader,
     handleDoubleClick,
+    handleGroupItemClick,
     handleCanvasClick,
   };
 }

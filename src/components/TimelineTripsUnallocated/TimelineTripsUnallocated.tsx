@@ -8,7 +8,8 @@ import Timeline, {
 } from "react-calendar-timeline";
 import { DailyTrip, DailyTripSection } from "@/interfaces/schedule";
 import { useTimelineTripsUnallocated } from "./useTimelineTripsUnallocated";
-import { Box, CircularProgress } from "@mui/material";
+import { Box, CircularProgress, IconButton } from "@mui/material";
+import FilterListIcon from "@mui/icons-material/FilterList";
 import { red } from "@mui/material/colors";
 import {
   TimelineItem,
@@ -20,6 +21,7 @@ import {
 import "dayjs/locale/pt-br";
 import "react-calendar-timeline/lib/Timeline.css";
 import "./Timeline.css";
+import { useSearchParams } from "next/navigation";
 
 interface TimelineTripsUnallocatedProps {
   tripsUnallocated: DailyTrip[];
@@ -34,6 +36,7 @@ export function TimelineTripsUnallocated({
   isReachingEnd,
   isLoadingMore,
 }: TimelineTripsUnallocatedProps) {
+  const searchParams = useSearchParams();
   const {
     groups,
     items,
@@ -44,6 +47,7 @@ export function TimelineTripsUnallocated({
     handleLabelFormatItem,
     handleLabelFormatHeader,
     handleCanvasClick,
+    handleGroupItemClick,
   } = useTimelineTripsUnallocated(tripsUnallocated);
 
   function findSectionById(tripsData: DailyTrip[], sectionId: string) {
@@ -106,6 +110,30 @@ export function TimelineTripsUnallocated({
     );
   };
 
+  const groupRenderer = ({
+    group,
+  }: {
+    group: { id: string; title: string };
+  }) => {
+    return (
+      <div className="custom-group">
+        <Box display="flex">
+          <span className="title">{group.title}</span>
+          <IconButton onClick={() => handleGroupItemClick(group.id)}>
+            <FilterListIcon
+              fontSize="small"
+              color={
+                searchParams.get("demand") === group.title
+                  ? "primary"
+                  : "disabled"
+              }
+            />
+          </IconButton>
+        </Box>
+      </div>
+    );
+  };
+
   return (
     <>
       <Timeline
@@ -117,6 +145,7 @@ export function TimelineTripsUnallocated({
         canChangeGroup={false}
         // onItemMove={handleMoveItem}
         className="timeline-trips-unallocated"
+        groupRenderer={groupRenderer}
         minZoom={60 * 60 * 24}
         stackItems
         onCanvasClick={handleCanvasClick}

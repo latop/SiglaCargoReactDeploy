@@ -39,7 +39,6 @@ export const useDailyTripsUnallocated = (options?: SWRConfiguration) => {
 
   const normalizeDailyTripsUnallocated = (currentData: DailyTrip) => ({
     ...currentData,
-    selected: currentData?.sto === searchParams.get("demand"),
     startPlanned: currentData?.sectionsUnallocated?.[0].startPlanned,
     endPlanned:
       currentData?.sectionsUnallocated?.[
@@ -68,10 +67,23 @@ export const useDailyTripsUnallocated = (options?: SWRConfiguration) => {
     mutate(newDailyTrips, false);
   };
 
+  const selectDailyTrip = (dailyTripId: string) => {
+    const newDailyTrips = data?.map((page) => ({
+      ...page,
+      dailyTripsUnallocated: page.dailyTripsUnallocated.map((trip) => ({
+        ...trip,
+        selected: trip.dailyTripId === dailyTripId,
+      })),
+    }));
+
+    mutate(newDailyTrips, false);
+  };
+
   return {
     dailyTripsUnallocated,
     selectedDailyTrip,
     removeDailyTrip,
+    selectDailyTrip,
     error,
     isLoading,
     hasNext,
