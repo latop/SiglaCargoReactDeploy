@@ -137,7 +137,7 @@ export function TimelineTrips({
         groups={groups}
         items={items}
         canMove
-        canResize
+        canResize={false}
         canChangeGroup
         onItemMove={handleMoveItem}
         onCanvasClick={handleCanvasClick}
