@@ -14,9 +14,17 @@ export interface Trip {
   locationOrigCode?: string;
 }
 
+export interface Circuit {
+  ciruictCode: string;
+  endDate: string;
+  startDate: string;
+  trips: Trip[];
+}
+
 export interface JourneysByPeriodResponse {
   drivers: DriverSchedule[];
   trips: Trip[];
+  circuits: Circuit[];
   hasNext: boolean;
   currentPage: number;
 }

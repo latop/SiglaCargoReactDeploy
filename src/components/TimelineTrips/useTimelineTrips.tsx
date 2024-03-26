@@ -1,6 +1,11 @@
 import { useMemo } from "react";
 import { useGiantt } from "@/hooks/useGiantt";
-import { DailyTripSection, DriverSchedule, Trip } from "@/interfaces/schedule";
+import {
+  Circuit,
+  DailyTripSection,
+  DriverSchedule,
+  Trip,
+} from "@/interfaces/schedule";
 import { Unit } from "react-calendar-timeline";
 import dayjs from "dayjs";
 import { match } from "ts-pattern";
@@ -15,9 +20,11 @@ import { Box, Typography } from "@mui/material";
 export function useTimelineTrips({
   trips,
   drivers,
+  circuits,
 }: {
   trips: Trip[];
   drivers: DriverSchedule[];
+  circuits: Circuit[];
 }) {
   const [, setHash] = useHash();
   const { addToast } = useToast();
@@ -105,14 +112,33 @@ export function useTimelineTrips({
       }
     });
 
-    trips.forEach((trip: Trip) => {
-      itemsMap.set(trip.id, {
-        id: trip.id,
-        group: trip.driverId,
-        title: trip.id,
-        start_time: dayjs(trip.startPlanned, "YYYY-MM-DDTHH:mm:ss"),
-        end_time: dayjs(trip.endPlanned, "YYYY-MM-DDTHH:mm:ss"),
+    circuits.forEach((circuit: Circuit) => {
+      itemsMap.set(circuit.ciruictCode, {
+        id: circuit.ciruictCode,
+        group: circuit.trips[0].driverId,
+        title: circuit.ciruictCode,
+        start_time: dayjs(circuit.startDate, "YYYY-MM-DDTHH:mm:ss"),
+        end_time: dayjs(circuit.endDate, "YYYY-MM-DDTHH:mm:ss"),
       });
+      trips.forEach((trip: Trip) => {
+        itemsMap.set(trip.id, {
+          id: trip.id,
+          group: trip.driverId,
+          title: trip.id,
+          start_time: dayjs(trip.startPlanned, "YYYY-MM-DDTHH:mm:ss"),
+          end_time: dayjs(trip.endPlanned, "YYYY-MM-DDTHH:mm:ss"),
+        });
+      });
+
+      // circuit.trips.forEach((trip: Trip) => {
+      //   itemsMap.set(trip.id, {
+      //     id: trip.id,
+      //     group: trip.driverId,
+      //     title: trip.id,
+      //     start_time: dayjs(trip.startPlanned, "YYYY-MM-DDTHH:mm:ss"),
+      //     end_time: dayjs(trip.endPlanned, "YYYY-MM-DDTHH:mm:ss"),
+      //   });
+      // });
     });
 
     return {

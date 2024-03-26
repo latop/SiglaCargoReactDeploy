@@ -34,8 +34,11 @@ export const useJourneysByPeriod = () => {
       revalidateOnFocus: false,
     });
 
-  const trips = data?.map((page) => page.trips).flat();
+  const trips = data?.map((page) => page.trips).flat() || [];
   const drivers = data?.map((page) => page.drivers).flat();
+  const circuits = data?.map((page) => page.circuits).flat();
+  const tripsFromCircuits = circuits?.flatMap((circuit) => circuit.trips) || [];
+  const totalTrips = [...trips, ...tripsFromCircuits];
   const hasNext = data?.[data.length - 1]?.hasNext;
 
   const updateTrip = (newTrip: Trip) => {
@@ -74,10 +77,11 @@ export const useJourneysByPeriod = () => {
   };
 
   return {
-    trips: trips,
+    trips: totalTrips,
     drivers: drivers,
     hasNext,
     error,
+    circuits,
     isLoading,
     mutate,
     isValidating,

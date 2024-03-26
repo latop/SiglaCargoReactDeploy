@@ -26,6 +26,7 @@ export function DriversSchedule() {
   const {
     trips,
     drivers,
+    circuits,
     isLoadingJourneys,
     showContent,
     isEmpty,
@@ -97,15 +98,20 @@ export function DriversSchedule() {
                     />
                   )}
                   {isEmpty && <EmptyResult />}
-                  {!isLoadingJourneys && trips && drivers && !isEmpty && (
-                    <TimelineTrips
-                      trips={trips}
-                      drivers={drivers}
-                      onPaginate={loadMoreDrivers}
-                      isReachingEnd={isReachingEndDrivers}
-                      isLoadingMore={!!isLoadingMoreDrivers}
-                    />
-                  )}
+                  {!isLoadingJourneys &&
+                    trips &&
+                    drivers &&
+                    circuits &&
+                    !isEmpty && (
+                      <TimelineTrips
+                        trips={trips}
+                        drivers={drivers}
+                        circuits={circuits}
+                        onPaginate={loadMoreDrivers}
+                        isReachingEnd={isReachingEndDrivers}
+                        isLoadingMore={!!isLoadingMoreDrivers}
+                      />
+                    )}
                 </Card>
                 <Card
                   sx={{

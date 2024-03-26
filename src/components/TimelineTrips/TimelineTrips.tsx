@@ -6,7 +6,7 @@ import Timeline, {
   SidebarHeader,
   DateHeader,
 } from "react-calendar-timeline";
-import { DriverSchedule, Trip } from "@/interfaces/schedule";
+import { Circuit, DriverSchedule, Trip } from "@/interfaces/schedule";
 import { useTimelineTrips } from "./useTimelineTrips";
 import { red } from "@mui/material/colors";
 import {
@@ -25,6 +25,7 @@ interface TimelineTripsProps {
   trips: Trip[];
   isReachingEnd: boolean;
   drivers: DriverSchedule[];
+  circuits: Circuit[];
   onPaginate: () => void;
   isLoadingMore: boolean;
 }
@@ -32,6 +33,7 @@ interface TimelineTripsProps {
 export function TimelineTrips({
   trips,
   drivers,
+  circuits,
   onPaginate,
   isReachingEnd,
   isLoadingMore,
@@ -50,10 +52,10 @@ export function TimelineTrips({
   } = useTimelineTrips({
     trips,
     drivers,
+    circuits,
   });
 
   const itemRenderer = ({
-    item,
     itemContext,
     getItemProps,
     getResizeProps,
@@ -66,12 +68,38 @@ export function TimelineTrips({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     getResizeProps: any;
   }) => {
+    let currentTrip = trips.find((trip) => trip.id === itemContext.title);
+    if (!currentTrip) {
+      circuits.forEach((circuit) => {
+        const curr = circuit.trips.find(
+          (trip) => trip.id === itemContext.title,
+        );
+        if (curr) {
+          currentTrip = curr;
+        }
+      });
+    }
+
+    const isCircuit = circuits.some(
+      (circuit) => circuit.ciruictCode === itemContext.title,
+    );
+    const itemProps = getItemProps({});
+
     const { left: leftResizeProps, right: rightResizeProps } = getResizeProps();
-    const backgroundColor = itemContext.selected ? red[500] : "#4663ab";
-    const borderColor = itemContext.resizing ? red[500] : item.color;
-    const currentTrip = trips.find((trip) => trip.id === itemContext.title);
+    const backgroundColor = itemContext.selected
+      ? red[500]
+      : isCircuit
+      ? "rgba(210, 224, 235, 0.8)"
+      : "#4663ab";
+    const borderColor = itemContext.resizing ? red[500] : "transparent";
+
     return (
-      <TimelineItem {...getItemProps({})} className="giantt-item">
+      <TimelineItem
+        {...itemProps}
+        className="giantt-item"
+        isCircuit={isCircuit}
+        selected={itemContext.selected}
+      >
         {!!itemContext.useResizeHandle && <div {...leftResizeProps} />}
         {itemContext.dimensions.width > 50 &&
           currentTrip?.locationDestCode &&
@@ -86,6 +114,7 @@ export function TimelineTrips({
             </TimelineItemSubtitle>
           )}
         <TimelineItemTitle
+          isCircuit={isCircuit}
           style={{
             height: `calc(${itemContext.dimensions.height} - 8px)`,
             backgroundColor,
@@ -103,17 +132,17 @@ export function TimelineTrips({
   return (
     <>
       <Timeline
-        lineHeight={50}
+        lineHeight={55}
         onItemDoubleClick={handleDoubleClick}
         groups={groups}
         items={items}
-        canMove={false}
-        canResize={false}
-        canChangeGroup={false}
+        canMove
+        canResize
+        canChangeGroup
         onItemMove={handleMoveItem}
         onCanvasClick={handleCanvasClick}
         minZoom={60 * 60 * 24}
-        stackItems
+        stackItems={false}
         maxZoom={604800000}
         onTimeChange={handleTimeChange}
         visibleTimeStart={visibleTimeStart}

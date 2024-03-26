@@ -37,3 +37,7 @@
   font-size: 14px;
   padding: 0 10px;
 }
+
+.react-calendar-timeline .rct-horizontal-lines .rct-hl-odd, .react-calendar-timeline .rct-sidebar .rct-sidebar-row.rct-sidebar-row-odd {
+  background-color: rgb(136 136 136 / 5%);
+}

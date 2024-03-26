@@ -1,7 +1,10 @@
 import styled from "@emotion/styled";
 import { colors } from "@mui/material";
 
-export const TimelineItem = styled.div`
+export const TimelineItem = styled.div<{
+  isCircuit: boolean;
+  selected: boolean;
+}>`
   color: #ffffff;
   background-color: transparent !important;
   border: 0 !important;
@@ -9,6 +12,8 @@ export const TimelineItem = styled.div`
   flex-direction: column;
   justify-content: flex-end;
   gap: 2px;
+  margin-top: ${(props) => (props.isCircuit ? "5px" : "0")};
+  z-index: ${(props) => props.isCircuit && 79} !important;
 `;
 
 export const TimelineItemSubtitle = styled.div`
@@ -38,7 +43,9 @@ export const TimelineItemDestination = styled(TimelineItemLocation)`
   background-color: ${colors.deepOrange[100]};
 `;
 
-export const TimelineItemTitle = styled.div`
+export const TimelineItemTitle = styled.div<{
+  isCircuit: boolean;
+}>`
   overflow: hidden;
   padding-left: 5px;
   text-overflow: ellipsis;
@@ -50,5 +57,5 @@ export const TimelineItemTitle = styled.div`
   border-right-width: 1px;
   display: flex;
   align-items: center;
-  height: 15px !important;
+  height: ${(props) => (props.isCircuit ? "45px" : "10px")} !important;
 `;

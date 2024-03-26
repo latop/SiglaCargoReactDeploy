@@ -39,6 +39,7 @@ export function useDriverSchedule() {
   const {
     trips,
     drivers,
+    circuits,
     hasNext: hasNextJourney,
     isLoading: isLoadingJourneys,
     size: sizeDrivers,
@@ -154,6 +155,7 @@ export function useDriverSchedule() {
   return {
     trips,
     drivers,
+    circuits,
     dailyTripsUnallocated,
     isLoadingJourneys,
     isLoadingTripsUnallocated,
