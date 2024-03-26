@@ -7,14 +7,20 @@ import useSWRInfinite from "swr/infinite";
 export const useJourneysByPeriod = () => {
   const params = useSearchParams();
   const searchParams = {
-    startDate: dayjs(params.get("startDate")).format("YYYY-MM-DD"),
-    endDate: dayjs(params.get("endDate")).format("YYYY-MM-DD"),
+    startDate: params.get("startDate")
+      ? dayjs(params.get("startDate")).format("YYYY-MM-DD")
+      : null,
+    endDate: params.get("endDate")
+      ? dayjs(params.get("endDate")).format("YYYY-MM-DD")
+      : null,
     nickName: params.get("nickName"),
     fleetGroupCode: params.get("fleetGroupCode"),
     locationGroupCode: params.get("locationGroupCode"),
     positionCode: params.get("positionCode"),
     demand: params.get("demand"),
   };
+
+  console.log(searchParams, "searchParams");
 
   const getKey = (
     pageIndex: number,

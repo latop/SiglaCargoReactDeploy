@@ -15,8 +15,12 @@ export const useDailyTripsUnallocated = (options?: SWRConfiguration) => {
   const searchParams = useSearchParams();
 
   const params = {
-    startDate: dayjs(searchParams.get("startDate")).format("YYYY-MM-DD"),
-    endDate: dayjs(searchParams.get("endDate")).format("YYYY-MM-DD"),
+    startDate: searchParams.get("startDate")
+      ? dayjs(searchParams.get("startDate")).format("YYYY-MM-DD")
+      : null,
+    endDate: searchParams.get("endDate")
+      ? dayjs(searchParams.get("endDate")).format("YYYY-MM-DD")
+      : null,
   };
 
   const getKey = (pageIndex: number, previousPageData: DailyTripResponse) => {
