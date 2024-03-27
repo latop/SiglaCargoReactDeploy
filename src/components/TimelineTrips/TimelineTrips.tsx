@@ -99,6 +99,7 @@ export function TimelineTrips({
         className="giantt-item"
         isCircuit={isCircuit}
         selected={itemContext.selected}
+        title={currentTrip?.code}
       >
         {!!itemContext.useResizeHandle && <div {...leftResizeProps} />}
         {itemContext.dimensions.width > 50 &&
