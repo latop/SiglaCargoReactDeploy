@@ -120,32 +120,32 @@ export function useTimelineTrips({
         start_time: dayjs(circuit.startDate, "YYYY-MM-DDTHH:mm:ss"),
         end_time: dayjs(circuit.endDate, "YYYY-MM-DDTHH:mm:ss"),
       });
-      trips.forEach((trip: Trip) => {
-        itemsMap.set(trip.id, {
-          id: trip.id,
-          group: trip.driverId,
-          title: trip.id,
-          start_time: dayjs(trip.startPlanned, "YYYY-MM-DDTHH:mm:ss"),
-          end_time: dayjs(trip.endPlanned, "YYYY-MM-DDTHH:mm:ss"),
-        });
-      });
-
-      // circuit.trips.forEach((trip: Trip) => {
-      //   itemsMap.set(trip.id, {
-      //     id: trip.id,
-      //     group: trip.driverId,
-      //     title: trip.id,
-      //     start_time: dayjs(trip.startPlanned, "YYYY-MM-DDTHH:mm:ss"),
-      //     end_time: dayjs(trip.endPlanned, "YYYY-MM-DDTHH:mm:ss"),
-      //   });
-      // });
     });
+    trips.forEach((trip: Trip) => {
+      itemsMap.set(trip.id, {
+        id: trip.id,
+        group: trip.driverId,
+        title: trip.id,
+        start_time: dayjs(trip.startPlanned, "YYYY-MM-DDTHH:mm:ss"),
+        end_time: dayjs(trip.endPlanned, "YYYY-MM-DDTHH:mm:ss"),
+      });
+    });
+
+    // circuit.trips.forEach((trip: Trip) => {
+    //   itemsMap.set(trip.id, {
+    //     id: trip.id,
+    //     group: trip.driverId,
+    //     title: trip.id,
+    //     start_time: dayjs(trip.startPlanned, "YYYY-MM-DDTHH:mm:ss"),
+    //     end_time: dayjs(trip.endPlanned, "YYYY-MM-DDTHH:mm:ss"),
+    //   });
+    // });
 
     return {
       groups: Array.from(groupsMap.values()),
       items: Array.from(itemsMap.values()),
     };
-  }, [trips]);
+  }, [trips, circuits, drivers]);
 
   const handleMoveItem = (
     itemId: string,

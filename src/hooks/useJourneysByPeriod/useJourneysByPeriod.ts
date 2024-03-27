@@ -20,8 +20,6 @@ export const useJourneysByPeriod = () => {
     demand: params.get("demand"),
   };
 
-  console.log(searchParams, "searchParams");
-
   const getKey = (
     pageIndex: number,
     previousPageData: JourneysByPeriodResponse,
