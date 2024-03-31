@@ -78,6 +78,10 @@ export const useJourneysByPeriod = () => {
     mutate(updatedData, false);
   };
 
+  const refetch = () => {
+    mutate(undefined, true);
+  };
+
   return {
     trips,
     drivers: drivers,
@@ -86,6 +90,7 @@ export const useJourneysByPeriod = () => {
     circuits,
     isLoading,
     mutate,
+    refetch,
     isValidating,
     updateTrip,
     addNewTrips,

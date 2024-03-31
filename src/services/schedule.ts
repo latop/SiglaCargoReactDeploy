@@ -30,19 +30,18 @@ export async function fetchJourneysByPeriod({
   }
 }
 
-export type FetchJourneyParams = {
-  driverId: string;
-  journeyDate: string;
+export type FetchCircuitParams = {
+  ciruictCode: string;
 };
 
-export async function fetchJourney({
-  args: { driverId, journeyDate },
+export async function fetchCircuit({
+  args: { ciruictCode },
 }: {
-  args: FetchJourneyParams;
+  args: FetchCircuitParams;
 }) {
   try {
-    const response = await axios.get(`/gantt/GetJourney`, {
-      params: { driverId, journeyDate },
+    const response = await axios.get(`/gantt/GetCircuit`, {
+      params: { circuitCode: ciruictCode },
     });
     const data = response.data;
     return data;

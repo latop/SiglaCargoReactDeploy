@@ -71,8 +71,13 @@ export function useTimelineTrips({
   };
 
   const handleDoubleClick = (itemId: string) => {
-    const hash = `journeyDetails-${itemId}`;
-    setHash(hash);
+    const isACircuit = circuits.some(
+      (circuit) => circuit.ciruictCode === itemId,
+    );
+    if (isACircuit) {
+      const hash = `journeyDetails-${itemId}`;
+      setHash(hash);
+    }
   };
 
   const handleLabelFormatHeader = ([startTime]: Date[], unit: Unit) => {

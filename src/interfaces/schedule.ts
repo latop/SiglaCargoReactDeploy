@@ -6,12 +6,33 @@ export interface DriverSchedule {
 export interface Trip {
   id?: string;
   code?: string;
+  type: "A" | "V";
+  task: string;
   startPlanned: string;
   endPlanned: string;
+  startActual: string;
+  endActual: string;
   driverId: string;
   driverName: string;
+  demand?: string;
   locationDestCode?: string;
   locationOrigCode?: string;
+}
+
+export interface TaskDriver {
+  lineId?: string;
+  lineCode?: string;
+  seq: number;
+  type: "A" | "V";
+  activityId?: string;
+  activityCode?: string;
+  startPlanned: string;
+  endPlanned: string;
+  startActual: string;
+  endActual: string;
+  demand?: string;
+  locOrig?: string;
+  locDest?: string;
 }
 
 export interface Circuit {
@@ -19,6 +40,8 @@ export interface Circuit {
   endDate: string;
   startDate: string;
   trips: Trip[];
+  driverName: string;
+  driverId: string;
 }
 
 export interface JourneysByPeriodResponse {
@@ -42,22 +65,17 @@ export interface DriverJourneySchedule {
   endActual: string | null;
 }
 
-export interface Journey {
+export interface CircuitJourney {
+  circuitJourneyId: string;
+  driverId: string;
   nickName: string;
-  journeyDate: string;
-  status: string;
-  publishedDate: string | null;
-  presentationDate: string;
-  cutoffDate: string;
-  presentationDateActual: string | null;
-  cutoffDateActual: string | null;
-  notes: string | null;
-  awareDate: string | null;
-  restTime: number;
-  circuitJourneyId: string | null;
-  otmId: string | null;
-  journeyId: string;
-  driverSchedules: DriverJourneySchedule[];
+  driverBase: string;
+  driverSubBase: string;
+  startDate: string;
+  endDate: string;
+  fleetCode: string;
+  otmProcess: string;
+  tasksDriver: TaskDriver[];
 }
 
 export interface DailyTripSection {

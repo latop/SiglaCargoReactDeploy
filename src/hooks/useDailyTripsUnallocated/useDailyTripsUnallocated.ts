@@ -83,9 +83,14 @@ export const useDailyTripsUnallocated = (options?: SWRConfiguration) => {
     mutate(newDailyTrips, false);
   };
 
+  const refetch = () => {
+    mutate(undefined, true);
+  };
+
   return {
     dailyTripsUnallocated,
     selectedDailyTrip,
+    refetch,
     removeDailyTrip,
     selectDailyTrip,
     error,

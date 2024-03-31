@@ -1,43 +1,58 @@
-import { useDriverSchedule } from "@/templates/DriversSchedule/useDriversSchedule";
-import dayjs from "dayjs";
-import { useJourney } from "@/hooks/useJourney";
+import { useCircuit } from "@/hooks/useCircuit";
+import { useJourneysByPeriod } from "@/hooks/useJourneysByPeriod";
 import { useForm } from "react-hook-form";
 
 export function useJourneyDetails(journeyDetailId: string) {
   const methods = useForm();
   const { watch, setValue } = methods;
-  const { trips } = useDriverSchedule();
+  const { circuits } = useJourneysByPeriod();
+  const currentCircuit = circuits?.find(
+    (circuit) => circuit.ciruictCode === journeyDetailId,
+  );
 
-  const currentTrip = trips?.find((trip) => trip.id === journeyDetailId);
-  const { data, isLoading } = useJourney({
-    driverId: currentTrip?.driverId,
-    journeyDate: dayjs(currentTrip?.startPlanned).format("YYYY-MM-DD"),
+  const { data, isLoading } = useCircuit({
+    ciruictCode: journeyDetailId,
   });
 
-  const handleAddJourney = () => {
-    const driverSchedules = watch("driverSchedules");
-    driverSchedules.push({
-      type: "",
-      task: "",
-      locCodeOrig: "",
-      locCodeDest: "",
+  const handleAddTravel = () => {
+    const tasksDriver = watch("tasksDriver");
+    tasksDriver.push({
+      seq: tasksDriver.length + 1,
+      type: "V",
+      demand: "",
+      locationOrigCode: "",
+      locationDestCode: "",
       lineCode: "",
-      licensePlate: "",
       startPlanned: "",
       endPlanned: "",
       startActual: "",
       endActual: "",
-      new: true,
     });
-    setValue("driverSchedules", driverSchedules);
+    setValue("tasksDriver", tasksDriver);
+  };
+
+  const handleAddActivity = () => {
+    const tasksDriver = watch("tasksDriver");
+    tasksDriver.push({
+      seq: tasksDriver.length + 1,
+      type: "A",
+      activityId: "",
+      activityCode: "",
+      startPlanned: "",
+      endPlanned: "",
+      startActual: "",
+      endActual: "",
+    });
+    setValue("tasksDriver", tasksDriver);
   };
 
   return {
     data,
     isLoading,
     journeyDetailId,
-    currentTrip,
+    currentCircuit,
     methods,
-    handleAddJourney,
+    handleAddTravel,
+    handleAddActivity,
   };
 }
