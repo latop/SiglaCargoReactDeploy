@@ -1,10 +1,13 @@
 import { useCircuit } from "@/hooks/useCircuit";
+import { useHash } from "@/hooks/useHash";
 import { useJourneysByPeriod } from "@/hooks/useJourneysByPeriod";
 import { useForm } from "react-hook-form";
 
-export function useJourneyDetails(journeyDetailId: string) {
+export function useJourneyDetails() {
+  const [hash] = useHash();
+  const match = (hash as string)?.match(/#journeyDetails-(.+)/);
+  const journeyDetailId = match?.[1];
   const methods = useForm();
-  const { watch, setValue } = methods;
   const { circuits } = useJourneysByPeriod();
   const currentCircuit = circuits?.find(
     (circuit) => circuit.ciruictCode === journeyDetailId,
@@ -14,45 +17,11 @@ export function useJourneyDetails(journeyDetailId: string) {
     ciruictCode: journeyDetailId,
   });
 
-  const handleAddTravel = () => {
-    const tasksDriver = watch("tasksDriver");
-    tasksDriver.push({
-      seq: tasksDriver.length + 1,
-      type: "V",
-      demand: "",
-      locationOrigCode: "",
-      locationDestCode: "",
-      lineCode: "",
-      startPlanned: "",
-      endPlanned: "",
-      startActual: "",
-      endActual: "",
-    });
-    setValue("tasksDriver", tasksDriver);
-  };
-
-  const handleAddActivity = () => {
-    const tasksDriver = watch("tasksDriver");
-    tasksDriver.push({
-      seq: tasksDriver.length + 1,
-      type: "A",
-      activityId: "",
-      activityCode: "",
-      startPlanned: "",
-      endPlanned: "",
-      startActual: "",
-      endActual: "",
-    });
-    setValue("tasksDriver", tasksDriver);
-  };
-
   return {
     data,
     isLoading,
     journeyDetailId,
     currentCircuit,
     methods,
-    handleAddTravel,
-    handleAddActivity,
   };
 }

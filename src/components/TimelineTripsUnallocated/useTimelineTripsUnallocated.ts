@@ -8,7 +8,7 @@ import { useHash } from "@/hooks/useHash";
 import { useDailyTripsUnallocated } from "@/hooks/useDailyTripsUnallocated";
 import { useRouter, useSearchParams } from "next/navigation";
 
-export function useTimelineTripsUnallocated(tripsUnallocated: DailyTrip[]) {
+export function useTimelineTripsUnallocated() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const [, setHash] = useHash();
@@ -19,7 +19,8 @@ export function useTimelineTripsUnallocated(tripsUnallocated: DailyTrip[]) {
     setVisibleTimeEnd,
   } = useGiantt();
 
-  const { selectedDailyTrip, selectDailyTrip } = useDailyTripsUnallocated();
+  const { selectedDailyTrip, selectDailyTrip, dailyTripsUnallocated } =
+    useDailyTripsUnallocated();
 
   const handleLabelFormatItem = (
     [startTime]: [Date],
@@ -85,7 +86,7 @@ export function useTimelineTripsUnallocated(tripsUnallocated: DailyTrip[]) {
     const groupsMap = new Map();
     const itemsMap = new Map();
 
-    tripsUnallocated.forEach((trip: DailyTrip) => {
+    dailyTripsUnallocated?.forEach((trip: DailyTrip) => {
       if (!groupsMap.has(trip.dailyTripId)) {
         groupsMap.set(trip.dailyTripId, {
           id: trip.dailyTripId,
@@ -94,7 +95,7 @@ export function useTimelineTripsUnallocated(tripsUnallocated: DailyTrip[]) {
       }
     });
 
-    tripsUnallocated.forEach((trip) => {
+    dailyTripsUnallocated?.forEach((trip) => {
       trip?.sectionsUnallocated?.forEach((section: DailyTripSection) => {
         itemsMap.set(section.dailyTripSectionId, {
           id: section.dailyTripSectionId,
@@ -110,7 +111,7 @@ export function useTimelineTripsUnallocated(tripsUnallocated: DailyTrip[]) {
       groups: Array.from(groupsMap.values()),
       items: Array.from(itemsMap.values()),
     };
-  }, [tripsUnallocated]);
+  }, [dailyTripsUnallocated]);
 
   const updateSearchParams = (newParams: Record<string, string>) => {
     const query = new URLSearchParams(searchParams.toString());
@@ -129,7 +130,7 @@ export function useTimelineTripsUnallocated(tripsUnallocated: DailyTrip[]) {
   };
 
   const handleGroupItemClick = (dailyTripId: string) => {
-    const currentTrip = tripsUnallocated.find(
+    const currentTrip = dailyTripsUnallocated?.find(
       (trip: DailyTrip) => trip.dailyTripId === dailyTripId,
     );
     if (!currentTrip) return;

@@ -6,9 +6,10 @@ import Timeline, {
   SidebarHeader,
   DateHeader,
 } from "react-calendar-timeline";
-import { Circuit, DriverSchedule, Trip } from "@/interfaces/schedule";
 import { useTimelineTrips } from "./useTimelineTrips";
 import { red } from "@mui/material/colors";
+import { Box, CircularProgress } from "@mui/material";
+import { useJourneysByPeriod } from "@/hooks/useJourneysByPeriod";
 import {
   TimelineItem,
   TimelineItemSubtitle,
@@ -19,25 +20,19 @@ import {
 import "dayjs/locale/pt-br";
 import "react-calendar-timeline/lib/Timeline.css";
 import "./Timeline.css";
-import { Box, CircularProgress } from "@mui/material";
 
 interface TimelineTripsProps {
-  trips: Trip[];
   isReachingEnd: boolean;
-  drivers: DriverSchedule[];
-  circuits: Circuit[];
   onPaginate: () => void;
   isLoadingMore: boolean;
 }
 
 export function TimelineTrips({
-  trips,
-  drivers,
-  circuits,
   onPaginate,
   isReachingEnd,
   isLoadingMore,
 }: TimelineTripsProps) {
+  const { trips, circuits } = useJourneysByPeriod();
   const {
     groups,
     items,
@@ -49,11 +44,7 @@ export function TimelineTrips({
     handleMoveItem,
     handleLabelFormatHeader,
     handleCanvasClick,
-  } = useTimelineTrips({
-    trips,
-    drivers,
-    circuits,
-  });
+  } = useTimelineTrips();
 
   const itemRenderer = ({
     itemContext,
@@ -70,7 +61,7 @@ export function TimelineTrips({
   }) => {
     let currentTrip = trips.find((trip) => trip.id === itemContext.title);
     if (!currentTrip) {
-      circuits.forEach((circuit) => {
+      circuits?.forEach((circuit) => {
         const curr = circuit.trips.find(
           (trip) => trip.id === itemContext.title,
         );
@@ -80,7 +71,7 @@ export function TimelineTrips({
       });
     }
 
-    const isCircuit = circuits.some(
+    const isCircuit = circuits?.some(
       (circuit) => circuit.ciruictCode === itemContext.title,
     );
     const itemProps = getItemProps({});
@@ -115,7 +106,7 @@ export function TimelineTrips({
             </TimelineItemSubtitle>
           )}
         <TimelineItemTitle
-          isCircuit={isCircuit}
+          isCircuit={!!isCircuit}
           style={{
             height: `calc(${itemContext.dimensions.height} - 8px)`,
             backgroundColor,

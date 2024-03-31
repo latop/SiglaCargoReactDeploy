@@ -6,7 +6,7 @@ import Timeline, {
   SidebarHeader,
   DateHeader,
 } from "react-calendar-timeline";
-import { DailyTrip, DailyTripSection } from "@/interfaces/schedule";
+import { DailyTripSection } from "@/interfaces/schedule";
 import { useTimelineTripsUnallocated } from "./useTimelineTripsUnallocated";
 import { Box, CircularProgress, IconButton } from "@mui/material";
 import FilterListIcon from "@mui/icons-material/FilterList";
@@ -22,21 +22,21 @@ import "dayjs/locale/pt-br";
 import "react-calendar-timeline/lib/Timeline.css";
 import "./Timeline.css";
 import { useSearchParams } from "next/navigation";
+import { useDailyTripsUnallocated } from "@/hooks/useDailyTripsUnallocated";
 
 interface TimelineTripsUnallocatedProps {
-  tripsUnallocated: DailyTrip[];
   isReachingEnd: boolean;
   onPaginate: () => void;
   isLoadingMore: boolean;
 }
 
 export function TimelineTripsUnallocated({
-  tripsUnallocated,
   onPaginate,
   isReachingEnd,
   isLoadingMore,
 }: TimelineTripsUnallocatedProps) {
   const searchParams = useSearchParams();
+  const { dailyTripsUnallocated } = useDailyTripsUnallocated();
   const {
     groups,
     items,
@@ -48,18 +48,21 @@ export function TimelineTripsUnallocated({
     handleLabelFormatHeader,
     handleCanvasClick,
     handleGroupItemClick,
-  } = useTimelineTripsUnallocated(tripsUnallocated);
+  } = useTimelineTripsUnallocated();
 
-  function findSectionById(tripsData: DailyTrip[], sectionId: string) {
-    for (const trip of tripsData) {
-      const section = trip.sectionsUnallocated.find(
-        (section: DailyTripSection) => section.dailyTripSectionId === sectionId,
-      );
-      if (section) {
-        return section;
+  function findSectionById(sectionId: string) {
+    if (dailyTripsUnallocated) {
+      for (const trip of dailyTripsUnallocated) {
+        const section = trip.sectionsUnallocated.find(
+          (section: DailyTripSection) =>
+            section.dailyTripSectionId === sectionId,
+        );
+        if (section) {
+          return section;
+        }
       }
+      return null;
     }
-    return null;
   }
 
   const itemRenderer = ({
@@ -77,7 +80,7 @@ export function TimelineTripsUnallocated({
     getResizeProps: any;
   }) => {
     const { left: leftResizeProps, right: rightResizeProps } = getResizeProps();
-    const currentTrip = findSectionById(tripsUnallocated, item.id);
+    const currentTrip = findSectionById(item.id);
     const selected =
       currentTrip?.dailyTripId === selectedDailyTrip?.dailyTripId ||
       itemContext.selected;

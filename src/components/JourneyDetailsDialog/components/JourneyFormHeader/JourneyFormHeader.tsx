@@ -3,8 +3,8 @@ import dayjs from "dayjs";
 import { Box, Typography } from "@mui/material";
 import { useJourneyDetails } from "../../useJourneyDetails";
 
-export function JourneyFormHeader({ id }: { id: string }) {
-  const { isLoading, data } = useJourneyDetails(id);
+export function JourneyFormHeader() {
+  const { isLoading, data } = useJourneyDetails();
 
   return (
     <Box display="flex" justifyContent="space-between">

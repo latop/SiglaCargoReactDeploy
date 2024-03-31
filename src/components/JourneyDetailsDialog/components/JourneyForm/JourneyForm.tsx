@@ -16,15 +16,15 @@ dayjs.extend(customParseFormat);
 export const JourneyForm = () => {
   const { addToast } = useToast();
   const { watch, setValue } = useFormContext();
+  const tasksDriver = watch("tasksDriver");
 
   const handleDeleteDriverSchedule = (index: number) => {
-    const tasksDriver = watch("tasksDriver");
     tasksDriver.splice(index, 1);
     setValue("tasksDriver", tasksDriver);
     addToast("Jornada removida com sucesso");
   };
 
-  const countJourneys = watch("tasksDriver")?.length;
+  const countJourneys = tasksDriver?.length;
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
@@ -36,7 +36,7 @@ export const JourneyForm = () => {
               <Chip label={countJourneys} color="default" size="small" />
             )}
           </Box>
-          {watch("tasksDriver")?.length === 0 && (
+          {tasksDriver?.length === 0 && (
             <Box display="flex">
               <Typography variant="body2" color={colors.grey[700]}>
                 Não há jornadas para este motorista, adicione uma nova jornada.
@@ -45,11 +45,11 @@ export const JourneyForm = () => {
           )}
 
           <Box gap="16px" display="flex" flexDirection="column">
-            {watch("tasksDriver")?.map((trip: TaskDriver, index: number) => (
+            {tasksDriver?.map((taskDriver: TaskDriver, index: number) => (
               <DriverJourneyForm
                 onDelete={() => handleDeleteDriverSchedule(index)}
-                key={index}
-                defaultValues={trip}
+                key={taskDriver.seq}
+                seq={taskDriver.seq - 1}
               />
             ))}
           </Box>

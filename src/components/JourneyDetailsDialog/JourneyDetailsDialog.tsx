@@ -1,22 +1,20 @@
-import * as React from "react";
+import React, { useEffect } from "react";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
-import DialogActions from "@mui/material/DialogActions";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
-import AddIcon from "@mui/icons-material/Add";
-import theme from "@/styles/theme";
 import { useToast } from "@/hooks/useToast";
 import { usePost } from "@/hooks/usePost";
 import { JourneyForm } from "@/components/JourneyDetailsDialog/components/JourneyForm";
-import { Box, CircularProgress, Typography, Button, Icon } from "@mui/material";
+import { Box, CircularProgress } from "@mui/material";
 import { FieldValues, FormProvider } from "react-hook-form";
 import { TaskDriver, CircuitJourney } from "@/interfaces/schedule";
 import { JourneyFormHeader } from "@/components/JourneyDetailsDialog/components/JourneyFormHeader";
 import { useJourneyDetails } from "./useJourneyDetails";
 import { useJourneysByPeriod } from "@/hooks/useJourneysByPeriod";
 import { useDailyTripsUnallocated } from "@/hooks/useDailyTripsUnallocated";
+import { JourneyFormFooter } from "./components/JourneyFormFooter";
 
 const normalizeData = (data: CircuitJourney) => {
   const journeyDefaultValues = {
@@ -51,13 +49,11 @@ const normalizeData = (data: CircuitJourney) => {
 
 interface JourneyDetailsDialogProps {
   open: boolean;
-  id: string;
   onClose: () => void;
 }
 
 export function JourneyDetailsDialog({
   open,
-  id,
   onClose,
 }: JourneyDetailsDialogProps) {
   const [postCircuit, { loading }] = usePost();
@@ -71,6 +67,7 @@ export function JourneyDetailsDialog({
         addToast("Circuito salvo com sucesso");
         refetchJourneys();
         refetchDailyTrips();
+        onClose();
       },
       onError: () => {
         addToast("Erro ao salvar circuito", { type: "error" });
@@ -78,12 +75,11 @@ export function JourneyDetailsDialog({
     });
   };
 
-  const { data, isLoading, methods, handleAddTravel, handleAddActivity } =
-    useJourneyDetails(id);
+  const { data, isLoading, methods } = useJourneyDetails();
   const { reset, formState } = methods;
   const { defaultValues } = formState;
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (data && !defaultValues) {
       reset(normalizeData(data));
     }
@@ -103,7 +99,7 @@ export function JourneyDetailsDialog({
         >
           <>
             <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
-              <JourneyFormHeader id={id} />
+              <JourneyFormHeader />
             </DialogTitle>
             <IconButton
               aria-label="close"
@@ -129,68 +125,9 @@ export function JourneyDetailsDialog({
                   <CircularProgress />
                 </Box>
               )}
-              {!isLoading && (
-                <>
-                  <JourneyForm />
-                </>
-              )}
+              {!isLoading && <JourneyForm />}
             </DialogContent>
-            <DialogActions>
-              <Box
-                display="flex"
-                justifyContent="space-between"
-                padding="10px 16px"
-                width="100%"
-              >
-                <Box display="flex" gap="10px">
-                  <Button
-                    variant="outlined"
-                    onClick={handleAddTravel}
-                    color="primary"
-                    size="small"
-                  >
-                    <Icon component={AddIcon} fontSize="small" />
-                    <Typography
-                      variant="body2"
-                      ml="5px"
-                      color={theme.palette.primary.main}
-                    >
-                      Viagem
-                    </Typography>
-                  </Button>
-                  <Button
-                    variant="outlined"
-                    onClick={handleAddActivity}
-                    color="primary"
-                    size="small"
-                  >
-                    <Icon component={AddIcon} fontSize="small" />
-                    <Typography
-                      variant="body2"
-                      ml="5px"
-                      color={theme.palette.primary.main}
-                    >
-                      Atividade
-                    </Typography>
-                  </Button>
-                </Box>
-                <Box display="flex" gap="10px">
-                  {/* <Button variant="contained" color="error">
-                    Desassociar motorista
-                  </Button> */}
-                  <Button type="submit" variant="contained">
-                    {loading && (
-                      <CircularProgress
-                        color="inherit"
-                        size={20}
-                        sx={{ margin: "0px 11.45px" }}
-                      />
-                    )}
-                    {!loading && `Salvar`}
-                  </Button>
-                </Box>
-              </Box>
-            </DialogActions>
+            <JourneyFormFooter loading={loading} />
           </>
         </form>
       </FormProvider>

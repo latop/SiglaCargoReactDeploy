@@ -1,5 +1,5 @@
 import React from "react";
-import { useForm, Controller } from "react-hook-form";
+import { useFormContext, Controller } from "react-hook-form";
 import { TextField, Grid, Box, IconButton, colors, Icon } from "@mui/material";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DateTimePicker } from "@/components/DatePicker";
@@ -8,32 +8,27 @@ import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import "dayjs/locale/pt-br";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { TaskDriver } from "@/interfaces/schedule";
 dayjs.extend(customParseFormat);
 
 interface DriverJourneyFormProps {
   onDelete: () => void;
-  defaultValues?: TaskDriver;
+  seq: number;
 }
 
 export const DriverJourneyForm = ({
-  defaultValues,
   onDelete,
+  seq,
 }: DriverJourneyFormProps) => {
-  const { control, handleSubmit, watch } = useForm({
-    defaultValues: defaultValues || {},
-  });
+  const { control, getValues } = useFormContext();
 
-  const onSubmit = () => {};
-
-  const isTravel = watch("type") === "V";
-  const isActivity = watch("type") === "A";
+  const isTravel = getValues(`tasksDriver.${seq}.type`) === "V";
+  const isActivity = getValues(`tasksDriver.${seq}.type`) === "A";
 
   const renderTravelFields = () => (
     <Grid container spacing={1.5}>
       <Grid item xs={3}>
         <Controller
-          name="demand"
+          name={`tasksDriver.${seq}.demand`}
           control={control}
           render={({ field }) => (
             <TextField {...field} label="Demanda" fullWidth />
@@ -42,7 +37,7 @@ export const DriverJourneyForm = ({
       </Grid>
       <Grid item xs={3}>
         <Controller
-          name="lineCode"
+          name={`tasksDriver.${seq}.lineCode`}
           control={control}
           render={({ field }) => (
             <TextField {...field} label="Cód. Rota" fullWidth />
@@ -51,7 +46,7 @@ export const DriverJourneyForm = ({
       </Grid>
       <Grid item xs={3}>
         <Controller
-          name="locOrig"
+          name={`tasksDriver.${seq}.locOrig`}
           control={control}
           render={({ field }) => (
             <TextField {...field} label="Origem" fullWidth />
@@ -60,7 +55,7 @@ export const DriverJourneyForm = ({
       </Grid>
       <Grid item xs={3}>
         <Controller
-          name="locDest"
+          name={`tasksDriver.${seq}.locDest`}
           control={control}
           render={({ field }) => (
             <TextField {...field} label="Destino" fullWidth />
@@ -69,7 +64,7 @@ export const DriverJourneyForm = ({
       </Grid>
       <Grid item xs={3}>
         <Controller
-          name="startPlanned"
+          name={`tasksDriver.${seq}.startPlanned`}
           control={control}
           render={({ field, fieldState: { error } }) => (
             <DateTimePicker
@@ -84,7 +79,7 @@ export const DriverJourneyForm = ({
       </Grid>
       <Grid item xs={3}>
         <Controller
-          name="endPlanned"
+          name={`tasksDriver.${seq}.endPlanned`}
           control={control}
           render={({ field, fieldState: { error } }) => (
             <DateTimePicker
@@ -99,7 +94,7 @@ export const DriverJourneyForm = ({
       </Grid>
       <Grid item xs={3}>
         <Controller
-          name="startActual"
+          name={`tasksDriver.${seq}.startActual`}
           control={control}
           render={({ field, fieldState: { error } }) => (
             <DateTimePicker
@@ -114,7 +109,7 @@ export const DriverJourneyForm = ({
       </Grid>
       <Grid item xs={3}>
         <Controller
-          name="endActual"
+          name={`tasksDriver.${seq}.endActual`}
           control={control}
           render={({ field, fieldState: { error } }) => (
             <DateTimePicker
@@ -134,7 +129,7 @@ export const DriverJourneyForm = ({
     <Grid container spacing={1.5}>
       <Grid item xs={2}>
         <Controller
-          name="activityCode"
+          name={`tasksDriver.${seq}.activityCode`}
           control={control}
           render={({ field }) => (
             <TextField {...field} label="Atividade" fullWidth />
@@ -143,7 +138,7 @@ export const DriverJourneyForm = ({
       </Grid>
       <Grid item xs={2.5}>
         <Controller
-          name="startPlanned"
+          name={`tasksDriver.${seq}.startPlanned`}
           control={control}
           render={({ field, fieldState: { error } }) => (
             <DateTimePicker
@@ -158,7 +153,7 @@ export const DriverJourneyForm = ({
       </Grid>
       <Grid item xs={2.5}>
         <Controller
-          name="endPlanned"
+          name={`tasksDriver.${seq}.endPlanned`}
           control={control}
           render={({ field, fieldState: { error } }) => (
             <DateTimePicker
@@ -173,7 +168,7 @@ export const DriverJourneyForm = ({
       </Grid>
       <Grid item xs={2.5}>
         <Controller
-          name="startActual"
+          name={`tasksDriver.${seq}.startActual`}
           control={control}
           render={({ field, fieldState: { error } }) => (
             <DateTimePicker
@@ -188,7 +183,7 @@ export const DriverJourneyForm = ({
       </Grid>
       <Grid item xs={2.5}>
         <Controller
-          name="endActual"
+          name={`tasksDriver.${seq}.endActual`}
           control={control}
           render={({ field, fieldState: { error } }) => (
             <DateTimePicker
@@ -206,24 +201,22 @@ export const DriverJourneyForm = ({
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <Box
-          display={"flex"}
-          flexDirection="column"
-          gap="16px"
-          padding="16px"
-          bgcolor={colors.grey[100]}
-          borderRadius="4px"
-        >
-          <Box display="flex" gap="10px" alignItems="center">
-            {isTravel && renderTravelFields()}
-            {isActivity && renderActivityFields()}
-            <IconButton size="medium" onClick={onDelete}>
-              <Icon component={DeleteIcon} fontSize="medium" />
-            </IconButton>
-          </Box>
+      <Box
+        display={"flex"}
+        flexDirection="column"
+        gap="16px"
+        padding="16px"
+        bgcolor={colors.grey[100]}
+        borderRadius="4px"
+      >
+        <Box display="flex" gap="10px" alignItems="center">
+          {isTravel && renderTravelFields()}
+          {isActivity && renderActivityFields()}
+          <IconButton size="medium" onClick={onDelete} sx={{ padding: 0 }}>
+            <Icon component={DeleteIcon} fontSize="medium" />
+          </IconButton>
         </Box>
-      </form>
+      </Box>
     </LocalizationProvider>
   );
 };

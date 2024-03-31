@@ -17,15 +17,8 @@ import { useDailyTripsUnallocated } from "@/hooks/useDailyTripsUnallocated";
 import { useDialog } from "@/hooks/useDialog/useDialog";
 import { Box, Typography } from "@mui/material";
 
-export function useTimelineTrips({
-  trips,
-  drivers,
-  circuits,
-}: {
-  trips: Trip[];
-  drivers: DriverSchedule[];
-  circuits: Circuit[];
-}) {
+export function useTimelineTrips() {
+  const { trips, drivers, circuits } = useJourneysByPeriod();
   const [, setHash] = useHash();
   const { addToast } = useToast();
   const { openDialog } = useDialog();
@@ -71,7 +64,7 @@ export function useTimelineTrips({
   };
 
   const handleDoubleClick = (itemId: string) => {
-    const isACircuit = circuits.some(
+    const isACircuit = circuits?.some(
       (circuit) => circuit.ciruictCode === itemId,
     );
     if (isACircuit) {
@@ -117,7 +110,7 @@ export function useTimelineTrips({
       }
     });
 
-    circuits.forEach((circuit: Circuit) => {
+    circuits?.forEach((circuit: Circuit) => {
       itemsMap.set(circuit.ciruictCode, {
         id: circuit.ciruictCode,
         group: circuit.trips[0].driverId,
@@ -126,7 +119,7 @@ export function useTimelineTrips({
         end_time: dayjs(circuit.endDate, "YYYY-MM-DDTHH:mm:ss"),
       });
     });
-    trips.forEach((trip: Trip) => {
+    trips?.forEach((trip: Trip) => {
       itemsMap.set(trip.id, {
         id: trip.id,
         group: trip.driverId,

@@ -104,9 +104,6 @@ export function DriversSchedule() {
                     circuits &&
                     !isEmpty && (
                       <TimelineTrips
-                        trips={trips}
-                        drivers={drivers}
-                        circuits={circuits}
                         onPaginate={loadMoreDrivers}
                         isReachingEnd={isReachingEndDrivers}
                         isLoadingMore={!!isLoadingMoreDrivers}
@@ -135,7 +132,6 @@ export function DriversSchedule() {
                   )}
                   {!isLoadingTripsUnallocated && dailyTripsUnallocated && (
                     <TimelineTripsUnallocated
-                      tripsUnallocated={dailyTripsUnallocated}
                       onPaginate={loadMoreTripsUnallocated}
                       isReachingEnd={isReachingEndTripsUnallocated}
                       isLoadingMore={!!isLoadingMoreTripsUnallocated}
@@ -150,7 +146,6 @@ export function DriversSchedule() {
       {tripDetailId && (
         <JourneyDetailsDialog
           open={!!tripDetailId}
-          id={tripDetailId}
           onClose={handleCloseTripDetails}
         />
       )}
