@@ -137,9 +137,9 @@ export function TimelineTrips({
         onItemDoubleClick={handleDoubleClick}
         groups={groups}
         items={items}
-        canMove
+        canMove={false}
         canResize={false}
-        canChangeGroup
+        canChangeGroup={false}
         onItemMove={handleMoveItem}
         onCanvasClick={handleCanvasClick}
         minZoom={60 * 60 * 24}

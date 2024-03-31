@@ -6,12 +6,8 @@ export interface DriverSchedule {
 export interface Trip {
   id?: string;
   code?: string;
-  type: "A" | "V";
-  task: string;
   startPlanned: string;
   endPlanned: string;
-  startActual: string;
-  endActual: string;
   driverId: string;
   driverName: string;
   demand?: string;

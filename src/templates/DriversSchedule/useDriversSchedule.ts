@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { useJourneysByPeriod } from "@/hooks/useJourneysByPeriod";
 import { useSearchParams } from "next/navigation";
-import { DailyTripSection, Trip } from "@/interfaces/schedule";
+import { Trip } from "@/interfaces/schedule";
 import { useDailyTripsUnallocated } from "@/hooks/useDailyTripsUnallocated";
 
 interface JourneySearchParams {
@@ -45,7 +45,6 @@ export function useDriverSchedule() {
     size: sizeDrivers,
     setSize: setSizeDrivers,
     updateTrip,
-    addNewTrips,
     isValidating: isValidatingDrivers,
   } = useJourneysByPeriod();
 
@@ -113,45 +112,6 @@ export function useDriverSchedule() {
     }
   };
 
-  function findTripBySectionId(sectionId: string) {
-    if (!dailyTripsUnallocated) return null;
-
-    for (const trip of dailyTripsUnallocated) {
-      const section = trip.sectionsUnallocated.find(
-        (section: DailyTripSection) => section.dailyTripSectionId === sectionId,
-      );
-      if (section) {
-        return trip;
-      }
-    }
-    return null;
-  }
-
-  const handleAllocateDriver = (dailyTripId: string, driverId: string) => {
-    const currentDriver = drivers?.find(
-      (driver) => driver.driverId === driverId,
-    );
-    const currentDailyTripUnallocated = findTripBySectionId(dailyTripId);
-
-    if (!currentDriver || !currentDailyTripUnallocated) return;
-
-    const newTrips = currentDailyTripUnallocated.sectionsUnallocated.map(
-      (section) => {
-        const newTrip: Trip = {
-          id: section.dailyTripSectionId,
-          startPlanned: section.startPlanned,
-          endPlanned: section.endPlanned,
-          driverId: driverId,
-          driverName: currentDriver.driverName,
-          locationOrigCode: section.locOrig,
-          locationDestCode: section.locDest,
-        };
-        return newTrip;
-      },
-    );
-    addNewTrips(newTrips);
-  };
-
   return {
     trips,
     drivers,
@@ -159,7 +119,6 @@ export function useDriverSchedule() {
     dailyTripsUnallocated,
     isLoadingJourneys,
     isLoadingTripsUnallocated,
-    handleAllocateDriver,
     isEmpty,
     showContent: hasRelevantParams,
     updatedTrip: handleUpdateTrip,
