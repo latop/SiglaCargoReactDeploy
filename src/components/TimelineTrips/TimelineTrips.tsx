@@ -5,6 +5,7 @@ import Timeline, {
   SidebarHeader,
   DateHeader,
 } from "react-calendar-timeline";
+import Tooltip from "@mui/material/Tooltip";
 import { useTimelineTrips } from "./useTimelineTrips";
 import { red } from "@mui/material/colors";
 import { useJourneysByPeriod } from "@/hooks/useJourneysByPeriod";
@@ -78,7 +79,6 @@ export function TimelineTrips() {
         className="giantt-item"
         isCircuit={isCircuit}
         selected={itemContext.selected}
-        title={currentTrip?.code}
       >
         {!!itemContext.useResizeHandle && <div {...leftResizeProps} />}
         {itemContext.dimensions.width > 50 &&
@@ -93,16 +93,18 @@ export function TimelineTrips() {
               </TimelineItemDestination>
             </TimelineItemSubtitle>
           )}
-        <TimelineItemTitle
-          isCircuit={!!isCircuit}
-          style={{
-            height: `calc(${itemContext.dimensions.height} - 8px)`,
-            backgroundColor,
-            borderColor,
-          }}
-        >
-          {/* {currentTrip?.code} */}
-        </TimelineItemTitle>
+        <Tooltip title={currentTrip?.code}>
+          <TimelineItemTitle
+            isCircuit={!!isCircuit}
+            style={{
+              height: `calc(${itemContext.dimensions.height} - 8px)`,
+              backgroundColor,
+              borderColor,
+            }}
+          >
+            {/* {currentTrip?.code} */}
+          </TimelineItemTitle>
+        </Tooltip>
 
         {!!itemContext.useResizeHandle && <div {...rightResizeProps} />}
       </TimelineItem>
