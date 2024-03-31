@@ -1,5 +1,4 @@
 import React from "react";
-import { Waypoint } from "react-waypoint";
 import Timeline, {
   ItemContext,
   TimelineHeaders,
@@ -8,7 +7,6 @@ import Timeline, {
 } from "react-calendar-timeline";
 import { useTimelineTrips } from "./useTimelineTrips";
 import { red } from "@mui/material/colors";
-import { Box, CircularProgress } from "@mui/material";
 import { useJourneysByPeriod } from "@/hooks/useJourneysByPeriod";
 import {
   TimelineItem,
@@ -21,17 +19,7 @@ import "dayjs/locale/pt-br";
 import "react-calendar-timeline/lib/Timeline.css";
 import "./Timeline.css";
 
-interface TimelineTripsProps {
-  isReachingEnd: boolean;
-  onPaginate: () => void;
-  isLoadingMore: boolean;
-}
-
-export function TimelineTrips({
-  onPaginate,
-  isReachingEnd,
-  isLoadingMore,
-}: TimelineTripsProps) {
+export function TimelineTrips() {
   const { trips, circuits } = useJourneysByPeriod();
   const {
     groups,
@@ -122,48 +110,40 @@ export function TimelineTrips({
   };
 
   return (
-    <>
-      <Timeline
-        lineHeight={55}
-        onItemDoubleClick={handleDoubleClick}
-        groups={groups}
-        items={items}
-        canMove={false}
-        canResize={false}
-        canChangeGroup={false}
-        onItemMove={handleMoveItem}
-        onCanvasClick={handleCanvasClick}
-        minZoom={60 * 60 * 24}
-        stackItems={false}
-        maxZoom={604800000}
-        onTimeChange={handleTimeChange}
-        visibleTimeStart={visibleTimeStart}
-        itemRenderer={itemRenderer}
-        visibleTimeEnd={visibleTimeEnd}
-      >
-        <TimelineHeaders style={{ position: "sticky", top: 0, zIndex: 100 }}>
-          <SidebarHeader>
-            {({ getRootProps }) => {
-              return <div {...getRootProps()} />;
-            }}
-          </SidebarHeader>
-          <DateHeader
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore next line
-            labelFormat={handleLabelFormatHeader}
-            unit="primaryHeader"
-          />
-          {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
-          {/* @ts-ignore next line */}
-          <DateHeader labelFormat={handleLabelFormatItem} />
-        </TimelineHeaders>
-      </Timeline>
-      {!isReachingEnd && <Waypoint onEnter={onPaginate} bottomOffset={-250} />}
-      {isLoadingMore && (
-        <Box display="flex" justifyContent="center" mt={2} marginBottom={2}>
-          <CircularProgress />
-        </Box>
-      )}
-    </>
+    <Timeline
+      lineHeight={55}
+      onItemDoubleClick={handleDoubleClick}
+      groups={groups}
+      items={items}
+      canMove={false}
+      canResize={false}
+      canChangeGroup={false}
+      onItemMove={handleMoveItem}
+      onCanvasClick={handleCanvasClick}
+      minZoom={60 * 60 * 24}
+      stackItems={false}
+      maxZoom={604800000}
+      onTimeChange={handleTimeChange}
+      visibleTimeStart={visibleTimeStart}
+      itemRenderer={itemRenderer}
+      visibleTimeEnd={visibleTimeEnd}
+    >
+      <TimelineHeaders style={{ position: "sticky", top: 0, zIndex: 100 }}>
+        <SidebarHeader>
+          {({ getRootProps }) => {
+            return <div {...getRootProps()} />;
+          }}
+        </SidebarHeader>
+        <DateHeader
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore next line
+          labelFormat={handleLabelFormatHeader}
+          unit="primaryHeader"
+        />
+        {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+        {/* @ts-ignore next line */}
+        <DateHeader labelFormat={handleLabelFormatItem} />
+      </TimelineHeaders>
+    </Timeline>
   );
 }

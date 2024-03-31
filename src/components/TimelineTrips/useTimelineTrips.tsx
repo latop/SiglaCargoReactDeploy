@@ -9,7 +9,7 @@ import {
 import { Unit } from "react-calendar-timeline";
 import dayjs from "dayjs";
 import { match } from "ts-pattern";
-import { useDriverSchedule } from "@/templates/DriversSchedule/useDriversSchedule";
+import { useDriverSchedule } from "@/features/DriversSchedule/useDriversSchedule";
 import { useToast } from "@/hooks/useToast";
 import { useHash } from "@/hooks/useHash";
 import { useJourneysByPeriod } from "@/hooks/useJourneysByPeriod";
