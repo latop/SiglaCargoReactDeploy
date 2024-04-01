@@ -53,7 +53,7 @@ const theme = createTheme({
           padding: "11.5px 14px",
         },
         root: {
-          fontSize: "14px",
+          fontSize: "13px",
           backgroundColor: "#ffffff",
           fontFamily: "var(--font-openSans)",
           "& input:-webkit-autofill": {
@@ -75,7 +75,7 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           fontFamily: "var(--font-openSans)",
-          fontSize: "14px",
+          fontSize: "13px",
           lineHeight: "10px",
           overflow: "inherit",
         },
@@ -149,6 +149,13 @@ const theme = createTheme({
         root: {
           fontFamily: "var(--font-openSans)",
           color: grey[800],
+        },
+      },
+    },
+    MuiInputAdornment: {
+      styleOverrides: {
+        root: {
+          marginLeft: 0,
         },
       },
     },

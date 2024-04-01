@@ -25,8 +25,8 @@ export const DriverJourneyForm = ({
   const isActivity = getValues(`tasksDriver.${seq}.type`) === "A";
 
   const renderTravelFields = () => (
-    <Grid container spacing={1.5}>
-      <Grid item xs={3}>
+    <Grid container spacing={1}>
+      <Grid item xs={1.6}>
         <Controller
           name={`tasksDriver.${seq}.demand`}
           control={control}
@@ -35,7 +35,7 @@ export const DriverJourneyForm = ({
           )}
         />
       </Grid>
-      <Grid item xs={3}>
+      <Grid item xs={1.6}>
         <Controller
           name={`tasksDriver.${seq}.lineCode`}
           control={control}
@@ -44,7 +44,7 @@ export const DriverJourneyForm = ({
           )}
         />
       </Grid>
-      <Grid item xs={3}>
+      <Grid item xs={1.2}>
         <Controller
           name={`tasksDriver.${seq}.locOrig`}
           control={control}
@@ -53,7 +53,7 @@ export const DriverJourneyForm = ({
           )}
         />
       </Grid>
-      <Grid item xs={3}>
+      <Grid item xs={1.2}>
         <Controller
           name={`tasksDriver.${seq}.locDest`}
           control={control}
@@ -62,7 +62,7 @@ export const DriverJourneyForm = ({
           )}
         />
       </Grid>
-      <Grid item xs={3}>
+      <Grid item xs={1.6}>
         <Controller
           name={`tasksDriver.${seq}.startPlanned`}
           control={control}
@@ -77,7 +77,7 @@ export const DriverJourneyForm = ({
           )}
         />
       </Grid>
-      <Grid item xs={3}>
+      <Grid item xs={1.6}>
         <Controller
           name={`tasksDriver.${seq}.endPlanned`}
           control={control}
@@ -86,13 +86,14 @@ export const DriverJourneyForm = ({
               label="Fim planejado"
               error={error?.message}
               {...field}
+              slotProps={{}}
               value={field.value ? dayjs(field.value) : null}
               onChange={(date) => field.onChange(date?.format())}
             />
           )}
         />
       </Grid>
-      <Grid item xs={3}>
+      <Grid item xs={1.6}>
         <Controller
           name={`tasksDriver.${seq}.startActual`}
           control={control}
@@ -107,7 +108,7 @@ export const DriverJourneyForm = ({
           )}
         />
       </Grid>
-      <Grid item xs={3}>
+      <Grid item xs={1.6}>
         <Controller
           name={`tasksDriver.${seq}.endActual`}
           control={control}
@@ -126,8 +127,8 @@ export const DriverJourneyForm = ({
   );
 
   const renderActivityFields = () => (
-    <Grid container spacing={1.5}>
-      <Grid item xs={2}>
+    <Grid container spacing={1}>
+      <Grid item xs={1.6}>
         <Controller
           name={`tasksDriver.${seq}.activityCode`}
           control={control}
@@ -136,7 +137,7 @@ export const DriverJourneyForm = ({
           )}
         />
       </Grid>
-      <Grid item xs={2.5}>
+      <Grid item xs={1.6}>
         <Controller
           name={`tasksDriver.${seq}.startPlanned`}
           control={control}
@@ -151,7 +152,7 @@ export const DriverJourneyForm = ({
           )}
         />
       </Grid>
-      <Grid item xs={2.5}>
+      <Grid item xs={1.6}>
         <Controller
           name={`tasksDriver.${seq}.endPlanned`}
           control={control}
@@ -166,7 +167,7 @@ export const DriverJourneyForm = ({
           )}
         />
       </Grid>
-      <Grid item xs={2.5}>
+      <Grid item xs={1.6}>
         <Controller
           name={`tasksDriver.${seq}.startActual`}
           control={control}
@@ -181,7 +182,7 @@ export const DriverJourneyForm = ({
           )}
         />
       </Grid>
-      <Grid item xs={2.5}>
+      <Grid item xs={1.6}>
         <Controller
           name={`tasksDriver.${seq}.endActual`}
           control={control}
@@ -205,7 +206,7 @@ export const DriverJourneyForm = ({
         display={"flex"}
         flexDirection="column"
         gap="16px"
-        padding="16px"
+        padding="10px"
         bgcolor={colors.grey[100]}
         borderRadius="4px"
       >

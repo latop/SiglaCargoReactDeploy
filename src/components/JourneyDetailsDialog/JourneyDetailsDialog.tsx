@@ -90,7 +90,7 @@ export function JourneyDetailsDialog({
       onClose={onClose}
       open={open}
       fullWidth
-      PaperProps={{ sx: { height: "100%", maxWidth: "1050px" } }}
+      PaperProps={{ sx: { height: "100%", maxWidth: "1400px" } }}
     >
       <FormProvider {...methods}>
         <form
@@ -113,7 +113,7 @@ export function JourneyDetailsDialog({
             >
               <CloseIcon />
             </IconButton>
-            <DialogContent dividers>
+            <DialogContent dividers sx={{ padding: "16px" }}>
               {isLoading && (
                 <Box
                   display="flex"

@@ -28,31 +28,29 @@ export const JourneyForm = () => {
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
-      <Box display={"flex"} flexDirection="column" gap="20px">
-        <Box gap="10px" mt="5px" display="flex" flexDirection="column">
-          <Box display="flex" alignItems="center" gap="8px">
-            <Typography variant="subtitle1">Jornadas do motorista</Typography>
-            {countJourneys > 0 && (
-              <Chip label={countJourneys} color="default" size="small" />
-            )}
-          </Box>
-          {tasksDriver?.length === 0 && (
-            <Box display="flex">
-              <Typography variant="body2" color={colors.grey[700]}>
-                Não há jornadas para este motorista, adicione uma nova jornada.
-              </Typography>
-            </Box>
+      <Box gap="10px" mt="5px" display="flex" flexDirection="column">
+        <Box display="flex" alignItems="center" gap="8px">
+          <Typography variant="subtitle1">Jornadas do motorista</Typography>
+          {countJourneys > 0 && (
+            <Chip label={countJourneys} color="default" size="small" />
           )}
-
-          <Box gap="16px" display="flex" flexDirection="column">
-            {tasksDriver?.map((taskDriver: TaskDriver, index: number) => (
-              <DriverJourneyForm
-                onDelete={() => handleDeleteDriverSchedule(index)}
-                key={taskDriver.seq}
-                seq={taskDriver.seq - 1}
-              />
-            ))}
+        </Box>
+        {tasksDriver?.length === 0 && (
+          <Box display="flex">
+            <Typography variant="body2" color={colors.grey[700]}>
+              Não há jornadas para este motorista, adicione uma nova jornada.
+            </Typography>
           </Box>
+        )}
+
+        <Box gap="16px" display="flex" flexDirection="column">
+          {tasksDriver?.map((taskDriver: TaskDriver, index: number) => (
+            <DriverJourneyForm
+              onDelete={() => handleDeleteDriverSchedule(index)}
+              key={taskDriver.seq}
+              seq={taskDriver.seq - 1}
+            />
+          ))}
         </Box>
       </Box>
     </LocalizationProvider>

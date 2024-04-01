@@ -25,7 +25,7 @@ export function useJourneyFormFooter() {
     tasksDriver.push({
       seq: tasksDriver.length + 1,
       type: "A",
-      activityId: "",
+      activityId: null,
       activityCode: "",
       startPlanned: "",
       endPlanned: "",
