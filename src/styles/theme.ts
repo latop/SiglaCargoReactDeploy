@@ -156,6 +156,9 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           marginLeft: 0,
+          "& .MuiButtonBase-root": {
+            paddingLeft: "0",
+          },
         },
       },
     },
