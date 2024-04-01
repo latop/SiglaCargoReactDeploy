@@ -44,6 +44,7 @@ const theme = createTheme({
       styleOverrides: {
         input: {
           padding: "11.5px 14px",
+          fontSize: "13px",
         },
       },
     },
@@ -51,6 +52,7 @@ const theme = createTheme({
       styleOverrides: {
         input: {
           padding: "11.5px 14px",
+          fontSize: "13px",
         },
         root: {
           fontSize: "13px",
