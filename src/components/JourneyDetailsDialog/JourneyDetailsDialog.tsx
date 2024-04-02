@@ -78,14 +78,13 @@ export function JourneyDetailsDialog({
   };
 
   const { data, isLoading, methods } = useJourneyDetails();
-  const { reset, formState } = methods;
-  const { defaultValues } = formState;
+  const { reset } = methods;
 
   useEffect(() => {
     if (data) {
       reset(normalizeData(data));
     }
-  }, [data, defaultValues]);
+  }, [data]);
 
   return (
     <Dialog
