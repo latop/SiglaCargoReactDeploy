@@ -1,4 +1,5 @@
 export interface Driver {
+  driverId: string;
   name: string;
   lastName: string;
   nickName: string;
@@ -7,6 +8,8 @@ export interface Driver {
   identification: string;
   genre: string;
   birthdate: string;
+  driverBase: string;
+  driverSubBase: string;
   admission: string;
   resign: string | null;
   address: string;

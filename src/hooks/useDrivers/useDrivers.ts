@@ -1,9 +1,9 @@
 import { fetchDrivers, FetchDriversParams } from "@/services/drivers";
 import { Driver } from "@/interfaces/driver";
-import useSWR from "swr";
+import useSWRImmutable from "swr/immutable";
 
 export const useDrivers = (params: FetchDriversParams) => {
-  const { data, error, isLoading } = useSWR<Driver[]>(
+  const { data, error, isLoading } = useSWRImmutable<Driver[]>(
     { url: "/drivers", args: params },
     fetchDrivers,
     {

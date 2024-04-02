@@ -78,6 +78,7 @@ export function TimelineTrips() {
         {...itemProps}
         className="giantt-item"
         isCircuit={isCircuit}
+        title=""
         selected={itemContext.selected}
       >
         {!!itemContext.useResizeHandle && <div {...leftResizeProps} />}
@@ -117,7 +118,7 @@ export function TimelineTrips() {
       onItemDoubleClick={handleDoubleClick}
       groups={groups}
       items={items}
-      canMove={false}
+      canMove
       canResize={false}
       canChangeGroup={false}
       onItemMove={handleMoveItem}

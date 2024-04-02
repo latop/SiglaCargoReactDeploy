@@ -20,7 +20,7 @@ interface DialogContextType {
 interface DialogConfig {
   title?: string;
   body: ReactNode;
-  onConfirm: () => void;
+  onConfirm?: () => void;
   onCancel?: () => void;
 }
 
@@ -38,15 +38,19 @@ export const DialogProvider: FC<DialogProviderProps> = ({ children }) => {
   const [open, setOpen] = useState<boolean>(false);
   const [content, setContent] = useState<ReactNode>(null);
   const [title, setTitle] = useState<string>("");
-  const [onConfirm, setOnConfirm] = useState<() => void>(() => () => {});
-  const [onCancel, setOnCancel] = useState<() => void>(() => () => {});
+  const [onConfirm, setOnConfirm] = useState<null | (() => void)>(null);
+  const [onCancel, setOnCancel] = useState<null | (() => void)>(null);
 
   const openDialog = useCallback(
     ({ title = "", body, onConfirm, onCancel }: DialogConfig) => {
       setTitle(title);
       setContent(body);
-      setOnConfirm(() => onConfirm);
-      setOnCancel(() => onCancel);
+      if (onConfirm) {
+        setOnConfirm(() => onConfirm);
+      }
+      if (onCancel) {
+        setOnCancel(() => onCancel);
+      }
       setOpen(true);
     },
     [],
@@ -58,8 +62,8 @@ export const DialogProvider: FC<DialogProviderProps> = ({ children }) => {
     setTimeout(() => {
       setContent(null);
       setTitle("");
-      setOnConfirm(() => () => {});
-      setOnCancel(() => () => {});
+      setOnConfirm(null);
+      setOnCancel(null);
     }, 300); // Ajuste o timeout se necessário para coincidir com animações
   }, []);
 
@@ -80,19 +84,21 @@ export const DialogProvider: FC<DialogProviderProps> = ({ children }) => {
           <DialogTitle id="customized-dialog-title">{title}</DialogTitle>
         )}
         <DialogContent dividers>{content}</DialogContent>
-        <DialogActions>
-          <Button onClick={handleCancel}>Cancelar</Button>
-          <Button
-            variant="contained"
-            onClick={() => {
-              onConfirm();
-              closeDialog();
-            }}
-            autoFocus
-          >
-            Confirmar
-          </Button>
-        </DialogActions>
+        {(onConfirm || onCancel) && (
+          <DialogActions>
+            <Button onClick={handleCancel}>Cancelar</Button>
+            <Button
+              variant="contained"
+              onClick={() => {
+                onConfirm?.();
+                closeDialog();
+              }}
+              autoFocus
+            >
+              Confirmar
+            </Button>
+          </DialogActions>
+        )}
       </Dialog>
     </DialogContext.Provider>
   );

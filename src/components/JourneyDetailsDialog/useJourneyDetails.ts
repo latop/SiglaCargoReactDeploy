@@ -13,12 +13,10 @@ export function useJourneyDetails() {
     (circuit) => circuit.ciruictCode === journeyDetailId,
   );
 
-  const { data, isLoading } = useCircuit({
-    ciruictCode: journeyDetailId,
-  });
+  const { circuit, isLoading } = useCircuit();
 
   return {
-    data,
+    data: circuit,
     isLoading,
     journeyDetailId,
     currentCircuit,
