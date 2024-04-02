@@ -23,14 +23,18 @@ export const useCircuit = () => {
   );
 
   const changeDriver = (driver: Driver) => {
-    const changeData = (prevData: CircuitJourney) => {
+    const changeData = (prevData?: CircuitJourney) => {
+      if (!prevData) {
+        return undefined;
+      }
+
       const newData = {
         driverId: driver.driverId,
         nickName: driver.nickName,
         driverBase: driver.driverBase,
         driverSubBase: driver.driverSubBase,
       };
-      console.log(newData, "newData");
+
       return {
         ...prevData,
         ...newData,

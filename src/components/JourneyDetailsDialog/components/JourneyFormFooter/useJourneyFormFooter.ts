@@ -8,14 +8,14 @@ export function useJourneyFormFooter() {
     tasksDriver.push({
       seq: tasksDriver.length + 1,
       type: "V",
-      demand: "",
-      locationOrigCode: "",
-      locationDestCode: "",
-      lineCode: "",
-      startPlanned: "",
-      endPlanned: "",
-      startActual: "",
-      endActual: "",
+      demand: null,
+      locationOrigCode: null,
+      locationDestCode: null,
+      lineCode: null,
+      startPlanned: null,
+      endPlanned: null,
+      startActual: null,
+      endActual: null,
     });
     setValue("tasksDriver", tasksDriver);
   };
@@ -26,11 +26,11 @@ export function useJourneyFormFooter() {
       seq: tasksDriver.length + 1,
       type: "A",
       activityId: null,
-      activityCode: "",
-      startPlanned: "",
-      endPlanned: "",
-      startActual: "",
-      endActual: "",
+      activityCode: null,
+      startPlanned: null,
+      endPlanned: null,
+      startActual: null,
+      endActual: null,
     });
     setValue("tasksDriver", tasksDriver);
   };

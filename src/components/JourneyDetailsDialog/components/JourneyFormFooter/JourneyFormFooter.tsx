@@ -84,7 +84,7 @@ export function JourneyFormFooter({ loading = false }: JourneyFormFooterProps) {
               <CircularProgress
                 color="inherit"
                 size={20}
-                sx={{ margin: "0px 11.45px" }}
+                sx={{ margin: "2px 11.45px" }}
               />
             )}
             {!loading && `Salvar`}

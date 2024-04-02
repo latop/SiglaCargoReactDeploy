@@ -28,21 +28,23 @@ const normalizeData = (data: CircuitJourney) => {
     endDate: data?.endDate,
     otmProcess: data?.otmProcess || "",
     tasksDriver:
-      data?.tasksDriver?.map((taskDriver: TaskDriver) => ({
-        seq: taskDriver.seq,
-        demand: taskDriver?.demand || null,
-        lineCode: taskDriver?.lineCode || null,
-        type: taskDriver.type || (taskDriver?.activityCode ? "A" : "V"),
-        activityId: taskDriver?.activityId || null,
-        activityCode: taskDriver?.activityCode || null,
-        locOrig: taskDriver?.locOrig || null,
-        locDest: taskDriver?.locDest || null,
-        startPlanned: taskDriver?.startPlanned || null,
-        endPlanned: taskDriver?.endPlanned || null,
-        lineId: taskDriver?.lineId || null,
-        startActual: taskDriver?.startActual || null,
-        endActual: taskDriver?.endActual || null,
-      })) || [],
+      data?.tasksDriver.length > 0
+        ? data.tasksDriver?.map((taskDriver: TaskDriver) => ({
+            seq: taskDriver.seq,
+            demand: taskDriver?.demand || null,
+            lineCode: taskDriver?.lineCode || null,
+            type: taskDriver.type || (taskDriver?.activityCode ? "A" : "V"),
+            activityId: taskDriver?.activityId || null,
+            activityCode: taskDriver?.activityCode || null,
+            locOrig: taskDriver?.locOrig || null,
+            locDest: taskDriver?.locDest || null,
+            startPlanned: taskDriver?.startPlanned || null,
+            endPlanned: taskDriver?.endPlanned || null,
+            lineId: taskDriver?.lineId || null,
+            startActual: taskDriver?.startActual || null,
+            endActual: taskDriver?.endActual || null,
+          }))
+        : null,
   };
   return journeyDefaultValues;
 };
@@ -62,7 +64,7 @@ export function JourneyDetailsDialog({
   const { addToast } = useToast();
 
   const onSubmit = (data: FieldValues) => {
-    postCircuit("/gantt/UpdateCircuit", data, {
+    postCircuit("/gantt/UpdateCircuit", normalizeData(data as CircuitJourney), {
       onSuccess: () => {
         addToast("Circuito salvo com sucesso");
         refetchJourneys();
