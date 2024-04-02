@@ -82,7 +82,7 @@ export function JourneyDetailsDialog({
   const { defaultValues } = formState;
 
   useEffect(() => {
-    if (data && !defaultValues) {
+    if (data) {
       reset(normalizeData(data));
     }
   }, [data, defaultValues]);
