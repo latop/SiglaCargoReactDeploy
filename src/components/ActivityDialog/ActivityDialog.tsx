@@ -9,10 +9,9 @@ import { FieldValues, FormProvider, useForm } from "react-hook-form";
 import { ActivityRequest } from "@/interfaces/schedule";
 import { ActivityFooter } from "./components/ActivityFooter";
 import { ActivityHeader } from "./components/ActivityHeader";
-import { ActivityForm } from "./components/JourneyForm/ActivityForm";
+import { ActivityForm } from "./components/ActivityForm";
 import { useToast } from "@/hooks/useToast";
 import { useJourneysByPeriod } from "@/hooks/useJourneysByPeriod";
-import { useDailyTripsUnallocated } from "@/hooks/useDailyTripsUnallocated";
 
 interface ActivityDialogProps {
   open: boolean;
@@ -23,7 +22,6 @@ export function ActivityDialog({ open, onClose }: ActivityDialogProps) {
   const { addToast } = useToast();
   const [postActivity] = usePost();
   const { refetch: refetchJourneys } = useJourneysByPeriod();
-  const { refetch: refetchUnallocated } = useDailyTripsUnallocated();
 
   const onSubmit = async (data: FieldValues) => {
     const body: ActivityRequest = {
@@ -40,7 +38,6 @@ export function ActivityDialog({ open, onClose }: ActivityDialogProps) {
       onSuccess: () => {
         addToast("Atividade salva com sucesso");
         refetchJourneys();
-        refetchUnallocated();
         onClose();
       },
       onError: () => {
