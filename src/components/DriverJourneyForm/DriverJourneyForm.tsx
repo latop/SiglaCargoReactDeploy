@@ -8,6 +8,7 @@ import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import "dayjs/locale/pt-br";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { AutocompleteActivity } from "../AutocompleteActivity";
 dayjs.extend(customParseFormat);
 
 interface DriverJourneyFormProps {
@@ -19,7 +20,7 @@ export const DriverJourneyForm = ({
   onDelete,
   seq,
 }: DriverJourneyFormProps) => {
-  const { control, getValues } = useFormContext();
+  const { control, getValues, setValue } = useFormContext();
 
   const isTravel = getValues(`tasksDriver.${seq}.type`) === "V";
   const isActivity = getValues(`tasksDriver.${seq}.type`) === "A";
@@ -129,12 +130,11 @@ export const DriverJourneyForm = ({
   const renderActivityFields = () => (
     <Grid container spacing={1}>
       <Grid item xs={1.6}>
-        <Controller
-          name={`tasksDriver.${seq}.activityCode`}
-          control={control}
-          render={({ field }) => (
-            <TextField {...field} label="Atividade" fullWidth />
-          )}
+        <AutocompleteActivity
+          onChange={(activity) => {
+            setValue(`tasksDriver.${seq}.activityCode`, activity.code);
+            setValue(`tasksDriver.${seq}.activityId`, activity.id);
+          }}
         />
       </Grid>
       <Grid item xs={1.6}>

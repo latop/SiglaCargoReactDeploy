@@ -6,7 +6,11 @@ import debounce from "debounce";
 import { useActivities } from "@/hooks/useActivities";
 import { Activity } from "@/interfaces/parameters";
 
-export function AutocompleteActivity() {
+export function AutocompleteActivity({
+  onChange,
+}: {
+  onChange?: (value: Activity) => void;
+}) {
   const {
     control,
     setValue,
@@ -19,6 +23,7 @@ export function AutocompleteActivity() {
   const handleChange = (_: any, value: Activity | null) => {
     setValue("activityCode", value?.code || "");
     setValue("activityId", value?.id || "");
+    onChange?.(value || ({} as Activity));
   };
 
   return (
@@ -30,7 +35,7 @@ export function AutocompleteActivity() {
           clearOnEscape
           options={activities || []}
           loadingText="Carregando..."
-          defaultValue={{ code: field.value } as Activity}
+          defaultValue={{ code: field.value ?? "" } as Activity}
           isOptionEqualToValue={(option: Activity, value: Activity) =>
             option.code === value.code
           }
