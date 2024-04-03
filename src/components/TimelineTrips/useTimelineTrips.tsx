@@ -148,10 +148,10 @@ export function useTimelineTrips() {
   const handleMoveItem = (
     itemId: string,
     dragTime: number,
-    newGroupOrder: number,
+    // newGroupOrder: number,
   ) => {
     if (!trips || !drivers) return;
-    const newDriver = drivers?.[newGroupOrder];
+    // const newDriver = drivers?.[newGroupOrder];
 
     const tripIndex = trips?.findIndex((trip) => trip.id === itemId);
 
@@ -168,7 +168,7 @@ export function useTimelineTrips() {
         tripId: itemId,
         newStartPlanned: startPlanned,
         newEndPlanned: endPlanned,
-        newDriverId: newDriver.driverId,
+        // newDriverId: newDriver.driverId,
       });
 
       addToast("Viagem movida com sucesso.", { type: "success" });

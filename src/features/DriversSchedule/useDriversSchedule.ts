@@ -42,13 +42,12 @@ export function useDriverSchedule() {
   const handleUpdateTrip = ({
     tripId,
     newStartPlanned,
-    newEndPlanned,
-    newDriverId,
+    newEndPlanned, // newDriverId,
   }: {
     tripId: string;
     newStartPlanned: string;
     newEndPlanned: string;
-    newDriverId: string;
+    // newDriverId: string;
   }) => {
     if (!trips || !drivers) return;
 
@@ -58,7 +57,7 @@ export function useDriverSchedule() {
       ...currentTrip,
       startPlanned: newStartPlanned,
       endPlanned: newEndPlanned,
-      driverId: newDriverId,
+      // driverId: newDriverId,
     };
     updateTrip(updatedTrip);
   };
