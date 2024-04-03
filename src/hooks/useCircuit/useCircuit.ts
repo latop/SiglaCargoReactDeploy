@@ -29,7 +29,7 @@ export const useCircuit = () => {
       }
 
       const newData = {
-        driverId: driver.driverId,
+        driverId: driver.id,
         nickName: driver.nickName,
         driverBase: driver.driverBase,
         driverSubBase: driver.driverSubBase,

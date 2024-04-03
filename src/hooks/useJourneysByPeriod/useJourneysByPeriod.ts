@@ -82,9 +82,18 @@ export const useJourneysByPeriod = () => {
     mutate(undefined, true);
   };
 
+  const addActivity = (activity: Trip) => {
+    const updatedData = data?.map((page) => ({
+      ...page,
+      trips: [activity, ...page.trips],
+    }));
+    mutate(updatedData);
+  };
+
   return {
     trips,
     drivers: drivers,
+    addActivity,
     hasNext,
     error,
     circuits,

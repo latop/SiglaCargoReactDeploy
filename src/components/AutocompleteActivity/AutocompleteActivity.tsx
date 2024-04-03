@@ -15,7 +15,8 @@ export function AutocompleteActivity() {
 
   const { activities, error } = useActivities();
 
-  const handleChange = (_, value: Activity | null) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleChange = (_: any, value: Activity | null) => {
     setValue("activityCode", value?.code || "");
     setValue("activityId", value?.id || "");
   };

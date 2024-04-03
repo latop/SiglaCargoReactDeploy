@@ -6,7 +6,7 @@ import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import { usePost } from "@/hooks/usePost";
 import { FieldValues, FormProvider, useForm } from "react-hook-form";
-import { ActivityRequest } from "@/interfaces/schedule";
+import { ActivityRequest, Trip } from "@/interfaces/schedule";
 import { ActivityFooter } from "./components/ActivityFooter";
 import { ActivityHeader } from "./components/ActivityHeader";
 import { ActivityForm } from "./components/ActivityForm";
@@ -21,7 +21,7 @@ interface ActivityDialogProps {
 export function ActivityDialog({ open, onClose }: ActivityDialogProps) {
   const { addToast } = useToast();
   const [postActivity] = usePost();
-  const { refetch: refetchJourneys } = useJourneysByPeriod();
+  const { addActivity } = useJourneysByPeriod();
 
   const onSubmit = async (data: FieldValues) => {
     const body: ActivityRequest = {
@@ -37,7 +37,14 @@ export function ActivityDialog({ open, onClose }: ActivityDialogProps) {
     await postActivity("/Schedule/UpdateActivity", body, {
       onSuccess: () => {
         addToast("Atividade salva com sucesso");
-        refetchJourneys();
+        const trip: Trip = {
+          code: data.activityCode,
+          startPlanned: data.startActivity,
+          endPlanned: data.endActivity,
+          driverId: data.driverId,
+          driverName: data.nickName,
+        };
+        addActivity(trip);
         onClose();
       },
       onError: () => {
