@@ -29,7 +29,6 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           textTransform: "none",
-          padding: "9px 16px",
           fontFamily: "var(--font-openSans)",
         },
         containedPrimary: {

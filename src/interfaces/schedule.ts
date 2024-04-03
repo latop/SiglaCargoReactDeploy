@@ -74,6 +74,16 @@ export interface CircuitJourney {
   tasksDriver: TaskDriver[];
 }
 
+export interface ActivityRequest {
+  journeyDate: string;
+  driverId: string;
+  activityId: string;
+  startActivity: string;
+  endActivity: string;
+  qtyOccur: number;
+  operation: string | null;
+}
+
 export interface DailyTripSection {
   dailyTripSectionId: string;
   dailyTripId: string;

@@ -1,5 +1,5 @@
 export interface Driver {
-  driverId: string;
+  id: string;
   name: string;
   lastName: string;
   nickName: string;

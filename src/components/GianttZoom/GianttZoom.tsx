@@ -13,7 +13,6 @@ export function GianttZoom() {
       exclusive
       onChange={handleChangeZoom}
       aria-label="Platform"
-      sx={{ marginTop: "10px" }}
     >
       <ToggleButton value="1" size="small">
         1 dia
