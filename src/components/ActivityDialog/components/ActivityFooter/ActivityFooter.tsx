@@ -9,12 +9,7 @@ export function ActivityFooter() {
   } = useFormContext();
   return (
     <DialogActions>
-      <Box
-        display="flex"
-        justifyContent="space-between"
-        padding="10px"
-        width="100%"
-      >
+      <Box display="flex" justifyContent="flex-end" padding="10px" width="100%">
         <Box display="flex" gap="10px">
           <Button type="submit" variant="contained">
             {isSubmitting && (

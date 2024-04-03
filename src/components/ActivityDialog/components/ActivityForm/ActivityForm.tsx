@@ -19,15 +19,15 @@ export const ActivityForm = () => {
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
-      <Box gap="16px" display="flex" flexDirection="column">
-        <Grid container spacing={1} xs={12}>
-          <Grid item xs={2.4}>
+      <Box sx={{ flexGrow: 1 }}>
+        <Grid container spacing={1} rowSpacing={2}>
+          <Grid item xs={6}>
             <AutocompleteActivity />
           </Grid>
-          <Grid item xs={2.4}>
+          <Grid item xs={6}>
             <AutocompleteDriver />
           </Grid>
-          <Grid item xs={2.4}>
+          <Grid item xs={4}>
             <Controller
               name={`journeyDate`}
               control={control}
@@ -42,7 +42,7 @@ export const ActivityForm = () => {
               )}
             />
           </Grid>
-          <Grid item xs={2.4}>
+          <Grid item xs={4}>
             <Controller
               name={`startActivity`}
               control={control}
@@ -57,7 +57,7 @@ export const ActivityForm = () => {
               )}
             />
           </Grid>
-          <Grid item xs={2.4}>
+          <Grid item xs={4}>
             <Controller
               name={`endActivity`}
               control={control}

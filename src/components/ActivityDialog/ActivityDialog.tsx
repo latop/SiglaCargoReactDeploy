@@ -69,7 +69,7 @@ export function ActivityDialog({ open, onClose }: ActivityDialogProps) {
       onClose={onClose}
       open={open}
       fullWidth
-      PaperProps={{ sx: { maxWidth: "950px" } }}
+      PaperProps={{ sx: { maxWidth: "550px" } }}
     >
       <FormProvider {...methods}>
         <form
