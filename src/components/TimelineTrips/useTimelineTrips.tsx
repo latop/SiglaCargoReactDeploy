@@ -17,6 +17,15 @@ import { useDailyTripsUnallocated } from "@/hooks/useDailyTripsUnallocated";
 import { useDialog } from "@/hooks/useDialog/useDialog";
 import { Box, Typography } from "@mui/material";
 
+function generateRandomID() {
+  // Cria uma parte baseada no tempo atual para evitar colisões
+  const timePart = Date.now().toString(36);
+  // Gera uma parte aleatória usando Math.random
+  const randomPart = Math.random().toString(36).substring(2, 15);
+  // Combina as duas partes para formar o ID
+  return timePart + randomPart;
+}
+
 export function useTimelineTrips() {
   const { trips, drivers, circuits } = useJourneysByPeriod();
   const [, setHash] = useHash();
@@ -30,7 +39,7 @@ export function useTimelineTrips() {
     setVisibleTimeEnd,
   } = useGiantt();
 
-  const { addNewTrips } = useJourneysByPeriod();
+  const { addNewData } = useJourneysByPeriod();
   const { selectedDailyTrip, removeDailyTrip } = useDailyTripsUnallocated();
 
   const handleLabelFormatItem = (
@@ -118,7 +127,7 @@ export function useTimelineTrips() {
     circuits?.forEach((circuit: Circuit) => {
       itemsMap.set(circuit.ciruictCode, {
         id: circuit.ciruictCode,
-        group: circuit.trips[0].driverId,
+        group: circuit.driverId,
         title: circuit.ciruictCode,
         start_time: dayjs(circuit.startDate, "YYYY-MM-DDTHH:mm:ss"),
         end_time: dayjs(circuit.endDate, "YYYY-MM-DDTHH:mm:ss"),
@@ -133,16 +142,6 @@ export function useTimelineTrips() {
         end_time: dayjs(trip.endPlanned, "YYYY-MM-DDTHH:mm:ss"),
       });
     });
-
-    // circuit.trips.forEach((trip: Trip) => {
-    //   itemsMap.set(trip.id, {
-    //     id: trip.id,
-    //     group: trip.driverId,
-    //     title: trip.id,
-    //     start_time: dayjs(trip.startPlanned, "YYYY-MM-DDTHH:mm:ss"),
-    //     end_time: dayjs(trip.endPlanned, "YYYY-MM-DDTHH:mm:ss"),
-    //   });
-    // });
 
     return {
       groups: Array.from(groupsMap.values()),
@@ -193,7 +192,7 @@ export function useTimelineTrips() {
           code: selectedDailyTrip.sto,
           startPlanned: section.startPlanned,
           endPlanned: section.endPlanned,
-          driverId: driverId,
+          driverId,
           driverName: currentDriver.driverName,
           locationOrigCode: section.locOrig,
           locationDestCode: section.locDest,
@@ -201,7 +200,20 @@ export function useTimelineTrips() {
         return newTrip;
       },
     );
-    addNewTrips(newTrips);
+
+    const newCircuit = {
+      ciruictCode: generateRandomID(),
+      driverId,
+      startDate: dayjs(selectedDailyTrip.startPlanned)
+        .subtract(2, "hour")
+        .format("YYYY-MM-DDTHH:mm:ss"),
+      endDate: dayjs(selectedDailyTrip.endPlanned)
+        .add(2, "hour")
+        .format("YYYY-MM-DDTHH:mm:ss"),
+      trips: newTrips,
+    };
+
+    addNewData({ trips: newTrips, circuits: [newCircuit] });
 
     setTimeout(() => {
       removeDailyTrip(selectedDailyTrip.dailyTripId);

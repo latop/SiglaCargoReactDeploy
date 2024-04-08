@@ -22,6 +22,15 @@ import { ActivityDialog } from "@/components/ActivityDialog";
 export function DriversSchedule() {
   const [expanded, setExpanded] = React.useState(false);
   const [showActivityDialog, setShowActivityDialog] = React.useState(false);
+  const [showJourneyDialog, setShowJourneyDialog] = React.useState(false);
+
+  const handleOpenJourneyDialog = () => {
+    setShowJourneyDialog(true);
+  };
+
+  const handleCloseJourneyDialog = () => {
+    setShowJourneyDialog(false);
+  };
 
   const handleOpenActivityDialog = () => {
     setShowActivityDialog(true);
@@ -36,6 +45,7 @@ export function DriversSchedule() {
   const { showContent, tripDetailId, activityDetailId } = useDriverSchedule();
 
   const handleCloseTripDetails = () => {
+    handleCloseJourneyDialog();
     setHash("");
   };
 
@@ -77,7 +87,22 @@ export function DriversSchedule() {
                     <AspectRatioIcon />
                   </IconButton>
                 </Box>
-                <Box>
+                <Box display="flex" gap="10px">
+                  <Button
+                    variant="outlined"
+                    onClick={handleOpenJourneyDialog}
+                    color="primary"
+                    size="medium"
+                  >
+                    <Icon component={AddIcon} fontSize="small" />
+                    <Typography
+                      variant="body2"
+                      ml="5px"
+                      color={theme.palette.primary.main}
+                    >
+                      Circuito
+                    </Typography>
+                  </Button>
                   <Button
                     variant="outlined"
                     onClick={handleOpenActivityDialog}
@@ -107,11 +132,8 @@ export function DriversSchedule() {
           </GianttProvider>
         </MainContainer.Content>
       )}
-      {tripDetailId && (
-        <JourneyDetailsDialog
-          open={!!tripDetailId}
-          onClose={handleCloseTripDetails}
-        />
+      {(tripDetailId || showJourneyDialog) && (
+        <JourneyDetailsDialog open onClose={handleCloseTripDetails} />
       )}
       {(showActivityDialog || activityDetailId) && (
         <ActivityDialog open onClose={handleCloseActivityDialog} />

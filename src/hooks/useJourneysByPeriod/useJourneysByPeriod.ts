@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 import { useSearchParams } from "next/navigation";
 import { fetchJourneysByPeriod } from "@/services/schedule";
-import { JourneysByPeriodResponse, Trip } from "@/interfaces/schedule";
+import { Circuit, JourneysByPeriodResponse, Trip } from "@/interfaces/schedule";
 import useSWRInfinite from "swr/infinite";
 
 export const useJourneysByPeriod = () => {
@@ -59,10 +59,19 @@ export const useJourneysByPeriod = () => {
     mutate(updatedData, false);
   };
 
-  const addNewTrips = (newTrips: Trip[]) => {
+  const addNewData = ({
+    trips: newTrips,
+    circuits: newCircuits,
+  }: {
+    trips?: Trip[];
+    circuits?: Circuit[];
+  }) => {
+    const newCurrentTrips = newTrips || [];
+    const newCurrentCircuits = newCircuits || [];
     const updatedData = data?.map((page) => ({
       ...page,
-      trips: [...newTrips, ...page.trips],
+      trips: [...newCurrentTrips, ...page.trips],
+      circuits: [...newCurrentCircuits, ...page.circuits],
     }));
     mutate(updatedData, false);
   };
@@ -103,7 +112,7 @@ export const useJourneysByPeriod = () => {
     refetch,
     isValidating,
     updateTrip,
-    addNewTrips,
+    addNewData,
     selectDriver,
     size,
     setSize,
