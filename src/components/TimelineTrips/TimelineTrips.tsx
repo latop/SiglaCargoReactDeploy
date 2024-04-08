@@ -71,9 +71,7 @@ export function TimelineTrips() {
       ? red[500]
       : isCircuit
       ? "rgba(210, 224, 235, 0.8)"
-      : currentTrip?.colorRGB
-      ? `#${currentTrip?.colorRGB}`
-      : "#4663ab";
+      : currentTrip?.colorRGB || "#4663ab";
     const borderColor = itemContext.resizing ? red[500] : "transparent";
 
     return (

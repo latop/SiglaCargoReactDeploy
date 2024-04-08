@@ -25,10 +25,6 @@ export function AutocompleteDriver() {
     setValue("driverId", value?.id || "");
   };
 
-  if (!drivers) {
-    return null;
-  }
-
   return (
     <Controller
       name="nickName"
