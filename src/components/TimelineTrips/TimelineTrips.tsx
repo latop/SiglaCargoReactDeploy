@@ -19,6 +19,7 @@ import {
 import "dayjs/locale/pt-br";
 import "react-calendar-timeline/lib/Timeline.css";
 import "./Timeline.css";
+import { Trip } from "@/interfaces/schedule";
 
 export function TimelineTrips() {
   const { trips, circuits } = useJourneysByPeriod();
@@ -48,7 +49,7 @@ export function TimelineTrips() {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     getResizeProps: any;
   }) => {
-    let currentTrip = trips.find((trip) => trip.id === itemContext.title);
+    let currentTrip = trips.find((trip: Trip) => trip.id === itemContext.title);
     if (!currentTrip) {
       circuits?.forEach((circuit) => {
         const curr = circuit.trips.find(
@@ -66,10 +67,13 @@ export function TimelineTrips() {
     const itemProps = getItemProps({});
 
     const { left: leftResizeProps, right: rightResizeProps } = getResizeProps();
+    console.log(currentTrip?.colorRGB, "currentTrip?.colorRGB");
     const backgroundColor = itemContext.selected
       ? red[500]
       : isCircuit
       ? "rgba(210, 224, 235, 0.8)"
+      : currentTrip?.colorRGB
+      ? `#${currentTrip?.colorRGB}`
       : "#4663ab";
     const borderColor = itemContext.resizing ? red[500] : "transparent";
 
@@ -103,7 +107,7 @@ export function TimelineTrips() {
               borderColor,
             }}
           >
-            {/* {currentTrip?.code} */}
+            {currentTrip?.colorRGB && currentTrip?.code}
           </TimelineItemTitle>
         </Tooltip>
 

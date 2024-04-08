@@ -57,5 +57,5 @@ export const TimelineItemTitle = styled.div<{
   border-right-width: 1px;
   display: flex;
   align-items: center;
-  height: ${(props) => (props.isCircuit ? "45px" : "10px")} !important;
+  height: ${(props) => (props.isCircuit ? "45px" : "14px")} !important;
 `;

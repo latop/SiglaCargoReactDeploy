@@ -9,6 +9,8 @@ export interface Trip {
   startPlanned: string;
   endPlanned: string;
   driverId: string;
+  colorRGB?: string;
+  licensePlate?: string;
   driverName: string;
   demand?: string;
   locationDestCode?: string;
