@@ -67,7 +67,6 @@ export function TimelineTrips() {
     const itemProps = getItemProps({});
 
     const { left: leftResizeProps, right: rightResizeProps } = getResizeProps();
-    console.log(currentTrip?.colorRGB, "currentTrip?.colorRGB");
     const backgroundColor = itemContext.selected
       ? red[500]
       : isCircuit
