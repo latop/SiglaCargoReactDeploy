@@ -79,6 +79,7 @@ export const useJourneysByPeriod = () => {
   };
 
   const refetch = () => {
+    if (isValidating || isLoading) return;
     mutate(undefined, true);
   };
 

@@ -3,9 +3,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import dayjs from "dayjs";
 import { Dayjs } from "dayjs";
-import { useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import "dayjs/locale/pt-br";
+import { useJourneysByPeriod } from "@/hooks/useJourneysByPeriod";
+import { useDailyTripsUnallocated } from "@/hooks/useDailyTripsUnallocated";
 
 dayjs.extend(customParseFormat);
 
@@ -25,7 +27,6 @@ const dateOrDayjsSchema = z.custom(
   },
 );
 
-// Esquema com validações adicionais para intervalo de datas e comparação de datas
 const schema = z
   .object({
     startDate: dateOrDayjsSchema,
@@ -56,6 +57,9 @@ const schema = z
 
 export function useJourneyFilterBar() {
   const router = useRouter();
+  const pathname = usePathname();
+  const { refetch: refetchJourney } = useJourneysByPeriod();
+  const { refetch: refetchDailyTrips } = useDailyTripsUnallocated();
   const params = useSearchParams();
   const methods = useForm<FormFields>({
     resolver: zodResolver(schema),
@@ -83,7 +87,14 @@ export function useJourneyFilterBar() {
       }
     });
 
-    router.push(`/drivers-schedule?${query.toString()}`);
+    const newUrl = `/drivers-schedule?${query.toString()}`;
+    const oldUrl = `${pathname}?${params.toString()}`;
+    if (oldUrl === newUrl) {
+      refetchDailyTrips();
+      refetchJourney();
+    } else {
+      router.push(newUrl);
+    }
   };
 
   return {

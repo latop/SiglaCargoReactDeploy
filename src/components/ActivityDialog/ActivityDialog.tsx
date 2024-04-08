@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
+import dayjs from "dayjs";
 import { usePost } from "@/hooks/usePost";
 import { FieldValues, FormProvider, useForm } from "react-hook-form";
 import { ActivityRequest, Trip } from "@/interfaces/schedule";
@@ -12,6 +13,7 @@ import { ActivityHeader } from "./components/ActivityHeader";
 import { ActivityForm } from "./components/ActivityForm";
 import { useToast } from "@/hooks/useToast";
 import { useJourneysByPeriod } from "@/hooks/useJourneysByPeriod";
+import { useActivityDialog } from "./useActivityDialog";
 
 interface ActivityDialogProps {
   open: boolean;
@@ -19,9 +21,11 @@ interface ActivityDialogProps {
 }
 
 export function ActivityDialog({ open, onClose }: ActivityDialogProps) {
-  const { addToast } = useToast();
-  const [postActivity] = usePost();
+  const { currentTrip } = useActivityDialog();
   const { addActivity } = useJourneysByPeriod();
+  const { addToast } = useToast();
+
+  const [postActivity] = usePost();
 
   const onSubmit = async (data: FieldValues) => {
     const body: ActivityRequest = {
@@ -63,6 +67,19 @@ export function ActivityDialog({ open, onClose }: ActivityDialogProps) {
       nickName: "",
     },
   });
+
+  useEffect(() => {
+    if (currentTrip) {
+      methods.reset({
+        journeyDate: dayjs(currentTrip.startPlanned).toDate(),
+        startActivity: dayjs(currentTrip.startPlanned).toDate(),
+        endActivity: dayjs(currentTrip.endPlanned).toDate(),
+        activityCode: currentTrip.code,
+        activityId: "",
+        nickName: currentTrip.driverName,
+      });
+    }
+  }, [currentTrip]);
 
   return (
     <Dialog

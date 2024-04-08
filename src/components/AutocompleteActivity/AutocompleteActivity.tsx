@@ -15,9 +15,13 @@ export function AutocompleteActivity({
     control,
     setValue,
     formState: { errors },
+    watch,
   } = useFormContext();
 
-  const { activities, error } = useActivities();
+  const { activities, error } = useActivities({
+    pageSize: 10,
+    code: watch("activityCode"),
+  });
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleChange = (_: any, value: Activity | null) => {

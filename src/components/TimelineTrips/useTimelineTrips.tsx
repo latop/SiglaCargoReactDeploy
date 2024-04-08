@@ -67,8 +67,13 @@ export function useTimelineTrips() {
     const isACircuit = circuits?.some(
       (circuit) => circuit.ciruictCode === itemId,
     );
+
+    const currentTrip = trips?.find((trip) => trip.id === itemId);
     if (isACircuit) {
       const hash = `journeyDetails-${itemId}`;
+      setHash(hash);
+    } else if (currentTrip?.colorRGB) {
+      const hash = `activityDetails-${itemId}`;
       setHash(hash);
     }
   };

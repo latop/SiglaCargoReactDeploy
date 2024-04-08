@@ -2,9 +2,23 @@ import axios from "axios";
 
 axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_URL;
 
-export async function fetchAcitivities() {
+export interface FetchActivitiesParams {
+  pageSize?: number;
+  code?: string;
+}
+
+export async function fetchAcitivities({
+  args: params,
+}: {
+  args: FetchActivitiesParams;
+}) {
   try {
-    const response = await axios.get("/Activity");
+    const activitiesParams = {
+      PageSize: params.pageSize,
+      filter1String: params.code?.toUpperCase(),
+    };
+
+    const response = await axios.get("/Activity", { params: activitiesParams });
     const data = response.data;
     return data;
   } catch (error) {

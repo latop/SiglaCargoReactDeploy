@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import { useJourneysByPeriod } from "@/hooks/useJourneysByPeriod";
 import { useSearchParams } from "next/navigation";
 import { Trip } from "@/interfaces/schedule";
+import { useHash } from "@/hooks/useHash";
 
 interface JourneySearchParams {
   startDate?: string;
@@ -62,8 +63,16 @@ export function useDriverSchedule() {
     updateTrip(updatedTrip);
   };
 
+  const [hash] = useHash();
+  const matchJourney = (hash as string)?.match(/#journeyDetails-(.+)/);
+  const tripDetailId = matchJourney?.[1];
+  const matchActivity = (hash as string)?.match(/#activityDetails-(.+)/);
+  const activityDetailId = matchActivity?.[1];
+
   return {
     showContent: hasRelevantParams,
     updatedTrip: handleUpdateTrip,
+    tripDetailId,
+    activityDetailId,
   };
 }

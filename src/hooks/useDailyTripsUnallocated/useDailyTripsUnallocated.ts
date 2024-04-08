@@ -84,6 +84,7 @@ export const useDailyTripsUnallocated = (options?: SWRConfiguration) => {
   };
 
   const refetch = () => {
+    if (isValidating || isLoading) return;
     mutate(undefined, true);
   };
 

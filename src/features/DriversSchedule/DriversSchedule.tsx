@@ -29,12 +29,11 @@ export function DriversSchedule() {
 
   const handleCloseActivityDialog = () => {
     setShowActivityDialog(false);
+    setHash("");
   };
 
-  const [hash, setHash] = useHash();
-  const match = (hash as string)?.match(/#journeyDetails-(.+)/);
-  const tripDetailId = match?.[1];
-  const { showContent } = useDriverSchedule();
+  const [, setHash] = useHash();
+  const { showContent, tripDetailId, activityDetailId } = useDriverSchedule();
 
   const handleCloseTripDetails = () => {
     setHash("");
@@ -114,11 +113,8 @@ export function DriversSchedule() {
           onClose={handleCloseTripDetails}
         />
       )}
-      {showActivityDialog && (
-        <ActivityDialog
-          open={showActivityDialog}
-          onClose={handleCloseActivityDialog}
-        />
+      {(showActivityDialog || activityDetailId) && (
+        <ActivityDialog open onClose={handleCloseActivityDialog} />
       )}
     </MainContainer>
   );
