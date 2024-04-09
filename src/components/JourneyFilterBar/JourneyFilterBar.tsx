@@ -29,7 +29,7 @@ export function JourneyFilterBar(props: React.HTMLProps<HTMLFormElement>) {
             spacing={2}
             margin="10px 0 10px"
           >
-            <Grid item xs={1.6}>
+            <Grid item xs={1.25}>
               <Controller
                 name="startDate"
                 rules={{ required: true }}
@@ -43,7 +43,7 @@ export function JourneyFilterBar(props: React.HTMLProps<HTMLFormElement>) {
                 )}
               />
             </Grid>
-            <Grid item xs={1.6}>
+            <Grid item xs={1.25}>
               <Controller
                 name="endDate"
                 control={control}
@@ -71,7 +71,7 @@ export function JourneyFilterBar(props: React.HTMLProps<HTMLFormElement>) {
               <AutocompleteLocationGroup />
             </Grid>
 
-            <Grid item xs={1.5}>
+            <Grid item xs={2}>
               <AutocompletePosition />
             </Grid>
 

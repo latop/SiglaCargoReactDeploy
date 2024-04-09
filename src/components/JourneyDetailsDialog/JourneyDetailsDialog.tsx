@@ -18,31 +18,39 @@ import { JourneyFormFooter } from "./components/JourneyFormFooter";
 
 const normalizeData = (data: CircuitJourney) => {
   const journeyDefaultValues = {
-    circuitJourneyId: data.circuitJourneyId,
+    circuitJourneyId: data.circuitJourneyId || null,
     driverId: data.driverId,
     nickName: data.nickName,
     driverBase: data.driverBase,
     driverSubBase: data.driverSubBase,
     fleetCode: data.fleetCode,
-    startDate: data?.startDate,
-    endDate: data?.endDate,
-    otmProcess: data?.otmProcess || "",
+    startDate: data.startDate ? new Date(data.startDate) : undefined,
+    endDate: data.endDate ? new Date(data.endDate) : undefined,
+    otmProcess: data.otmProcess || "",
     tasksDriver:
-      data?.tasksDriver.length > 0
-        ? data.tasksDriver?.map((taskDriver: TaskDriver) => ({
+      data.tasksDriver && data.tasksDriver.length > 0
+        ? data.tasksDriver.map((taskDriver: TaskDriver) => ({
             seq: taskDriver.seq,
-            demand: taskDriver?.demand || null,
-            lineCode: taskDriver?.lineCode || null,
-            type: taskDriver.type || (taskDriver?.activityCode ? "A" : "V"),
-            activityId: taskDriver?.activityId || null,
-            activityCode: taskDriver?.activityCode || null,
-            locOrig: taskDriver?.locOrig || null,
-            locDest: taskDriver?.locDest || null,
-            startPlanned: taskDriver?.startPlanned || null,
-            endPlanned: taskDriver?.endPlanned || null,
-            lineId: taskDriver?.lineId || null,
-            startActual: taskDriver?.startActual || null,
-            endActual: taskDriver?.endActual || null,
+            demand: taskDriver.demand || null,
+            lineCode: taskDriver.lineCode || null,
+            type: taskDriver.type || (taskDriver.activityCode ? "A" : "V"),
+            activityId: taskDriver.activityId || null,
+            activityCode: taskDriver.activityCode || null,
+            locOrig: taskDriver.locOrig || null,
+            locDest: taskDriver.locDest || null,
+            startPlanned: taskDriver.startPlanned
+              ? new Date(taskDriver.startPlanned)
+              : null,
+            endPlanned: taskDriver.endPlanned
+              ? new Date(taskDriver.endPlanned)
+              : null,
+            lineId: taskDriver.lineId || null,
+            startActual: taskDriver.startActual
+              ? new Date(taskDriver.startActual)
+              : null,
+            endActual: taskDriver.endActual
+              ? new Date(taskDriver.endActual)
+              : null,
           }))
         : null,
   };
@@ -82,6 +90,8 @@ export function JourneyDetailsDialog({
 
   useEffect(() => {
     if (data) {
+      // eslint-disable-next-line react-hooks/exhaustive-deps, @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       reset(normalizeData(data));
     }
   }, [data]);

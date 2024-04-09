@@ -18,19 +18,19 @@ export interface Trip {
 }
 
 export interface TaskDriver {
-  lineId?: string;
-  lineCode?: string;
   seq: number;
-  type: "A" | "V";
+  demand?: string;
+  lineCode?: string;
+  type: string;
   activityId?: string;
   activityCode?: string;
-  startPlanned: string;
-  endPlanned: string;
-  startActual: string;
-  endActual: string;
-  demand?: string;
   locOrig?: string;
   locDest?: string;
+  startPlanned?: string;
+  endPlanned?: string;
+  lineId?: string;
+  startActual?: string;
+  endActual?: string;
 }
 
 export interface Circuit {
@@ -64,16 +64,16 @@ export interface DriverJourneySchedule {
 }
 
 export interface CircuitJourney {
-  circuitJourneyId: string;
+  circuitJourneyId: string | null;
   driverId: string;
   nickName: string;
   driverBase: string;
   driverSubBase: string;
-  startDate: string;
-  endDate: string;
   fleetCode: string;
-  otmProcess: string;
-  tasksDriver: TaskDriver[];
+  startDate?: string; // Assuming date comes in string format
+  endDate?: string;
+  otmProcess?: string;
+  tasksDriver?: TaskDriver[];
 }
 
 export interface ActivityRequest {
