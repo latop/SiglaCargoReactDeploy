@@ -217,10 +217,10 @@ export function useTimelineTrips() {
       ciruictCode: generateRandomID(),
       driverId,
       startDate: dayjs(selectedDailyTrip.startPlanned)
-        .subtract(2, "hour")
+        .subtract(1, "hour")
         .format("YYYY-MM-DDTHH:mm:ss"),
       endDate: dayjs(selectedDailyTrip.endPlanned)
-        .add(2, "hour")
+        .add(30, "minutes")
         .format("YYYY-MM-DDTHH:mm:ss"),
       trips: newTrips,
     };
