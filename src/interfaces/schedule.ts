@@ -34,7 +34,7 @@ export interface TaskDriver {
 }
 
 export interface Circuit {
-  ciruictCode: string;
+  ciruictCode?: string | null;
   endDate: string | Date;
   startDate: string | Date;
   trips: Trip[];
@@ -64,16 +64,16 @@ export interface DriverJourneySchedule {
 }
 
 export interface CircuitJourney {
-  circuitJourneyId: string | null;
+  circuitJourneyId?: string | null;
   driverId: string;
   nickName: string;
-  driverBase: string;
-  driverSubBase: string;
-  fleetCode: string;
+  driverBase?: string;
+  driverSubBase?: string;
+  fleetCode?: string;
   startDate?: string; // Assuming date comes in string format
   endDate?: string;
   otmProcess?: string;
-  tasksDriver?: TaskDriver[];
+  tasksDriver: TaskDriver[] | null;
 }
 
 export interface ActivityRequest {

@@ -92,6 +92,7 @@ export const useDailyTripsUnallocated = (options?: SWRConfiguration) => {
     dailyTripsUnallocated,
     selectedDailyTrip,
     refetch,
+    mutate,
     removeDailyTrip,
     selectDailyTrip,
     error,

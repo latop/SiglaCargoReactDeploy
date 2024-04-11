@@ -102,7 +102,7 @@ export const useJourneysByPeriod = () => {
 
   return {
     trips,
-    drivers: drivers,
+    drivers,
     addActivity,
     hasNext,
     error,

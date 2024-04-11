@@ -3,12 +3,14 @@ import { useHash } from "@/hooks/useHash";
 import { fetchCircuit } from "@/services/schedule";
 import { CircuitJourney } from "@/interfaces/schedule";
 import { Driver } from "@/interfaces/driver";
+import { usePost } from "@/hooks/usePost";
+import { AxiosResponse, AxiosError } from "axios";
 
 interface useCircuitParams {
   ciruictCode?: string;
 }
-
 export const useCircuit = () => {
+  const [postCircuit, { loading }] = usePost();
   const [hash] = useHash();
   const match = (hash as string)?.match(/#journeyDetails-(.+)/);
   const journeyDetailId = match?.[1];
@@ -44,10 +46,31 @@ export const useCircuit = () => {
     mutate(changeData, false);
   };
 
+  interface CreateCircuitParams {
+    onSuccess?: (data: AxiosResponse) => void;
+    onError?: (message: AxiosError) => void;
+  }
+
+  const createCircuit = async (
+    data: CircuitJourney,
+    { onSuccess, onError }: CreateCircuitParams,
+  ) => {
+    postCircuit("/gantt/UpdateCircuit", data, {
+      onSuccess: (data: AxiosResponse) => {
+        onSuccess?.(data);
+      },
+      onError: (err) => {
+        onError?.(err);
+      },
+    });
+  };
+
   return {
     circuit: data,
     error,
     isLoading,
+    isLoadingCreate: loading,
     changeDriver,
+    createCircuit,
   };
 };

@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import { useGiantt } from "@/hooks/useGiantt";
 import {
   Circuit,
+  CircuitJourney,
   DailyTripSection,
   DriverSchedule,
   Trip,
@@ -16,6 +17,7 @@ import { useJourneysByPeriod } from "@/hooks/useJourneysByPeriod";
 import { useDailyTripsUnallocated } from "@/hooks/useDailyTripsUnallocated";
 import { useDialog } from "@/hooks/useDialog/useDialog";
 import { Box, Typography } from "@mui/material";
+import { useCircuit } from "@/hooks/useCircuit";
 
 function generateRandomID() {
   // Cria uma parte baseada no tempo atual para evitar colisões
@@ -27,7 +29,13 @@ function generateRandomID() {
 }
 
 export function useTimelineTrips() {
-  const { trips, drivers, circuits } = useJourneysByPeriod();
+  const {
+    trips,
+    drivers,
+    circuits,
+    mutate: mutateJourneysByPeriod,
+  } = useJourneysByPeriod();
+  const { createCircuit } = useCircuit();
   const [, setHash] = useHash();
   const { addToast } = useToast();
   const { openDialog } = useDialog();
@@ -40,7 +48,11 @@ export function useTimelineTrips() {
   } = useGiantt();
 
   const { addNewData } = useJourneysByPeriod();
-  const { selectedDailyTrip, removeDailyTrip } = useDailyTripsUnallocated();
+  const {
+    selectedDailyTrip,
+    removeDailyTrip,
+    mutate: mutateTripsUnallocated,
+  } = useDailyTripsUnallocated();
 
   const handleLabelFormatItem = (
     [startTime]: [Date],
@@ -213,13 +225,43 @@ export function useTimelineTrips() {
       trips: newTrips,
     };
 
-    addNewData({ trips: newTrips, circuits: [newCircuit] });
+    addNewData({
+      trips: newTrips,
+      circuits: [newCircuit],
+    });
 
-    setTimeout(() => {
-      removeDailyTrip(selectedDailyTrip.dailyTripId);
-    }, 300);
+    const newCircuitJourney: CircuitJourney = {
+      driverId,
+      nickName: currentDriver.driverName,
+      startDate: newCircuit.startDate,
+      endDate: newCircuit.endDate,
+      tasksDriver: newTrips.map((trip: Trip, i) => ({
+        seq: i,
+        demand: trip.code,
+        lineCode: trip.code,
+        type: "V",
+        activityId: trip.id,
+        locOrig: trip.locationOrigCode,
+        locDest: trip.locationDestCode,
+        startPlanned: trip.startPlanned,
+        endPlanned: trip.endPlanned,
+        lineId: trip.id,
+      })),
+    };
 
-    addToast("Viagem alocada com sucesso.", { type: "success" });
+    createCircuit(newCircuitJourney, {
+      onSuccess: () => {
+        addToast("Viagem alocada com sucesso.", { type: "success" });
+        removeDailyTrip(selectedDailyTrip.dailyTripId);
+        mutateTripsUnallocated();
+        mutateJourneysByPeriod();
+      },
+      onError: () => {
+        addToast("Erro ao alocar viagem.", { type: "error" });
+        mutateTripsUnallocated();
+        mutateJourneysByPeriod();
+      },
+    });
   };
 
   const handleCanvasClick = (driverId: string) => {

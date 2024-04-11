@@ -1,46 +1,42 @@
 import { useState } from "react";
-import axios from "axios";
+import axios, { AxiosError, AxiosResponse } from "axios";
 
 axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_URL;
 
-type UsePostOptions<ResponseData, ErrorType> = {
-  onSuccess?: (data: ResponseData) => void;
-  onError?: (error: ErrorType) => void;
+type UsePostOptions<T> = {
+  onSuccess?: (response: AxiosResponse<T>) => void;
+  onError?: (error: AxiosError) => void;
 };
 
-export function usePost<RequestData, ResponseData, ErrorType = string>() {
-  const [data, setData] = useState<ResponseData | null>(null);
+export function usePost<T>() {
+  const [data, setData] = useState<T | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<ErrorType | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   const doPost = async (
     url: string,
-    body: RequestData,
-    options?: UsePostOptions<ResponseData, ErrorType>,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    body: any,
+    options?: UsePostOptions<T>,
   ) => {
     setLoading(true);
     setData(null);
     setError(null);
 
     try {
-      const response = await axios.post<ResponseData>(url, body);
+      const response = await axios.post<T>(url, body);
 
       setData(response.data);
 
       if (options?.onSuccess) {
-        options.onSuccess(response.data);
+        options.onSuccess(response);
       }
     } catch (err) {
-      let errorMessage: ErrorType;
-      if (axios.isAxiosError(err) && err.response) {
-        errorMessage = err.message as ErrorType;
-      } else {
-        errorMessage = "An unknown error occurred" as ErrorType;
-      }
+      const error = err as AxiosError;
+      setError(error.message);
 
-      setError(errorMessage);
       if (options?.onError) {
-        options.onError(errorMessage);
+        options.onError(error);
       }
     } finally {
       setLoading(false);

@@ -5,7 +5,6 @@ import DialogContent from "@mui/material/DialogContent";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import { useToast } from "@/hooks/useToast";
-import { usePost } from "@/hooks/usePost";
 import { JourneyForm } from "@/components/JourneyDetailsDialog/components/JourneyForm";
 import { Box, CircularProgress } from "@mui/material";
 import { FieldValues, FormProvider } from "react-hook-form";
@@ -15,6 +14,7 @@ import { useJourneyDetails } from "./useJourneyDetails";
 import { useJourneysByPeriod } from "@/hooks/useJourneysByPeriod";
 import { useDailyTripsUnallocated } from "@/hooks/useDailyTripsUnallocated";
 import { JourneyFormFooter } from "./components/JourneyFormFooter";
+import { useCircuit } from "@/hooks/useCircuit";
 
 const normalizeData = (data: CircuitJourney) => {
   const journeyDefaultValues = {
@@ -66,13 +66,13 @@ export function JourneyDetailsDialog({
   open,
   onClose,
 }: JourneyDetailsDialogProps) {
-  const [postCircuit, { loading }] = usePost();
+  const { createCircuit, isLoadingCreate } = useCircuit();
   const { refetch: refetchJourneys } = useJourneysByPeriod();
   const { refetch: refetchDailyTrips } = useDailyTripsUnallocated();
   const { addToast } = useToast();
 
   const onSubmit = (data: FieldValues) => {
-    postCircuit("/gantt/UpdateCircuit", normalizeData(data as CircuitJourney), {
+    createCircuit(data as CircuitJourney, {
       onSuccess: () => {
         addToast("Circuito salvo com sucesso");
         refetchJourneys();
@@ -138,7 +138,7 @@ export function JourneyDetailsDialog({
               )}
               {!isLoading && <JourneyForm />}
             </DialogContent>
-            <JourneyFormFooter loading={loading} />
+            <JourneyFormFooter loading={isLoadingCreate} />
           </>
         </form>
       </FormProvider>
