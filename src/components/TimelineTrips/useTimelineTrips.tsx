@@ -100,7 +100,10 @@ export function useTimelineTrips() {
     if (currentTrip?.circuitCode) {
       const hash = `journeyDetails-${currentTrip?.circuitCode}`;
       setHash(hash);
+      return;
     }
+
+    setHash(`tripDetails-${itemId}`);
   };
 
   const handleLabelFormatHeader = ([startTime]: Date[], unit: Unit) => {
