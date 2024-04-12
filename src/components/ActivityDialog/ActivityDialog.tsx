@@ -47,6 +47,7 @@ export function ActivityDialog({ open, onClose }: ActivityDialogProps) {
           endPlanned: data.endActivity,
           driverId: data.driverId,
           driverName: data.nickName,
+          tripType: "TRIP",
         };
         addActivity(trip);
         onClose();

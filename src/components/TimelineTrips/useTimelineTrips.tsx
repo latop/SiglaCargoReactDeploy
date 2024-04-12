@@ -208,6 +208,7 @@ export function useTimelineTrips() {
           driverName: currentDriver.driverName,
           locationOrigCode: section.locOrig,
           locationDestCode: section.locDest,
+          tripType: "TRIP",
         };
         return newTrip;
       },
