@@ -6,6 +6,7 @@ export interface DriverSchedule {
 export interface Trip {
   id?: string;
   code?: string;
+  circuitCode?: string;
   startPlanned: string;
   endPlanned: string;
   driverId: string;

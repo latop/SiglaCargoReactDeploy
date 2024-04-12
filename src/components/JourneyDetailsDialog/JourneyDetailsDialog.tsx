@@ -3,6 +3,7 @@ import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import IconButton from "@mui/material/IconButton";
+import dayjs from "dayjs";
 import CloseIcon from "@mui/icons-material/Close";
 import { useToast } from "@/hooks/useToast";
 import { JourneyForm } from "@/components/JourneyDetailsDialog/components/JourneyForm";
@@ -24,8 +25,8 @@ const normalizeData = (data: CircuitJourney) => {
     driverBase: data.driverBase,
     driverSubBase: data.driverSubBase,
     fleetCode: data.fleetCode,
-    startDate: data.startDate ? new Date(data.startDate) : undefined,
-    endDate: data.endDate ? new Date(data.endDate) : undefined,
+    startDate: data.startDate ? dayjs(data.startDate).format() : undefined,
+    endDate: data.endDate ? dayjs(data.endDate).format() : undefined,
     otmProcess: data.otmProcess || "",
     tasksDriver:
       data.tasksDriver && data.tasksDriver.length > 0
@@ -39,17 +40,17 @@ const normalizeData = (data: CircuitJourney) => {
             locOrig: taskDriver.locOrig || null,
             locDest: taskDriver.locDest || null,
             startPlanned: taskDriver.startPlanned
-              ? new Date(taskDriver.startPlanned)
+              ? dayjs(taskDriver.startPlanned).format()
               : null,
             endPlanned: taskDriver.endPlanned
-              ? new Date(taskDriver.endPlanned)
+              ? dayjs(taskDriver.endPlanned).format()
               : null,
             lineId: taskDriver.lineId || null,
             startActual: taskDriver.startActual
-              ? new Date(taskDriver.startActual)
+              ? dayjs(taskDriver.startActual).format()
               : null,
             endActual: taskDriver.endActual
-              ? new Date(taskDriver.endActual)
+              ? dayjs(taskDriver.endActual).format()
               : null,
           }))
         : null,
@@ -66,7 +67,11 @@ export function JourneyDetailsDialog({
   open,
   onClose,
 }: JourneyDetailsDialogProps) {
-  const { createCircuit, isLoadingCreate } = useCircuit();
+  const {
+    createCircuit,
+    isLoadingCreate,
+    mutate: mutateCircuit,
+  } = useCircuit();
   const { refetch: refetchJourneys } = useJourneysByPeriod();
   const { refetch: refetchDailyTrips } = useDailyTripsUnallocated();
   const { addToast } = useToast();
@@ -77,6 +82,7 @@ export function JourneyDetailsDialog({
         addToast("Circuito salvo com sucesso");
         refetchJourneys();
         refetchDailyTrips();
+        mutateCircuit();
         onClose();
       },
       onError: () => {

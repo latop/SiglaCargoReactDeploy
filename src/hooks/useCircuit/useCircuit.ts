@@ -1,4 +1,4 @@
-import useSWRImmutable from "swr/immutable";
+import useSWR from "swr";
 import { useHash } from "@/hooks/useHash";
 import { fetchCircuit } from "@/services/schedule";
 import { CircuitJourney } from "@/interfaces/schedule";
@@ -19,7 +19,7 @@ export const useCircuit = () => {
     ciruictCode: journeyDetailId,
   };
 
-  const { data, error, isLoading, mutate } = useSWRImmutable<CircuitJourney>(
+  const { data, error, isLoading, mutate } = useSWR<CircuitJourney>(
     params.ciruictCode ? { url: "/journey", args: params } : null,
     fetchCircuit,
   );
@@ -70,6 +70,7 @@ export const useCircuit = () => {
     error,
     isLoading,
     isLoadingCreate: loading,
+    mutate,
     changeDriver,
     createCircuit,
   };
