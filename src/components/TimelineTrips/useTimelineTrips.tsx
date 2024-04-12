@@ -103,7 +103,7 @@ export function useTimelineTrips() {
       return;
     }
 
-    setHash(`tripDetails-${itemId}`);
+    setHash(`activityDetails-${itemId}`);
   };
 
   const handleLabelFormatHeader = ([startTime]: Date[], unit: Unit) => {
