@@ -3,7 +3,7 @@ import { colors } from "@mui/material";
 
 export const TimelineItem = styled.div<{
   isCircuit: boolean;
-  selected: boolean;
+  isStop: boolean;
 }>`
   color: #ffffff;
   background-color: transparent !important;
@@ -12,7 +12,11 @@ export const TimelineItem = styled.div<{
   flex-direction: column;
   justify-content: flex-end;
   gap: 2px;
-  margin-top: ${(props) => (props.isCircuit ? "5px" : "0")};
+  margin-top: ${(props) => {
+    if (props.isCircuit) return "5px";
+    if (props.isStop) return "-3px";
+    return "0px";
+  }};
   z-index: ${(props) => props.isCircuit && 79} !important;
 `;
 
@@ -45,6 +49,7 @@ export const TimelineItemDestination = styled(TimelineItemLocation)`
 
 export const TimelineItemTitle = styled.div<{
   isCircuit: boolean;
+  isStop: boolean;
 }>`
   overflow: hidden;
   padding-left: 5px;
@@ -52,10 +57,14 @@ export const TimelineItemTitle = styled.div<{
   white-space: nowrap;
   border-style: solid;
   border-width: 1px;
-  border-radius: 4px;
+  border-radius: ${(props) => (props.isStop ? "0 4px 4px 0" : "4px")};
   border-left-width: 1px;
   border-right-width: 1px;
   display: flex;
   align-items: center;
-  height: ${(props) => (props.isCircuit ? "45px" : "14px")} !important;
+  height: ${(props) => {
+    if (props.isStop) return "5px";
+    if (props.isCircuit) return "45px";
+    return "14px";
+  }};
 `;

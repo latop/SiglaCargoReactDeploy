@@ -78,6 +78,7 @@ export function TimelineTrips() {
       <TimelineItem
         {...itemProps}
         className="giantt-item"
+        isStop={currentTrip?.tripType === "STOP"}
         isCircuit={isCircuit}
         title=""
         selected={itemContext.selected}
@@ -98,13 +99,15 @@ export function TimelineTrips() {
         <Tooltip title={currentTrip?.code}>
           <TimelineItemTitle
             isCircuit={!!isCircuit}
+            isStop={currentTrip?.tripType === "STOP"}
             style={{
-              height: `calc(${itemContext.dimensions.height} - 8px)`,
               backgroundColor,
               borderColor,
             }}
           >
-            {currentTrip?.colorRGB && currentTrip?.code}
+            {!currentTrip?.locationDestCode &&
+              currentTrip?.tripType !== "STOP" &&
+              currentTrip?.code}
           </TimelineItemTitle>
         </Tooltip>
 

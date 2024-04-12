@@ -14,6 +14,7 @@ export interface Trip {
   driverName: string;
   demand?: string;
   locationDestCode?: string;
+  tripType: "STOP" | "TRIP";
   locationOrigCode?: string;
 }
 
