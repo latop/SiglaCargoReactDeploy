@@ -36,7 +36,7 @@ export function TimelineTripsCard() {
       {isEmpty && <EmptyResult />}
       {!isEmpty && !isLoading && <TimelineTrips />}
       {!isReachingEnd && (
-        <Waypoint onEnter={loadMoreDrivers} bottomOffset={-250} />
+        <Waypoint onEnter={loadMoreDrivers} bottomOffset={-100} />
       )}
       {isLoadingMore && (
         <Box display="flex" justifyContent="center" mt={2} marginBottom={2}>

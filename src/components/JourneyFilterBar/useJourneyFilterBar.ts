@@ -14,6 +14,8 @@ dayjs.extend(customParseFormat);
 interface FormFields {
   startDate: Dayjs | null;
   endDate: Dayjs | null;
+  demand?: string;
+  activityCode?: string;
   nickName?: string;
   fleetGroupCode?: string;
   locationGroupCode?: string;
@@ -31,7 +33,9 @@ const schema = z
   .object({
     startDate: dateOrDayjsSchema,
     endDate: dateOrDayjsSchema,
+    demand: z.string().optional(),
     nickName: z.string().optional(),
+    activityCode: z.string().optional(),
     fleetGroupCode: z.string().optional(),
     locationGroupCode: z.string().optional(),
     positionCode: z.string().optional(),
@@ -70,6 +74,8 @@ export function useJourneyFilterBar() {
       endDate: params.get("endDate")
         ? dayjs(params.get("endDate"))
         : dayjs().add(7, "days"),
+      demand: params.get("demand") || "",
+      activityCode: params.get("activityCode") || "",
       nickName: params.get("nickName") || "",
       fleetGroupCode: params.get("fleetGroupCode") || "",
       locationGroupCode: params.get("locationGroupCode") || "",

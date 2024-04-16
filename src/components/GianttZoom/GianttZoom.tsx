@@ -14,6 +14,9 @@ export function GianttZoom() {
       onChange={handleChangeZoom}
       aria-label="Platform"
     >
+      <ToggleButton value="0.5" size="small">
+        meio dia
+      </ToggleButton>
       <ToggleButton value="1" size="small">
         1 dia
       </ToggleButton>
@@ -22,6 +25,9 @@ export function GianttZoom() {
       </ToggleButton>
       <ToggleButton value="7" size="small">
         7 dias
+      </ToggleButton>
+      <ToggleButton value="14" size="small">
+        14 dias
       </ToggleButton>
     </ToggleButtonGroup>
   );

@@ -27,22 +27,7 @@ export const ActivityForm = () => {
           <Grid item xs={6}>
             <AutocompleteDriver />
           </Grid>
-          <Grid item xs={4}>
-            <Controller
-              name={`journeyDate`}
-              control={control}
-              render={({ field, fieldState: { error } }) => (
-                <DateTimePicker
-                  label="Data da jornada"
-                  error={error?.message}
-                  {...field}
-                  value={field.value ? dayjs(field.value) : null}
-                  onChange={(date) => field.onChange(date?.format())}
-                />
-              )}
-            />
-          </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={6}>
             <Controller
               name={`startActivity`}
               control={control}
@@ -57,7 +42,7 @@ export const ActivityForm = () => {
               )}
             />
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={6}>
             <Controller
               name={`endActivity`}
               control={control}

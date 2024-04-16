@@ -137,10 +137,11 @@ export function TimelineTripsUnallocated() {
       // onItemMove={handleMoveItem}
       className="timeline-trips-unallocated"
       groupRenderer={groupRenderer}
+      onItemSelect={handleCanvasClick}
       minZoom={60 * 60 * 24}
       stackItems
-      onCanvasClick={handleCanvasClick}
       maxZoom={604800000}
+      onItemClick={handleCanvasClick}
       onTimeChange={handleTimeChange}
       visibleTimeStart={visibleTimeStart}
       itemRenderer={itemRenderer}

@@ -120,7 +120,7 @@ export function DriversSchedule() {
                   </Button>
                 </Box>
               </Box>
-              <Box sx={{ height: "calc(100% - 40px)", width: "100%" }}>
+              <Box sx={{ height: "calc(100% - 60px)", width: "100%" }}>
                 <>
                   <TimelineTripsCard key="TimelineTripsCard" />
                 </>

@@ -1,22 +1,14 @@
 import { useJourneysByPeriod } from "@/hooks/useJourneysByPeriod";
 
 export function useTimelineTripsCard() {
-  const {
-    drivers,
-    hasNext,
-    isLoading,
-    size: size,
-    setSize,
-    isValidating,
-  } = useJourneysByPeriod();
+  const { drivers, hasNext, isLoading, setSize, isValidating } =
+    useJourneysByPeriod();
 
   const isEmpty = !isLoading && drivers && drivers?.length <= 0;
 
-  const isLoadingMore =
-    isValidating ||
-    (size > 0 && drivers && typeof drivers[size - 1] === "undefined");
+  const isLoadingMore = isValidating;
 
-  const isReachingEnd = !hasNext;
+  const isReachingEnd = !hasNext && !isEmpty;
 
   const loadMoreDrivers = () => {
     if (hasNext && !isLoadingMore) {

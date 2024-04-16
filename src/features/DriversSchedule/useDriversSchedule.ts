@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { useJourneysByPeriod } from "@/hooks/useJourneysByPeriod";
 import { useSearchParams } from "next/navigation";
-import { Trip } from "@/interfaces/schedule";
+import { Circuit, Trip } from "@/interfaces/schedule";
 import { useHash } from "@/hooks/useHash";
 
 interface JourneySearchParams {
@@ -36,7 +36,8 @@ export function useDriverSchedule() {
     return tempSearchParams;
   }, [params]);
 
-  const { trips, drivers, updateTrip } = useJourneysByPeriod();
+  const { trips, circuits, drivers, updateTrip, updateCircuit } =
+    useJourneysByPeriod();
 
   const hasRelevantParams = Object.keys(searchParams).length > 0;
 
@@ -54,13 +55,27 @@ export function useDriverSchedule() {
 
     const tripIndex = trips.findIndex((trip: Trip) => trip.id === tripId);
     const currentTrip = trips[tripIndex];
-    const updatedTrip = {
+    const newTrip = {
       ...currentTrip,
       startPlanned: newStartPlanned,
       endPlanned: newEndPlanned,
       // driverId: newDriverId,
     };
-    updateTrip(updatedTrip);
+    updateTrip(newTrip);
+  };
+
+  const handleUpdateCircuit = (newCircuit: Circuit) => {
+    if (!circuits || !drivers) return;
+
+    const circuitIndex = circuits.findIndex(
+      (circuit: Circuit) => circuit.ciruictCode === newCircuit.ciruictCode,
+    );
+    const currentCircuit = circuits[circuitIndex];
+    const circuit = {
+      ...currentCircuit,
+      ...newCircuit,
+    };
+    updateCircuit(circuit);
   };
 
   const [hash] = useHash();
@@ -72,6 +87,7 @@ export function useDriverSchedule() {
   return {
     showContent: hasRelevantParams,
     updatedTrip: handleUpdateTrip,
+    updateCircuit: handleUpdateCircuit,
     tripDetailId,
     activityDetailId,
   };

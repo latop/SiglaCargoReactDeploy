@@ -113,7 +113,7 @@ export function ActivityDialog({ open, onClose }: ActivityDialogProps) {
             <DialogContent dividers sx={{ padding: "16px" }}>
               <ActivityForm />
             </DialogContent>
-            <ActivityFooter />
+            <ActivityFooter onClose={onClose} />
           </>
         </form>
       </FormProvider>

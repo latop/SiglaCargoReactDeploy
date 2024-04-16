@@ -68,9 +68,9 @@ export function TimelineTrips() {
 
     const { left: leftResizeProps, right: rightResizeProps } = getResizeProps();
     const backgroundColor = itemContext.selected
-      ? red[500]
+      ? "RGBA(244, 67, 54, 0.3)"
       : isCircuit
-      ? "rgba(210, 224, 235, 0.8)"
+      ? "rgb(171 194 212 / 30%)"
       : currentTrip?.colorRGB || "#4663ab";
     const borderColor = itemContext.resizing ? red[500] : "transparent";
 
@@ -124,7 +124,7 @@ export function TimelineTrips() {
       items={items}
       canMove
       canResize={false}
-      canChangeGroup={false}
+      canChangeGroup
       onItemMove={handleMoveItem}
       onCanvasClick={handleCanvasClick}
       minZoom={60 * 60 * 24}

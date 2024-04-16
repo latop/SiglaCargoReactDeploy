@@ -1,7 +1,7 @@
 import React from "react";
 import { Controller, FormProvider } from "react-hook-form";
 import dayjs from "dayjs";
-import { Button, Grid } from "@mui/material";
+import { Button, Grid, TextField } from "@mui/material";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@/components/DatePicker";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -26,10 +26,10 @@ export function JourneyFilterBar(props: React.HTMLProps<HTMLFormElement>) {
           <Grid
             container
             alignItems="flex-start"
-            spacing={2}
-            margin="10px 0 10px"
+            spacing={1}
+            margin="10px 10px 10px"
           >
-            <Grid item xs={1.25}>
+            <Grid item xs={1.2}>
               <Controller
                 name="startDate"
                 rules={{ required: true }}
@@ -43,7 +43,7 @@ export function JourneyFilterBar(props: React.HTMLProps<HTMLFormElement>) {
                 )}
               />
             </Grid>
-            <Grid item xs={1.25}>
+            <Grid item xs={1.2}>
               <Controller
                 name="endDate"
                 control={control}
@@ -59,25 +59,46 @@ export function JourneyFilterBar(props: React.HTMLProps<HTMLFormElement>) {
               />
             </Grid>
 
-            <Grid item xs={2.4}>
+            <Grid item xs={1.5}>
               <AutocompleteDriver />
             </Grid>
 
-            <Grid item xs={1.9}>
+            <Grid item xs={1}>
+              <Controller
+                name="demand"
+                control={control}
+                render={({ field }) => (
+                  <TextField fullWidth label="Demanda" {...field} />
+                )}
+              />
+            </Grid>
+
+            <Grid item xs={1}>
+              <Controller
+                name="activityCode"
+                control={control}
+                render={({ field }) => (
+                  <TextField fullWidth label="Atividade" {...field} />
+                )}
+              />
+            </Grid>
+
+            <Grid item xs={1.5}>
               <AutocompleteFleetGroup />
             </Grid>
 
-            <Grid item xs={1.9}>
+            <Grid item xs={2}>
               <AutocompleteLocationGroup />
             </Grid>
 
-            <Grid item xs={2}>
+            <Grid item xs={1.5}>
               <AutocompletePosition />
             </Grid>
 
             <Grid item xs={0.9}>
               <Button
                 type="submit"
+                size="large"
                 variant="contained"
                 color="primary"
                 fullWidth

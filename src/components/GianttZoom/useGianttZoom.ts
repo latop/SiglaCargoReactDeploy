@@ -3,12 +3,19 @@ import dayjs from "dayjs";
 import { useGiantt } from "@/hooks/useGiantt";
 
 enum Zoom {
+  MiddleDay = "0.5",
   OneDay = "1",
   ThreeDays = "3",
   SevenDays = "7",
+  FourteenDays = "14",
 }
 
 const setEndDate = (startDate: string | null, zoom: Zoom) => {
+  if (Number(zoom) < 1) {
+    return dayjs(startDate)
+      .add(Number(zoom) * 24, "hour")
+      .toDate();
+  }
   return dayjs(startDate).add(2, "hour").add(Number(zoom), "day").toDate();
 };
 
@@ -17,6 +24,7 @@ const setStartDate = (startDate: string | null) => {
 };
 
 export function useGianttZoom() {
+  const [currentZoom, setCurrentZoom] = React.useState<Zoom>(Zoom.SevenDays);
   const {
     visibleTimeEnd,
     startDate,
@@ -25,16 +33,12 @@ export function useGianttZoom() {
     setVisibleTimeStart,
   } = useGiantt();
 
-  const differenceInDays = dayjs(visibleTimeEnd).diff(
-    dayjs(visibleTimeStart),
-    "day",
-  );
-
   const handleChangeZoom = (
     event: React.MouseEvent<HTMLElement>,
     newZoom: Zoom,
   ) => {
     if (newZoom) {
+      setCurrentZoom(newZoom);
       setVisibleTimeStart(setStartDate(startDate));
       setVisibleTimeEnd(setEndDate(startDate, newZoom as Zoom));
     }
@@ -44,6 +48,6 @@ export function useGianttZoom() {
     visibleTimeStart,
     visibleTimeEnd,
     handleChangeZoom,
-    zoom: String(differenceInDays) as Zoom,
+    zoom: currentZoom,
   };
 }

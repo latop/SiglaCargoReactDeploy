@@ -9,15 +9,18 @@ export const TimelineItem = styled.div<{
   background-color: transparent !important;
   border: 0 !important;
   display: flex;
+  height: ${(props) => {
+    if (props.isCircuit) return "45px !important";
+  }};
   flex-direction: column;
   justify-content: flex-end;
   gap: 2px;
   margin-top: ${(props) => {
-    if (props.isCircuit) return "5px";
+    if (props.isCircuit) return "-5px";
     if (props.isStop) return "-3px";
     return "0px";
   }};
-  z-index: ${(props) => props.isCircuit && 79} !important;
+  z-index: ${(props) => props.isCircuit && 81} !important;
 `;
 
 export const TimelineItemSubtitle = styled.div`
@@ -64,7 +67,7 @@ export const TimelineItemTitle = styled.div<{
   align-items: center;
   height: ${(props) => {
     if (props.isStop) return "5px";
-    if (props.isCircuit) return "45px";
-    return "14px";
+    if (props.isCircuit) return "50px";
+    return "12px";
   }};
 `;

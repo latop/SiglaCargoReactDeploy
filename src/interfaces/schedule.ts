@@ -37,8 +37,8 @@ export interface TaskDriver {
 
 export interface Circuit {
   ciruictCode?: string | null;
-  endDate: string | Date;
-  startDate: string | Date;
+  endDate: string;
+  startDate: string;
   trips: Trip[];
   driverName?: string;
   driverId: string;

@@ -11,6 +11,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import Button from "@mui/material/Button";
+import { Typography } from "@mui/material";
 
 interface DialogContextType {
   openDialog: (config: DialogConfig) => void;
@@ -19,7 +20,8 @@ interface DialogContextType {
 
 interface DialogConfig {
   title?: string;
-  body: ReactNode;
+  message?: string;
+  body?: ReactNode;
   onConfirm?: () => void;
   onCancel?: () => void;
 }
@@ -38,12 +40,14 @@ export const DialogProvider: FC<DialogProviderProps> = ({ children }) => {
   const [open, setOpen] = useState<boolean>(false);
   const [content, setContent] = useState<ReactNode>(null);
   const [title, setTitle] = useState<string>("");
+  const [message, setMessage] = useState<string>("");
   const [onConfirm, setOnConfirm] = useState<null | (() => void)>(null);
   const [onCancel, setOnCancel] = useState<null | (() => void)>(null);
 
   const openDialog = useCallback(
-    ({ title = "", body, onConfirm, onCancel }: DialogConfig) => {
+    ({ title = "", message = "", body, onConfirm, onCancel }: DialogConfig) => {
       setTitle(title);
+      setMessage(message);
       setContent(body);
       if (onConfirm) {
         setOnConfirm(() => onConfirm);
@@ -83,7 +87,10 @@ export const DialogProvider: FC<DialogProviderProps> = ({ children }) => {
         {title && (
           <DialogTitle id="customized-dialog-title">{title}</DialogTitle>
         )}
-        <DialogContent dividers>{content}</DialogContent>
+        <DialogContent dividers>
+          {message && <Typography sx={{ mb: 2 }}>{message}</Typography>}
+          {content}
+        </DialogContent>
         {(onConfirm || onCancel) && (
           <DialogActions>
             <Button onClick={handleCancel}>Cancelar</Button>

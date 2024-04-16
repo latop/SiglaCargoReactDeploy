@@ -5,27 +5,22 @@ export function useTimelineTripsUnallocatedCard() {
     dailyTripsUnallocated,
     isLoading,
     hasNext,
-    size: size,
     setSize: setSize,
     isValidating,
   } = useDailyTripsUnallocated();
 
-  const isLoadingMore =
-    isValidating ||
-    (size > 0 &&
-      dailyTripsUnallocated &&
-      typeof dailyTripsUnallocated[size - 1] === "undefined");
+  const isEmpty =
+    !isLoading && dailyTripsUnallocated && dailyTripsUnallocated?.length <= 0;
 
-  const isReachingEnd = !hasNext;
+  const isLoadingMore = isValidating;
+
+  const isReachingEnd = !hasNext && !isEmpty;
 
   const loadMore = () => {
     if (hasNext && !isLoadingMore) {
       setSize((prevSize) => prevSize + 1);
     }
   };
-
-  const isEmpty =
-    !isLoading && dailyTripsUnallocated && dailyTripsUnallocated?.length <= 0;
 
   return {
     dailyTripsUnallocated,

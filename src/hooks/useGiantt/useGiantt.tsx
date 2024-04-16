@@ -1,15 +1,10 @@
-import React, {
-  createContext,
-  useContext,
-  useState,
-  ReactNode,
-  useEffect,
-} from "react";
+import React, { createContext, useContext, useState, ReactNode } from "react";
 import dayjs from "dayjs";
 import { useSearchParams } from "next/navigation"; // Supondo que você esteja usando react-router v6
 
 // Definição do enum Zoom
 enum Zoom {
+  MiddleDay = "0.5",
   OneDay = "1",
   ThreeDays = "3",
   SevenDays = "7",
@@ -29,11 +24,11 @@ const GianttContext = createContext<GianttContextType | undefined>(undefined);
 
 // Funções para manipular datas
 const setEndDate = (startDate: string | null, zoom: Zoom) => {
-  return dayjs(startDate).add(2, "hour").add(Number(zoom), "day").toDate();
+  return dayjs(startDate).add(Number(zoom), "day").toDate();
 };
 
 const setStartDate = (startDate: string | null) => {
-  return dayjs(startDate).add(-2, "hour").toDate();
+  return dayjs(startDate).toDate();
 };
 
 // Provider
@@ -49,10 +44,10 @@ export const GianttProvider = ({ children }: { children: ReactNode }) => {
   );
 
   // Atualiza o estado quando a data de início ou o zoom mudarem
-  useEffect(() => {
-    setVisibleTimeStart(setStartDate(startDate));
-    setVisibleTimeEnd(setEndDate(startDate, Zoom.SevenDays));
-  }, [startDate]);
+  // useEffect(() => {
+  //   setVisibleTimeStart(setStartDate(startDate));
+  //   setVisibleTimeEnd(setEndDate(startDate, Zoom.SevenDays));
+  // }, [startDate]);
 
   return (
     <GianttContext.Provider

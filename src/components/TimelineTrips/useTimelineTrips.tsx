@@ -20,11 +20,8 @@ import { Box, Typography } from "@mui/material";
 import { useCircuit } from "@/hooks/useCircuit";
 
 function generateRandomID() {
-  // Cria uma parte baseada no tempo atual para evitar colisões
   const timePart = Date.now().toString(36);
-  // Gera uma parte aleatória usando Math.random
   const randomPart = Math.random().toString(36).substring(2, 15);
-  // Combina as duas partes para formar o ID
   return timePart + randomPart;
 }
 
@@ -39,7 +36,7 @@ export function useTimelineTrips() {
   const [, setHash] = useHash();
   const { addToast } = useToast();
   const { openDialog } = useDialog();
-  const { updatedTrip } = useDriverSchedule();
+  const { updateCircuit } = useDriverSchedule();
   const {
     visibleTimeEnd,
     visibleTimeStart,
@@ -47,7 +44,7 @@ export function useTimelineTrips() {
     setVisibleTimeEnd,
   } = useGiantt();
 
-  const { addNewData } = useJourneysByPeriod();
+  const { addNewData, mutate: refetchJourneys } = useJourneysByPeriod();
   const {
     selectedDailyTrip,
     removeDailyTrip,
@@ -171,30 +168,74 @@ export function useTimelineTrips() {
   const handleMoveItem = (
     itemId: string,
     dragTime: number,
-    // newGroupOrder: number,
+    newGroupOrder: number,
   ) => {
-    if (!trips || !drivers) return;
-    // const newDriver = drivers?.[newGroupOrder];
+    if (!circuits) return;
+    const newDriver = drivers?.[newGroupOrder];
+    const driverName = drivers?.find(
+      (driver: DriverSchedule) => driver.driverId === itemId,
+    )?.driverName;
 
-    const tripIndex = trips?.findIndex((trip) => trip.id === itemId);
+    const circuitIndex = circuits?.findIndex(
+      (trip) => trip.ciruictCode === itemId,
+    );
+    if (circuitIndex !== undefined && circuitIndex >= 0) {
+      let currentCircuit: Circuit = circuits[circuitIndex];
+      if (driverName) {
+        currentCircuit = {
+          ...currentCircuit,
+          driverName: driverName,
+        };
+      }
 
-    if (tripIndex !== undefined && tripIndex >= 0) {
-      const currentTrip = trips[tripIndex];
-      const difference = dayjs(currentTrip.endPlanned).diff(
-        currentTrip.startPlanned,
+      const difference = dayjs(currentCircuit.endDate).diff(
+        currentCircuit.startDate,
       );
-      const newEndPlanned = dayjs(dragTime).add(difference, "millisecond");
-      const startPlanned = dayjs(dragTime).format("YYYY-MM-DDTHH:mm:ss");
-      const endPlanned = newEndPlanned.format("YYYY-MM-DDTHH:mm:ss");
+      const newStartDate = dayjs(dragTime).format("YYYY-MM-DDTHH:mm:ss");
+      const newEndDate = dayjs(newStartDate)
+        .add(difference, "millisecond")
+        .format("YYYY-MM-DDTHH:mm:ss");
 
-      updatedTrip({
-        tripId: itemId,
-        newStartPlanned: startPlanned,
-        newEndPlanned: endPlanned,
-        // newDriverId: newDriver.driverId,
-      });
+      let newCircuit;
 
-      addToast("Viagem movida com sucesso.", { type: "success" });
+      if (newDriver?.driverId === currentCircuit.driverId) {
+        newCircuit = {
+          ...currentCircuit,
+          ciruictCode: itemId,
+          startDate: newStartDate,
+          endDate: newEndDate,
+        };
+        updateCircuit(newCircuit);
+      } else if (newDriver && newDriver?.driverId !== currentCircuit.driverId) {
+        newCircuit = {
+          ...currentCircuit,
+          ciruictCode: itemId,
+          driverId: newDriver.driverId,
+          driverName: newDriver.driverName,
+        };
+        updateCircuit(newCircuit);
+      }
+
+      if (newCircuit) {
+        // eslint-disable-next-line
+        // @ts-ignore next line
+        const newCircuitJourney: CircuitJourney = {
+          driverId: newCircuit.driverId,
+          nickName: newCircuit.driverName || "",
+          startDate: newCircuit.startDate,
+          endDate: newCircuit.endDate,
+        };
+
+        createCircuit(newCircuitJourney, {
+          onSuccess: () => {
+            addToast("Viagem movida com sucesso.", { type: "success" });
+            refetchJourneys();
+          },
+          onError: () => {
+            addToast("Erro ao mover viagem.", { type: "error" });
+          },
+        });
+      }
     }
   };
 
@@ -203,6 +244,9 @@ export function useTimelineTrips() {
       (driver) => driver.driverId === driverId,
     );
     if (!currentDriver || !selectedDailyTrip) return;
+    const driverName = drivers?.find(
+      (driver: DriverSchedule) => driver.driverId === driverId,
+    )?.driverName;
 
     const newTrips = selectedDailyTrip.sectionsUnallocated.map(
       (section: DailyTripSection) => {
@@ -224,6 +268,7 @@ export function useTimelineTrips() {
     const newCircuit = {
       ciruictCode: generateRandomID(),
       driverId,
+      driverName,
       startDate: dayjs(selectedDailyTrip.startPlanned)
         .subtract(1, "hour")
         .format("YYYY-MM-DDTHH:mm:ss"),

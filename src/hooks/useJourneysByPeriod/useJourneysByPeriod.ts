@@ -18,6 +18,7 @@ export const useJourneysByPeriod = () => {
     locationGroupCode: params.get("locationGroupCode"),
     positionCode: params.get("positionCode"),
     demand: params.get("demand"),
+    activityCode: params.get("activityCode"),
   };
 
   const getKey = (
@@ -54,6 +55,26 @@ export const useJourneysByPeriod = () => {
     const updatedData = data?.map((page) =>
       page.trips.find((trip) => trip.id === newTrip.id)
         ? { ...page, trips: updatedTrips }
+        : page,
+    );
+    mutate(updatedData, false);
+  };
+
+  const updateCircuit = (newCircuit: Circuit) => {
+    const circuitToUpdate = data?.find((page) =>
+      page.circuits.find(
+        (circuit) => circuit.ciruictCode === newCircuit.ciruictCode,
+      ),
+    );
+    if (!circuitToUpdate) return;
+    const updatedCircuits = circuitToUpdate.circuits.map((circuit) =>
+      circuit.ciruictCode === newCircuit.ciruictCode ? newCircuit : circuit,
+    );
+    const updatedData = data?.map((page) =>
+      page.circuits.find(
+        (circuit) => circuit.ciruictCode === newCircuit.ciruictCode,
+      )
+        ? { ...page, circuits: updatedCircuits }
         : page,
     );
     mutate(updatedData, false);
@@ -111,6 +132,7 @@ export const useJourneysByPeriod = () => {
     mutate,
     refetch,
     isValidating,
+    updateCircuit,
     updateTrip,
     addNewData,
     selectDriver,

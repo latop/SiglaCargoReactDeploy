@@ -129,8 +129,8 @@ export const JourneyForm = () => {
             {tasksDriver?.map((taskDriver: TaskDriver, index: number) => (
               <DriverJourneyForm
                 onDelete={() => handleDeleteDriverSchedule(index)}
-                key={taskDriver.seq}
-                seq={taskDriver.seq - 1}
+                key={taskDriver.demand}
+                seq={index}
               />
             ))}
           </Box>
