@@ -22,6 +22,12 @@ export const useCircuit = () => {
   const { data, error, isLoading, mutate } = useSWR<CircuitJourney>(
     params.ciruictCode ? { url: "/journey", args: params } : null,
     fetchCircuit,
+    {
+      revalidateIfStale: false,
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false,
+      revalidateOnMount: true,
+    },
   );
 
   const changeDriver = (driver: Driver) => {
