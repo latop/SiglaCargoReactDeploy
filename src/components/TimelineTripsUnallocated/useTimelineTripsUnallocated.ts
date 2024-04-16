@@ -144,8 +144,12 @@ export function useTimelineTripsUnallocated() {
     router.push(`/drivers-schedule?${params.toString()}`);
   };
 
-  const handleCanvasClick = (dailyTripId: string) => {
+  const handleItemClick = (dailyTripId: string) => {
     selectDailyTrip(dailyTripId);
+  };
+
+  const handleDeselectItem = () => {
+    selectDailyTrip(null);
   };
 
   return {
@@ -156,9 +160,10 @@ export function useTimelineTripsUnallocated() {
     handleTimeChange,
     handleLabelFormatItem,
     selectedDailyTrip,
+    handleDeselectItem,
     handleLabelFormatHeader,
     handleDoubleClick,
     handleGroupItemClick,
-    handleCanvasClick,
+    handleItemClick,
   };
 }

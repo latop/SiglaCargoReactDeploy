@@ -71,7 +71,20 @@ export const useDailyTripsUnallocated = (options?: SWRConfiguration) => {
     mutate(newDailyTrips, false);
   };
 
-  const selectDailyTrip = (dailyTripId: string) => {
+  const selectDailyTrip = (dailyTripId: string | null) => {
+    if (!dailyTripId) {
+      const newDailyTrips = data?.map((page) => ({
+        ...page,
+        dailyTripsUnallocated: page.dailyTripsUnallocated.map((trip) => ({
+          ...trip,
+          selected: false,
+        })),
+      }));
+
+      mutate(newDailyTrips, false);
+      return;
+    }
+
     const newDailyTrips = data?.map((page) => ({
       ...page,
       dailyTripsUnallocated: page.dailyTripsUnallocated.map((trip) => ({

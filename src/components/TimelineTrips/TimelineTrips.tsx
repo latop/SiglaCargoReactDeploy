@@ -67,11 +67,21 @@ export function TimelineTrips() {
     const itemProps = getItemProps({});
 
     const { left: leftResizeProps, right: rightResizeProps } = getResizeProps();
-    const backgroundColor = itemContext.selected
-      ? "RGBA(244, 67, 54, 0.3)"
-      : isCircuit
-      ? "rgb(171 194 212 / 30%)"
-      : currentTrip?.colorRGB || "#4663ab";
+    let backgroundColor;
+
+    if (isCircuit) {
+      if (itemContext.selected) {
+        backgroundColor = "RGBA(244, 67, 54, 0.3)";
+      } else {
+        backgroundColor = "rgb(106 144 174 / 20%)";
+      }
+    } else {
+      if (itemContext.selected) {
+        backgroundColor = red[500];
+      } else {
+        backgroundColor = currentTrip?.colorRGB || "#4663ab";
+      }
+    }
     const borderColor = itemContext.resizing ? red[500] : "transparent";
 
     return (

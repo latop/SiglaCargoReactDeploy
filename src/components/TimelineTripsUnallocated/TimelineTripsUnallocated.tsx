@@ -35,7 +35,8 @@ export function TimelineTripsUnallocated() {
     visibleTimeEnd,
     handleLabelFormatItem,
     handleLabelFormatHeader,
-    handleCanvasClick,
+    handleItemClick,
+    handleDeselectItem,
     handleGroupItemClick,
   } = useTimelineTripsUnallocated();
 
@@ -137,11 +138,12 @@ export function TimelineTripsUnallocated() {
       // onItemMove={handleMoveItem}
       className="timeline-trips-unallocated"
       groupRenderer={groupRenderer}
-      onItemSelect={handleCanvasClick}
+      onItemSelect={handleItemClick}
       minZoom={60 * 60 * 24}
       stackItems
       maxZoom={604800000}
-      onItemClick={handleCanvasClick}
+      onItemClick={handleItemClick}
+      onItemDeselect={handleDeselectItem}
       onTimeChange={handleTimeChange}
       visibleTimeStart={visibleTimeStart}
       itemRenderer={itemRenderer}
