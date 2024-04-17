@@ -67,6 +67,7 @@ export interface DriverJourneySchedule {
 
 export interface CircuitJourney {
   circuitJourneyId?: string | null;
+  ciruictCode?: string;
   driverId: string;
   nickName: string;
   driverBase?: string;

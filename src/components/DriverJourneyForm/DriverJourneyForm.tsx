@@ -131,6 +131,7 @@ export const DriverJourneyForm = ({
     <Grid container spacing={1}>
       <Grid item xs={1.6}>
         <AutocompleteActivity
+          name={`tasksDriver.${seq}.activityCode`}
           onChange={(activity) => {
             setValue(`tasksDriver.${seq}.activityCode`, activity.code);
             setValue(`tasksDriver.${seq}.activityId`, activity.id);

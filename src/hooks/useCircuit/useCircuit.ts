@@ -1,4 +1,4 @@
-import useSWR from "swr";
+import useSWR, { SWRConfiguration } from "swr";
 import { useHash } from "@/hooks/useHash";
 import { fetchCircuit } from "@/services/schedule";
 import { CircuitJourney } from "@/interfaces/schedule";
@@ -9,7 +9,7 @@ import { AxiosResponse, AxiosError } from "axios";
 interface useCircuitParams {
   ciruictCode?: string;
 }
-export const useCircuit = () => {
+export const useCircuit = (options?: SWRConfiguration) => {
   const [postCircuit, { loading }] = usePost();
   const [hash] = useHash();
   const match = (hash as string)?.match(/#journeyDetails-(.+)/);
@@ -27,6 +27,10 @@ export const useCircuit = () => {
       revalidateOnFocus: false,
       revalidateOnReconnect: false,
       revalidateOnMount: true,
+      ...options,
+      onSuccess: (data, key, config) => {
+        options?.onSuccess?.(data, key, config);
+      },
     },
   );
 

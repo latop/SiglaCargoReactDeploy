@@ -220,6 +220,7 @@ export function useTimelineTrips() {
         // eslint-disable-next-line
         // @ts-ignore next line
         const newCircuitJourney: CircuitJourney = {
+          ciruictCode: itemId,
           driverId: newCircuit.driverId,
           nickName: newCircuit.driverName || "",
           startDate: newCircuit.startDate,

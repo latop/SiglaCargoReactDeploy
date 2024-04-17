@@ -3,8 +3,9 @@ import { useSearchParams } from "next/navigation";
 import { fetchJourneysByPeriod } from "@/services/schedule";
 import { Circuit, JourneysByPeriodResponse, Trip } from "@/interfaces/schedule";
 import useSWRInfinite from "swr/infinite";
+import { SWRConfiguration } from "swr";
 
-export const useJourneysByPeriod = () => {
+export const useJourneysByPeriod = (options?: SWRConfiguration) => {
   const params = useSearchParams();
   const searchParams = {
     startDate: params.get("startDate")
@@ -37,6 +38,7 @@ export const useJourneysByPeriod = () => {
       revalidateFirstPage: false,
       revalidateIfStale: false,
       revalidateOnFocus: false,
+      ...options,
     });
 
   const trips = data?.map((page) => page.trips).flat() || [];

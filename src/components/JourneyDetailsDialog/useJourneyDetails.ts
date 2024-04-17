@@ -1,5 +1,4 @@
 import { useCircuit } from "@/hooks/useCircuit";
-import { useDrivers } from "@/hooks/useDrivers";
 import { useHash } from "@/hooks/useHash";
 import { useJourneysByPeriod } from "@/hooks/useJourneysByPeriod";
 import { useForm } from "react-hook-form";
@@ -28,13 +27,10 @@ export function useJourneyDetails() {
   );
 
   const { circuit, isLoading } = useCircuit();
-  const { isLoading: loadingDrivers } = useDrivers({
-    nickName: circuit?.nickName,
-  });
 
   return {
     data: circuit,
-    isLoading: isLoading || loadingDrivers,
+    isLoading: isLoading,
     journeyDetailId,
     currentCircuit,
     methods,

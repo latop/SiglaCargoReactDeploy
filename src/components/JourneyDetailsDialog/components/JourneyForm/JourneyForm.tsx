@@ -53,7 +53,7 @@ export const JourneyForm = () => {
                 name={`otmProcess`}
                 control={control}
                 render={({ field }) => (
-                  <TextField {...field} label="OTM" fullWidth />
+                  <TextField {...field} label="Circuito" fullWidth />
                 )}
               />
             </Grid>
@@ -129,7 +129,7 @@ export const JourneyForm = () => {
             {tasksDriver?.map((taskDriver: TaskDriver, index: number) => (
               <DriverJourneyForm
                 onDelete={() => handleDeleteDriverSchedule(index)}
-                key={taskDriver.demand}
+                key={index}
                 seq={index}
               />
             ))}

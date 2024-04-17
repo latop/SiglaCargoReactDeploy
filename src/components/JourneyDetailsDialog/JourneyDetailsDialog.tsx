@@ -92,7 +92,10 @@ export function JourneyDetailsDialog({
   };
 
   const { data, isLoading, methods } = useJourneyDetails();
-  const { reset } = methods;
+  const {
+    reset,
+    formState: { defaultValues },
+  } = methods;
 
   useEffect(() => {
     if (data) {
@@ -101,6 +104,8 @@ export function JourneyDetailsDialog({
       reset(normalizeData(data));
     }
   }, [data]);
+
+  const loading = isLoading || (data && !defaultValues?.circuitJourneyId);
 
   return (
     <Dialog
@@ -131,7 +136,7 @@ export function JourneyDetailsDialog({
               <CloseIcon />
             </IconButton>
             <DialogContent dividers sx={{ padding: "16px" }}>
-              {isLoading && (
+              {loading && (
                 <Box
                   display="flex"
                   alignItems="center"
@@ -142,7 +147,7 @@ export function JourneyDetailsDialog({
                   <CircularProgress />
                 </Box>
               )}
-              {!isLoading && <JourneyForm />}
+              {!loading && <JourneyForm />}
             </DialogContent>
             <JourneyFormFooter loading={isLoadingCreate} />
           </>

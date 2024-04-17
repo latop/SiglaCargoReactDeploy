@@ -8,8 +8,10 @@ import { Activity } from "@/interfaces/parameters";
 
 export function AutocompleteActivity({
   onChange,
+  name = "activityCode",
 }: {
   onChange?: (value: Activity) => void;
+  name?: string;
 }) {
   const {
     control,
@@ -20,19 +22,19 @@ export function AutocompleteActivity({
 
   const { activities, error } = useActivities({
     pageSize: 10,
-    code: watch("activityCode"),
+    code: watch(name),
   });
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleChange = (_: any, value: Activity | null) => {
-    setValue("activityCode", value?.code || "");
+    setValue(name, value?.code || "");
     setValue("activityId", value?.id || "");
     onChange?.(value || ({} as Activity));
   };
 
   return (
     <Controller
-      name="activityCode"
+      name={name}
       control={control}
       render={({ field }) => (
         <Autocomplete
