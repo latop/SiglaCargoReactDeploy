@@ -12,6 +12,7 @@ import { AutocompleteFleetGroup } from "@/components/AutocompleteFleetGroup";
 import { AutocompletePosition } from "@/components/AutocompletePosition";
 import { useJourneyFilterBar } from "./useJourneyFilterBar";
 import "dayjs/locale/pt-br";
+import { AutocompleteActivity } from "../AutocompleteActivity";
 
 dayjs.extend(customParseFormat);
 
@@ -73,21 +74,15 @@ export function JourneyFilterBar(props: React.HTMLProps<HTMLFormElement>) {
               />
             </Grid>
 
-            <Grid item xs={1}>
-              <Controller
-                name="activityCode"
-                control={control}
-                render={({ field }) => (
-                  <TextField fullWidth label="Atividade" {...field} />
-                )}
-              />
+            <Grid item xs={1.5}>
+              <AutocompleteActivity />
             </Grid>
 
             <Grid item xs={1.5}>
               <AutocompleteFleetGroup />
             </Grid>
 
-            <Grid item xs={2}>
+            <Grid item xs={1.5}>
               <AutocompleteLocationGroup />
             </Grid>
 
