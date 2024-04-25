@@ -14,7 +14,10 @@ dayjs.extend(customParseFormat);
 interface FormFields {
   startDate: Dayjs | null;
   endDate: Dayjs | null;
-  demand?: string;
+  demandAttrib?: string;
+  locationOrigCode?: string;
+  locationDestCode?: string;
+  demandAvailable?: string;
   activityCode?: string;
   nickName?: string;
   fleetGroupCode?: string;
@@ -33,7 +36,10 @@ const schema = z
   .object({
     startDate: dateOrDayjsSchema,
     endDate: dateOrDayjsSchema,
-    demand: z.string().optional(),
+    demandAttrib: z.string().optional(),
+    locationOrigCode: z.string().optional(),
+    locationDestCode: z.string().optional(),
+    demandAvailable: z.string().optional(),
     nickName: z.string().optional(),
     activityCode: z.string().optional(),
     fleetGroupCode: z.string().optional(),
@@ -74,7 +80,10 @@ export function useJourneyFilterBar() {
       endDate: params.get("endDate")
         ? dayjs(params.get("endDate"))
         : dayjs().add(7, "days"),
-      demand: params.get("demand") || "",
+      demandAttrib: params.get("demandAttrib") || "",
+      locationOrigCode: params.get("locationOrigCode") || "",
+      locationDestCode: params.get("locationDestCode") || "",
+      demandAvailable: params.get("demandAvailable") || "",
       activityCode: params.get("activityCode") || "",
       nickName: params.get("nickName") || "",
       fleetGroupCode: params.get("fleetGroupCode") || "",

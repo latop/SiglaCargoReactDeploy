@@ -14,9 +14,8 @@ export function TimelineTripsUnallocatedCard() {
   return (
     <Card
       sx={{
-        height: "calc(25% - 25px)",
+        height: "100%",
         overflow: "auto",
-        marginTop: "15px",
         position: "relative",
       }}
     >

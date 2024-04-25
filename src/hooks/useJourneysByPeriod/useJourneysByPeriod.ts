@@ -18,7 +18,10 @@ export const useJourneysByPeriod = (options?: SWRConfiguration) => {
     fleetGroupCode: params.get("fleetGroupCode"),
     locationGroupCode: params.get("locationGroupCode"),
     positionCode: params.get("positionCode"),
-    demand: params.get("demand"),
+    demandAttrib: params.get("demandAttrib"),
+    locationOrigCode: params.get("locationOrigCode"),
+    locationDestCode: params.get("locationDestCode"),
+    demandAvailable: params.get("demandAvailable"),
     activityCode: params.get("activityCode"),
   };
 

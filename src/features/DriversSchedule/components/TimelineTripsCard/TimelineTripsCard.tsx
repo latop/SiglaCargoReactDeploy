@@ -14,11 +14,11 @@ export function TimelineTripsCard() {
   return (
     <Card
       sx={{
-        height: "calc(75% - 10px)",
-        overflow: "auto",
         marginTop: "10px",
         position: "relative",
         width: "100%",
+        height: "100%",
+        overflow: "auto",
       }}
     >
       {isLoading && (

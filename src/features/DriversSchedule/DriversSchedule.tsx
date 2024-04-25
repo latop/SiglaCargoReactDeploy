@@ -18,9 +18,12 @@ import AddIcon from "@mui/icons-material/Add";
 import { TimelineTripsCard } from "./components/TimelineTripsCard";
 import { TimelineTripsUnallocatedCard } from "./components/TimelineTripsUnallocatedCard";
 import { ActivityDialog } from "@/components/ActivityDialog";
+import ExpandCircleDownIcon from "@mui/icons-material/ExpandCircleDown";
 
 export function DriversSchedule() {
   const [expanded, setExpanded] = React.useState(false);
+  const [showTimelineTripsUnallocated, setShowTimelineTripsUnallocated] =
+    React.useState(false);
   const [showActivityDialog, setShowActivityDialog] = React.useState(false);
   const [showJourneyDialog, setShowJourneyDialog] = React.useState(false);
 
@@ -121,12 +124,40 @@ export function DriversSchedule() {
                 </Box>
               </Box>
               <Box sx={{ height: "calc(100% - 60px)", width: "100%" }}>
-                <>
+                <Box
+                  sx={{
+                    height: `calc(${
+                      showTimelineTripsUnallocated ? "75%" : "100%"
+                    } - 40px)`,
+                  }}
+                >
                   <TimelineTripsCard key="TimelineTripsCard" />
-                </>
-                <>
-                  <TimelineTripsUnallocatedCard key="TimelineTripsUnallocatedCard" />
-                </>
+                </Box>
+                <Box
+                  display="flex"
+                  justifyContent="flex-end"
+                  margin="15px 0 5px"
+                >
+                  <IconButton
+                    onClick={() =>
+                      setShowTimelineTripsUnallocated((prev) => !prev)
+                    }
+                    sx={{ padding: 0 }}
+                  >
+                    <ExpandCircleDownIcon
+                      sx={{
+                        transform: showTimelineTripsUnallocated
+                          ? "rotate(0deg)"
+                          : "rotate(180deg)",
+                      }}
+                    />
+                  </IconButton>
+                </Box>
+                {showTimelineTripsUnallocated && (
+                  <Box sx={{ height: "calc(25% - 15px)" }}>
+                    <TimelineTripsUnallocatedCard key="TimelineTripsUnallocatedCard" />
+                  </Box>
+                )}
               </Box>
             </GianttTable>
           </GianttProvider>

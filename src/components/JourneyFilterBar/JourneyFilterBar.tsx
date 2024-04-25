@@ -13,6 +13,7 @@ import { AutocompletePosition } from "@/components/AutocompletePosition";
 import { useJourneyFilterBar } from "./useJourneyFilterBar";
 import "dayjs/locale/pt-br";
 import { AutocompleteActivity } from "../AutocompleteActivity";
+import SearchIcon from "@mui/icons-material/Search";
 
 dayjs.extend(customParseFormat);
 
@@ -27,8 +28,8 @@ export function JourneyFilterBar(props: React.HTMLProps<HTMLFormElement>) {
           <Grid
             container
             alignItems="flex-start"
-            spacing={1}
-            margin="10px 10px 10px"
+            justifyContent="space-between"
+            padding="20px 20px 0"
           >
             <Grid item xs={1.2}>
               <Controller
@@ -60,13 +61,13 @@ export function JourneyFilterBar(props: React.HTMLProps<HTMLFormElement>) {
               />
             </Grid>
 
-            <Grid item xs={1.5}>
+            <Grid item xs={1.1}>
               <AutocompleteDriver />
             </Grid>
 
-            <Grid item xs={1}>
+            <Grid item xs={1.1}>
               <Controller
-                name="demand"
+                name="demandAttrib"
                 control={control}
                 render={({ field }) => (
                   <TextField fullWidth label="Demanda" {...field} />
@@ -74,23 +75,43 @@ export function JourneyFilterBar(props: React.HTMLProps<HTMLFormElement>) {
               />
             </Grid>
 
-            <Grid item xs={1.5}>
+            <Grid item xs={1.1}>
+              <Controller
+                name="locationOrigCode"
+                control={control}
+                render={({ field }) => (
+                  <TextField fullWidth label="Origem" {...field} />
+                )}
+              />
+            </Grid>
+
+            <Grid item xs={1.1}>
+              <Controller
+                name="locationDestCode"
+                control={control}
+                render={({ field }) => (
+                  <TextField fullWidth label="Destino" {...field} />
+                )}
+              />
+            </Grid>
+
+            <Grid item xs={1.1}>
               <AutocompleteActivity />
             </Grid>
 
-            <Grid item xs={1.5}>
+            <Grid item xs={1.1}>
               <AutocompleteFleetGroup />
             </Grid>
 
-            <Grid item xs={1.5}>
+            <Grid item xs={1.1}>
               <AutocompleteLocationGroup />
             </Grid>
 
-            <Grid item xs={1.5}>
+            <Grid item xs={1.1}>
               <AutocompletePosition />
             </Grid>
 
-            <Grid item xs={0.9}>
+            <Grid item xs={0.5}>
               <Button
                 type="submit"
                 size="large"
@@ -98,7 +119,7 @@ export function JourneyFilterBar(props: React.HTMLProps<HTMLFormElement>) {
                 color="primary"
                 fullWidth
               >
-                Buscar
+                <SearchIcon />
               </Button>
             </Grid>
           </Grid>

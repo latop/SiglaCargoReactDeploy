@@ -116,7 +116,7 @@ export function TimelineTripsUnallocated() {
             <FilterListIcon
               fontSize="small"
               color={
-                searchParams.get("demand") === group.title
+                searchParams.get("demandAvailable") === group.title
                   ? "primary"
                   : "disabled"
               }

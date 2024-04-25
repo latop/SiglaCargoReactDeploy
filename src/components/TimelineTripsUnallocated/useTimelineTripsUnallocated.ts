@@ -135,12 +135,12 @@ export function useTimelineTripsUnallocated() {
     );
     if (!currentTrip) return;
 
-    if (currentTrip.sto === searchParams.get("demand")) {
-      const params = updateSearchParams({ demand: "" });
+    if (currentTrip.sto === searchParams.get("demandAvailable")) {
+      const params = updateSearchParams({ demandAvailable: "" });
       router.push(`/drivers-schedule?${params.toString()}`);
       return;
     }
-    const params = updateSearchParams({ demand: currentTrip.sto });
+    const params = updateSearchParams({ demandAvailable: currentTrip.sto });
     router.push(`/drivers-schedule?${params.toString()}`);
   };
 
