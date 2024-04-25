@@ -4,6 +4,7 @@ import { colors } from "@mui/material";
 export const TimelineItem = styled.div<{
   isCircuit: boolean;
   isStop: boolean;
+  selected: boolean;
 }>`
   color: #ffffff;
   background-color: transparent !important;
@@ -20,7 +21,12 @@ export const TimelineItem = styled.div<{
     if (props.isStop) return "-3px";
     return "0px";
   }};
-  z-index: ${(props) => props.isCircuit && 81} !important;
+  z-index: ${(props) => {
+    if (props.isCircuit) {
+      if (props.selected) return 100;
+      return 80;
+    }
+  }} !important;
 `;
 
 export const TimelineItemSubtitle = styled.div`

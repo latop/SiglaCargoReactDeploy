@@ -22,6 +22,7 @@ import "./Timeline.css";
 import { Trip } from "@/interfaces/schedule";
 
 export function TimelineTrips() {
+  const [selectedTrip, setSelectedTrip] = React.useState<string>("");
   const { trips, circuits } = useJourneysByPeriod();
   const {
     groups,
@@ -35,6 +36,34 @@ export function TimelineTrips() {
     handleLabelFormatHeader,
     handleCanvasClick,
   } = useTimelineTrips();
+
+  const handleItemSelect = (itemId: string) => {
+    let circuit;
+    if (itemId) {
+      circuit = circuits?.find((circuit) => circuit.ciruictCode === itemId)
+        ?.ciruictCode;
+    }
+    if (circuit) {
+      setSelectedTrip(String(itemId));
+    } else {
+      circuit = getCircuitByTripId(String(itemId));
+    }
+
+    if (circuit) {
+      setSelectedTrip(circuit);
+    }
+  };
+
+  const getCircuitByTripId = (tripId: string) => {
+    if (!circuits) return;
+    let circuitCode: string | undefined;
+    trips.forEach((trip: Trip) => {
+      if (trip.id === tripId) {
+        circuitCode = trip.circuitCode;
+      }
+    });
+    return circuitCode;
+  };
 
   const itemRenderer = ({
     itemContext,
@@ -88,6 +117,7 @@ export function TimelineTrips() {
       <TimelineItem
         {...itemProps}
         className="giantt-item"
+        data-id={itemContext.title}
         isStop={currentTrip?.tripType === "STOP"}
         isCircuit={isCircuit}
         title=""
@@ -135,11 +165,14 @@ export function TimelineTrips() {
       canMove
       canResize={false}
       canChangeGroup
+      onItemDeselect={() => setSelectedTrip("")}
+      onItemSelect={handleItemSelect}
       onItemMove={handleMoveItem}
       onCanvasClick={handleCanvasClick}
       minZoom={60 * 60 * 24}
       stackItems={false}
       maxZoom={604800000}
+      selected={[selectedTrip]}
       onTimeChange={handleTimeChange}
       visibleTimeStart={visibleTimeStart}
       itemRenderer={itemRenderer}
