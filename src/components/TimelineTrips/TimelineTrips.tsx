@@ -158,7 +158,7 @@ export function TimelineTrips() {
 
   return (
     <Timeline
-      lineHeight={55}
+      lineHeight={50}
       onItemDoubleClick={handleDoubleClick}
       groups={groups}
       items={items}

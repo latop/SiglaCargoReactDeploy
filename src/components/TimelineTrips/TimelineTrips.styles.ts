@@ -11,13 +11,13 @@ export const TimelineItem = styled.div<{
   border: 0 !important;
   display: flex;
   height: ${(props) => {
-    if (props.isCircuit) return "45px !important";
+    if (props.isCircuit) return "40px !important";
   }};
   flex-direction: column;
   justify-content: flex-end;
   gap: 2px;
   margin-top: ${(props) => {
-    if (props.isCircuit) return "-5px";
+    if (props.isCircuit) return "-3px";
     if (props.isStop) return "-3px";
     return "0px";
   }};
