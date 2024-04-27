@@ -136,7 +136,9 @@ export const DriverJourneyForm = ({
                   <InputAdornment position="end">
                     <Tooltip title="Buscar demanda" arrow>
                       <>
-                        {isLaodingDemand && <CircularProgress size={16} />}
+                        {isLaodingDemand && (
+                          <CircularProgress color="inherit" size={16} />
+                        )}
                         {!isLaodingDemand && (
                           <SearchIcon
                             fontSize="small"
@@ -350,7 +352,13 @@ export const DriverJourneyForm = ({
             {isTravel && (
               <Tooltip title="Adicionar retorno" arrow>
                 <IconButton size="small" onClick={handleAddReturnTravel}>
-                  {isLoadingReturn && <CircularProgress size={16} />}
+                  {isLoadingReturn && (
+                    <CircularProgress
+                      color="inherit"
+                      size={16}
+                      sx={{ marginLeft: "4px" }}
+                    />
+                  )}
                   {!isLoadingReturn && (
                     <Icon component={KeyboardReturnIcon} fontSize="small" />
                   )}
