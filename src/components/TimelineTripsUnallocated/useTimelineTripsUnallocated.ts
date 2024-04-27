@@ -131,7 +131,7 @@ export function useTimelineTripsUnallocated() {
 
   const handleGroupItemClick = (dailyTripId: string) => {
     const currentTrip = dailyTripsUnallocated?.find(
-      (trip: DailyTrip) => trip.dailyTripId === dailyTripId,
+      (trip: DailyTripUnallocated) => trip.dailyTripId === dailyTripId,
     );
     if (!currentTrip) return;
 

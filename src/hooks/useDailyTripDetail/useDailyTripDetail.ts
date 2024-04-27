@@ -10,7 +10,6 @@ export interface DailyTripDetailsParams {
 
 export const useDailyTripDetail = (options?: SWRConfiguration) => {
   const [params, setParams] = useState<DailyTripDetailsParams>({});
-  console.log("entroou", params);
 
   const { data, error, isLoading } = useSWR(
     params.demand || params.lineCode
