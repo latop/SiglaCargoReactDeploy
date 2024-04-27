@@ -3,11 +3,11 @@ import { SWRConfiguration } from "swr";
 import { useSearchParams } from "next/navigation";
 import useSWRInfinite from "swr/infinite";
 import { fetchDailyTripsUnallocated } from "@/services/schedule";
-import { DailyTrip } from "@/interfaces/schedule";
+import { DailyTripUnallocated } from "@/interfaces/schedule";
 import { useLocalStorage } from "../useLocalStorage";
 
 interface DailyTripResponse {
-  dailyTripsUnallocated: DailyTrip[];
+  dailyTripsUnallocated: DailyTripUnallocated[];
   hasNext: boolean;
   currentPage: number;
 }
@@ -46,7 +46,9 @@ export const useDailyTripsUnallocated = (options?: SWRConfiguration) => {
       ...options,
     });
 
-  const normalizeDailyTripsUnallocated = (currentData: DailyTrip) => ({
+  const normalizeDailyTripsUnallocated = (
+    currentData: DailyTripUnallocated,
+  ) => ({
     ...currentData,
     startPlanned: currentData?.sectionsUnallocated?.[0].startPlanned,
     endPlanned:

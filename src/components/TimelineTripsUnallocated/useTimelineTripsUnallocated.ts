@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { useGiantt } from "@/hooks/useGiantt";
-import { DailyTrip, DailyTripSection } from "@/interfaces/schedule";
+import { DailyTripUnallocated, DailyTripSection } from "@/interfaces/schedule";
 import { Unit } from "react-calendar-timeline";
 import dayjs from "dayjs";
 import { match } from "ts-pattern";
@@ -86,7 +86,7 @@ export function useTimelineTripsUnallocated() {
     const groupsMap = new Map();
     const itemsMap = new Map();
 
-    dailyTripsUnallocated?.forEach((trip: DailyTrip) => {
+    dailyTripsUnallocated?.forEach((trip: DailyTripUnallocated) => {
       if (!groupsMap.has(trip.dailyTripId)) {
         groupsMap.set(trip.dailyTripId, {
           id: trip.dailyTripId,

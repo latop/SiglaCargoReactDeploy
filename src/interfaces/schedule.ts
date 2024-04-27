@@ -105,7 +105,7 @@ export interface DailyTripSection {
   flgStatus: string;
 }
 
-export interface DailyTrip {
+export interface DailyTripUnallocated {
   dailyTripId: string;
   tripNumber: string;
   tripDate: string;
@@ -128,4 +128,19 @@ export interface DeparturesArrivals {
   truckFleetCode: string | null;
   nickName: string;
   direction: string;
+}
+
+export interface DailyTrip {
+  dailyTripId: string;
+  tripNumber: string;
+  tripDate: string;
+  fleetGroupCode: string | null;
+  lineCode: string;
+  flgStatus: string;
+  sto: string;
+  locationOrigCode: string;
+  locationDestCode: string;
+  startPlanned: string;
+  endPlanned: string;
+  sectionsReturn: DailyTripSection[];
 }

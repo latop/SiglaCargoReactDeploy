@@ -6,6 +6,7 @@ import {
   Box,
   IconButton,
   colors,
+  CircularProgress,
   Icon,
   InputAdornment,
 } from "@mui/material";
@@ -18,9 +19,12 @@ import SearchIcon from "@mui/icons-material/Search";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { AutocompleteActivity } from "../AutocompleteActivity";
-import ExpandCircleDownIcon from "@mui/icons-material/ExpandCircleDown";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardReturnIcon from "@mui/icons-material/KeyboardReturn";
 import "dayjs/locale/pt-br";
+import { useDailyTripDetail } from "@/hooks/useDailyTripDetail";
+import { DailyTrip } from "@/interfaces/schedule";
+import { useToast } from "@/hooks/useToast";
 dayjs.extend(customParseFormat);
 
 interface DriverJourneyFormProps {
@@ -32,14 +36,47 @@ export const DriverJourneyForm = ({
   onDelete,
   seq,
 }: DriverJourneyFormProps) => {
+  const { addToast } = useToast();
   const { control, getValues, setValue } = useFormContext();
+  const [fetchDailyTrip, { isLoading }] = useDailyTripDetail({
+    onSuccess: (data: DailyTrip) => {
+      if (data.sto) {
+        setValue(`tasksDriver.${seq}.demand`, data.sto);
+        setValue(`tasksDriver.${seq}.lineCode`, data.lineCode, {
+          shouldTouch: true,
+          shouldValidate: true,
+          shouldDirty: true,
+        });
+        setValue(`tasksDriver.${seq}.locOrig`, data.locationOrigCode);
+        setValue(`tasksDriver.${seq}.locDest`, data.locationDestCode);
+        setValue(`tasksDriver.${seq}.startPlanned`, data.startPlanned);
+        setValue(`tasksDriver.${seq}.endPlanned`, data.endPlanned);
+
+        addToast("Demanda encontrada com sucesso!", {
+          type: "success",
+        });
+      } else {
+        addToast("Demanda não encontrada.", {
+          type: "error",
+        });
+      }
+    },
+    onError: () => {
+      addToast("Demanda não encontrada.", {
+        type: "error",
+      });
+    },
+  });
 
   const isTravel = getValues(`tasksDriver.${seq}.type`) === "V";
   const isActivity = getValues(`tasksDriver.${seq}.type`) === "A";
 
-  const handleSearchClick = () => {
-    const lineCode = getValues(`tasksDriver.${seq}.lineCode`);
-    console.log("Line code", lineCode);
+  const handleSearchClick = (demand: string) => {
+    if (demand) {
+      fetchDailyTrip({
+        demand,
+      });
+    }
   };
 
   const renderTravelFields = () => (
@@ -57,11 +94,16 @@ export const DriverJourneyForm = ({
                 endAdornment: (
                   <InputAdornment position="end">
                     <Tooltip title="Buscar demanda" arrow>
-                      <SearchIcon
-                        fontSize="small"
-                        onClick={handleSearchClick}
-                        style={{ cursor: "pointer" }}
-                      />
+                      <>
+                        {isLoading && <CircularProgress size={16} />}
+                        {!isLoading && (
+                          <SearchIcon
+                            fontSize="small"
+                            onClick={() => handleSearchClick(field.value)}
+                            style={{ cursor: "pointer" }}
+                          />
+                        )}
+                      </>
                     </Tooltip>
                   </InputAdornment>
                 ),
@@ -75,7 +117,12 @@ export const DriverJourneyForm = ({
           name={`tasksDriver.${seq}.lineCode`}
           control={control}
           render={({ field }) => (
-            <TextField {...field} label="Cód. Rota" fullWidth />
+            <TextField
+              {...field}
+              label="Cód. Rota"
+              InputLabelProps={{ shrink: !!field.value }}
+              fullWidth
+            />
           )}
         />
       </Grid>
@@ -84,7 +131,12 @@ export const DriverJourneyForm = ({
           name={`tasksDriver.${seq}.locOrig`}
           control={control}
           render={({ field }) => (
-            <TextField {...field} label="Origem" fullWidth />
+            <TextField
+              {...field}
+              label="Origem"
+              fullWidth
+              InputLabelProps={{ shrink: !!field.value }}
+            />
           )}
         />
       </Grid>
@@ -93,7 +145,12 @@ export const DriverJourneyForm = ({
           name={`tasksDriver.${seq}.locDest`}
           control={control}
           render={({ field }) => (
-            <TextField {...field} label="Destino" fullWidth />
+            <TextField
+              {...field}
+              label="Destino"
+              fullWidth
+              InputLabelProps={{ shrink: !!field.value }}
+            />
           )}
         />
       </Grid>
@@ -163,7 +220,7 @@ export const DriverJourneyForm = ({
 
   const renderActivityFields = () => (
     <Grid container spacing={1}>
-      <Grid item xs={1.6}>
+      <Grid item xs={1.7}>
         <AutocompleteActivity
           name={`tasksDriver.${seq}.activityCode`}
           onChange={(activity) => {
@@ -172,7 +229,7 @@ export const DriverJourneyForm = ({
           }}
         />
       </Grid>
-      <Grid item xs={1.6}>
+      <Grid item xs={1.7}>
         <Controller
           name={`tasksDriver.${seq}.startPlanned`}
           control={control}
@@ -264,7 +321,11 @@ export const DriverJourneyForm = ({
             {isTravel && (
               <Tooltip title="Mostrar detalhes" arrow>
                 <IconButton size="small" onClick={handleShowDemandDetails}>
-                  <Icon component={ExpandCircleDownIcon} fontSize="small" />
+                  <Icon
+                    component={KeyboardArrowDownIcon}
+                    // color="primary"
+                    fontSize="small"
+                  />
                 </IconButton>
               </Tooltip>
             )}

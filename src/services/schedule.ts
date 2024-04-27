@@ -95,3 +95,26 @@ export async function fetchDeparturesArrivals({
     return error;
   }
 }
+
+export type FetchDailyTripDetailParams = {
+  demand?: string;
+  lineCode?: string;
+  isReturn?: boolean;
+};
+
+export async function fetchDailyTripDetail({
+  args: params,
+}: {
+  args: FetchDailyTripDetailParams;
+}) {
+  try {
+    const response = await axios.get(`/gantt/GetDailyTripDetail`, {
+      params,
+    });
+    const data = response.data;
+    return data;
+  } catch (error) {
+    console.error(error);
+    return error;
+  }
+}
