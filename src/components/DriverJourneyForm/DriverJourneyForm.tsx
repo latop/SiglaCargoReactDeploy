@@ -38,34 +38,63 @@ export const DriverJourneyForm = ({
 }: DriverJourneyFormProps) => {
   const { addToast } = useToast();
   const { control, getValues, setValue } = useFormContext();
-  const [fetchDailyTrip, { isLoading }] = useDailyTripDetail({
-    onSuccess: (data: DailyTrip) => {
-      if (data.sto) {
-        setValue(`tasksDriver.${seq}.demand`, data.sto);
-        setValue(`tasksDriver.${seq}.lineCode`, data.lineCode, {
-          shouldTouch: true,
-          shouldValidate: true,
-          shouldDirty: true,
-        });
-        setValue(`tasksDriver.${seq}.locOrig`, data.locationOrigCode);
-        setValue(`tasksDriver.${seq}.locDest`, data.locationDestCode);
-        setValue(`tasksDriver.${seq}.startPlanned`, data.startPlanned);
-        setValue(`tasksDriver.${seq}.endPlanned`, data.endPlanned);
 
-        addToast("Demanda encontrada com sucesso!", {
-          type: "success",
-        });
-      } else {
-        addToast("Demanda não encontrada.", {
-          type: "error",
-        });
-      }
-    },
-    onError: () => {
+  const handleSuccessDemand = (data: DailyTrip) => {
+    if (data.sto) {
+      setValue(`tasksDriver.${seq}.demand`, data.sto);
+      setValue(`tasksDriver.${seq}.lineCode`, data.lineCode);
+      setValue(`tasksDriver.${seq}.locOrig`, data.locationOrigCode);
+      setValue(`tasksDriver.${seq}.locDest`, data.locationDestCode);
+      setValue(`tasksDriver.${seq}.startPlanned`, data.startPlanned);
+      setValue(`tasksDriver.${seq}.endPlanned`, data.endPlanned);
+
+      addToast("Demanda encontrada com sucesso!", {
+        type: "success",
+      });
+    } else {
       addToast("Demanda não encontrada.", {
         type: "error",
       });
-    },
+    }
+  };
+
+  const handleSuccessReturn = (data: DailyTrip) => {
+    if (data.lineCode) {
+      const tasksDriver = getValues("tasksDriver");
+      tasksDriver.push({
+        seq: tasksDriver.length + 1,
+        type: "V",
+        demand: data.sto,
+        locOrig: data.locationOrigCode,
+        locDest: data.locationDestCode,
+        lineCode: data.lineCode,
+        startPlanned: data.startPlanned,
+        endPlanned: data.endPlanned,
+        startActual: null,
+        endActual: null,
+      });
+
+      setValue("tasksDriver", tasksDriver);
+
+      addToast("Retorno adicionado com sucesso!", {
+        type: "success",
+      });
+    } else {
+      addToast(
+        "Não foi possível adicionar o retorno, por favor, insira manualmente.",
+        {
+          type: "error",
+        },
+      );
+    }
+  };
+
+  const [fetchDailyTrip, { isLoading: isLaodingDemand }] = useDailyTripDetail({
+    onSuccess: handleSuccessDemand,
+  });
+
+  const [fetchReturn, { isLoading: isLoadingReturn }] = useDailyTripDetail({
+    onSuccess: handleSuccessReturn,
   });
 
   const isTravel = getValues(`tasksDriver.${seq}.type`) === "V";
@@ -77,6 +106,18 @@ export const DriverJourneyForm = ({
         demand,
       });
     }
+  };
+
+  const handleAddReturnTravel = () => {
+    fetchReturn({
+      lineCode: getValues(`tasksDriver.${seq}.lineCode`),
+      isReturn: true,
+    });
+  };
+
+  const handleShowDemandDetails = () => {
+    const demand = getValues(`tasksDriver.${seq}.demand`);
+    console.log("Demand", demand);
   };
 
   const renderTravelFields = () => (
@@ -95,8 +136,8 @@ export const DriverJourneyForm = ({
                   <InputAdornment position="end">
                     <Tooltip title="Buscar demanda" arrow>
                       <>
-                        {isLoading && <CircularProgress size={16} />}
-                        {!isLoading && (
+                        {isLaodingDemand && <CircularProgress size={16} />}
+                        {!isLaodingDemand && (
                           <SearchIcon
                             fontSize="small"
                             onClick={() => handleSearchClick(field.value)}
@@ -292,11 +333,6 @@ export const DriverJourneyForm = ({
     </Grid>
   );
 
-  const handleShowDemandDetails = () => {
-    const demand = getValues(`tasksDriver.${seq}.demand`);
-    console.log("Demand", demand);
-  };
-
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
       <Box
@@ -313,19 +349,18 @@ export const DriverJourneyForm = ({
           <Box display="flex" gap="0" alignItems="center">
             {isTravel && (
               <Tooltip title="Adicionar retorno" arrow>
-                <IconButton size="small" onClick={handleShowDemandDetails}>
-                  <Icon component={KeyboardReturnIcon} fontSize="small" />
+                <IconButton size="small" onClick={handleAddReturnTravel}>
+                  {isLoadingReturn && <CircularProgress size={16} />}
+                  {!isLoadingReturn && (
+                    <Icon component={KeyboardReturnIcon} fontSize="small" />
+                  )}
                 </IconButton>
               </Tooltip>
             )}
             {isTravel && (
               <Tooltip title="Mostrar detalhes" arrow>
                 <IconButton size="small" onClick={handleShowDemandDetails}>
-                  <Icon
-                    component={KeyboardArrowDownIcon}
-                    // color="primary"
-                    fontSize="small"
-                  />
+                  <Icon component={KeyboardArrowDownIcon} fontSize="small" />
                 </IconButton>
               </Tooltip>
             )}

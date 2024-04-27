@@ -20,6 +20,10 @@ export const useDailyTripDetail = (options?: SWRConfiguration) => {
       revalidateOnFocus: false,
       revalidateOnReconnect: false,
       ...options,
+      onSuccess: (...args) => {
+        setParams({});
+        options?.onSuccess?.(...args);
+      },
     },
   );
 
