@@ -136,7 +136,7 @@ export function TimelineTrips() {
               </TimelineItemDestination>
             </TimelineItemSubtitle>
           )}
-        <Tooltip title={currentTrip?.code}>
+        <Tooltip title={currentTrip?.code} arrow>
           <TimelineItemTitle
             isCircuit={!!isCircuit}
             isStop={currentTrip?.tripType === "STOP"}

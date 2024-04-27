@@ -4,6 +4,7 @@ import { useSearchParams } from "next/navigation";
 import useSWRInfinite from "swr/infinite";
 import { fetchDailyTripsUnallocated } from "@/services/schedule";
 import { DailyTrip } from "@/interfaces/schedule";
+import { useLocalStorage } from "../useLocalStorage";
 
 interface DailyTripResponse {
   dailyTripsUnallocated: DailyTrip[];
@@ -13,6 +14,9 @@ interface DailyTripResponse {
 
 export const useDailyTripsUnallocated = (options?: SWRConfiguration) => {
   const searchParams = useSearchParams();
+  const [showTimelineTripsUnallocated] = useLocalStorage(
+    "showTimelineTripsUnallocated",
+  );
 
   const params = {
     startDate: searchParams.get("startDate")
@@ -24,6 +28,7 @@ export const useDailyTripsUnallocated = (options?: SWRConfiguration) => {
   };
 
   const getKey = (pageIndex: number, previousPageData: DailyTripResponse) => {
+    if (!showTimelineTripsUnallocated) return null;
     if (!Object.values(params).some(Boolean)) return null;
     if (previousPageData && !previousPageData.hasNext) return null;
     return {

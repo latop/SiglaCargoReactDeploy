@@ -19,11 +19,12 @@ import { TimelineTripsCard } from "./components/TimelineTripsCard";
 import { TimelineTripsUnallocatedCard } from "./components/TimelineTripsUnallocatedCard";
 import { ActivityDialog } from "@/components/ActivityDialog";
 import ExpandCircleDownIcon from "@mui/icons-material/ExpandCircleDown";
+import { useLocalStorage } from "@/hooks/useLocalStorage";
 
 export function DriversSchedule() {
   const [expanded, setExpanded] = React.useState(false);
   const [showTimelineTripsUnallocated, setShowTimelineTripsUnallocated] =
-    React.useState(false);
+    useLocalStorage("showTimelineTripsUnallocated", false);
   const [showActivityDialog, setShowActivityDialog] = React.useState(false);
   const [showJourneyDialog, setShowJourneyDialog] = React.useState(false);
 

@@ -1,14 +1,26 @@
 import React from "react";
 import { useFormContext, Controller } from "react-hook-form";
-import { TextField, Grid, Box, IconButton, colors, Icon } from "@mui/material";
+import {
+  TextField,
+  Grid,
+  Box,
+  IconButton,
+  colors,
+  Icon,
+  InputAdornment,
+} from "@mui/material";
+import Tooltip from "@mui/material/Tooltip";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DateTimePicker } from "@/components/DatePicker";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
+import SearchIcon from "@mui/icons-material/Search";
 import customParseFormat from "dayjs/plugin/customParseFormat";
-import "dayjs/locale/pt-br";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { AutocompleteActivity } from "../AutocompleteActivity";
+import ExpandCircleDownIcon from "@mui/icons-material/ExpandCircleDown";
+import KeyboardReturnIcon from "@mui/icons-material/KeyboardReturn";
+import "dayjs/locale/pt-br";
 dayjs.extend(customParseFormat);
 
 interface DriverJourneyFormProps {
@@ -25,18 +37,38 @@ export const DriverJourneyForm = ({
   const isTravel = getValues(`tasksDriver.${seq}.type`) === "V";
   const isActivity = getValues(`tasksDriver.${seq}.type`) === "A";
 
+  const handleSearchClick = () => {
+    const lineCode = getValues(`tasksDriver.${seq}.lineCode`);
+    console.log("Line code", lineCode);
+  };
+
   const renderTravelFields = () => (
     <Grid container spacing={1}>
-      <Grid item xs={1.6}>
+      <Grid item xs={1.5}>
         <Controller
           name={`tasksDriver.${seq}.demand`}
           control={control}
           render={({ field }) => (
-            <TextField {...field} label="Demanda" fullWidth />
+            <TextField
+              {...field}
+              label="Demanda"
+              fullWidth
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <SearchIcon
+                      fontSize="small"
+                      onClick={handleSearchClick}
+                      style={{ cursor: "pointer" }}
+                    />
+                  </InputAdornment>
+                ),
+              }}
+            />
           )}
         />
       </Grid>
-      <Grid item xs={1.6}>
+      <Grid item xs={1.5}>
         <Controller
           name={`tasksDriver.${seq}.lineCode`}
           control={control}
@@ -63,7 +95,7 @@ export const DriverJourneyForm = ({
           )}
         />
       </Grid>
-      <Grid item xs={1.6}>
+      <Grid item xs={1.7}>
         <Controller
           name={`tasksDriver.${seq}.startPlanned`}
           control={control}
@@ -78,7 +110,7 @@ export const DriverJourneyForm = ({
           )}
         />
       </Grid>
-      <Grid item xs={1.6}>
+      <Grid item xs={1.7}>
         <Controller
           name={`tasksDriver.${seq}.endPlanned`}
           control={control}
@@ -201,6 +233,11 @@ export const DriverJourneyForm = ({
     </Grid>
   );
 
+  const handleShowDemandDetails = () => {
+    const demand = getValues(`tasksDriver.${seq}.demand`);
+    console.log("Demand", demand);
+  };
+
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
       <Box
@@ -214,9 +251,23 @@ export const DriverJourneyForm = ({
         <Box display="flex" gap="10px" alignItems="center">
           {isTravel && renderTravelFields()}
           {isActivity && renderActivityFields()}
-          <IconButton size="medium" onClick={onDelete} sx={{ padding: 0 }}>
-            <Icon component={DeleteIcon} fontSize="medium" />
-          </IconButton>
+          <Box display="flex" gap="0" alignItems="center">
+            <IconButton size="small" onClick={handleShowDemandDetails}>
+              <Tooltip title="Adicionar retorno" arrow>
+                <Icon component={KeyboardReturnIcon} fontSize="small" />
+              </Tooltip>
+            </IconButton>
+            <IconButton size="small" onClick={handleShowDemandDetails}>
+              <Tooltip title="Mostrar detalhes" arrow>
+                <Icon component={ExpandCircleDownIcon} fontSize="small" />
+              </Tooltip>
+            </IconButton>
+            <IconButton size="small" onClick={onDelete}>
+              <Tooltip title="Remover viagem" arrow>
+                <Icon component={DeleteIcon} fontSize="small" />
+              </Tooltip>
+            </IconButton>
+          </Box>
         </Box>
       </Box>
     </LocalizationProvider>

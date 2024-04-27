@@ -35,7 +35,7 @@ export const JourneyForm = () => {
   const handleDeleteDriverSchedule = (index: number) => {
     tasksDriver.splice(index, 1);
     setValue("tasksDriver", tasksDriver);
-    addToast("Jornada removida com sucesso");
+    addToast("Viagem removida com sucesso");
   };
 
   const countJourneys = tasksDriver?.length;
