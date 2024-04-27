@@ -254,21 +254,21 @@ export const DriverJourneyForm = ({
           {isTravel && renderTravelFields()}
           {isActivity && renderActivityFields()}
           <Box display="flex" gap="0" alignItems="center">
-            <IconButton size="small" onClick={handleShowDemandDetails}>
-              <Tooltip title="Adicionar retorno" arrow>
+            <Tooltip title="Adicionar retorno" arrow>
+              <IconButton size="small" onClick={handleShowDemandDetails}>
                 <Icon component={KeyboardReturnIcon} fontSize="small" />
-              </Tooltip>
-            </IconButton>
-            <IconButton size="small" onClick={handleShowDemandDetails}>
-              <Tooltip title="Mostrar detalhes" arrow>
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Mostrar detalhes" arrow>
+              <IconButton size="small" onClick={handleShowDemandDetails}>
                 <Icon component={ExpandCircleDownIcon} fontSize="small" />
-              </Tooltip>
-            </IconButton>
-            <IconButton size="small" onClick={onDelete}>
-              <Tooltip title="Remover viagem" arrow>
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Remover viagem" arrow>
+              <IconButton size="small" onClick={onDelete}>
                 <Icon component={DeleteIcon} fontSize="small" />
-              </Tooltip>
-            </IconButton>
+              </IconButton>
+            </Tooltip>
           </Box>
         </Box>
       </Box>
