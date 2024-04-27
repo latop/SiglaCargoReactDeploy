@@ -95,7 +95,7 @@ export function useJourneyFilterBar() {
   const onSubmit = (data: FormFields) => {
     const query = new URLSearchParams();
     Object.entries(data).forEach(([key, value]) => {
-      if (dayjs(value).isValid()) {
+      if (value?.isValid?.()) {
         query.append(key, dayjs(value).format("MM-DD-YYYY"));
       } else if (value) {
         query.append(key, value);
