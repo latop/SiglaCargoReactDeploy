@@ -56,11 +56,13 @@ export const DriverJourneyForm = ({
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
-                    <SearchIcon
-                      fontSize="small"
-                      onClick={handleSearchClick}
-                      style={{ cursor: "pointer" }}
-                    />
+                    <Tooltip title="Buscar demanda" arrow>
+                      <SearchIcon
+                        fontSize="small"
+                        onClick={handleSearchClick}
+                        style={{ cursor: "pointer" }}
+                      />
+                    </Tooltip>
                   </InputAdornment>
                 ),
               }}
