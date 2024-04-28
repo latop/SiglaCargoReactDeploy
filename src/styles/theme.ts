@@ -163,6 +163,34 @@ const theme = createTheme({
         },
       },
     },
+    MuiTimeline: {
+      styleOverrides: {
+        root: {
+          padding: 0,
+        },
+      },
+    },
+    MuiTimelineDot: {
+      styleOverrides: {
+        root: {
+          padding: "2px",
+        },
+      },
+    },
+    MuiTimelineConnector: {
+      styleOverrides: {
+        root: {
+          width: "1px",
+        },
+      },
+    },
+    MuiTimelineItem: {
+      styleOverrides: {
+        root: {
+          minHeight: "55px",
+        },
+      },
+    },
   },
 });
 

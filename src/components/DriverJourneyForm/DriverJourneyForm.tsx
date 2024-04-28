@@ -27,6 +27,7 @@ import { useDailyTripDetail } from "@/hooks/useDailyTripDetail";
 import { DailyTrip, TaskDriver } from "@/interfaces/schedule";
 import { useToast } from "@/hooks/useToast";
 import { SectionsReturnForm } from "@/components/SectionsReturnForm";
+import SectinReturnTimeline from "../SectionReturnTimeline/SectionReturnTimeline";
 dayjs.extend(customParseFormat);
 
 interface DriverJourneyFormProps {
@@ -130,6 +131,7 @@ export const DriverJourneyForm = ({
 
   const handleShowDemandDetails = () => {
     if (!showDemandDetails) {
+      console.log("entroou");
       fetchDemandSections({
         demand: getValues(`tasksDriver.${seq}.demand`),
       });
@@ -417,10 +419,26 @@ export const DriverJourneyForm = ({
           </Box>
         </Box>
         {showDemandDetails && (
-          <Box display="flex" flexDirection="column" gap="15px" mt="10px">
-            {sectionsReturn?.map((section: TaskDriver, index: number) => (
-              <SectionsReturnForm key={index} seq={index} taskDriverSeq={seq} />
-            ))}
+          <Box display="flex" alignItems="center" sx={{ position: "relative" }}>
+            <SectinReturnTimeline
+              size={sectionsReturn.length}
+              sx={{
+                position: "absolute",
+                top: 0,
+                left: "-30px",
+                zIndex: 2,
+                marginTop: "20px",
+              }}
+            />
+            <Box display="flex" flexDirection="column" gap="15px" mt="10px">
+              {sectionsReturn?.map((section: TaskDriver, index: number) => (
+                <SectionsReturnForm
+                  seq={index}
+                  taskDriverSeq={seq}
+                  key={index}
+                />
+              ))}
+            </Box>
             {!sectionsReturn?.length && (
               <Box display="flex" alignItems="center">
                 <Typography variant="body2" color={colors.grey[700]}>

@@ -1,6 +1,6 @@
 import React from "react";
 import { Controller, useFormContext } from "react-hook-form";
-import { TextField, Divider, Grid, Chip } from "@mui/material";
+import { TextField, Grid } from "@mui/material";
 import { DateTimePicker } from "@/components/DatePicker";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
@@ -26,20 +26,22 @@ export const SectionsReturnForm = ({
       justifyContent="flex-end"
       alignItems="center"
     >
-      <Grid item xs={1.4} display="flex" alignItems="center" gap="5px">
-        <Chip label={seq + 1} size="small" />
-        <Divider orientation="horizontal" sx={{ width: "80%" }} />
-      </Grid>
-      <Grid item xs={1}>
+      <Grid item xs={1.5}>
         <Controller
           name={`${taskDriver}.sectionsReturn.${seq}.licensePlate`}
           control={control}
           render={({ field }) => (
-            <TextField disabled {...field} label="Placa" fullWidth />
+            <TextField
+              disabled
+              {...field}
+              label="Placa"
+              fullWidth
+              InputLabelProps={{ shrink: true }}
+            />
           )}
         />
       </Grid>
-      <Grid item xs={1.5}>
+      <Grid item xs={2}>
         <Controller
           name={`${taskDriver}.sectionsReturn.${seq}.locOrig`}
           control={control}
@@ -49,12 +51,12 @@ export const SectionsReturnForm = ({
               {...field}
               label="Origem"
               fullWidth
-              InputLabelProps={{ shrink: !!field.value }}
+              InputLabelProps={{ shrink: true }}
             />
           )}
         />
       </Grid>
-      <Grid item xs={1.5}>
+      <Grid item xs={1.7}>
         <Controller
           name={`${taskDriver}.sectionsReturn.${seq}.locDest`}
           control={control}
@@ -64,7 +66,7 @@ export const SectionsReturnForm = ({
               {...field}
               label="Destino"
               fullWidth
-              InputLabelProps={{ shrink: !!field.value }}
+              InputLabelProps={{ shrink: true }}
             />
           )}
         />
@@ -117,6 +119,7 @@ export const SectionsReturnForm = ({
               {...field}
               value={field.value ? dayjs(field.value) : null}
               onChange={(date) => field.onChange(date?.format())}
+              slotProps={{ textField: { InputLabelProps: { shrink: true } } }}
             />
           )}
         />
@@ -134,6 +137,7 @@ export const SectionsReturnForm = ({
               {...field}
               value={field.value ? dayjs(field.value) : null}
               onChange={(date) => field.onChange(date?.format())}
+              slotProps={{ textField: { InputLabelProps: { shrink: true } } }}
             />
           )}
         />
