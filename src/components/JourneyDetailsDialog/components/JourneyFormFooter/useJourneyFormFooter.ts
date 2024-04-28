@@ -16,6 +16,7 @@ export function useJourneyFormFooter() {
       endPlanned: null,
       startActual: null,
       endActual: null,
+      sectionsReturn: [],
     });
     setValue("tasksDriver", tasksDriver);
   };

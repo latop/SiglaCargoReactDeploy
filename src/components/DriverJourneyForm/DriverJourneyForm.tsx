@@ -23,8 +23,9 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardReturnIcon from "@mui/icons-material/KeyboardReturn";
 import "dayjs/locale/pt-br";
 import { useDailyTripDetail } from "@/hooks/useDailyTripDetail";
-import { DailyTrip } from "@/interfaces/schedule";
+import { DailyTrip, TaskDriver } from "@/interfaces/schedule";
 import { useToast } from "@/hooks/useToast";
+import { SectionsReturnForm } from "@/components/SectionsReturnForm";
 dayjs.extend(customParseFormat);
 
 interface DriverJourneyFormProps {
@@ -36,8 +37,9 @@ export const DriverJourneyForm = ({
   onDelete,
   seq,
 }: DriverJourneyFormProps) => {
+  const [showDemandDetails, setShowDemandDetails] = React.useState(false);
   const { addToast } = useToast();
-  const { control, getValues, setValue } = useFormContext();
+  const { control, getValues, setValue, watch } = useFormContext();
 
   const handleSuccessDemand = (data: DailyTrip) => {
     if (data.sto) {
@@ -89,6 +91,11 @@ export const DriverJourneyForm = ({
     }
   };
 
+  const handleSuccessDemandSections = (data: DailyTrip) => {
+    setValue(`tasksDriver.${seq}.sectionsReturn`, data.sectionsReturn);
+    setShowDemandDetails(true);
+  };
+
   const [fetchDailyTrip, { isLoading: isLaodingDemand }] = useDailyTripDetail({
     onSuccess: handleSuccessDemand,
   });
@@ -96,6 +103,11 @@ export const DriverJourneyForm = ({
   const [fetchReturn, { isLoading: isLoadingReturn }] = useDailyTripDetail({
     onSuccess: handleSuccessReturn,
   });
+
+  const [fetchDemandSections, { isLoading: isLoadingDemandSections }] =
+    useDailyTripDetail({
+      onSuccess: handleSuccessDemandSections,
+    });
 
   const isTravel = getValues(`tasksDriver.${seq}.type`) === "V";
   const isActivity = getValues(`tasksDriver.${seq}.type`) === "A";
@@ -116,8 +128,13 @@ export const DriverJourneyForm = ({
   };
 
   const handleShowDemandDetails = () => {
-    const demand = getValues(`tasksDriver.${seq}.demand`);
-    console.log("Demand", demand);
+    if (!showDemandDetails) {
+      fetchDemandSections({
+        demand: getValues(`tasksDriver.${seq}.demand`),
+      });
+    } else {
+      setShowDemandDetails(false);
+    }
   };
 
   const renderTravelFields = () => (
@@ -335,6 +352,7 @@ export const DriverJourneyForm = ({
     </Grid>
   );
 
+  const sectionsReturn = watch(`tasksDriver.${seq}.sectionsReturn`);
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
       <Box
@@ -368,7 +386,25 @@ export const DriverJourneyForm = ({
             {isTravel && (
               <Tooltip title="Mostrar detalhes" arrow>
                 <IconButton size="small" onClick={handleShowDemandDetails}>
-                  <Icon component={KeyboardArrowDownIcon} fontSize="small" />
+                  {isLoadingDemandSections && (
+                    <CircularProgress
+                      color="inherit"
+                      size={16}
+                      sx={{ marginLeft: "4px" }}
+                    />
+                  )}
+                  {!isLoadingDemandSections && (
+                    <Icon
+                      component={KeyboardArrowDownIcon}
+                      fontSize="small"
+                      sx={{
+                        transition: "0.1s all ease-in-out",
+                        transform: showDemandDetails
+                          ? "rotate(180deg)"
+                          : "rotate(0deg)",
+                      }}
+                    />
+                  )}
                 </IconButton>
               </Tooltip>
             )}
@@ -379,6 +415,13 @@ export const DriverJourneyForm = ({
             </Tooltip>
           </Box>
         </Box>
+        {showDemandDetails && (
+          <Box display="flex" flexDirection="column" gap="15px" mt="10px">
+            {sectionsReturn.map((section: TaskDriver, index: number) => (
+              <SectionsReturnForm key={index} seq={index} taskDriverSeq={seq} />
+            ))}
+          </Box>
+        )}
       </Box>
     </LocalizationProvider>
   );

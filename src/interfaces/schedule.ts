@@ -33,6 +33,7 @@ export interface TaskDriver {
   lineId?: string;
   startActual?: string;
   endActual?: string;
+  sectionsReturn?: DailyTripSection[];
 }
 
 export interface Circuit {
@@ -73,7 +74,7 @@ export interface CircuitJourney {
   driverBase?: string;
   driverSubBase?: string;
   fleetCode?: string;
-  startDate?: string; // Assuming date comes in string format
+  startDate?: string;
   endDate?: string;
   otmProcess?: string;
   tasksDriver: TaskDriver[] | null;

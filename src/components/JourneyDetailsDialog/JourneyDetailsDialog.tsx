@@ -28,12 +28,14 @@ const normalizeData = (data: CircuitJourney) => {
     startDate: data.startDate ? dayjs(data.startDate).format() : undefined,
     endDate: data.endDate ? dayjs(data.endDate).format() : undefined,
     otmProcess: data.otmProcess || "",
+    sectionsReturn: [],
     tasksDriver:
       data.tasksDriver && data.tasksDriver.length > 0
         ? data.tasksDriver.map((taskDriver: TaskDriver) => ({
             seq: taskDriver.seq,
             demand: taskDriver.demand || null,
             lineCode: taskDriver.lineCode || null,
+            sectionsReturn: taskDriver.activityCode ? null : [],
             type: taskDriver.type || (taskDriver.activityCode ? "A" : "V"),
             activityId: taskDriver.activityId || null,
             activityCode: taskDriver.activityCode || null,
