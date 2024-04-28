@@ -84,7 +84,7 @@ export const DriverJourneyForm = ({
       });
     } else {
       addToast(
-        "Não foi possível adicionar o retorno, por favor, insira manualmente.",
+        "Não foi possível adicionar o retorno. Por favor, insira manualmente.",
         {
           type: "error",
         },

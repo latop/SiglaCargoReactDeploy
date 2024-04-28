@@ -77,7 +77,7 @@ export interface CircuitJourney {
   startDate?: string;
   endDate?: string;
   otmProcess?: string;
-  tasksDriver: TaskDriver[] | null;
+  tasksDriver?: TaskDriver[] | null;
 }
 
 export interface ActivityRequest {

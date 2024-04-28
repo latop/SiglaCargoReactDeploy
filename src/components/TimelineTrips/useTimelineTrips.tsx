@@ -165,6 +165,27 @@ export function useTimelineTrips() {
     };
   }, [trips, circuits, drivers]);
 
+  const handleConfirmMoveItem = (newCircuit: Circuit, itemId: string) => {
+    updateCircuit(newCircuit);
+    const newCircuitJourney: CircuitJourney = {
+      ciruictCode: itemId,
+      driverId: newCircuit.driverId,
+      nickName: newCircuit.driverName || "",
+      startDate: newCircuit.startDate,
+      endDate: newCircuit.endDate,
+    };
+
+    createCircuit(newCircuitJourney, {
+      onSuccess: () => {
+        addToast("Viagem movida com sucesso.", { type: "success" });
+        refetchJourneys();
+      },
+      onError: () => {
+        addToast("Erro ao mover viagem.", { type: "error" });
+      },
+    });
+  };
+
   const handleMoveItem = (
     itemId: string,
     dragTime: number,
@@ -196,7 +217,7 @@ export function useTimelineTrips() {
         .add(difference, "millisecond")
         .format("YYYY-MM-DDTHH:mm:ss");
 
-      let newCircuit;
+      let newCircuit: Circuit;
 
       if (newDriver?.driverId === currentCircuit.driverId) {
         newCircuit = {
@@ -205,7 +226,9 @@ export function useTimelineTrips() {
           startDate: newStartDate,
           endDate: newEndDate,
         };
-        updateCircuit(newCircuit);
+        handleConfirmMove({
+          onConfirm: () => handleConfirmMoveItem(newCircuit, itemId),
+        });
       } else if (newDriver && newDriver?.driverId !== currentCircuit.driverId) {
         newCircuit = {
           ...currentCircuit,
@@ -213,28 +236,8 @@ export function useTimelineTrips() {
           driverId: newDriver.driverId,
           driverName: newDriver.driverName,
         };
-        updateCircuit(newCircuit);
-      }
-
-      if (newCircuit) {
-        // eslint-disable-next-line
-        // @ts-ignore next line
-        const newCircuitJourney: CircuitJourney = {
-          ciruictCode: itemId,
-          driverId: newCircuit.driverId,
-          nickName: newCircuit.driverName || "",
-          startDate: newCircuit.startDate,
-          endDate: newCircuit.endDate,
-        };
-
-        createCircuit(newCircuitJourney, {
-          onSuccess: () => {
-            addToast("Viagem movida com sucesso.", { type: "success" });
-            refetchJourneys();
-          },
-          onError: () => {
-            addToast("Erro ao mover viagem.", { type: "error" });
-          },
+        handleConfirmMove({
+          onConfirm: () => handleConfirmMoveItem(newCircuit, itemId),
         });
       }
     }
@@ -358,6 +361,21 @@ export function useTimelineTrips() {
         </Box>
       ),
       onConfirm: () => handleConfirmAllocate(driverId),
+    });
+  };
+
+  const handleConfirmMove = ({ onConfirm }: { onConfirm: () => void }) => {
+    openDialog({
+      title: "Alterar viagem",
+      body: (
+        <Box display="flex" flexDirection="column">
+          <Typography>Tem certeza que deseja alterar essa viagem?</Typography>
+          <Typography>
+            Essa ação <strong>não poderá ser desfeita.</strong>
+          </Typography>
+        </Box>
+      ),
+      onConfirm,
     });
   };
 
