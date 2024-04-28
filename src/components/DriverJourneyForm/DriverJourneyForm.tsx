@@ -6,6 +6,7 @@ import {
   Box,
   IconButton,
   colors,
+  Typography,
   CircularProgress,
   Icon,
   InputAdornment,
@@ -417,9 +418,16 @@ export const DriverJourneyForm = ({
         </Box>
         {showDemandDetails && (
           <Box display="flex" flexDirection="column" gap="15px" mt="10px">
-            {sectionsReturn.map((section: TaskDriver, index: number) => (
+            {sectionsReturn?.map((section: TaskDriver, index: number) => (
               <SectionsReturnForm key={index} seq={index} taskDriverSeq={seq} />
             ))}
+            {!sectionsReturn?.length && (
+              <Box display="flex" alignItems="center">
+                <Typography variant="body2" color={colors.grey[700]}>
+                  Não há seções de retorno para esta viagem.
+                </Typography>
+              </Box>
+            )}
           </Box>
         )}
       </Box>

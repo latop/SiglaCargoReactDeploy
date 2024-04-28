@@ -28,7 +28,6 @@ const normalizeData = (data: CircuitJourney) => {
     startDate: data.startDate ? dayjs(data.startDate).format() : undefined,
     endDate: data.endDate ? dayjs(data.endDate).format() : undefined,
     otmProcess: data.otmProcess || "",
-    sectionsReturn: [],
     tasksDriver:
       data.tasksDriver && data.tasksDriver.length > 0
         ? data.tasksDriver.map((taskDriver: TaskDriver) => ({
