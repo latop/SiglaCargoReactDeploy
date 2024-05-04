@@ -11,9 +11,9 @@ import { AutocompleteLocationGroup } from "@/components/AutocompleteLocationGrou
 import { AutocompleteFleetGroup } from "@/components/AutocompleteFleetGroup";
 import { AutocompletePosition } from "@/components/AutocompletePosition";
 import { useJourneyFilterBar } from "./useJourneyFilterBar";
-import "dayjs/locale/pt-br";
 import { AutocompleteActivity } from "../AutocompleteActivity";
 import SearchIcon from "@mui/icons-material/Search";
+import "dayjs/locale/pt-br";
 
 dayjs.extend(customParseFormat);
 
