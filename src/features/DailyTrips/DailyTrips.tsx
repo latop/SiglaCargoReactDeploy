@@ -13,17 +13,38 @@ import dayjs from "dayjs";
 import { useRouter, useSearchParams } from "next/navigation";
 
 const columns: GridColDef[] = [
-  { field: "sto", headerName: "Sto", width: 200 },
-  { field: "line.code", headerName: "Cód. Linha", width: 200 },
-  { field: "flgStatus", headerName: "Status", width: 100 },
-  { field: "fleetGroup.code", headerName: "Cód frota", width: 200 },
-  { field: "tripType.code", headerName: "Tipo de viagem", width: 200 },
-  { field: "locationOrig.code", headerName: "Origem", width: 150 },
-  { field: "locationDest.code", headerName: "Destino", width: 150 },
+  { field: "sto", headerName: "Sto", width: 200, sortable: false },
+  { field: "line.code", headerName: "Cód. Linha", width: 200, sortable: false },
+  { field: "flgStatus", headerName: "Status", width: 100, sortable: false },
+  {
+    field: "fleetGroup.code",
+    headerName: "Cód frota",
+    width: 200,
+    sortable: false,
+  },
+  {
+    field: "tripType.code",
+    headerName: "Tipo de viagem",
+    width: 200,
+    sortable: false,
+  },
+  {
+    field: "locationOrig.code",
+    headerName: "Origem",
+    width: 150,
+    sortable: false,
+  },
+  {
+    field: "locationDest.code",
+    headerName: "Destino",
+    width: 150,
+    sortable: false,
+  },
   {
     field: "tripDate",
     headerName: "Data da viagem",
     width: 150,
+    sortable: false,
     valueFormatter: (value) =>
       value ? dayjs(value).format("DD/MM/YYYY") : "N/A",
   },
