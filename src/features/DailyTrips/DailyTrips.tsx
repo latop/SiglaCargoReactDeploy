@@ -14,38 +14,61 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { ErrorResult } from "@/components/ErrorResult";
 
 const columns: GridColDef[] = [
-  { field: "sto", headerName: "Sto", width: 200, sortable: false },
-  { field: "line.code", headerName: "Cód. Linha", width: 200, sortable: false },
-  { field: "flgStatus", headerName: "Status", width: 100, sortable: false },
+  {
+    field: "sto",
+    headerName: "Sto",
+    width: 200,
+    sortable: false,
+    filterable: false,
+  },
+  {
+    field: "line.code",
+    headerName: "Cód. Linha",
+    width: 200,
+    sortable: false,
+    filterable: false,
+  },
+  {
+    field: "flgStatus",
+    headerName: "Status",
+    width: 100,
+    sortable: false,
+    filterable: false,
+  },
   {
     field: "fleetGroup.code",
     headerName: "Cód frota",
     width: 200,
     sortable: false,
+    filterable: false,
   },
   {
     field: "tripType.code",
     headerName: "Tipo de viagem",
     width: 200,
     sortable: false,
+    filterable: false,
   },
   {
     field: "locationOrig.code",
     headerName: "Origem",
     width: 150,
     sortable: false,
+    filterable: false,
   },
   {
     field: "locationDest.code",
     headerName: "Destino",
     width: 150,
     sortable: false,
+    filterable: false,
   },
   {
     field: "tripDate",
     headerName: "Data da viagem",
     width: 150,
     sortable: false,
+    filterable: false,
     valueFormatter: (value) =>
       value ? dayjs(value).format("DD/MM/YYYY") : "N/A",
   },
@@ -112,6 +135,8 @@ export function DailyTrips() {
                   rows={dailyTrips}
                   localeText={{
                     noRowsLabel: "Nenhum registro encontrado",
+                    columnMenuHideColumn: "Ocultar coluna",
+                    columnMenuManageColumns: "Gerenciar colunas",
                     MuiTablePagination: {
                       labelRowsPerPage: "Registros por página",
                       labelDisplayedRows: ({ from, to, count }) =>
@@ -130,7 +155,7 @@ export function DailyTrips() {
                     loadMoreDailyTrips(params.page + 1);
                   }}
                   rowCount={200}
-                  pageSizeOptions={[10, 20]}
+                  pageSizeOptions={[10]}
                 />
               </div>
             )}
