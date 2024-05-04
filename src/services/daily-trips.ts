@@ -42,8 +42,7 @@ export async function fetchDailyTrips({
       dailyTrips: response.data,
     };
     return normalizeData;
-  } catch (error) {
-    console.error(error);
-    return error;
+  } catch (err) {
+    throw new Error();
   }
 }

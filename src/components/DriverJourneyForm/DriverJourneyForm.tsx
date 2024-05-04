@@ -131,7 +131,6 @@ export const DriverJourneyForm = ({
 
   const handleShowDemandDetails = () => {
     if (!showDemandDetails) {
-      console.log("entroou");
       fetchDemandSections({
         demand: getValues(`tasksDriver.${seq}.demand`),
       });

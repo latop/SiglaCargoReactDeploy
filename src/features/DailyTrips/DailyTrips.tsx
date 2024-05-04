@@ -11,6 +11,7 @@ import { useDailyTrips } from "@/hooks/useDailyTrips";
 import { DailyTripsFilterBar } from "@/components/DailyTripsFilterBar";
 import dayjs from "dayjs";
 import { useRouter, useSearchParams } from "next/navigation";
+import { ErrorResult } from "@/components/ErrorResult";
 
 const columns: GridColDef[] = [
   { field: "sto", headerName: "Sto", width: 200, sortable: false },
@@ -53,8 +54,15 @@ const columns: GridColDef[] = [
 export function DailyTrips() {
   const params = useSearchParams();
   const router = useRouter();
-  const { dailyTrips, isLoading, isEmpty, size, loadMoreDailyTrips } =
-    useDailyTrips();
+  const {
+    dailyTrips,
+    isLoading,
+    hasData,
+    isEmpty,
+    size,
+    error,
+    loadMoreDailyTrips,
+  } = useDailyTrips();
 
   const showContent = params.get("tripDate");
 
@@ -97,7 +105,8 @@ export function DailyTrips() {
           >
             {isLoading && <CircularProgress />}
             {isEmpty && <EmptyResult />}
-            {!isEmpty && !isLoading && (
+            {error && <ErrorResult />}
+            {hasData && (
               <div style={{ height: "100%", width: "100%" }}>
                 <DataGrid
                   rows={dailyTrips}

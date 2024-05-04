@@ -35,7 +35,7 @@ export const useDailyTrips = (options?: SWRConfiguration) => {
 
   const dailyTrips = data?.map((page) => page.dailyTrips).flat() || [];
 
-  const isEmpty = !isLoading && dailyTrips?.length === 0;
+  const isEmpty = !isLoading && dailyTrips?.length === 0 && !error;
 
   const isLoadingMore = isValidating;
   const hasNext = data?.[data.length - 1]?.hasNext;
@@ -47,10 +47,12 @@ export const useDailyTrips = (options?: SWRConfiguration) => {
     }
   };
 
+  const hasData = !isEmpty && !isLoading && !error;
   return {
     dailyTrips,
     error,
     isEmpty,
+    hasData,
     mutate,
     loadMoreDailyTrips,
     size,
