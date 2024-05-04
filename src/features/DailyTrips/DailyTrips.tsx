@@ -101,6 +101,16 @@ export function DailyTrips() {
               <div style={{ height: "100%", width: "100%" }}>
                 <DataGrid
                   rows={dailyTrips}
+                  localeText={{
+                    noRowsLabel: "Nenhum registro encontrado",
+                    MuiTablePagination: {
+                      labelRowsPerPage: "Registros por página",
+                      labelDisplayedRows: ({ from, to, count }) =>
+                        `${from}-${to} de ${
+                          count !== -1 ? count : `mais de ${to}`
+                        }`,
+                    },
+                  }}
                   columns={columns}
                   initialState={{
                     pagination: {
