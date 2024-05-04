@@ -47,7 +47,7 @@ export const useDailyTrips = (options?: SWRConfiguration) => {
     }
   };
 
-  const hasData = !isEmpty && !isLoading && !error;
+  const hasData = !isEmpty && !isLoading && !error && !isLoadingMore;
   return {
     dailyTrips,
     error,
