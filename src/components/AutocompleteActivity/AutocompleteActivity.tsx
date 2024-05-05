@@ -39,6 +39,7 @@ export function AutocompleteActivity({
       render={({ field }) => (
         <Autocomplete
           clearOnEscape
+          forcePopupIcon={false}
           options={activities || []}
           loadingText="Carregando..."
           defaultValue={{ code: field.value ?? "" } as Activity}

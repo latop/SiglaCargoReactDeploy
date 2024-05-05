@@ -24,7 +24,7 @@ export async function fetchDailyTrips({
   try {
     const params = {
       filter1Id: args.fleetGroupCode,
-      filter2Id: args.locationDestId,
+      filter2Id: args.locationOrigId,
       filter3Id: args.locationDestId,
       filter1String: args.sto,
       filter2String: args.tripDate,
@@ -36,10 +36,17 @@ export async function fetchDailyTrips({
     const response = await axios.get(`/DailyTrip`, {
       params,
     });
+    const pagination = response.headers["x-pagination"]
+      ? JSON.parse(response.headers["x-pagination"])
+      : {};
     const normalizeData: DailyTripResponse = {
-      currentPage: args.pageNumber || 1,
-      hasNext: response.data.length === args.pageSize,
+      currentPage: pagination.CurrentPage || 1,
+      hasNext: pagination.HasNext,
+      hasPrevious: pagination.HasPrevious,
+      pageSize: pagination.PageSize,
+      totalPages: pagination.TotalPages,
       dailyTrips: response.data,
+      totalCount: pagination.TotalCount,
     };
     return normalizeData;
   } catch (err) {

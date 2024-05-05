@@ -27,3 +27,29 @@ export async function fetchLocationGroup({
     return error;
   }
 }
+
+export interface FetchLocationParams {
+  pageSize?: number;
+  code?: string;
+}
+
+export async function fetchLocations({
+  args: params,
+}: {
+  args: FetchLocationParams;
+}) {
+  try {
+    const locationParams = {
+      PageSize: params.pageSize,
+      filter1String: params.code?.toUpperCase(),
+    };
+    const response = await axios.get("/Location", {
+      params: locationParams,
+    });
+    const data = response.data;
+    return data;
+  } catch (error) {
+    console.error(error);
+    return error;
+  }
+}

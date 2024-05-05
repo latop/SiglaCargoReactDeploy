@@ -24,8 +24,6 @@ export const useDailyTrips = (options?: SWRConfiguration) => {
     };
   };
   const { data, error, isLoading, mutate, size, setSize, isValidating } =
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore next line
     useSWRInfinite<DailyTripResponse>(getKey, fetchDailyTrips, {
       revalidateFirstPage: false,
       revalidateIfStale: false,

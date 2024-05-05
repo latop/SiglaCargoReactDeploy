@@ -13,6 +13,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import "dayjs/locale/pt-br";
 import { AutocompleteFleetGroup } from "../AutocompleteFleetGroup";
+import { AutocompleteLocation } from "../AutocompleteLocation";
 
 dayjs.extend(customParseFormat);
 
@@ -65,35 +66,17 @@ export function DailyTripsFilterBar(props: React.HTMLProps<HTMLFormElement>) {
               />
             </Grid>
             <Grid item xs={1.7} paddingLeft="0">
-              <Controller
+              <AutocompleteLocation
                 name="locationOrigId"
-                control={control}
-                render={({ field, fieldState: { error } }) => (
-                  <TextField
-                    {...field}
-                    variant="outlined"
-                    fullWidth
-                    label="Origem"
-                    error={!!error?.message}
-                    helperText={error?.message?.toString()}
-                  />
-                )}
+                label="Origem"
+                keyCode="id"
               />
             </Grid>
             <Grid item xs={1.6} paddingLeft="0">
-              <Controller
+              <AutocompleteLocation
                 name="locationDestId"
-                control={control}
-                render={({ field, fieldState: { error } }) => (
-                  <TextField
-                    {...field}
-                    variant="outlined"
-                    fullWidth
-                    label="Destino"
-                    error={!!error?.message}
-                    helperText={error?.message?.toString()}
-                  />
-                )}
+                label="Destino"
+                keyCode="id"
               />
             </Grid>
             <Grid item xs={1.6} paddingLeft="0">

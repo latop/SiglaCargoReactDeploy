@@ -9,6 +9,7 @@ import { AutocompleteDriver } from "@/components/AutocompleteDriver";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import { AutocompleteLocationGroup } from "@/components/AutocompleteLocationGroup";
 import { AutocompleteFleetGroup } from "@/components/AutocompleteFleetGroup";
+import { AutocompleteLocation } from "@/components/AutocompleteLocation";
 import { AutocompletePosition } from "@/components/AutocompletePosition";
 import { useJourneyFilterBar } from "./useJourneyFilterBar";
 import { AutocompleteActivity } from "../AutocompleteActivity";
@@ -76,23 +77,11 @@ export function JourneyFilterBar(props: React.HTMLProps<HTMLFormElement>) {
             </Grid>
 
             <Grid item xs={1.1}>
-              <Controller
-                name="locationOrigCode"
-                control={control}
-                render={({ field }) => (
-                  <TextField fullWidth label="Origem" {...field} />
-                )}
-              />
+              <AutocompleteLocation name="locationOrigCode" label="Origem" />
             </Grid>
 
             <Grid item xs={1.1}>
-              <Controller
-                name="locationDestCode"
-                control={control}
-                render={({ field }) => (
-                  <TextField fullWidth label="Destino" {...field} />
-                )}
-              />
+              <AutocompleteLocation name="locationDestCode" label="Destino" />
             </Grid>
 
             <Grid item xs={1.1}>

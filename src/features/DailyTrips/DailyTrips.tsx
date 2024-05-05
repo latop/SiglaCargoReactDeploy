@@ -136,6 +136,7 @@ export function DailyTrips() {
                   localeText={{
                     noRowsLabel: "Nenhum registro encontrado",
                     columnMenuHideColumn: "Ocultar coluna",
+                    columnsManagementShowHideAllText: "Mostrar/Ocultar todas",
                     columnMenuManageColumns: "Gerenciar colunas",
                     MuiTablePagination: {
                       labelRowsPerPage: "Registros por página",

@@ -28,6 +28,8 @@ import { DailyTrip, TaskDriver } from "@/interfaces/schedule";
 import { useToast } from "@/hooks/useToast";
 import { SectionsReturnForm } from "@/components/SectionsReturnForm";
 import SectinReturnTimeline from "../SectionReturnTimeline/SectionReturnTimeline";
+import { AutocompleteLocation } from "@/components/AutocompleteLocation";
+
 dayjs.extend(customParseFormat);
 
 interface DriverJourneyFormProps {
@@ -189,31 +191,15 @@ export const DriverJourneyForm = ({
         />
       </Grid>
       <Grid item xs={1.2}>
-        <Controller
+        <AutocompleteLocation
           name={`tasksDriver.${seq}.locOrig`}
-          control={control}
-          render={({ field }) => (
-            <TextField
-              {...field}
-              label="Origem"
-              fullWidth
-              InputLabelProps={{ shrink: !!field.value }}
-            />
-          )}
+          label="Origem"
         />
       </Grid>
       <Grid item xs={1.2}>
-        <Controller
+        <AutocompleteLocation
           name={`tasksDriver.${seq}.locDest`}
-          control={control}
-          render={({ field }) => (
-            <TextField
-              {...field}
-              label="Destino"
-              fullWidth
-              InputLabelProps={{ shrink: !!field.value }}
-            />
-          )}
+          label="Destino"
         />
       </Grid>
       <Grid item xs={1.7}>

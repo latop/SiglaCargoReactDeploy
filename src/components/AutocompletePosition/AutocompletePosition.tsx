@@ -26,6 +26,7 @@ export function AutocompletePosition() {
       render={({ field }) => (
         <Autocomplete
           clearOnEscape
+          forcePopupIcon={false}
           options={positions || []}
           loadingText="Carregando..."
           defaultValue={{ code: field.value } as Position}

@@ -2,11 +2,19 @@ import React from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import { TextField } from "@mui/material";
 import Autocomplete from "@mui/material/Autocomplete";
-import { useDrivers } from "@/hooks/useDrivers";
-import { Driver } from "@/interfaces/driver";
+import { useLocation } from "@/hooks/useLocation";
 import debounce from "debounce";
+import { Location } from "@/interfaces/trip";
 
-export function AutocompleteDriver() {
+export function AutocompleteLocation({
+  name = "locationCode",
+  label = "Cód. localização",
+  keyCode = "code",
+}: {
+  name?: string;
+  label?: string;
+  keyCode?: keyof Location;
+}) {
   const {
     control,
     watch,
@@ -14,40 +22,37 @@ export function AutocompleteDriver() {
     formState: { errors },
   } = useFormContext();
 
-  const { drivers, error } = useDrivers({
+  const { locations, error } = useLocation({
     pageSize: 10,
-    nickName: watch("nickName"),
+    code: watch(name),
   });
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleChange = (_: any, value: Driver | null) => {
-    setValue("nickName", value?.nickName || "");
-    setValue("driverId", value?.id || "");
-  };
 
   return (
     <Controller
-      name="nickName"
+      name={name}
       control={control}
       render={({ field }) => (
         <Autocomplete
-          clearOnEscape
           forcePopupIcon={false}
-          options={drivers || []}
+          clearOnEscape
+          options={locations || []}
           loadingText="Carregando..."
-          defaultValue={{ nickName: field.value } as Driver}
-          isOptionEqualToValue={(option: Driver, value: Driver) =>
-            option.nickName === value.nickName
+          defaultValue={{ code: field.value } as Location}
+          isOptionEqualToValue={(option: Location, value: Location) =>
+            option[keyCode] === value[keyCode]
           }
-          onChange={handleChange}
+          onChange={(_, value) => {
+            console.log("keyCode", keyCode);
+            setValue(name, value?.[keyCode] || "");
+          }}
           noOptionsText={
             !field.value
-              ? "Digite o nome do motorista"
-              : !drivers && !error
+              ? "Digite o código"
+              : !locations && !error
               ? "Carregando..."
               : "Nenhum resultado encontrado"
           }
-          getOptionLabel={(option: Driver) => option.nickName}
+          getOptionLabel={(option: Location) => option.code}
           renderInput={(params) => (
             <TextField
               {...field}
@@ -55,7 +60,7 @@ export function AutocompleteDriver() {
               onChange={debounce(field.onChange, 300)}
               variant="outlined"
               fullWidth
-              label="Motorista"
+              label={label}
               error={!!errors[field.name]}
               helperText={errors[field.name]?.message?.toString()}
             />

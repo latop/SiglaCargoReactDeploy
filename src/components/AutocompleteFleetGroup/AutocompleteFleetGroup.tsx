@@ -26,6 +26,7 @@ export function AutocompleteFleetGroup() {
       render={({ field }) => (
         <Autocomplete
           clearOnEscape
+          forcePopupIcon={false}
           options={fleetGroups || []}
           loadingText="Carregando..."
           defaultValue={{ code: field.value } as FleetGroup}
@@ -49,6 +50,7 @@ export function AutocompleteFleetGroup() {
             <TextField
               {...field}
               {...params}
+              autoComplete="off"
               onChange={debounce(field.onChange, 300)}
               variant="outlined"
               fullWidth

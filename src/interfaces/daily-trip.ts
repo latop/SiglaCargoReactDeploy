@@ -44,4 +44,8 @@ export interface DailyTripResponse {
   hasNext: boolean;
   currentPage: number;
   dailyTrips: DailyTrip[];
+  pageSize: number;
+  totalPages: number;
+  totalCount: number;
+  hasPrevious: boolean;
 }

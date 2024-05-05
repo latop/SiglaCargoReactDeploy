@@ -26,6 +26,7 @@ export function AutocompleteLocationGroup() {
       render={({ field }) => (
         <Autocomplete
           clearOnEscape
+          forcePopupIcon={false}
           options={locationGroups || []}
           loadingText="Carregando..."
           defaultValue={{ code: field.value } as LocationGroup}

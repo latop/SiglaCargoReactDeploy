@@ -5,8 +5,9 @@ import { DateTimePicker } from "@/components/DatePicker";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import "dayjs/locale/pt-br";
-dayjs.extend(customParseFormat);
+import { AutocompleteLocation } from "@/components/AutocompleteLocation";
 
+dayjs.extend(customParseFormat);
 interface SectionsReturnFormProps {
   taskDriverSeq: number;
   seq: number;
@@ -42,33 +43,15 @@ export const SectionsReturnForm = ({
         />
       </Grid>
       <Grid item xs={2}>
-        <Controller
+        <AutocompleteLocation
           name={`${taskDriver}.sectionsReturn.${seq}.locOrig`}
-          control={control}
-          render={({ field }) => (
-            <TextField
-              disabled
-              {...field}
-              label="Origem"
-              fullWidth
-              InputLabelProps={{ shrink: true }}
-            />
-          )}
+          label="Origem"
         />
       </Grid>
       <Grid item xs={1.7}>
-        <Controller
+        <AutocompleteLocation
           name={`${taskDriver}.sectionsReturn.${seq}.locDest`}
-          control={control}
-          render={({ field }) => (
-            <TextField
-              disabled
-              {...field}
-              label="Destino"
-              fullWidth
-              InputLabelProps={{ shrink: true }}
-            />
-          )}
+          label="Destino"
         />
       </Grid>
       <Grid item xs={1.7}>
