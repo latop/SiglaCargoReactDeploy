@@ -6,7 +6,13 @@ import { useFleetGroup } from "@/hooks/useFleetGroup";
 import debounce from "debounce";
 import { FleetGroup } from "@/interfaces/vehicle";
 
-export function AutocompleteFleetGroup() {
+export function AutocompleteFleetGroup({
+  name = "fleetGroupCode",
+  keyCode = "code",
+}: {
+  name?: string;
+  keyCode?: keyof FleetGroup;
+}) {
   const {
     control,
     watch,
@@ -16,12 +22,12 @@ export function AutocompleteFleetGroup() {
 
   const { fleetGroups, error } = useFleetGroup({
     pageSize: 10,
-    code: watch("fleetGroupCode"),
+    code: watch(name),
   });
 
   return (
     <Controller
-      name="fleetGroupCode"
+      name={name}
       control={control}
       render={({ field }) => (
         <Autocomplete
@@ -31,9 +37,9 @@ export function AutocompleteFleetGroup() {
           loadingText="Carregando..."
           defaultValue={{ code: field.value } as FleetGroup}
           isOptionEqualToValue={(option: FleetGroup, value: FleetGroup) =>
-            option.code === value.code
+            option[keyCode] === value[keyCode]
           }
-          onChange={(_, value) => setValue("fleetGroupCode", value?.code || "")}
+          onChange={(_, value) => setValue(name, value?.[keyCode] || "")}
           noOptionsText={
             !field.value
               ? "Digite o código"

@@ -45,6 +45,8 @@ export const useDailyTrips = (options?: SWRConfiguration) => {
     }
   };
 
+  const totalCount = data?.[0]?.totalCount || 0;
+
   const hasData = !isEmpty && !isLoading && !error && !isLoadingMore;
   return {
     dailyTrips,
@@ -58,5 +60,6 @@ export const useDailyTrips = (options?: SWRConfiguration) => {
     isLoading: isLoadingMore || isLoading,
     setSize,
     isValidating,
+    totalCount,
   };
 };

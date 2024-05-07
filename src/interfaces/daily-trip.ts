@@ -11,7 +11,7 @@ export interface Line {
   userIdUpdate: string | null;
 }
 
-interface DailyTrip {
+export interface DailyTrip {
   tripNumber: string;
   tripDate: string;
   fleetGroupCode: string | null;
@@ -23,15 +23,27 @@ interface DailyTrip {
   dt: string | null;
   sto: string;
   locationOrigId: string | null;
-  locationOrig: string | null;
+  locationOrig: {
+    code: string;
+    description: string;
+  } | null;
   locationDestId: string | null;
-  locationDest: string | null;
+  locationDest: {
+    code: string;
+    description: string;
+  } | null;
   startPlanned: string | null;
   endPlanned: string | null;
   tripTypeId: string | null;
-  tripType: string | null;
+  tripType: {
+    code: string;
+    description: string;
+  } | null;
   stopTypeId: string | null;
-  stopType: string | null;
+  stopType: {
+    code: string;
+    description: string;
+  } | null;
   companyId: string | null;
   id: string;
   createAt: string;

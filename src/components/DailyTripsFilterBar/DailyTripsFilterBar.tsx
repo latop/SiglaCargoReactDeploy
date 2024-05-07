@@ -47,7 +47,7 @@ export function DailyTripsFilterBar(props: React.HTMLProps<HTMLFormElement>) {
             </Grid>
 
             <Grid item xs={2} paddingLeft="0">
-              <AutocompleteFleetGroup />
+              <AutocompleteFleetGroup keyCode="id" />
             </Grid>
             <Grid item xs={1.6} paddingLeft="0">
               <Controller

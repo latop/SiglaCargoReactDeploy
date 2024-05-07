@@ -12,6 +12,7 @@ import { DailyTripsFilterBar } from "@/components/DailyTripsFilterBar";
 import dayjs from "dayjs";
 import { useRouter, useSearchParams } from "next/navigation";
 import { ErrorResult } from "@/components/ErrorResult";
+import { DailyTrip } from "@/interfaces/daily-trip";
 
 const columns: GridColDef[] = [
   {
@@ -22,11 +23,14 @@ const columns: GridColDef[] = [
     filterable: false,
   },
   {
-    field: "line.code",
+    field: "lineCode",
     headerName: "Cód. Linha",
     width: 200,
     sortable: false,
     filterable: false,
+    valueGetter: (_, data: DailyTrip) => {
+      return data.line ? data.line.code : "N/A";
+    },
   },
   {
     field: "flgStatus",
@@ -41,6 +45,9 @@ const columns: GridColDef[] = [
     width: 200,
     sortable: false,
     filterable: false,
+    valueGetter: (_, data: DailyTrip) => {
+      return data.fleetGroup ? data.fleetGroup.code : "N/A";
+    },
   },
   {
     field: "tripType.code",
@@ -48,6 +55,9 @@ const columns: GridColDef[] = [
     width: 200,
     sortable: false,
     filterable: false,
+    valueGetter: (_, data: DailyTrip) => {
+      return data.tripType ? data.tripType.description : "N/A";
+    },
   },
   {
     field: "locationOrig.code",
@@ -55,6 +65,9 @@ const columns: GridColDef[] = [
     width: 150,
     sortable: false,
     filterable: false,
+    valueGetter: (_, data: DailyTrip) => {
+      return data.locationOrig ? data.locationOrig.code : "N/A";
+    },
   },
   {
     field: "locationDest.code",
@@ -62,6 +75,9 @@ const columns: GridColDef[] = [
     width: 150,
     sortable: false,
     filterable: false,
+    valueGetter: (_, data: DailyTrip) => {
+      return data.locationDest ? data.locationDest.code : "N/A";
+    },
   },
   {
     field: "tripDate",
@@ -84,6 +100,7 @@ export function DailyTrips() {
     isEmpty,
     size,
     error,
+    totalCount,
     loadMoreDailyTrips,
   } = useDailyTrips();
 
@@ -155,7 +172,7 @@ export function DailyTrips() {
                   onPaginationModelChange={(params) => {
                     loadMoreDailyTrips(params.page + 1);
                   }}
-                  rowCount={200}
+                  rowCount={totalCount}
                   pageSizeOptions={[10]}
                 />
               </div>
