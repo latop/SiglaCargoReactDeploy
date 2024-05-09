@@ -41,9 +41,14 @@ export function DailyTripDetailsDialog({
   const { defaultValues } = formState;
   const loading = isLoading || (dailyTripDetails && !defaultValues?.id);
 
+  const handleClose = () => {
+    onClose();
+    methods.reset();
+  };
+
   return (
     <Dialog
-      onClose={onClose}
+      onClose={handleClose}
       open={open}
       fullWidth
       PaperProps={{ sx: { height: "100%", maxWidth: "1400px" } }}

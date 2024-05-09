@@ -19,6 +19,7 @@ import "dayjs/locale/pt-br";
 import { AutocompleteFleetGroup } from "@/components/AutocompleteFleetGroup";
 import { AutocompleteLocation } from "@/components/AutocompleteLocation";
 import { DailyTripSectionForm } from "../DailyTripSectionForm";
+import { DailyTrip } from "@/interfaces/daily-trip";
 
 dayjs.extend(customParseFormat);
 
@@ -137,7 +138,7 @@ export const DailyTripForm = () => {
           )}
 
           <Box gap="16px" display="flex" flexDirection="column">
-            {dailyTripSections?.map((_, index: number) => (
+            {dailyTripSections?.map((_: DailyTrip, index: number) => (
               <DailyTripSectionForm key={index} seq={index} />
             ))}
           </Box>
