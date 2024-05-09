@@ -14,8 +14,8 @@ export interface Line {
 export interface DailyTrip {
   tripNumber: string;
   tripDate: string;
-  fleetGroupCode: string | null;
   fleetGroup: FleetGroup | null;
+  fleetGroupId: string | null;
   flgStatus: string;
   notes: string | null;
   lineId: string | null;

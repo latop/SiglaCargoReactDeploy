@@ -23,7 +23,7 @@ import { AutocompleteActivity } from "../AutocompleteActivity";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardReturnIcon from "@mui/icons-material/KeyboardReturn";
 import "dayjs/locale/pt-br";
-import { useDailyTripDetail } from "@/hooks/useDailyTripDetail";
+import { useDailyTripJourneyDetails } from "@/hooks/useDailyTripJourneyDetails";
 import { DailyTrip, TaskDriver } from "@/interfaces/schedule";
 import { useToast } from "@/hooks/useToast";
 import { SectionsReturnForm } from "@/components/SectionsReturnForm";
@@ -100,16 +100,18 @@ export const DriverJourneyForm = ({
     setShowDemandDetails(true);
   };
 
-  const [fetchDailyTrip, { isLoading: isLaodingDemand }] = useDailyTripDetail({
-    onSuccess: handleSuccessDemand,
-  });
+  const [fetchDailyTrip, { isLoading: isLaodingDemand }] =
+    useDailyTripJourneyDetails({
+      onSuccess: handleSuccessDemand,
+    });
 
-  const [fetchReturn, { isLoading: isLoadingReturn }] = useDailyTripDetail({
-    onSuccess: handleSuccessReturn,
-  });
+  const [fetchReturn, { isLoading: isLoadingReturn }] =
+    useDailyTripJourneyDetails({
+      onSuccess: handleSuccessReturn,
+    });
 
   const [fetchDemandSections, { isLoading: isLoadingDemandSections }] =
-    useDailyTripDetail({
+    useDailyTripJourneyDetails({
       onSuccess: handleSuccessDemandSections,
     });
 

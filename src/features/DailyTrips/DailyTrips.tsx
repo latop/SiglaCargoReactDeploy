@@ -13,6 +13,8 @@ import dayjs from "dayjs";
 import { useRouter, useSearchParams } from "next/navigation";
 import { ErrorResult } from "@/components/ErrorResult";
 import { DailyTrip } from "@/interfaces/daily-trip";
+import { DailyTripDetailsDialog } from "@/components/DailyTripDetailsDialog";
+import { useHash } from "@/hooks/useHash";
 
 const columns: GridColDef[] = [
   {
@@ -91,6 +93,9 @@ const columns: GridColDef[] = [
 ];
 
 export function DailyTrips() {
+  const [hash, setHash] = useHash();
+  const match = (hash as string)?.match(/#dailyTrip-(.+)/);
+  const dailyTripId = match?.[1];
   const params = useSearchParams();
   const router = useRouter();
   const {
@@ -105,6 +110,10 @@ export function DailyTrips() {
   } = useDailyTrips();
 
   const showContent = params.get("tripDate");
+
+  const handleCloseDialog = () => {
+    setHash("");
+  };
 
   useEffect(() => {
     if (!params.get("tripDate")) {
@@ -164,6 +173,9 @@ export function DailyTrips() {
                     },
                   }}
                   columns={columns}
+                  onCellDoubleClick={(params) => {
+                    setHash(`#dailyTrip-${params.row.id}`);
+                  }}
                   initialState={{
                     pagination: {
                       paginationModel: { page: size - 1, pageSize: 10 },
@@ -180,6 +192,10 @@ export function DailyTrips() {
           </Card>
         )}
       </Box>
+      <DailyTripDetailsDialog
+        open={!!dailyTripId}
+        onClose={handleCloseDialog}
+      />
     </MainContainer>
   );
 }

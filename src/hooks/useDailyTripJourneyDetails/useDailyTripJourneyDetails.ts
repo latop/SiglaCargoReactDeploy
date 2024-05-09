@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { fetchDailyTripDetail } from "@/services/schedule";
+import { fetchDailyTripJourneyDetails } from "@/services/schedule";
 import useSWR, { SWRConfiguration } from "swr";
 
 export interface DailyTripDetailsParams {
@@ -8,13 +8,13 @@ export interface DailyTripDetailsParams {
   isReturn?: boolean;
 }
 
-export const useDailyTripDetail = (options?: SWRConfiguration) => {
+export const useDailyTripJourneyDetails = (options?: SWRConfiguration) => {
   const [params, setParams] = useState<DailyTripDetailsParams>({});
   const { data, error, isLoading } = useSWR(
     params.demand || params.lineCode
-      ? { url: "/daily-trip-detail", args: params }
+      ? { url: "/daily-trip-journey-detail", args: params }
       : null,
-    fetchDailyTripDetail,
+    fetchDailyTripJourneyDetails,
     {
       revalidateOnFocus: false,
       revalidateOnReconnect: false,
