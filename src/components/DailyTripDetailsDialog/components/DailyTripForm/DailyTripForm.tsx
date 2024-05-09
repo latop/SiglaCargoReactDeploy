@@ -32,8 +32,8 @@ export const DailyTripForm = () => {
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
       <Box display="flex" flexDirection="column" gap="20px" mt="5px">
         <Box display="flex" gap="20px">
-          <Grid container spacing={2}>
-            <Grid item xs={1.5}>
+          <Grid container spacing={1}>
+            <Grid item xs={1.7}>
               <Controller
                 name={`sto`}
                 control={control}
@@ -62,7 +62,7 @@ export const DailyTripForm = () => {
                 )}
               />
             </Grid>
-            <Grid item xs={1.5}>
+            <Grid item xs={1.4}>
               <AutocompleteFleetGroup name="fleetGroup.code" />
             </Grid>
             <Grid item xs={1.5}>
