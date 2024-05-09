@@ -11,11 +11,15 @@ export function useDailyTripDetailsDialog() {
   const [hash] = useHash();
   const match = (hash as string)?.match(/#dailyTrip-(.+)/);
   const dailyTripId = match?.[1];
-  const { dailyTripDetails, isLoading, error } = useDailyTripDetails({
-    id: dailyTripId,
-  });
+  const { dailyTripDetails, dailyTripSections, isLoading, error } =
+    useDailyTripDetails({
+      id: dailyTripId,
+    });
 
-  const normalizeData = (data: DailyTrip) => {
+  const normalizeData = (
+    data: DailyTrip,
+    dataDailyTripSections: DailyTrip[],
+  ) => {
     const dailyTripDefaultValues = {
       tripNumber: data.tripNumber,
       tripDate: data.tripDate ? dayjs(data.tripDate).format("YYYY-MM-DD") : "",
@@ -43,15 +47,30 @@ export function useDailyTripDetailsDialog() {
       stopType: data.stopType,
       companyId: data.companyId,
       id: data.id,
+      dailyTripSections: dataDailyTripSections.map((section) => ({
+        ...section,
+        startPlanned: section.startPlanned
+          ? dayjs(section.startPlanned).format("YYYY-MM-DDTHH:mm")
+          : null,
+        endPlanned: section.endPlanned
+          ? dayjs(section.endPlanned).format("YYYY-MM-DDTHH:mm")
+          : null,
+        startEstimated: section.startEstimated
+          ? dayjs(section.startEstimated).format("YYYY-MM-DDTHH:mm")
+          : null,
+        endEstimated: section.endEstimated
+          ? dayjs(section.endEstimated).format("YYYY-MM-DDTHH:mm")
+          : null,
+      })),
     };
     return dailyTripDefaultValues;
   };
 
   useEffect(() => {
-    if (dailyTripDetails) {
-      reset(normalizeData(dailyTripDetails));
+    if (dailyTripDetails && dailyTripSections) {
+      reset(normalizeData(dailyTripDetails, dailyTripSections));
     }
-  }, [dailyTripDetails]);
+  }, [dailyTripDetails, dailyTripSections]);
 
   return {
     dailyTripDetails,

@@ -34,6 +34,8 @@ export interface DailyTrip {
   } | null;
   startPlanned: string | null;
   endPlanned: string | null;
+  startEstimated: string | null;
+  endEstimated: string | null;
   tripTypeId: string | null;
   tripType: {
     code: string;
@@ -50,6 +52,7 @@ export interface DailyTrip {
   updateAt: string | null;
   userIdCreate: string | null;
   userIdUpdate: string | null;
+  dailyTripSections: DailyTrip[];
 }
 
 export interface DailyTripResponse {

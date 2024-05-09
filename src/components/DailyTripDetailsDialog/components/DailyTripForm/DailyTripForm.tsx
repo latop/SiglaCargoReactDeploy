@@ -1,40 +1,39 @@
 import React from "react";
 import { useFormContext, Controller } from "react-hook-form";
-import { Box, TextField, Grid, MenuItem } from "@mui/material";
+import {
+  Box,
+  colors,
+  TextField,
+  Chip,
+  Grid,
+  MenuItem,
+  Typography,
+} from "@mui/material";
 import { DateTimePicker } from "@/components/DatePicker";
 
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
-// import { DriverJourneyForm } from "../../../DriverJourneyForm";
-// import { useToast } from "@/hooks/useToast";
-// import { TaskDriver } from "@/interfaces/schedule";
 import "dayjs/locale/pt-br";
 import { AutocompleteFleetGroup } from "@/components/AutocompleteFleetGroup";
 import { AutocompleteLocation } from "@/components/AutocompleteLocation";
+import { DailyTripSectionForm } from "../DailyTripSectionForm";
 
 dayjs.extend(customParseFormat);
 
 export const DailyTripForm = () => {
-  // const { addToast } = useToast();
-  const { control } = useFormContext();
-  // const tasksDriver = watch("tasksDriver");
+  const { control, watch } = useFormContext();
+  const dailyTripSections = watch("dailyTripSections");
 
-  // const handleDeleteDriverSchedule = (index: number) => {
-  //   tasksDriver.splice(index, 1);
-  //   setValue("tasksDriver", tasksDriver);
-  //   addToast("Viagem removida com sucesso");
-  // };
-
-  // const countJourneys = tasksDriver?.length;
+  const countSections = dailyTripSections?.length;
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
       <Box display="flex" flexDirection="column" gap="20px" mt="5px">
         <Box display="flex" gap="20px">
           <Grid container spacing={2}>
-            <Grid item xs={3}>
+            <Grid item xs={1.5}>
               <Controller
                 name={`sto`}
                 control={control}
@@ -43,7 +42,7 @@ export const DailyTripForm = () => {
                 )}
               />
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={0.8}>
               <Controller
                 name="flgStatus"
                 control={control}
@@ -63,16 +62,16 @@ export const DailyTripForm = () => {
                 )}
               />
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={1.5}>
               <AutocompleteFleetGroup name="fleetGroup.code" />
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={1.5}>
               <AutocompleteLocation name="locationOrig.code" />
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={1.5}>
               <AutocompleteLocation name="locationDest.code" />
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={1.7}>
               <Controller
                 name="tripDate"
                 control={control}
@@ -88,7 +87,7 @@ export const DailyTripForm = () => {
                 )}
               />
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={1.7}>
               <Controller
                 name="startPlanned"
                 control={control}
@@ -104,7 +103,7 @@ export const DailyTripForm = () => {
                 )}
               />
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={1.7}>
               <Controller
                 name="endPlanned"
                 control={control}
@@ -122,31 +121,27 @@ export const DailyTripForm = () => {
             </Grid>
           </Grid>
         </Box>
-        {/* <Box gap="10px" display="flex" flexDirection="column">
+        <Box gap="10px" display="flex" flexDirection="column">
           <Box display="flex" alignItems="center" gap="8px">
-            <Typography variant="subtitle2">Jornadas do motorista</Typography>
-            {countJourneys > 0 && (
-              <Chip label={countJourneys} color="default" size="small" />
+            <Typography variant="subtitle2">Seções da viagem</Typography>
+            {countSections > 0 && (
+              <Chip label={countSections} color="default" size="small" />
             )}
           </Box>
-          {tasksDriver?.length === 0 && (
+          {dailyTripSections?.length === 0 && (
             <Box display="flex">
               <Typography variant="body2" color={colors.grey[700]}>
-                Não há jornadas para este motorista, adicione uma nova jornada.
+                Não há seções para essa viagem.
               </Typography>
             </Box>
           )}
 
           <Box gap="16px" display="flex" flexDirection="column">
-            {tasksDriver?.map((taskDriver: TaskDriver, index: number) => (
-              <DriverJourneyForm
-                onDelete={() => handleDeleteDriverSchedule(index)}
-                key={index}
-                seq={index}
-              />
+            {dailyTripSections?.map((_, index: number) => (
+              <DailyTripSectionForm key={index} seq={index} />
             ))}
           </Box>
-        </Box> */}
+        </Box>
       </Box>
     </LocalizationProvider>
   );
