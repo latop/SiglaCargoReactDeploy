@@ -61,3 +61,8 @@ export interface DailyTripResponse {
   totalCount: number;
   hasPrevious: boolean;
 }
+
+export interface DailyTripDetailsResponse {
+  dailyTrip: DailyTrip;
+  dailyTripSections: DailyTrip[];
+}

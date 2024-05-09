@@ -35,7 +35,7 @@ export function AutocompleteFleetGroup({
           forcePopupIcon={false}
           options={fleetGroups || []}
           loadingText="Carregando..."
-          defaultValue={{ code: field.value } as FleetGroup}
+          defaultValue={{ code: field.value ?? "" } as FleetGroup}
           isOptionEqualToValue={(option: FleetGroup, value: FleetGroup) =>
             option[keyCode] === value[keyCode]
           }

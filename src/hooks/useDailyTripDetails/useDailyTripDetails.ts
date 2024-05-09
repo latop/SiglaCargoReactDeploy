@@ -1,4 +1,4 @@
-import { DailyTrip } from "@/interfaces/daily-trip";
+import { DailyTripDetailsResponse } from "@/interfaces/daily-trip";
 import { fetchDailyTripDetails } from "@/services/schedule";
 import useSWR, { SWRConfiguration } from "swr";
 
@@ -11,7 +11,7 @@ export const useDailyTripDetails = (
   options?: SWRConfiguration,
 ) => {
   console.log(params.id, "params.id");
-  const { data, error, isLoading } = useSWR<DailyTrip>(
+  const { data, error, isLoading } = useSWR<DailyTripDetailsResponse>(
     params.id ? { url: "/daily-trip-detail", args: params } : null,
     fetchDailyTripDetails,
     {
@@ -22,7 +22,8 @@ export const useDailyTripDetails = (
   );
 
   return {
-    dailyTripDetails: data,
+    dailyTripDetails: data?.dailyTrip,
+    dailyTripSections: data?.dailyTripSections,
     error,
     isLoading,
   };

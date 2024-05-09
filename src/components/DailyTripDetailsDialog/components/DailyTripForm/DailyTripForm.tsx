@@ -1,6 +1,6 @@
 import React from "react";
 import { useFormContext, Controller } from "react-hook-form";
-import { Box, TextField, Grid } from "@mui/material";
+import { Box, TextField, Grid, MenuItem } from "@mui/material";
 import { DateTimePicker } from "@/components/DatePicker";
 
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -44,6 +44,26 @@ export const DailyTripForm = () => {
               />
             </Grid>
             <Grid item xs={3}>
+              <Controller
+                name="flgStatus"
+                control={control}
+                render={({ field, fieldState: { error } }) => (
+                  <TextField
+                    {...field}
+                    variant="outlined"
+                    fullWidth
+                    label="Status"
+                    select
+                    error={!!error?.message}
+                    helperText={error?.message?.toString()}
+                  >
+                    <MenuItem value="S">S</MenuItem>
+                    <MenuItem value="N">N</MenuItem>
+                  </TextField>
+                )}
+              />
+            </Grid>
+            <Grid item xs={3}>
               <AutocompleteFleetGroup name="fleetGroup.code" />
             </Grid>
             <Grid item xs={3}>
@@ -51,6 +71,22 @@ export const DailyTripForm = () => {
             </Grid>
             <Grid item xs={3}>
               <AutocompleteLocation name="locationDest.code" />
+            </Grid>
+            <Grid item xs={3}>
+              <Controller
+                name="tripDate"
+                control={control}
+                render={({ field, fieldState: { error } }) => (
+                  <DateTimePicker
+                    disabled={false}
+                    label="Data da viagem"
+                    error={error?.message}
+                    {...field}
+                    value={field.value ? dayjs(field.value) : null}
+                    onChange={(date) => field.onChange(date?.format())}
+                  />
+                )}
+              />
             </Grid>
             <Grid item xs={3}>
               <Controller

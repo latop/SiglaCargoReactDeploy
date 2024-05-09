@@ -129,8 +129,9 @@ export async function fetchDailyTripDetails({
   args: FetchDailyTripDetailParams;
 }) {
   try {
-    console.log(params.id, "params.id 2");
-    const response = await axios.get(`/DailyTrip/${params.id}`);
+    const response = await axios.get(
+      `/DailyTrip/getdailytripdetail?dailyTripId=${params.id}`,
+    );
     const data = response.data;
     return data;
   } catch (error) {
