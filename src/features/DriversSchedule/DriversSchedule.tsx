@@ -13,18 +13,27 @@ import { GianttProvider } from "@/hooks/useGiantt";
 import { useDriverSchedule } from "./useDriversSchedule";
 import { JourneyDetailsDialog } from "@/components/JourneyDetailsDialog";
 import { useHash } from "@/hooks/useHash";
-import { Box, Button, IconButton, Typography, Icon } from "@mui/material";
+import {
+  Box,
+  Button,
+  IconButton,
+  Typography,
+  Icon,
+  TextField,
+  MenuItem,
+} from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import { TimelineTripsCard } from "./components/TimelineTripsCard";
 import { TimelineTripsUnallocatedCard } from "./components/TimelineTripsUnallocatedCard";
 import { ActivityDialog } from "@/components/ActivityDialog";
-import ExpandCircleDownIcon from "@mui/icons-material/ExpandCircleDown";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 
 export function DriversSchedule() {
   const [expanded, setExpanded] = React.useState(false);
-  const [showTimelineTripsUnallocated, setShowTimelineTripsUnallocated] =
-    useLocalStorage("showTimelineTripsUnallocated", false);
+  const [showSelectedView, setShowSelectedView] = useLocalStorage(
+    "showSelectedView",
+    "1",
+  );
   const [showActivityDialog, setShowActivityDialog] = React.useState(false);
   const [showJourneyDialog, setShowJourneyDialog] = React.useState(false);
 
@@ -57,6 +66,13 @@ export function DriversSchedule() {
     setExpanded((prev: boolean) => !prev);
   };
 
+  const handleSelectView = (value: string) => {
+    setShowSelectedView(value);
+  };
+
+  const showAll = showSelectedView === "1";
+  const showAllocated = showSelectedView === "2" || showAll;
+  const showUnallocated = showSelectedView === "3" || showAll;
   return (
     <MainContainer>
       <AppBar style={{ display: expanded ? "none" : "block" }}>
@@ -78,11 +94,22 @@ export function DriversSchedule() {
                 <Box
                   display="flex"
                   gap="10px"
-                  justifyContent="center"
-                  alignItems="center"
                   marginTop="20px"
+                  alignItems="center"
                 >
                   <GianttZoom />
+                  <TextField
+                    variant="outlined"
+                    fullWidth
+                    onChange={(e) => handleSelectView(e.target.value)}
+                    value={showSelectedView}
+                    select
+                    size="small"
+                  >
+                    <MenuItem value="1">Mostrar tudo</MenuItem>
+                    <MenuItem value="2">Mostrar viagens alocadas</MenuItem>
+                    <MenuItem value="3">Mostrar viagens não alocadas</MenuItem>
+                  </TextField>
                   <IconButton
                     sx={{ padding: 0 }}
                     onClick={toggleExpanded}
@@ -125,37 +152,24 @@ export function DriversSchedule() {
                 </Box>
               </Box>
               <Box sx={{ height: "calc(100% - 60px)", width: "100%" }}>
-                <Box
-                  sx={{
-                    height: `calc(${
-                      showTimelineTripsUnallocated ? "75%" : "100%"
-                    } - 40px)`,
-                  }}
-                >
-                  <TimelineTripsCard key="TimelineTripsCard" />
-                </Box>
-                <Box
-                  display="flex"
-                  justifyContent="flex-end"
-                  margin="15px 0 5px"
-                >
-                  <IconButton
-                    onClick={() =>
-                      setShowTimelineTripsUnallocated((prev) => !prev)
-                    }
-                    sx={{ padding: 0 }}
+                {showAllocated && (
+                  <Box
+                    sx={{
+                      height: `calc(${showAll ? "75%" : "100%"} - 40px)`,
+                    }}
                   >
-                    <ExpandCircleDownIcon
-                      sx={{
-                        transform: showTimelineTripsUnallocated
-                          ? "rotate(0deg)"
-                          : "rotate(180deg)",
-                      }}
-                    />
-                  </IconButton>
-                </Box>
-                {showTimelineTripsUnallocated && (
-                  <Box sx={{ height: "calc(25% - 15px)" }}>
+                    <TimelineTripsCard key="TimelineTripsCard" />
+                  </Box>
+                )}
+                {showUnallocated && (
+                  <Box
+                    sx={{
+                      height: !showAll
+                        ? "calc(100% - 50px)"
+                        : "calc(25% - 15px)",
+                    }}
+                    mt="20px"
+                  >
                     <TimelineTripsUnallocatedCard key="TimelineTripsUnallocatedCard" />
                   </Box>
                 )}

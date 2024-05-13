@@ -14,9 +14,8 @@ interface DailyTripResponse {
 
 export const useDailyTripsUnallocated = (options?: SWRConfiguration) => {
   const searchParams = useSearchParams();
-  const [showTimelineTripsUnallocated] = useLocalStorage(
-    "showTimelineTripsUnallocated",
-  );
+  const [showSelectedView] = useLocalStorage("showSelectedView");
+  const showTimelineUnallocated = showSelectedView !== "2";
 
   const params = {
     startDate: searchParams.get("startDate")
@@ -28,7 +27,7 @@ export const useDailyTripsUnallocated = (options?: SWRConfiguration) => {
   };
 
   const getKey = (pageIndex: number, previousPageData: DailyTripResponse) => {
-    if (!showTimelineTripsUnallocated) return null;
+    if (!showTimelineUnallocated) return null;
     if (!Object.values(params).some(Boolean)) return null;
     if (previousPageData && !previousPageData.hasNext) return null;
     return {
