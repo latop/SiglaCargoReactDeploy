@@ -30,6 +30,31 @@ export async function fetchJourneysByPeriod({
   }
 }
 
+export type DailyTripsByPeriodParams = {
+  startDate: string;
+  endDate: string;
+  fleetGroupCode?: string;
+  pageSize?: number;
+  pageNumber?: number;
+};
+
+export async function fetchDailyTripsByPeriod({
+  args: params,
+}: {
+  args: JourneysByPeriodParams;
+}) {
+  try {
+    const response = await axios.get(`/gantt/GetDailyTripsByPeriod`, {
+      params,
+    });
+    const data = response.data;
+    return data;
+  } catch (error) {
+    console.error(error);
+    return error;
+  }
+}
+
 export type FetchCircuitParams = {
   ciruictCode: string;
 };

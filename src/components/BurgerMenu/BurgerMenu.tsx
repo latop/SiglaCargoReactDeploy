@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import Link from "next/link";
 import HomeIcon from "@mui/icons-material/Home";
+import { TbSteeringWheel } from "react-icons/tb";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import SwapVertIcon from "@mui/icons-material/SwapVert";
 import MovingIcon from "@mui/icons-material/Moving";
@@ -33,6 +34,11 @@ const routes: RouteItem[] = [
     text: "Escala de Motoristas",
     icon: <LocalShippingIcon />,
     path: "/drivers-schedule",
+  },
+  {
+    text: "Coordenação de viagens",
+    icon: <TbSteeringWheel />,
+    path: "/daily-trips-schedule",
   },
   {
     text: "Partidas e chegadas",

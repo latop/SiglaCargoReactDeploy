@@ -53,6 +53,19 @@ export interface JourneysByPeriodResponse {
   currentPage: number;
 }
 
+export interface Truck {
+  truckId: string;
+  licensePlate: string;
+  fleetGroupCode: string;
+}
+
+export interface DailyTripsByPeriodResponse {
+  trips: Trip[];
+  trucks: Truck[];
+  hasNext: boolean;
+  currentPage: number;
+}
+
 export interface DriverJourneySchedule {
   type: string;
   task: string;
