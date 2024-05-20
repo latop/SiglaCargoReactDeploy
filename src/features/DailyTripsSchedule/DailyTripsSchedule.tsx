@@ -6,14 +6,23 @@ import { AppBar } from "@/components/AppBar";
 import { GianttTable } from "@/components/GianttTable";
 import { HeaderTitle } from "@/components/HeaderTitle/HeaderTitle";
 import { GianttZoom } from "@/components/GianttZoom";
+import { DailyTripDetailsDialog } from "@/components/DailyTripDetailsDialog";
 import { GianttProvider } from "@/hooks/useGiantt";
 import { useDailyTripsSchedule } from "./useDailyTripsSchedule";
 import { Box } from "@mui/material";
 import { TimelineDailyTripCard } from "./components/TimelineDailyTripCard";
 import { DailyTripsByPeriodFilterBar } from "@/components/DailyTripsByPeriodFilterBar";
+import { useHash } from "@/hooks/useHash";
 
 export function DailyTripsSchedule() {
   const { showContent } = useDailyTripsSchedule();
+  const [hash, setHash] = useHash();
+  const match = (hash as string)?.match(/#dailyTrip-(.+)/);
+  const dailyTripId = match?.[1];
+
+  const handleCloseDialog = () => {
+    setHash("");
+  };
 
   return (
     <MainContainer>
@@ -55,6 +64,10 @@ export function DailyTripsSchedule() {
           </GianttProvider>
         </MainContainer.Content>
       )}
+      <DailyTripDetailsDialog
+        open={!!dailyTripId}
+        onClose={handleCloseDialog}
+      />
     </MainContainer>
   );
 }

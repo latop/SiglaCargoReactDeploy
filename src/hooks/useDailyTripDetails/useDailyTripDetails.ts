@@ -10,7 +10,6 @@ export const useDailyTripDetails = (
   params: DailyTripDetailsParams,
   options?: SWRConfiguration,
 ) => {
-  console.log(params.id, "params.id");
   const { data, error, isLoading } = useSWR<DailyTripDetailsResponse>(
     params.id ? { url: "/daily-trip-detail", args: params } : null,
     fetchDailyTripDetails,

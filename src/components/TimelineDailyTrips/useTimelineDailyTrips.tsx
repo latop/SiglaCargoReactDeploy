@@ -5,8 +5,10 @@ import { Unit } from "react-calendar-timeline";
 import dayjs from "dayjs";
 import { match } from "ts-pattern";
 import { useDailyTripsByPeriod } from "@/hooks/useDailyTripsByPeriod";
+import { useHash } from "@/hooks/useHash";
 
 export function useTimelineDailyTrips() {
+  const [, setHash] = useHash();
   const { trips, trucks } = useDailyTripsByPeriod();
   const {
     visibleTimeEnd,
@@ -98,6 +100,10 @@ export function useTimelineDailyTrips() {
     };
   }, [trips, trucks]);
 
+  const handleDoubleClick = (itemId: string) => {
+    setHash(`#dailyTrip-${itemId}`);
+  };
+
   return {
     groups,
     items,
@@ -105,6 +111,7 @@ export function useTimelineDailyTrips() {
     visibleTimeEnd,
     handleTimeChange,
     handleLabelFormatItem,
+    handleDoubleClick,
     handleLabelFormatHeader,
   };
 }

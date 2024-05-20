@@ -93,8 +93,8 @@ export function DailyTripsFilterBar(props: React.HTMLProps<HTMLFormElement>) {
                     error={!!error?.message}
                     helperText={error?.message?.toString()}
                   >
-                    <MenuItem value="S">S</MenuItem>
-                    <MenuItem value="N">N</MenuItem>
+                    <MenuItem value="C">Cancelado</MenuItem>
+                    <MenuItem value="N">Ativo</MenuItem>
                   </TextField>
                 )}
               />

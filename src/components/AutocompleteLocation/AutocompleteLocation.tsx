@@ -19,12 +19,13 @@ export function AutocompleteLocation({
     control,
     watch,
     setValue,
-    formState: { errors },
+    formState: { errors, dirtyFields },
   } = useFormContext();
 
+  const isDirty = dirtyFields[name];
   const { locations, error } = useLocation({
     pageSize: 10,
-    code: watch(name),
+    code: isDirty ? watch(name) : "",
   });
 
   return (
@@ -42,7 +43,6 @@ export function AutocompleteLocation({
             option[keyCode] === value[keyCode]
           }
           onChange={(_, value) => {
-            console.log("keyCode", keyCode);
             setValue(name, value?.[keyCode] || "");
           }}
           noOptionsText={

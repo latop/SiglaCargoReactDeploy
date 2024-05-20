@@ -28,6 +28,7 @@ export function TimelineDailyTrips() {
     items,
     visibleTimeStart,
     handleTimeChange,
+    handleDoubleClick,
     visibleTimeEnd,
     handleLabelFormatItem,
     handleLabelFormatHeader,
@@ -60,10 +61,17 @@ export function TimelineDailyTrips() {
       backgroundColor = currentTrip?.colorRGB || "#4663ab";
     }
     const borderColor = itemContext.resizing ? red[500] : "transparent";
-
+    const style = {
+      ...itemProps.style,
+      top:
+        currentTrip?.tripType === "TRIP EXEC"
+          ? `calc(${itemProps.style.top})`
+          : `calc(${itemProps.style.top} - 15px)`,
+    };
     return (
       <TimelineItem
         {...itemProps}
+        style={style}
         className="giantt-item"
         data-id={itemContext.title}
         isStop={currentTrip?.tripType === "STOP"}
@@ -73,7 +81,8 @@ export function TimelineDailyTrips() {
         {!!itemContext.useResizeHandle && <div {...leftResizeProps} />}
         {itemContext.dimensions.width > 50 &&
           currentTrip?.locationDestCode &&
-          currentTrip?.locationOrigCode && (
+          currentTrip?.locationOrigCode &&
+          currentTrip.tripType === "TRIP" && (
             <TimelineItemSubtitle>
               <TimelineItemOrigin>
                 {currentTrip.locationOrigCode}
@@ -104,11 +113,12 @@ export function TimelineDailyTrips() {
 
   return (
     <Timeline
-      lineHeight={50}
+      lineHeight={65}
       groups={groups}
       items={items}
       canMove={false}
       canResize={false}
+      onItemDoubleClick={handleDoubleClick}
       canChangeGroup={false}
       minZoom={60 * 60 * 24}
       stackItems={false}
