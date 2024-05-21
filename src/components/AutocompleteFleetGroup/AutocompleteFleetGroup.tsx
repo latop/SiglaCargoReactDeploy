@@ -17,12 +17,14 @@ export function AutocompleteFleetGroup({
     control,
     watch,
     setValue,
-    formState: { errors },
+    formState: { errors, dirtyFields },
   } = useFormContext();
+
+  const isDirty = dirtyFields[name];
 
   const { fleetGroups, error } = useFleetGroup({
     pageSize: 10,
-    code: watch(name),
+    code: isDirty ? watch(name) : "",
   });
 
   return (

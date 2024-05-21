@@ -38,7 +38,7 @@ export function AutocompleteLocation({
           clearOnEscape
           options={locations || []}
           loadingText="Carregando..."
-          defaultValue={{ code: field.value } as Location}
+          defaultValue={{ code: field.value || "" } as Location}
           isOptionEqualToValue={(option: Location, value: Location) =>
             option[keyCode] === value[keyCode]
           }
