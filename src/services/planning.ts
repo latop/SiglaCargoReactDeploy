@@ -1,4 +1,4 @@
-import { ScenarioResponse } from "@/interfaces/planning";
+import { Scenario, ScenarioResponse } from "@/interfaces/planning";
 import axios from "axios";
 
 axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_URL;
@@ -33,5 +33,34 @@ export async function fetchScenarios({ args }: { args: FetchScenariosParams }) {
     return normalizeData;
   } catch (err) {
     throw new Error();
+  }
+}
+
+export type FetchScenarioDetailParams = {
+  id: string;
+};
+
+export async function fetchScenarioDetails({
+  args: params,
+}: {
+  args: FetchScenarioDetailParams;
+}) {
+  try {
+    const response = await axios.get(`/Scenario/${params.id}`);
+    const data = response.data;
+    return data;
+  } catch (error) {
+    console.error(error);
+    return error;
+  }
+}
+
+export async function createScenario(scenario: Scenario) {
+  try {
+    const response = await axios.post(`/Scenario`, scenario);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    return error;
   }
 }

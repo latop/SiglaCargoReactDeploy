@@ -14,7 +14,7 @@ export const useScenarios = (options?: SWRConfiguration) => {
   const getKey = (pageIndex: number, previousPageData: ScenarioResponse) => {
     if (previousPageData && !previousPageData.hasNext) return null;
     return {
-      url: "/daily-trips",
+      url: "/scenario",
       args: { ...params, pageSize: 10, pageNumber: pageIndex + 1 },
     };
   };

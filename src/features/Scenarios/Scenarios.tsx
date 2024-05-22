@@ -5,20 +5,20 @@ import { MainContainer } from "@/components/MainContainer";
 import { AppBar } from "@/components/AppBar";
 import { HeaderTitle } from "@/components/HeaderTitle/HeaderTitle";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { Box, Card, CircularProgress } from "@mui/material";
+import { Box, Button, Card, CircularProgress } from "@mui/material";
 import { EmptyResult } from "@/components/EmptyResult";
 import dayjs from "dayjs";
 import { ErrorResult } from "@/components/ErrorResult";
-import { DailyTripDetailsDialog } from "@/components/DailyTripDetailsDialog";
 import { useHash } from "@/hooks/useHash";
 import { useScenarios } from "@/hooks/useScenarios";
 import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
+import { ScenarioDetailsDialog } from "@/components/ScenarioDetailsDialog";
 
 const columns: GridColDef[] = [
   {
     field: "code",
-    headerName: "Cód. Linha",
+    headerName: "Código",
     width: 200,
     sortable: false,
     filterable: false,
@@ -26,28 +26,36 @@ const columns: GridColDef[] = [
   {
     field: "description",
     headerName: "Descrição",
-    width: 300,
+    width: 550,
     sortable: false,
     filterable: false,
   },
   {
     field: "isDated",
-    headerName: "Datado",
+    headerName: "Em vigência",
     width: 150,
     sortable: false,
     filterable: false,
     renderCell: (params) => {
-      return params.value ? <CheckIcon /> : <CloseIcon />;
+      return params.value ? (
+        <CheckIcon sx={{ marginTop: "15px" }} />
+      ) : (
+        <CloseIcon sx={{ marginTop: "15px" }} />
+      );
     },
   },
   {
     field: "isDefault",
-    headerName: "Default",
+    headerName: "Padrão",
     width: 150,
     sortable: false,
     filterable: false,
     renderCell: (params) => {
-      return params.value ? <CheckIcon /> : <CloseIcon />;
+      return params.value ? (
+        <CheckIcon sx={{ marginTop: "15px" }} />
+      ) : (
+        <CloseIcon sx={{ marginTop: "15px" }} />
+      );
     },
   },
   {
@@ -71,6 +79,8 @@ const columns: GridColDef[] = [
 ];
 
 export function Scenarios() {
+  const [showAddScenarioDialog, setShowAddScenarioDialog] =
+    React.useState(false);
   const [hash, setHash] = useHash();
   const match = (hash as string)?.match(/#scenario-(.+)/);
   const scenarioId = match?.[1];
@@ -87,6 +97,11 @@ export function Scenarios() {
 
   const handleCloseDialog = () => {
     setHash("");
+    setShowAddScenarioDialog(false);
+  };
+
+  const handleShowScenarioDialog = () => {
+    setShowAddScenarioDialog(true);
   };
 
   return (
@@ -96,7 +111,7 @@ export function Scenarios() {
       </AppBar>
       <Box
         sx={{
-          width: "1150px",
+          width: "1400px",
           height: "100%",
           padding: "20px",
           gap: "20px",
@@ -105,6 +120,11 @@ export function Scenarios() {
           flexDirection: "column",
         }}
       >
+        <Box display="flex" justifyContent="flex-end">
+          <Button variant="contained" onClick={handleShowScenarioDialog}>
+            Adicionar cenário
+          </Button>
+        </Box>
         <Card
           sx={{
             width: "100%",
@@ -155,7 +175,10 @@ export function Scenarios() {
           )}
         </Card>
       </Box>
-      <DailyTripDetailsDialog open={!!scenarioId} onClose={handleCloseDialog} />
+      <ScenarioDetailsDialog
+        open={!!scenarioId || showAddScenarioDialog}
+        onClose={handleCloseDialog}
+      />
     </MainContainer>
   );
 }
