@@ -14,6 +14,7 @@ import { TbSteeringWheel } from "react-icons/tb";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import SwapVertIcon from "@mui/icons-material/SwapVert";
 import MovingIcon from "@mui/icons-material/Moving";
+import { BiTrip } from "react-icons/bi";
 
 interface BurgerMenuProps {
   isOpen: boolean;
@@ -49,6 +50,11 @@ const routes: RouteItem[] = [
     text: "Viagens diárias",
     icon: <MovingIcon />,
     path: "/daily-trips",
+  },
+  {
+    text: "Cenários",
+    icon: <BiTrip />,
+    path: "/scenarios",
   },
 ];
 
