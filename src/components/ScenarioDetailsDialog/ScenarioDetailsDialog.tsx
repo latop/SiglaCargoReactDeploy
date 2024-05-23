@@ -13,6 +13,7 @@ import { Scenario } from "@/interfaces/planning";
 import { ScenarioFormFooter } from "./components/ScenarioFormFooter";
 import { usePost } from "@/hooks/usePost";
 import { useScenarios } from "@/hooks/useScenarios";
+import { ErrorResult } from "../ErrorResult";
 
 interface ScenarioDetailsProps {
   open: boolean;
@@ -21,7 +22,7 @@ interface ScenarioDetailsProps {
 
 export function ScenarioDetailsDialog({ open, onClose }: ScenarioDetailsProps) {
   const [createScenario] = usePost();
-  const { isLoading, methods, isEdit } = useScenarioDetailsDialog();
+  const { isLoading, methods, isEdit, error } = useScenarioDetailsDialog();
   const { mutate: refetchScenarios } = useScenarios();
   const { addToast } = useToast();
 
@@ -73,19 +74,15 @@ export function ScenarioDetailsDialog({ open, onClose }: ScenarioDetailsProps) {
             >
               <CloseIcon />
             </IconButton>
-            <DialogContent dividers sx={{ padding: "16px" }}>
-              {isLoading && (
-                <Box
-                  display="flex"
-                  alignItems="center"
-                  justifyContent="center"
-                  padding="10px"
-                  height="100%"
-                >
-                  <CircularProgress />
-                </Box>
-              )}
-              {!isLoading && <ScenarioForm />}
+            <DialogContent
+              dividers
+              sx={{
+                padding: "16px",
+              }}
+            >
+              {isLoading && <CircularProgress />}
+              {!isLoading && !error && <ScenarioForm />}
+              {error && <ErrorResult />}
             </DialogContent>
             <ScenarioFormFooter />
           </>

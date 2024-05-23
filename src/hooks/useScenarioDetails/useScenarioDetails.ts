@@ -1,5 +1,8 @@
 import { Scenario, ScenarioCapacity } from "@/interfaces/planning";
-import { fetchScenarioDetails } from "@/services/planning";
+import {
+  fetchScenarioDetails,
+  fetchScenarioCapacityDetails,
+} from "@/services/planning";
 import useSWR, { SWRConfiguration } from "swr";
 
 export interface ScenarioDetailsParams {
@@ -10,7 +13,11 @@ export const useScenarioDetails = (
   params: ScenarioDetailsParams,
   options?: SWRConfiguration,
 ) => {
-  const { data, error, isLoading } = useSWR<Scenario>(
+  const {
+    data: scenarioDetails,
+    error: errorScenario,
+    isLoading: loadingScenario,
+  } = useSWR<Scenario>(
     params.id ? { url: "/scenario-details", args: params } : null,
     fetchScenarioDetails,
     {
@@ -20,10 +27,24 @@ export const useScenarioDetails = (
     },
   );
 
+  const {
+    data: scenarioCapacities,
+    error: errorCapacities,
+    isLoading: loadingCapacities,
+  } = useSWR<ScenarioCapacity[]>(
+    params.id ? { url: "/scenario-capacity", args: params } : null,
+    fetchScenarioCapacityDetails,
+    {
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false,
+      ...options,
+    },
+  );
+
   return {
-    scenarioDetails: data,
-    scenarioCapacities: [] as ScenarioCapacity[],
-    error,
-    isLoading,
+    scenarioDetails,
+    scenarioCapacities,
+    error: errorScenario || errorCapacities,
+    isLoading: loadingScenario || loadingCapacities,
   };
 };

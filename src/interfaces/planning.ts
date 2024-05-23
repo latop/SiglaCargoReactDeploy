@@ -15,7 +15,24 @@ export interface Scenario {
   isDefault: boolean;
 }
 
-export interface ScenarioCapacity {
+export interface WeekSchedule {
+  mon: number;
+  startTimeMon: string;
+  tue: number;
+  startTimeTue: string;
+  wed: number;
+  startTimeWed: string;
+  thu: number;
+  startTimeThu: string;
+  fri: number;
+  startTimeFri: string;
+  sat: number;
+  startTimeSat: string;
+  sun: number;
+  startTimeSun: string;
+}
+
+export interface ScenarioCapacity extends WeekSchedule {
   scenarioId: string;
   lineId: string;
   line: Line;

@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { MainContainer } from "@/components/MainContainer";
 import { AppBar } from "@/components/AppBar";
 import { HeaderTitle } from "@/components/HeaderTitle/HeaderTitle";
@@ -79,8 +79,7 @@ const columns: GridColDef[] = [
 ];
 
 export function Scenarios() {
-  const [showAddScenarioDialog, setShowAddScenarioDialog] =
-    React.useState(false);
+  const [showAddScenarioDialog, setShowAddScenarioDialog] = useState(false);
   const [hash, setHash] = useHash();
   const match = (hash as string)?.match(/#scenario-(.+)/);
   const scenarioId = match?.[1];
@@ -136,7 +135,17 @@ export function Scenarios() {
             justifyContent: "center",
           }}
         >
-          {isLoading && <CircularProgress />}
+          {isLoading && (
+            <Box
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+              padding="10px"
+              height="100%"
+            >
+              <CircularProgress />
+            </Box>
+          )}
           {isEmpty && <EmptyResult />}
           {error && <ErrorResult />}
           {hasData && (

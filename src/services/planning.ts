@@ -50,8 +50,21 @@ export async function fetchScenarioDetails({
     const data = response.data;
     return data;
   } catch (error) {
-    console.error(error);
-    return error;
+    throw new Error();
+  }
+}
+
+export async function fetchScenarioCapacityDetails({
+  args: params,
+}: {
+  args: FetchScenarioDetailParams;
+}) {
+  try {
+    const response = await axios.get(`/ScenarioCapacity/${params.id}`);
+    const data = response.data;
+    return data;
+  } catch (error) {
+    throw new Error();
   }
 }
 
@@ -60,7 +73,6 @@ export async function createScenario(scenario: Scenario) {
     const response = await axios.post(`/Scenario`, scenario);
     return response.data;
   } catch (error) {
-    console.error(error);
-    return error;
+    throw new Error();
   }
 }

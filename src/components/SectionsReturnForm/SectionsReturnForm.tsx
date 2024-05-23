@@ -82,7 +82,6 @@ export const SectionsReturnForm = ({
               disableOpenPicker
               disabled
               {...field}
-              slotProps={{}}
               value={field.value ? dayjs(field.value) : null}
               onChange={(date) => field.onChange(date?.format())}
             />

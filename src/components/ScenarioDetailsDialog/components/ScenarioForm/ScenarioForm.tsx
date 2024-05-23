@@ -2,13 +2,13 @@ import React from "react";
 import { useFormContext, Controller } from "react-hook-form";
 import {
   Box,
-  // colors,
+  colors,
   TextField,
-  // Chip,
+  Chip,
   Grid,
   FormControlLabel,
   Switch,
-  // Typography,
+  Typography,
 } from "@mui/material";
 import { DateTimePicker } from "@/components/DatePicker";
 
@@ -17,16 +17,16 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import "dayjs/locale/pt-br";
-// import { DailyTripSectionForm } from "../DailyTripSectionForm";
-// import { DailyTrip } from "@/interfaces/daily-trip";
+import { ScenarioSectionForm } from "../ScenarioSectionForm";
+import { Scenario } from "@/interfaces/planning";
 
 dayjs.extend(customParseFormat);
 
 export const ScenarioForm = () => {
-  const { control } = useFormContext();
-  // const dailyTripSections = watch("dailyTripSections");
+  const { control, watch } = useFormContext();
+  const scenarioCapacities = watch("scenarioCapacities");
 
-  // const countSections = dailyTripSections?.length;
+  const countSections = scenarioCapacities?.length;
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
@@ -84,7 +84,7 @@ export const ScenarioForm = () => {
                 )}
               />
             </Grid>
-            <Grid item xs={1.1}>
+            <Grid item xs={1.5}>
               <Controller
                 name="isDated"
                 control={control}
@@ -96,7 +96,7 @@ export const ScenarioForm = () => {
                 )}
               />
             </Grid>
-            <Grid item xs={1.2}>
+            <Grid item xs={1.5}>
               <Controller
                 name="isDefault"
                 control={control}
@@ -110,27 +110,27 @@ export const ScenarioForm = () => {
             </Grid>
           </Grid>
         </Box>
-        {/* <Box gap="10px" display="flex" flexDirection="column">
+        <Box gap="10px" display="flex" flexDirection="column">
           <Box display="flex" alignItems="center" gap="8px">
-            <Typography variant="subtitle2">Seções da viagem</Typography>
+            <Typography variant="subtitle2">Linhas da viagem</Typography>
             {countSections > 0 && (
               <Chip label={countSections} color="default" size="small" />
             )}
           </Box>
-          {dailyTripSections?.length === 0 && (
+          {scenarioCapacities?.length === 0 && (
             <Box display="flex">
               <Typography variant="body2" color={colors.grey[700]}>
-                Não há seções para essa viagem.
+                Não há linhas para essa viagem.
               </Typography>
             </Box>
           )}
 
           <Box gap="16px" display="flex" flexDirection="column">
-            {dailyTripSections?.map((_: DailyTrip, index: number) => (
-              <DailyTripSectionForm key={index} seq={index} />
+            {scenarioCapacities?.map((_: Scenario, index: number) => (
+              <ScenarioSectionForm key={index} seq={index} />
             ))}
           </Box>
-        </Box> */}
+        </Box>
       </Box>
     </LocalizationProvider>
   );
