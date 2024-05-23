@@ -65,7 +65,9 @@ export const ScenarioSectionForm = ({ seq }: { seq: number }) => {
               </Grid>
               <Grid item xs={0.9} key={day}>
                 <Controller
-                  name={`scenarioCapacities.${seq}.${day}`}
+                  name={`scenarioCapacities.${seq}.startTime${
+                    day.charAt(0).toUpperCase() + day.slice(1)
+                  }`}
                   control={control}
                   render={({ field }) => (
                     <TimePicker
