@@ -3,40 +3,29 @@ import { useFormContext } from "react-hook-form";
 export function useDailyTripFormFooter() {
   const { watch, setValue } = useFormContext();
 
-  const handleAddTravel = () => {
-    const tasksDriver = watch("tasksDriver");
-    tasksDriver.push({
-      seq: tasksDriver.length + 1,
-      type: "V",
-      demand: null,
-      locOrig: null,
-      locDest: null,
-      lineCode: null,
-      startPlanned: null,
-      endPlanned: null,
+  const handleAddStep = () => {
+    const dailyTripSections = watch("dailyTripSections");
+    dailyTripSections.push({
+      section: dailyTripSections.length + 1,
+      truck: null,
+      truckId: null,
+      locationOrig: null,
+      locationOrigId: null,
+      locationDest: null,
+      locationDestId: null,
       startActual: null,
       endActual: null,
-    });
-    setValue("tasksDriver", tasksDriver);
-  };
-
-  const handleAddActivity = () => {
-    const tasksDriver = watch("tasksDriver");
-    tasksDriver.push({
-      seq: tasksDriver.length + 1,
-      type: "A",
-      activityId: null,
-      activityCode: null,
+      startEstimated: null,
+      endEstimated: null,
       startPlanned: null,
       endPlanned: null,
-      startActual: null,
-      endActual: null,
+      driverId: null,
+      driverName: null,
     });
-    setValue("tasksDriver", tasksDriver);
+    setValue("dailyTripSections", dailyTripSections);
   };
 
   return {
-    handleAddTravel,
-    handleAddActivity,
+    handleAddStep,
   };
 }

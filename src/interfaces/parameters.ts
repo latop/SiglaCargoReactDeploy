@@ -15,3 +15,15 @@ export interface Activity {
   userIdCreate: null | string;
   userIdUpdate: null | string;
 }
+
+export interface Company {
+  code: string;
+  name: string;
+  id: string;
+  address: string;
+  cityId: string;
+  stateId: string;
+  regionId: null | string;
+  countryId: string;
+  isSupplier: boolean;
+}

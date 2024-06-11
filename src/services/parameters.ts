@@ -26,3 +26,24 @@ export async function fetchAcitivities({
     return error;
   }
 }
+
+export interface FetchCompanyParams {
+  pageSize?: number;
+  code?: string;
+}
+
+export async function fetchCompanies({ args }: { args: FetchCompanyParams }) {
+  try {
+    const params = {
+      PageSize: args.pageSize,
+      filter1String: args.code?.toUpperCase(),
+    };
+
+    const response = await axios.get("/Companies", { params });
+    const data = response.data;
+    return data;
+  } catch (error) {
+    console.error(error);
+    return error;
+  }
+}

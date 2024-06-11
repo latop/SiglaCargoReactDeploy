@@ -8,3 +8,8 @@ export interface Location {
   code: string;
   id: string;
 }
+
+export interface TripType {
+  code: string;
+  description: string;
+}

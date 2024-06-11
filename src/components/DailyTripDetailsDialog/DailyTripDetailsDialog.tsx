@@ -10,7 +10,7 @@ import { Box, CircularProgress } from "@mui/material";
 // import { FieldValues, FormProvider } from "react-hook-form";
 import { FormProvider } from "react-hook-form";
 import { useDailyTripDetailsDialog } from "./useDailyTripDetailsDialog";
-// import { DailyTripFormFooter } from "./components/DailyTripFormFooter";
+import { DailyTripFormFooter } from "./components/DailyTripFormFooter";
 // import { DailyTrip } from "@/interfaces/daily-trip";
 
 interface DailyTripDetailsProps {
@@ -90,7 +90,7 @@ export function DailyTripDetailsDialog({
               )}
               {!loading && <DailyTripForm />}
             </DialogContent>
-            {/* <DailyTripFormFooter loading={isLoadingCreate} /> */}
+            <DailyTripFormFooter />
           </>
         </form>
       </FormProvider>

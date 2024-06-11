@@ -10,6 +10,7 @@ import {
   Typography,
 } from "@mui/material";
 import { DateTimePicker } from "@/components/DatePicker";
+import { DateField } from "@mui/x-date-pickers/DateField";
 
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -20,6 +21,9 @@ import { AutocompleteFleetGroup } from "@/components/AutocompleteFleetGroup";
 import { AutocompleteLocation } from "@/components/AutocompleteLocation";
 import { DailyTripSectionForm } from "../DailyTripSectionForm";
 import { DailyTrip } from "@/interfaces/daily-trip";
+import { AutocompleteLine } from "@/components/AutocompleteLine";
+import { AutocompleteCompany } from "@/components/AutocompleteCompany";
+import { AutocompleteTripType } from "@/components/AutocompleteTripType";
 
 dayjs.extend(customParseFormat);
 
@@ -35,58 +39,7 @@ export const DailyTripForm = () => {
         <Box display="flex" gap="20px">
           <Grid container spacing={1}>
             <Grid item xs={1.7}>
-              <Controller
-                name={`sto`}
-                control={control}
-                render={({ field }) => (
-                  <TextField {...field} label="STO" fullWidth />
-                )}
-              />
-            </Grid>
-            <Grid item xs={0.8}>
-              <Controller
-                name="flgStatus"
-                control={control}
-                render={({ field, fieldState: { error } }) => (
-                  <TextField
-                    {...field}
-                    variant="outlined"
-                    fullWidth
-                    label="Status"
-                    select
-                    error={!!error?.message}
-                    helperText={error?.message?.toString()}
-                  >
-                    <MenuItem value="C">Cancelado</MenuItem>
-                    <MenuItem value="N">Ativo</MenuItem>
-                  </TextField>
-                )}
-              />
-            </Grid>
-            <Grid item xs={1.4}>
-              <AutocompleteFleetGroup name="fleetGroup.code" />
-            </Grid>
-            <Grid item xs={1.5}>
-              <AutocompleteLocation name="locationOrig.code" />
-            </Grid>
-            <Grid item xs={1.5}>
-              <AutocompleteLocation name="locationDest.code" />
-            </Grid>
-            <Grid item xs={1.7}>
-              <Controller
-                name="tripDate"
-                control={control}
-                render={({ field, fieldState: { error } }) => (
-                  <DateTimePicker
-                    disabled={false}
-                    label="Data da viagem"
-                    error={error?.message}
-                    {...field}
-                    value={field.value ? dayjs(field.value) : null}
-                    onChange={(date) => field.onChange(date?.format())}
-                  />
-                )}
-              />
+              <AutocompleteLine />
             </Grid>
             <Grid item xs={1.7}>
               <Controller
@@ -112,6 +65,113 @@ export const DailyTripForm = () => {
                   <DateTimePicker
                     disabled={false}
                     label="Fim planejado"
+                    error={error?.message}
+                    {...field}
+                    value={field.value ? dayjs(field.value) : null}
+                    onChange={(date) => field.onChange(date?.format())}
+                  />
+                )}
+              />
+            </Grid>
+          </Grid>
+        </Box>
+        <Box display="flex" gap="20px">
+          <Grid container spacing={1}>
+            <Grid item xs={1.7}>
+              <Controller
+                name="tripDate"
+                control={control}
+                render={({ field }) => (
+                  <DateField
+                    disabled={false}
+                    label="Data da viagem"
+                    {...field}
+                    value={field.value ? dayjs(field.value) : null}
+                    onChange={(date) => field.onChange(date?.format())}
+                  />
+                )}
+              />
+            </Grid>
+            <Grid item xs={1.7}>
+              <Controller
+                name="sto"
+                control={control}
+                render={({ field, fieldState: { error } }) => (
+                  <TextField
+                    {...field}
+                    variant="outlined"
+                    fullWidth
+                    label="STO"
+                    error={!!error?.message}
+                    helperText={error?.message}
+                  />
+                )}
+              />
+            </Grid>
+            <Grid item xs={1.7}>
+              <Controller
+                name="flgStatus"
+                control={control}
+                render={({ field, fieldState: { error } }) => (
+                  <TextField
+                    {...field}
+                    variant="outlined"
+                    fullWidth
+                    label="Status"
+                    select
+                    error={!!error?.message}
+                    helperText={error?.message?.toString()}
+                  >
+                    <MenuItem value="C">Cancelado</MenuItem>
+                    <MenuItem value="N">Ativo</MenuItem>
+                  </TextField>
+                )}
+              />
+            </Grid>
+
+            <Grid item xs={1.7}>
+              <AutocompleteCompany />
+            </Grid>
+            <Grid item xs={1.7}>
+              <AutocompleteTripType name="tripType.code" />
+            </Grid>
+          </Grid>
+        </Box>
+        <Box display="flex" gap="20px">
+          <Grid container spacing={1}>
+            <Grid item xs={1.7}>
+              <AutocompleteLocation name="locationOrig.code" label="Origem" />
+            </Grid>
+            <Grid item xs={1.7}>
+              <AutocompleteLocation name="locationDest.code" label="Destino" />
+            </Grid>
+            <Grid item xs={1.7}>
+              <AutocompleteFleetGroup name="fleetGroup.code" />
+            </Grid>
+            <Grid item xs={1.7}>
+              <Controller
+                name="startActual"
+                control={control}
+                render={({ field, fieldState: { error } }) => (
+                  <DateTimePicker
+                    disabled={false}
+                    label="Início executado"
+                    error={error?.message}
+                    {...field}
+                    value={field.value ? dayjs(field.value) : null}
+                    onChange={(date) => field.onChange(date?.format())}
+                  />
+                )}
+              />
+            </Grid>
+            <Grid item xs={1.7}>
+              <Controller
+                name="endActual"
+                control={control}
+                render={({ field, fieldState: { error } }) => (
+                  <DateTimePicker
+                    disabled={false}
+                    label="Fim executado"
                     error={error?.message}
                     {...field}
                     value={field.value ? dayjs(field.value) : null}

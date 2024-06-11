@@ -4,15 +4,13 @@ import AddIcon from "@mui/icons-material/Add";
 import theme from "@/styles/theme";
 import { Box, CircularProgress, Typography, Button, Icon } from "@mui/material";
 import { useDailyTripFormFooter } from "./useDailyTripFormFooter";
+import { useFormContext } from "react-hook-form";
 
-interface DailyTripFormFooterProps {
-  loading: boolean;
-}
-
-export function DailyTripFormFooter({
-  loading = false,
-}: DailyTripFormFooterProps) {
-  const { handleAddTravel, handleAddActivity } = useDailyTripFormFooter();
+export function DailyTripFormFooter() {
+  const {
+    formState: { isSubmitting },
+  } = useFormContext();
+  const { handleAddStep } = useDailyTripFormFooter();
 
   return (
     <DialogActions>
@@ -25,7 +23,7 @@ export function DailyTripFormFooter({
         <Box display="flex" gap="10px">
           <Button
             variant="outlined"
-            onClick={handleAddTravel}
+            onClick={handleAddStep}
             color="primary"
             size="small"
           >
@@ -35,35 +33,20 @@ export function DailyTripFormFooter({
               ml="5px"
               color={theme.palette.primary.main}
             >
-              Viagem
-            </Typography>
-          </Button>
-          <Button
-            variant="outlined"
-            onClick={handleAddActivity}
-            color="primary"
-            size="small"
-          >
-            <Icon component={AddIcon} fontSize="small" />
-            <Typography
-              variant="body2"
-              ml="5px"
-              color={theme.palette.primary.main}
-            >
-              Atividade
+              Etapa
             </Typography>
           </Button>
         </Box>
         <Box display="flex" gap="10px">
           <Button type="submit" variant="contained">
-            {loading && (
+            {isSubmitting && (
               <CircularProgress
                 color="inherit"
                 size={20}
                 sx={{ margin: "2px 11.45px" }}
               />
             )}
-            {!loading && `Salvar`}
+            {!isSubmitting && `Salvar`}
           </Button>
         </Box>
       </Box>
