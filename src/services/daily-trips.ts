@@ -53,3 +53,20 @@ export async function fetchDailyTrips({
     throw new Error();
   }
 }
+
+export type FetchDailyTripDetailsParams = {
+  dailyTripId?: string;
+  lineId: string;
+  startTime: string;
+};
+
+export async function fetchDailyTripDetails(params: FetchDailyTripsParams) {
+  try {
+    const response = await axios.get(`/DailyTrip/getdailytripdetail`, {
+      params,
+    });
+    return response.data;
+  } catch (err) {
+    throw new Error();
+  }
+}

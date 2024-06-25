@@ -4,14 +4,13 @@ import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
-// import { useToast } from "@/hooks/useToast";
+import { useToast } from "@/hooks/useToast";
 import { DailyTripForm } from "./components/DailyTripForm";
 import { Box, CircularProgress } from "@mui/material";
-// import { FieldValues, FormProvider } from "react-hook-form";
-import { FormProvider } from "react-hook-form";
+import { FieldValues, FormProvider } from "react-hook-form";
 import { useDailyTripDetailsDialog } from "./useDailyTripDetailsDialog";
 import { DailyTripFormFooter } from "./components/DailyTripFormFooter";
-// import { DailyTrip } from "@/interfaces/daily-trip";
+import { useDailyTripDetails } from "@/hooks/useDailyTripDetails";
 
 interface DailyTripDetailsProps {
   open: boolean;
@@ -22,18 +21,27 @@ export function DailyTripDetailsDialog({
   open,
   onClose,
 }: DailyTripDetailsProps) {
-  // const { addToast } = useToast();
+  const { addToast } = useToast();
 
-  const onSubmit = () => {
-    // createCircuit(data as DailyTrip, {
-    //   onSuccess: () => {
-    //     addToast("Circuito salvo com sucesso");
-    //     onClose();
-    //   },
-    //   onError: () => {
-    //     addToast("Erro ao salvar circuito", { type: "error" });
-    //   },
-    // });
+  const { updateDailyTripDetails } = useDailyTripDetails();
+
+  const onSubmit = async (data: FieldValues) => {
+    const { dailyTripSections, ...values } = data;
+    const body = {
+      dailyTrip: {
+        ...values,
+      },
+      dailyTripSections,
+    };
+    await updateDailyTripDetails(body, {
+      onSuccess: () => {
+        addToast("Circuito salvo com sucesso");
+        onClose();
+      },
+      onError: () => {
+        addToast("Erro ao salvar circuito", { type: "error" });
+      },
+    });
   };
 
   const { dailyTripDetails, isLoading, methods } = useDailyTripDetailsDialog();
@@ -45,6 +53,7 @@ export function DailyTripDetailsDialog({
     onClose();
     methods.reset();
   };
+  const { handleSubmit } = methods;
 
   return (
     <Dialog
@@ -55,7 +64,7 @@ export function DailyTripDetailsDialog({
     >
       <FormProvider {...methods}>
         <form
-          onSubmit={methods.handleSubmit(onSubmit)}
+          onSubmit={handleSubmit(onSubmit)}
           style={{ display: "flex", flexDirection: "column", height: "100%" }}
         >
           <>

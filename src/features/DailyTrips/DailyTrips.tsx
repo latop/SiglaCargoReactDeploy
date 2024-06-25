@@ -5,7 +5,7 @@ import { MainContainer } from "@/components/MainContainer";
 import { AppBar } from "@/components/AppBar";
 import { HeaderTitle } from "@/components/HeaderTitle/HeaderTitle";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { Box, Card, CircularProgress } from "@mui/material";
+import { Box, Button, Card, CircularProgress } from "@mui/material";
 import { EmptyResult } from "@/components/EmptyResult";
 import { useDailyTrips } from "@/hooks/useDailyTrips";
 import { DailyTripsFilterBar } from "@/components/DailyTripsFilterBar";
@@ -94,8 +94,7 @@ const columns: GridColDef[] = [
 
 export function DailyTrips() {
   const [hash, setHash] = useHash();
-  const match = (hash as string)?.match(/#dailyTrip-(.+)/);
-  const dailyTripId = match?.[1];
+  const isOpen = hash.includes("dailyTrip");
   const params = useSearchParams();
   const router = useRouter();
   const {
@@ -123,6 +122,10 @@ export function DailyTrips() {
     }
   }, [params]);
 
+  const handleAddTravel = () => {
+    setHash("#dailyTrip");
+  };
+
   return (
     <MainContainer>
       <AppBar>
@@ -133,18 +136,22 @@ export function DailyTrips() {
           width: "1400px",
           height: "100%",
           padding: "20px",
-          gap: "20px",
           margin: "auto",
           display: "flex",
           flexDirection: "column",
         }}
       >
         <DailyTripsFilterBar />
+        <Box display="flex" justifyContent="flex-end" mt="25px" mb="10px">
+          <Button variant="outlined" size="small" onClick={handleAddTravel}>
+            Adicionar viagem
+          </Button>
+        </Box>
         {showContent && (
           <Card
             sx={{
               width: "100%",
-              height: "650px",
+              height: "635px",
               position: "relative",
               display: "flex",
               flexDirection: "column",
@@ -192,10 +199,7 @@ export function DailyTrips() {
           </Card>
         )}
       </Box>
-      <DailyTripDetailsDialog
-        open={!!dailyTripId}
-        onClose={handleCloseDialog}
-      />
+      <DailyTripDetailsDialog open={!!isOpen} onClose={handleCloseDialog} />
     </MainContainer>
   );
 }

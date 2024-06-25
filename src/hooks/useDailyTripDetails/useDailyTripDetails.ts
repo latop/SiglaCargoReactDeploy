@@ -1,17 +1,23 @@
 import { DailyTripDetailsResponse } from "@/interfaces/daily-trip";
 import { fetchDailyTripDetails } from "@/services/schedule";
 import useSWR, { SWRConfiguration } from "swr";
+import { usePost } from "../usePost";
 
 export interface DailyTripDetailsParams {
-  id?: string;
+  dailyTripId?: string;
+  lineId?: string;
+  startTime?: string;
 }
 
 export const useDailyTripDetails = (
-  params: DailyTripDetailsParams,
+  params?: DailyTripDetailsParams,
   options?: SWRConfiguration,
 ) => {
+  const [postDailyTripDetails] = usePost();
   const { data, error, isLoading } = useSWR<DailyTripDetailsResponse>(
-    params.id ? { url: "/daily-trip-detail", args: params } : null,
+    Object.values(params ?? {}).length
+      ? { url: "/daily-trip-detail", args: params }
+      : null,
     fetchDailyTripDetails,
     {
       revalidateOnFocus: false,
@@ -20,9 +26,24 @@ export const useDailyTripDetails = (
     },
   );
 
+  const updateDailyTripDetails = (
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    body: any,
+    options?: {
+      onSuccess?: () => void;
+      onError?: () => void;
+    },
+  ) => {
+    return postDailyTripDetails("/DailyTrip/updatedailyTrip", body, {
+      onSuccess: options?.onSuccess,
+      onError: options?.onError,
+    });
+  };
+
   return {
     dailyTripDetails: data?.dailyTrip,
     dailyTripSections: data?.dailyTripSections,
+    updateDailyTripDetails,
     error,
     isLoading,
   };

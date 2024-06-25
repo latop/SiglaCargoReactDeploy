@@ -27,9 +27,8 @@ export function ScenarioDetailsDialog({ open, onClose }: ScenarioDetailsProps) {
   const { addToast } = useToast();
 
   const onSubmit = async (data: FieldValues) => {
-    const { scenarioCapacities, ...body } = data;
-    console.log(scenarioCapacities, "-scenarioCapacities-");
-    await createScenario("/Scenario", body as Scenario, {
+    // const { scenarioCapacities, ...body } = data;
+    await createScenario("/Scenario", data as Scenario, {
       onSuccess: () => {
         addToast("Cenário salvo com sucesso");
         refetchScenarios();

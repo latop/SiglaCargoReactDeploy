@@ -145,7 +145,9 @@ export async function fetchDailyTripJourneyDetails({
 }
 
 export type FetchDailyTripDetailParams = {
-  id: string;
+  dailyTripId?: string;
+  lineId?: string;
+  startTime?: string;
 };
 
 export async function fetchDailyTripDetails({
@@ -154,9 +156,9 @@ export async function fetchDailyTripDetails({
   args: FetchDailyTripDetailParams;
 }) {
   try {
-    const response = await axios.get(
-      `/DailyTrip/getdailytripdetail?dailyTripId=${params.id}`,
-    );
+    const response = await axios.get(`/DailyTrip/getdailytripdetail`, {
+      params,
+    });
     const data = response.data;
     return data;
   } catch (error) {

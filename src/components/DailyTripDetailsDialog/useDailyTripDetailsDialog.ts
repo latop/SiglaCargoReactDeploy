@@ -6,14 +6,40 @@ import dayjs from "dayjs";
 import { useForm } from "react-hook-form";
 
 export function useDailyTripDetailsDialog() {
-  const methods = useForm();
+  const methods = useForm({
+    defaultValues: {
+      tripNumber: "",
+      tripDate: "",
+      fleetGroupId: "",
+      fleetGroup: "",
+      flgStatus: "",
+      notes: "",
+      lineId: "",
+      line: "",
+      dt: "",
+      sto: "",
+      locationOrigId: "",
+      locationOrig: "",
+      locationDestId: "",
+      locationDest: "",
+      startPlanned: null,
+      endPlanned: null,
+      tripTypeId: "",
+      tripType: "",
+      stopTypeId: "",
+      stopType: "",
+      companyId: "",
+      id: "",
+      dailyTripSections: [],
+    },
+  });
   const { reset } = methods;
   const [hash] = useHash();
   const match = (hash as string)?.match(/#dailyTrip-(.+)/);
   const dailyTripId = match?.[1];
   const { dailyTripDetails, dailyTripSections, isLoading, error } =
     useDailyTripDetails({
-      id: dailyTripId,
+      dailyTripId,
     });
 
   const normalizeData = (

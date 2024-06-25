@@ -17,7 +17,6 @@ export function useScenarioDetailsDialog() {
 
   const { formState } = methods;
   const { defaultValues } = formState;
-  console.log(defaultValues, "-- scenarioDetails --");
   const loading =
     (isLoading || (scenarioDetails && !defaultValues?.id)) && !error;
 

@@ -10,10 +10,13 @@ export function AutocompleteLine({
   name = "lineCode",
   label = "Cód. da rota",
   keyCode = "code",
+  onChange,
 }: {
   name?: string;
   label?: string;
   keyCode?: keyof Line;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  onChange?: (value: any) => void;
 }) {
   const {
     control,
@@ -44,6 +47,7 @@ export function AutocompleteLine({
           }
           onChange={(_, value) => {
             setValue(name, value?.[keyCode] || "");
+            onChange?.(value);
           }}
           noOptionsText={
             !field.value

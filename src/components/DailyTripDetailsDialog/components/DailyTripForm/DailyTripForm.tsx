@@ -8,9 +8,11 @@ import {
   Grid,
   MenuItem,
   Typography,
+  IconButton,
 } from "@mui/material";
 import { DateTimePicker } from "@/components/DatePicker";
 import { DateField } from "@mui/x-date-pickers/DateField";
+import { IoIosSearch } from "react-icons/io";
 
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -24,14 +26,34 @@ import { DailyTrip } from "@/interfaces/daily-trip";
 import { AutocompleteLine } from "@/components/AutocompleteLine";
 import { AutocompleteCompany } from "@/components/AutocompleteCompany";
 import { AutocompleteTripType } from "@/components/AutocompleteTripType";
+import { fetchDailyTripDetails } from "@/services/schedule";
 
 dayjs.extend(customParseFormat);
 
 export const DailyTripForm = () => {
-  const { control, watch } = useFormContext();
+  const { control, watch, getValues, setValue, reset } = useFormContext();
   const dailyTripSections = watch("dailyTripSections");
 
   const countSections = dailyTripSections?.length;
+
+  const handleSearchInfos = async () => {
+    if (watch("lineId") && watch("startPlanned")) {
+      const line = watch("lineId");
+      const startPlanned = watch("startPlanned");
+      reset({ dailyTripSections: [] });
+      const data = await fetchDailyTripDetails({
+        args: {
+          lineId: line,
+          startTime: startPlanned,
+        },
+      });
+      reset({
+        ...getValues(),
+        ...data.dailyTrip,
+        dailyTripSections: data.dailyTripSections,
+      });
+    }
+  };
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
@@ -39,7 +61,12 @@ export const DailyTripForm = () => {
         <Box display="flex" gap="20px">
           <Grid container spacing={1}>
             <Grid item xs={1.7}>
-              <AutocompleteLine />
+              <AutocompleteLine
+                onChange={(value) => {
+                  setValue("lineId", value?.id);
+                  setValue("line", value);
+                }}
+              />
             </Grid>
             <Grid item xs={1.7}>
               <Controller
@@ -72,6 +99,16 @@ export const DailyTripForm = () => {
                   />
                 )}
               />
+            </Grid>
+            <Grid item xs={1.5} marginLeft="10px">
+              <IconButton
+                color="inherit"
+                aria-label="open drawer"
+                edge="start"
+                onClick={handleSearchInfos}
+              >
+                <IoIosSearch />
+              </IconButton>
             </Grid>
           </Grid>
         </Box>
