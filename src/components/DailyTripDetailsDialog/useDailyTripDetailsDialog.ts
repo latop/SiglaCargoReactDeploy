@@ -94,6 +94,8 @@ export function useDailyTripDetailsDialog() {
 
   useEffect(() => {
     if (dailyTripDetails && dailyTripSections) {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore next line
       reset(normalizeData(dailyTripDetails, dailyTripSections));
     }
   }, [dailyTripDetails, dailyTripSections]);
