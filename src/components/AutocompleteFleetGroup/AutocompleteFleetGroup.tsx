@@ -1,4 +1,4 @@
-import React from "react";
+import React, { SyntheticEvent } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import { TextField } from "@mui/material";
 import Autocomplete from "@mui/material/Autocomplete";
@@ -27,7 +27,10 @@ export function AutocompleteFleetGroup({
     code: isDirty ? watch(name) : "",
   });
 
-  const handleChange = (_: string, value: FleetGroup | null) => {
+  const handleChange = (
+    _: SyntheticEvent<Element, Event>,
+    value: FleetGroup | null,
+  ) => {
     setValue(name, value?.[keyCode] || "");
     setValue("fleetGroupId", value?.id || "");
     setValue("fleetGroupCode", value?.code || "");
