@@ -1,3 +1,4 @@
+import { VehiclePlanningsResponse } from "@/interfaces/vehicle";
 import axios from "axios";
 
 axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_URL;
@@ -25,5 +26,53 @@ export async function fetchFleetGroup({
   } catch (error) {
     console.error(error);
     return error;
+  }
+}
+export type FetchVehiclePlanningsParams = {
+  fleetGroupId?: string;
+  locationGroupId?: string;
+  driverId?: string;
+  tripDate: string;
+  licensePlate?: string;
+  fleetCode?: string;
+  pageSize?: number;
+  pageNumber?: number;
+};
+
+export async function fetchVehiclePlannings({
+  args,
+}: {
+  args: FetchVehiclePlanningsParams;
+}) {
+  try {
+    const params = {
+      filter1Id: args.fleetGroupId,
+      filter2Id: args.locationGroupId,
+      filter3Id: args.driverId,
+      filter1String: args.tripDate,
+      filter2String: args.licensePlate,
+      filter3String: args.fleetCode,
+      pageSize: args.pageSize,
+      pageNumber: args.pageNumber,
+    };
+
+    const response = await axios.get(`/TruckAssignmentPlan`, {
+      params,
+    });
+    const pagination = response.headers["x-pagination"]
+      ? JSON.parse(response.headers["x-pagination"])
+      : {};
+    const normalizeData: VehiclePlanningsResponse = {
+      currentPage: pagination.CurrentPage || 1,
+      hasNext: pagination.HasNext,
+      hasPrevious: pagination.HasPrevious,
+      pageSize: pagination.PageSize,
+      totalPages: pagination.TotalPages,
+      vehiclePlannings: response.data,
+      totalCount: pagination.TotalCount,
+    };
+    return normalizeData;
+  } catch (err) {
+    throw new Error();
   }
 }

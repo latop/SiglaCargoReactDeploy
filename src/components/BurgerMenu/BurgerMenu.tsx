@@ -52,6 +52,11 @@ const routes: RouteItem[] = [
     path: "/daily-trips",
   },
   {
+    text: "Planejamento de veículos",
+    icon: <TbSteeringWheel />,
+    path: "/vehicle-planning",
+  },
+  {
     text: "Cenários",
     icon: <BiTrip />,
     path: "/scenarios",

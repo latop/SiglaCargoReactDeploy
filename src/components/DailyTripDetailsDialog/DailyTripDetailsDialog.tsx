@@ -35,11 +35,11 @@ export function DailyTripDetailsDialog({
     };
     await updateDailyTripDetails(body, {
       onSuccess: () => {
-        addToast("Circuito salvo com sucesso");
+        addToast("Viagem salva com sucesso");
         onClose();
       },
       onError: () => {
-        addToast("Erro ao salvar circuito", { type: "error" });
+        addToast("Erro ao salvar viagem", { type: "error" });
       },
     });
   };
@@ -51,7 +51,31 @@ export function DailyTripDetailsDialog({
 
   const handleClose = () => {
     onClose();
-    methods.reset();
+    methods.reset({
+      tripNumber: "",
+      tripDate: "",
+      fleetGroupId: "",
+      fleetGroup: "",
+      flgStatus: "",
+      notes: "",
+      lineId: "",
+      line: "",
+      dt: "",
+      sto: "",
+      locationOrigId: "",
+      locationOrig: "",
+      locationDestId: "",
+      locationDest: "",
+      startPlanned: null,
+      endPlanned: null,
+      tripTypeId: "",
+      tripType: "",
+      stopTypeId: "",
+      stopType: "",
+      companyId: "",
+      id: "",
+      dailyTripSections: [],
+    });
   };
   const { handleSubmit } = methods;
 
@@ -75,7 +99,7 @@ export function DailyTripDetailsDialog({
             </DialogTitle>
             <IconButton
               aria-label="close"
-              onClick={onClose}
+              onClick={handleClose}
               sx={{
                 position: "absolute",
                 right: 8,

@@ -6,7 +6,13 @@ import { useDrivers } from "@/hooks/useDrivers";
 import { Driver } from "@/interfaces/driver";
 import debounce from "debounce";
 
-export function AutocompleteDriver() {
+export function AutocompleteDriver({
+  name = "nickName",
+  keyCode = "nickName",
+}: {
+  name?: string;
+  keyCode?: keyof Driver;
+}) {
   const {
     control,
     watch,
@@ -16,51 +22,56 @@ export function AutocompleteDriver() {
 
   const { drivers, error } = useDrivers({
     pageSize: 10,
-    nickName: watch("nickName"),
+    [name]: watch(name),
   });
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleChange = (_: any, value: Driver | null) => {
     setValue("nickName", value?.nickName || "");
     setValue("driverId", value?.id || "");
+    setValue(name, value?.[keyCode] || "");
   };
 
+  console.log(watch(name), "watch(name)");
   return (
     <Controller
       name="nickName"
       control={control}
       render={({ field }) => (
-        <Autocomplete
-          clearOnEscape
-          forcePopupIcon={false}
-          options={drivers || []}
-          loadingText="Carregando..."
-          defaultValue={{ nickName: field.value || "" } as Driver}
-          isOptionEqualToValue={(option: Driver, value: Driver) =>
-            option.nickName === value.nickName
-          }
-          onChange={handleChange}
-          noOptionsText={
-            !field.value
-              ? "Digite o nome do motorista"
-              : !drivers && !error
-              ? "Carregando..."
-              : "Nenhum resultado encontrado"
-          }
-          getOptionLabel={(option: Driver) => option.nickName}
-          renderInput={(params) => (
-            <TextField
-              {...field}
-              {...params}
-              onChange={debounce(field.onChange, 300)}
-              variant="outlined"
-              fullWidth
-              label="Motorista"
-              error={!!errors[field.name]}
-              helperText={errors[field.name]?.message?.toString()}
-            />
-          )}
-        />
+        console.log(field),
+        (
+          <Autocomplete
+            clearOnEscape
+            forcePopupIcon={false}
+            options={drivers || []}
+            loadingText="Carregando..."
+            defaultValue={{ [keyCode]: field.value ?? "" } as Driver}
+            isOptionEqualToValue={(option: Driver, value: Driver) =>
+              option[keyCode] === value[keyCode]
+            }
+            onChange={handleChange}
+            noOptionsText={
+              !field.value
+                ? "Digite o nome do motorista"
+                : !drivers && !error
+                ? "Carregando..."
+                : "Nenhum resultado encontrado"
+            }
+            getOptionLabel={(option: Driver) => option.nickName}
+            renderInput={(params) => (
+              <TextField
+                {...field}
+                {...params}
+                onChange={debounce(field.onChange, 300)}
+                variant="outlined"
+                fullWidth
+                label="Motorista"
+                error={!!errors[field.name]}
+                helperText={errors[field.name]?.message?.toString()}
+              />
+            )}
+          />
+        )
       )}
     />
   );

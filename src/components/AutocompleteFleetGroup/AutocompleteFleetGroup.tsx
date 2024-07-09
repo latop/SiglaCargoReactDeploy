@@ -27,6 +27,12 @@ export function AutocompleteFleetGroup({
     code: isDirty ? watch(name) : "",
   });
 
+  const handleChange = (_: string, value: FleetGroup | null) => {
+    setValue(name, value?.[keyCode] || "");
+    setValue("fleetGroupId", value?.id || "");
+    setValue("fleetGroupCode", value?.code || "");
+  };
+
   return (
     <Controller
       name={name}
@@ -37,11 +43,11 @@ export function AutocompleteFleetGroup({
           forcePopupIcon={false}
           options={fleetGroups || []}
           loadingText="Carregando..."
-          defaultValue={{ code: field.value ?? "" } as FleetGroup}
+          defaultValue={{ [keyCode]: field.value ?? "" } as FleetGroup}
           isOptionEqualToValue={(option: FleetGroup, value: FleetGroup) =>
             option[keyCode] === value[keyCode]
           }
-          onChange={(_, value) => setValue(name, value?.[keyCode] || "")}
+          onChange={handleChange}
           noOptionsText={
             !field.value
               ? "Digite o código"
