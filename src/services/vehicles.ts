@@ -3,6 +3,27 @@ import axios from "axios";
 
 axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_URL;
 
+export interface FetchTruckParams {
+  pageSize?: number;
+  licensePlate?: string;
+}
+
+export async function fetchTruck({ args }: { args: FetchTruckParams }) {
+  try {
+    const params = {
+      PageSize: args.pageSize,
+      filter1String: args.licensePlate?.toUpperCase(),
+    };
+
+    const response = await axios.get("/Truck", { params });
+    const data = response.data;
+    return data;
+  } catch (error) {
+    console.error(error);
+    return error;
+  }
+}
+
 export interface FetchFleetGroupParams {
   pageSize?: number;
   code?: string;
@@ -74,5 +95,24 @@ export async function fetchVehiclePlannings({
     return normalizeData;
   } catch (err) {
     throw new Error();
+  }
+}
+
+export type FetchVehiclePlanningDetailParams = {
+  id: string;
+};
+
+export async function fetchVehiclePlanningDetails({
+  args,
+}: {
+  args: FetchVehiclePlanningDetailParams;
+}) {
+  try {
+    const response = await axios.get(`/TruckAssignmentPlan/${args.id}`);
+    const data = response.data;
+    return data;
+  } catch (error) {
+    console.error(error);
+    return error;
   }
 }

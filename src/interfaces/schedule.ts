@@ -1,3 +1,5 @@
+import { Location } from "./trip";
+
 export interface DriverSchedule {
   driverId: string;
   driverName: string;
@@ -15,6 +17,8 @@ export interface Trip {
   driverName: string;
   demand?: string;
   locationDestCode?: string;
+  locationOrig?: Location;
+  locationDest?: Location;
   tripType: "STOP" | "TRIP" | "TRIP EXEC";
   locationOrigCode?: string;
 }

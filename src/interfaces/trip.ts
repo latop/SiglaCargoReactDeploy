@@ -4,9 +4,9 @@ export interface LocationGroup {
 }
 
 export interface Location {
-  name: string;
+  name?: string;
   code: string;
-  id: string;
+  id?: string;
 }
 
 export interface TripType {

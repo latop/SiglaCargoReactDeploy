@@ -29,6 +29,7 @@ export interface FleetType {
 export interface Truck {
   startDate: string;
   endDate: string;
+  id: string;
   isRefurbished: boolean;
   stateId: string;
   state: string | null;
@@ -39,6 +40,7 @@ export interface Truck {
   manufactureYear: number;
   serialNumber: string;
   tare: number;
+  fleetCode: string;
   capacity: number;
   locationGroupId: string;
   locationGroup: LocationGroup;
@@ -46,26 +48,26 @@ export interface Truck {
   fleetType: FleetType;
 }
 
-export interface VehiclePlanning {
+export interface IVehiclePlanning {
   id: string;
-  line: FleetGroup;
   driverId: string;
-  truck: FleetGroup;
+  truck: Truck | null;
+  truckId: string;
   startTime: string;
-  endTime: string;
-  freqTue: string;
-  freqWed: string;
-  freqThu: string;
-  freqFri: string;
-  freqSat: string;
-  freqSun: string;
-  freqMon: string;
+  endTime: boolean;
+  freqTue: boolean;
+  freqWed: boolean;
+  freqThu: boolean;
+  freqFri: boolean;
+  freqSat: boolean;
+  freqSun: boolean;
+  freqMon: boolean;
 }
 
 export interface VehiclePlanningsResponse {
   hasNext: boolean;
   currentPage: number;
-  vehiclePlannings: VehiclePlanning[];
+  vehiclePlannings: IVehiclePlanning[];
   pageSize: number;
   totalPages: number;
   totalCount: number;
