@@ -15,6 +15,7 @@ import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import SwapVertIcon from "@mui/icons-material/SwapVert";
 import MovingIcon from "@mui/icons-material/Moving";
 import { BiTrip } from "react-icons/bi";
+import NoCrashIcon from "@mui/icons-material/NoCrash";
 
 interface BurgerMenuProps {
   isOpen: boolean;
@@ -60,6 +61,11 @@ const routes: RouteItem[] = [
     text: "Cenários",
     icon: <BiTrip />,
     path: "/scenarios",
+  },
+  {
+    text: "Liberação de motoristas",
+    icon: <NoCrashIcon />,
+    path: "/release-driver",
   },
 ];
 
