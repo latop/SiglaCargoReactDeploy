@@ -6,7 +6,7 @@ axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_URL;
 export type FetchDailyTripsParams = {
   startDate: string;
   endDate: string;
-  fleetGroupCode?: string;
+  fleetGroupId?: string;
   locationDestId?: string;
   locationOrigId?: string;
   tripDate?: string;
@@ -23,7 +23,7 @@ export async function fetchDailyTrips({
 }) {
   try {
     const params = {
-      filter1Id: args.fleetGroupCode,
+      filter1Id: args.fleetGroupId,
       filter2Id: args.locationOrigId,
       filter3Id: args.locationDestId,
       filter1String: args.sto,

@@ -2,21 +2,21 @@ import React from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import { TextField } from "@mui/material";
 import Autocomplete from "@mui/material/Autocomplete";
-import { useLocation } from "@/hooks/useLocation";
 import debounce from "debounce";
-import { Location } from "@/interfaces/trip";
+import { useTruck } from "@/hooks/useTruck";
+import { Truck } from "@/interfaces/vehicle";
 
-export interface AutocompleteLocationProps {
+export function AutocompleteTruck({
+  name = "truck",
+  label = "Placa do veículo",
+  keyCode = "licensePlate",
+  onChange,
+}: {
   name?: string;
   label?: string;
-  keyCode?: keyof Location;
-}
-
-export function AutocompleteLocation({
-  name = "locationCode",
-  label = "Cód. localização",
-  keyCode = "code",
-}: AutocompleteLocationProps) {
+  keyCode?: keyof Truck;
+  onChange?: (value: Truck | null) => void;
+}) {
   const {
     control,
     watch,
@@ -25,7 +25,7 @@ export function AutocompleteLocation({
   } = useFormContext();
 
   const isDirty = dirtyFields[name];
-  const { locations, error } = useLocation({
+  const { trucks, error } = useTruck({
     pageSize: 10,
     code: isDirty ? watch(name) : "",
   });
@@ -38,23 +38,24 @@ export function AutocompleteLocation({
         <Autocomplete
           forcePopupIcon={false}
           clearOnEscape
-          options={locations || []}
+          options={trucks || []}
           loadingText="Carregando..."
-          defaultValue={{ code: field.value || "" } as Location}
-          isOptionEqualToValue={(option: Location, value: Location) =>
+          defaultValue={{ [keyCode]: field.value?.[keyCode] || "" } as Truck}
+          isOptionEqualToValue={(option: Truck, value: Truck) =>
             option[keyCode] === value[keyCode]
           }
-          onChange={(_, value) => {
-            setValue(name, value?.[keyCode] || "");
+          onChange={(_, value: Truck | null) => {
+            setValue(name, value);
+            onChange?.(value);
           }}
           noOptionsText={
             !field.value
               ? "Digite o código"
-              : !locations && !error
+              : !trucks && !error
               ? "Carregando..."
               : "Nenhum resultado encontrado"
           }
-          getOptionLabel={(option: Location) => option.code}
+          getOptionLabel={(option: Truck) => option[keyCode] as string}
           renderInput={(params) => (
             <TextField
               {...field}
