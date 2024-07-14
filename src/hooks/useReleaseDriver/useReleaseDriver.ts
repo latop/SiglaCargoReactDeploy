@@ -6,8 +6,8 @@ import useSWR, { SWRConfiguration } from "swr";
 export const useReleaseDriver = (options?: SWRConfiguration) => {
   const params = useSearchParams();
   const searchParams = {
-    dtRef: params.get("startDate")
-      ? dayjs(params.get("startDate")).format("YYYY-MM-DD")
+    dtRef: params.get("dtRef")
+      ? dayjs(params.get("dtRef")).format("YYYY-MM-DD")
       : null,
     nickName: params.get("nickName"),
     fleetCode: params.get("fleetCode"),
@@ -25,9 +25,16 @@ export const useReleaseDriver = (options?: SWRConfiguration) => {
     },
   );
 
+  const isEmpty = !isLoading && data?.length === 0;
+
+  const showContent = data?.length > 0;
+
   return {
+    showContent,
     data,
     error,
     isLoading,
+    isEmpty,
+    origem: searchParams?.locOrig,
   };
 };
