@@ -1,7 +1,7 @@
 import { DailyTripDetailsResponse } from "@/interfaces/daily-trip";
 import { fetchDailyTripDetails } from "@/services/schedule";
 import useSWR, { SWRConfiguration } from "swr";
-import { usePost } from "../usePost";
+import { useFetch } from "../useFetch";
 
 export interface DailyTripDetailsParams {
   dailyTripId?: string;
@@ -13,7 +13,7 @@ export const useDailyTripDetails = (
   params?: DailyTripDetailsParams,
   options?: SWRConfiguration,
 ) => {
-  const [postDailyTripDetails] = usePost();
+  const [postDailyTripDetails] = useFetch();
   const { data, error, isLoading } = useSWR<DailyTripDetailsResponse>(
     Object.values(params ?? {}).length
       ? { url: "/daily-trip-detail", args: params }

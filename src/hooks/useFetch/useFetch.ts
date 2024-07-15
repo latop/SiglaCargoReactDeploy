@@ -3,28 +3,41 @@ import axios, { AxiosError, AxiosResponse } from "axios";
 
 axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_URL;
 
-type UsePostOptions<T> = {
+type useFetchOptions<T> = {
   onSuccess?: (response: AxiosResponse<T>) => void;
   onError?: (error: AxiosError) => void;
+  method?: "post" | "put" | "delete";
 };
 
-export function usePost<T>() {
+export function useFetch<T>() {
   const [data, setData] = useState<T | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  const doPost = async (
+  const doFetch = async (
     url: string,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     body: any,
-    options?: UsePostOptions<T>,
+    options?: useFetchOptions<T>,
   ) => {
     setLoading(true);
     setData(null);
     setError(null);
 
+    const method = options?.method || "post";
+
     try {
-      const response = await axios.post<T>(url, body);
+      let response: AxiosResponse<T>;
+
+      if (method === "post") {
+        response = await axios.post<T>(url, body);
+      } else if (method === "put") {
+        response = await axios.put<T>(url, body);
+      } else if (method === "delete") {
+        response = await axios.delete<T>(url, { data: body });
+      } else {
+        throw new Error(`Unsupported method: ${method}`);
+      }
 
       setData(response.data);
 
@@ -43,5 +56,5 @@ export function usePost<T>() {
     }
   };
 
-  return [doPost, { data, loading, error }] as const;
+  return [doFetch, { data, loading, error }] as const;
 }

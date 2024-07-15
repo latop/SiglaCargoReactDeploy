@@ -9,9 +9,11 @@ import debounce from "debounce";
 export function AutocompleteDriver({
   name = "nickName",
   keyCode = "nickName",
+  onChange,
 }: {
   name?: string;
   keyCode?: keyof Driver;
+  onChange?: (value: Driver | null) => void;
 }) {
   const {
     control,
@@ -27,15 +29,18 @@ export function AutocompleteDriver({
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleChange = (_: any, value: Driver | null) => {
+    if (onChange) {
+      onChange(value);
+    }
     setValue("nickName", value?.nickName || "");
     setValue("driverId", value?.id || "");
     setValue(name, value?.[keyCode] || "");
   };
 
-  console.log(watch(name), "watch(name)");
+  console.log(watch(name), name, "name");
   return (
     <Controller
-      name="nickName"
+      name={name}
       control={control}
       render={({ field }) => (
         console.log(field),

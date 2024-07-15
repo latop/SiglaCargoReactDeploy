@@ -5,7 +5,7 @@ import DialogContent from "@mui/material/DialogContent";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import dayjs from "dayjs";
-import { usePost } from "@/hooks/usePost";
+import { useFetch } from "@/hooks/useFetch";
 import { FieldValues, FormProvider, useForm } from "react-hook-form";
 import { ActivityRequest, Trip } from "@/interfaces/schedule";
 import { ActivityFooter } from "./components/ActivityFooter";
@@ -25,7 +25,7 @@ export function ActivityDialog({ open, onClose }: ActivityDialogProps) {
   const { addActivity } = useJourneysByPeriod();
   const { addToast } = useToast();
 
-  const [postActivity] = usePost();
+  const [postActivity] = useFetch();
 
   const onSubmit = async (data: FieldValues) => {
     const body: ActivityRequest = {

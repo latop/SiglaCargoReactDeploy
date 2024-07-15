@@ -34,12 +34,18 @@ export const VehiclePlanningForm = () => {
             <Grid item xs={1.2}>
               <AutocompleteTruck
                 onChange={(value) => {
+                  setValue("truck", value);
                   setValue("truckId", value?.id);
                 }}
               />
             </Grid>
             <Grid item xs={1.7}>
-              <AutocompleteDriver />
+              <AutocompleteDriver
+                name="driver.nickName"
+                onChange={(value) => {
+                  setValue("driver", value);
+                }}
+              />
             </Grid>
             <Grid item xs={1.7}>
               <Controller

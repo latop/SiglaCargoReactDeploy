@@ -1,3 +1,4 @@
+import { Driver } from "./driver";
 import { LocationGroup } from "./trip";
 
 export interface FleetGroup {
@@ -50,11 +51,13 @@ export interface Truck {
 
 export interface IVehiclePlanning {
   id: string;
-  driverId: string;
+  driver: Driver;
   truck: Truck | null;
   truckId: string;
   startTime: string;
-  endTime: boolean;
+  endTime: string;
+  startDate: string;
+  endDate: string;
   freqTue: boolean;
   freqWed: boolean;
   freqThu: boolean;

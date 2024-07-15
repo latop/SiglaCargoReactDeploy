@@ -7,13 +7,13 @@ import { Button, Grid } from "@mui/material";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@/components/DatePicker";
-import { TextField } from "@mui/material";
 import { useVehiclePlanningsFilterBar } from "./useVehiclePlanningsFilterBar";
 import SearchIcon from "@mui/icons-material/Search";
 import customParseFormat from "dayjs/plugin/customParseFormat";
-import "dayjs/locale/pt-br";
 import { AutocompleteFleetGroup } from "../AutocompleteFleetGroup";
 import { AutocompleteDriver } from "../AutocompleteDriver";
+import { AutocompleteTruck } from "../AutocompleteTruck";
+import "dayjs/locale/pt-br";
 
 dayjs.extend(customParseFormat);
 
@@ -55,19 +55,15 @@ export function VehiclePlanningsFilterBar(
               <AutocompleteDriver />
             </Grid>
             <Grid item xs={1.6} paddingLeft="0">
-              <Controller
+              <AutocompleteTruck
                 name="licensePlate"
-                control={control}
-                render={({ field, fieldState: { error } }) => (
-                  <TextField
-                    {...field}
-                    variant="outlined"
-                    fullWidth
-                    label="Placa"
-                    error={!!error?.message}
-                    helperText={error?.message?.toString()}
-                  />
-                )}
+                onChange={(value) => {
+                  if (value?.licensePlate) {
+                    methods.setValue("licensePlate", value?.licensePlate);
+                  } else {
+                    methods.setValue("licensePlate", "");
+                  }
+                }}
               />
             </Grid>
             <Grid item xs={1}>

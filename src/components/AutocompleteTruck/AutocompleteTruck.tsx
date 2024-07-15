@@ -45,8 +45,11 @@ export function AutocompleteTruck({
             option[keyCode] === value[keyCode]
           }
           onChange={(_, value: Truck | null) => {
-            setValue(name, value);
-            onChange?.(value);
+            if (onChange) {
+              onChange(value);
+            } else {
+              setValue(name, value);
+            }
           }}
           noOptionsText={
             !field.value

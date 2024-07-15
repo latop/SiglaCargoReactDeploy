@@ -9,11 +9,13 @@ export function useVehiclePlanningDetailsDialog() {
   const methods = useForm({
     defaultValues: {
       id: "",
-      driverId: "",
+      driver: null,
       truck: null,
       truckId: "",
       startTime: dayjs().format("YYYY-MM-DDTHH:mm:ss"),
       endTime: dayjs().format("YYYY-MM-DDTHH:mm:ss"),
+      startDate: dayjs().format("YYYY-MM-DD"),
+      endDate: dayjs().format("YYYY-MM-DD"),
       freqTue: false,
       freqWed: false,
       freqThu: false,
@@ -33,10 +35,12 @@ export function useVehiclePlanningDetailsDialog() {
   const normalizeData = (data: IVehiclePlanning) => {
     const vehiclePlanningDefaultValues = {
       id: data.id,
-      driverId: data.driverId,
+      driver: data.driver,
       truck: data.truck,
       startTime: data.startTime,
       endTime: data.endTime,
+      startDate: data.startDate,
+      endDate: data.endDate,
       freqTue: data.freqTue,
       freqWed: data.freqWed,
       freqThu: data.freqThu,

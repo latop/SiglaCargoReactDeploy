@@ -11,7 +11,7 @@ import { FieldValues, FormProvider } from "react-hook-form";
 import { useScenarioDetailsDialog } from "./useScenarioDetailsDialog";
 import { Scenario } from "@/interfaces/planning";
 import { ScenarioFormFooter } from "./components/ScenarioFormFooter";
-import { usePost } from "@/hooks/usePost";
+import { useFetch } from "@/hooks/useFetch";
 import { useScenarios } from "@/hooks/useScenarios";
 import { ErrorResult } from "../ErrorResult";
 
@@ -21,7 +21,7 @@ interface ScenarioDetailsProps {
 }
 
 export function ScenarioDetailsDialog({ open, onClose }: ScenarioDetailsProps) {
-  const [createScenario] = usePost();
+  const [createScenario] = useFetch();
   const { isLoading, methods, isEdit, error } = useScenarioDetailsDialog();
   const { mutate: refetchScenarios } = useScenarios();
   const { addToast } = useToast();

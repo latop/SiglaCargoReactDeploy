@@ -71,11 +71,14 @@ const columns: GridColDef[] = [
     },
   },
   {
-    field: "driverId",
+    field: "driver.nickName",
     headerName: "Motorista",
     width: 200,
     sortable: false,
     filterable: false,
+    valueGetter: (_, data: IVehiclePlanning) => {
+      return data.driver?.nickName;
+    },
   },
   {
     field: "fleetType",
