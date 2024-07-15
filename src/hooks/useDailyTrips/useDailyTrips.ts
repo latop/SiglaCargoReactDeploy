@@ -8,6 +8,7 @@ export const useDailyTrips = (options?: SWRConfiguration) => {
   const searchParams = useSearchParams();
   const params = {
     fleetGroupCode: searchParams.get("fleetGroupCode"),
+    fleetGroupId: searchParams.get("fleetGroupId"),
     locationDestId: searchParams.get("locationDestId"),
     locationOrigId: searchParams.get("locationOrigId"),
     tripDate: searchParams.get("tripDate"),

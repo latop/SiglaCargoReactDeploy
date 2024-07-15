@@ -14,13 +14,18 @@ import customParseFormat from "dayjs/plugin/customParseFormat";
 import "dayjs/locale/pt-br";
 import { AutocompleteFleetGroup } from "../AutocompleteFleetGroup";
 import { AutocompleteLocation } from "../AutocompleteLocation";
+import { FleetGroup } from "@/interfaces/vehicle";
 
 dayjs.extend(customParseFormat);
 
 export function DailyTripsFilterBar(props: React.HTMLProps<HTMLFormElement>) {
   const { methods, onSubmit } = useDailyTripsFilterBar();
-  const { control, handleSubmit } = methods;
+  const { control, handleSubmit, setValue } = methods;
 
+  const handleChangeFleetGroup = (value: FleetGroup | null) => {
+    setValue("fleetGroupId", value?.id || "");
+    setValue("fleetGroupCode", value?.code || "");
+  };
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
       <FormProvider {...methods}>
@@ -47,7 +52,7 @@ export function DailyTripsFilterBar(props: React.HTMLProps<HTMLFormElement>) {
             </Grid>
 
             <Grid item xs={2} paddingLeft="0">
-              <AutocompleteFleetGroup keyCode="id" />
+              <AutocompleteFleetGroup onChange={handleChangeFleetGroup} />
             </Grid>
             <Grid item xs={1.6} paddingLeft="0">
               <Controller

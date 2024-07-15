@@ -32,7 +32,6 @@ const daysOfWeek = [
 
 export const VehiclePlanningForm = () => {
   const { control, setValue, watch } = useFormContext();
-
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
       <Box display="flex" flexDirection="column" gap="20px" mt="5px">
@@ -41,8 +40,9 @@ export const VehiclePlanningForm = () => {
             <Grid item xs={1.7}>
               <AutocompleteTruck
                 onChange={(value) => {
+                  console.log("entrou", value?.fleetType?.fleetGroup.code);
                   setValue("truck", value);
-                  setValue("truckId", value?.id);
+                  // setValue("truckId", value?.id);
                 }}
               />
             </Grid>
@@ -57,7 +57,7 @@ export const VehiclePlanningForm = () => {
                     fullWidth
                     label="Base do veículo"
                     InputLabelProps={{ shrink: true }}
-                    value={watch("truck.locationGroup.code")}
+                    value={watch("truck")?.locationGroup?.code}
                     disabled
                   />
                 )}
@@ -65,14 +65,14 @@ export const VehiclePlanningForm = () => {
             </Grid>
             <Grid item xs={1.7}>
               <Controller
-                name="truck.fleetType.code"
+                name="truck.fleetType.fleetGroup.code"
                 control={control}
                 render={({ field }) => (
                   <TextField
                     {...field}
                     variant="outlined"
                     fullWidth
-                    value={watch("truck.fleetType.fleetGroup.code")}
+                    value={watch("truck")?.fleetType?.fleetGroup?.code}
                     InputLabelProps={{ shrink: true }}
                     label="Grupo de frota"
                     disabled

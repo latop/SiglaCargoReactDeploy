@@ -15,12 +15,11 @@ export function AutocompleteTruck({
   name?: string;
   label?: string;
   keyCode?: keyof Truck;
-  onChange?: (value: Truck | null) => void;
+  onChange: (value: Truck | null) => void;
 }) {
   const {
     control,
     watch,
-    setValue,
     formState: { errors, dirtyFields },
   } = useFormContext();
 
@@ -45,11 +44,7 @@ export function AutocompleteTruck({
             option[keyCode] === value[keyCode]
           }
           onChange={(_, value: Truck | null) => {
-            if (onChange) {
-              onChange(value);
-            } else {
-              setValue(name, value);
-            }
+            onChange(value);
           }}
           noOptionsText={
             !field.value
