@@ -189,7 +189,7 @@ export function VehiclePlanning() {
         <VehiclePlanningsFilterBar />
         <Box display="flex" justifyContent="flex-end" mt="25px" mb="10px">
           <Button variant="outlined" size="small" onClick={handleAddTravel}>
-            Adicionar viagem
+            Adicionar
           </Button>
         </Box>
         {showContent && (
