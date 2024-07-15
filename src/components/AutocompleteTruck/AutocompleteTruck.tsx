@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import { TextField } from "@mui/material";
 import Autocomplete from "@mui/material/Autocomplete";
@@ -20,13 +20,13 @@ export function AutocompleteTruck({
   const {
     control,
     watch,
-    formState: { errors, dirtyFields },
+    formState: { errors },
   } = useFormContext();
+  const [value, setLocalValue] = useState(watch(name));
 
-  const isDirty = dirtyFields[name];
   const { trucks, error } = useTruck({
     pageSize: 10,
-    code: isDirty ? watch(name) : "",
+    licensePlate: value,
   });
 
   return (
@@ -58,7 +58,9 @@ export function AutocompleteTruck({
             <TextField
               {...field}
               {...params}
-              onChange={debounce(field.onChange, 300)}
+              onChange={debounce((event) => {
+                setLocalValue(event.target.value);
+              }, 300)}
               variant="outlined"
               fullWidth
               label={label}

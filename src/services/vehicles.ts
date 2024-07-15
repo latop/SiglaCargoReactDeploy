@@ -12,7 +12,7 @@ export async function fetchTruck({ args }: { args: FetchTruckParams }) {
   try {
     const params = {
       PageSize: args.pageSize,
-      filter1String: args.licensePlate?.toUpperCase(),
+      filter1String: args.licensePlate?.toUpperCase?.(),
     };
 
     const response = await axios.get("/Truck", { params });
