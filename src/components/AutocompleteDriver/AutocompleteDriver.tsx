@@ -37,46 +37,42 @@ export function AutocompleteDriver({
     setValue(name, value?.[keyCode] || "");
   };
 
-  console.log(watch(name), name, "name");
   return (
     <Controller
       name={name}
       control={control}
       render={({ field }) => (
-        console.log(field),
-        (
-          <Autocomplete
-            clearOnEscape
-            forcePopupIcon={false}
-            options={drivers || []}
-            loadingText="Carregando..."
-            defaultValue={{ [keyCode]: field.value ?? "" } as Driver}
-            isOptionEqualToValue={(option: Driver, value: Driver) =>
-              option[keyCode] === value[keyCode]
-            }
-            onChange={handleChange}
-            noOptionsText={
-              !field.value
-                ? "Digite o nome do motorista"
-                : !drivers && !error
-                ? "Carregando..."
-                : "Nenhum resultado encontrado"
-            }
-            getOptionLabel={(option: Driver) => option.nickName}
-            renderInput={(params) => (
-              <TextField
-                {...field}
-                {...params}
-                onChange={debounce(field.onChange, 300)}
-                variant="outlined"
-                fullWidth
-                label="Motorista"
-                error={!!errors[field.name]}
-                helperText={errors[field.name]?.message?.toString()}
-              />
-            )}
-          />
-        )
+        <Autocomplete
+          clearOnEscape
+          forcePopupIcon={false}
+          options={drivers || []}
+          loadingText="Carregando..."
+          defaultValue={{ [keyCode]: field.value ?? "" } as Driver}
+          isOptionEqualToValue={(option: Driver, value: Driver) =>
+            option[keyCode] === value[keyCode]
+          }
+          onChange={handleChange}
+          noOptionsText={
+            !field.value
+              ? "Digite o nome do motorista"
+              : !drivers && !error
+              ? "Carregando..."
+              : "Nenhum resultado encontrado"
+          }
+          getOptionLabel={(option: Driver) => option.nickName}
+          renderInput={(params) => (
+            <TextField
+              {...field}
+              {...params}
+              onChange={debounce(field.onChange, 300)}
+              variant="outlined"
+              fullWidth
+              label="Motorista"
+              error={!!errors[field.name]}
+              helperText={errors[field.name]?.message?.toString()}
+            />
+          )}
+        />
       )}
     />
   );

@@ -1,6 +1,12 @@
 import React from "react";
 import { useFormContext, Controller } from "react-hook-form";
-import { Box, Grid, FormControlLabel, Switch, TextField } from "@mui/material";
+import {
+  Box,
+  Grid,
+  FormControlLabel,
+  Checkbox,
+  TextField,
+} from "@mui/material";
 import { DatePicker } from "@/components/DatePicker";
 
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -25,7 +31,7 @@ const daysOfWeek = [
 ];
 
 export const VehiclePlanningForm = () => {
-  const { control, setValue } = useFormContext();
+  const { control, setValue, watch } = useFormContext();
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
@@ -50,6 +56,8 @@ export const VehiclePlanningForm = () => {
                     variant="outlined"
                     fullWidth
                     label="Base do veículo"
+                    InputLabelProps={{ shrink: true }}
+                    value={watch("truck.locationGroup.code")}
                     disabled
                   />
                 )}
@@ -57,13 +65,15 @@ export const VehiclePlanningForm = () => {
             </Grid>
             <Grid item xs={1.7}>
               <Controller
-                name="truck.fleetType.fleetGroup.code"
+                name="truck.fleetType.code"
                 control={control}
                 render={({ field }) => (
                   <TextField
                     {...field}
                     variant="outlined"
                     fullWidth
+                    value={watch("truck.fleetType.fleetGroup.code")}
+                    InputLabelProps={{ shrink: true }}
                     label="Grupo de frota"
                     disabled
                   />
@@ -164,7 +174,11 @@ export const VehiclePlanningForm = () => {
                         },
                       }}
                       control={
-                        <Switch size="small" {...field} checked={field.value} />
+                        <Checkbox
+                          size="small"
+                          {...field}
+                          checked={field.value}
+                        />
                       }
                       label={day.headerName}
                     />
