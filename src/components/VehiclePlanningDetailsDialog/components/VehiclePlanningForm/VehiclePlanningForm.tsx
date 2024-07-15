@@ -6,6 +6,7 @@ import {
   FormControlLabel,
   Checkbox,
   TextField,
+  Typography,
 } from "@mui/material";
 import { DatePicker } from "@/components/DatePicker";
 
@@ -21,13 +22,13 @@ import { TimePicker } from "@mui/x-date-pickers";
 dayjs.extend(customParseFormat);
 
 const daysOfWeek = [
-  { field: "freqMon", headerName: "Seg" },
-  { field: "freqTue", headerName: "Ter" },
-  { field: "freqWed", headerName: "Qua" },
-  { field: "freqThu", headerName: "Qui" },
-  { field: "freqFri", headerName: "Sex" },
-  { field: "freqSat", headerName: "Sáb" },
-  { field: "freqSun", headerName: "Dom" },
+  { field: "freqMon", headerName: "Segunda" },
+  { field: "freqTue", headerName: "Terça" },
+  { field: "freqWed", headerName: "Quarta" },
+  { field: "freqThu", headerName: "Quinta" },
+  { field: "freqFri", headerName: "Sexta" },
+  { field: "freqSat", headerName: "Sábado" },
+  { field: "freqSun", headerName: "Domingo" },
 ];
 
 export const VehiclePlanningForm = () => {
@@ -38,7 +39,7 @@ export const VehiclePlanningForm = () => {
       <Box display="flex" flexDirection="column" gap="20px" mt="5px">
         <Box display="flex" gap="20px">
           <Grid container spacing={1}>
-            <Grid item xs={1.7}>
+            <Grid item xs={1.4}>
               <AutocompleteTruck
                 onChange={(value) => {
                   setValue("truck", value);
@@ -46,7 +47,7 @@ export const VehiclePlanningForm = () => {
                 }}
               />
             </Grid>
-            <Grid item xs={1.7}>
+            <Grid item xs={1.4}>
               <Controller
                 name="truck.locationGroup.code"
                 control={control}
@@ -63,7 +64,7 @@ export const VehiclePlanningForm = () => {
                 )}
               />
             </Grid>
-            <Grid item xs={1.7}>
+            <Grid item xs={1.4}>
               <Controller
                 name="truck.fleetType.code"
                 control={control}
@@ -80,6 +81,15 @@ export const VehiclePlanningForm = () => {
                 )}
               />
             </Grid>
+
+            <Grid item xs={1.7}>
+              <AutocompleteDriver
+                name="driver.nickName"
+                onChange={(value) => {
+                  setValue("driver", value);
+                }}
+              />
+            </Grid>
             <Grid item xs={1.7}>
               <Controller
                 name="startDate"
@@ -87,7 +97,7 @@ export const VehiclePlanningForm = () => {
                 render={({ field, fieldState: { error } }) => (
                   <DatePicker
                     disabled={false}
-                    label="Início planejado"
+                    label="Data de início"
                     error={error?.message}
                     {...field}
                     value={field.value ? dayjs(field.value) : null}
@@ -103,7 +113,7 @@ export const VehiclePlanningForm = () => {
                 render={({ field, fieldState: { error } }) => (
                   <DatePicker
                     disabled={false}
-                    label="Fim planejado"
+                    label="Data de fim"
                     error={error?.message}
                     {...field}
                     value={field.value ? dayjs(field.value) : null}
@@ -112,19 +122,7 @@ export const VehiclePlanningForm = () => {
                 )}
               />
             </Grid>
-          </Grid>
-        </Box>
-        <Box display="flex" gap="20px">
-          <Grid container spacing={1}>
-            <Grid item xs={1.7}>
-              <AutocompleteDriver
-                name="driver.nickName"
-                onChange={(value) => {
-                  setValue("driver", value);
-                }}
-              />
-            </Grid>
-            <Grid item xs={1.7}>
+            <Grid item xs={1.3}>
               <Controller
                 name="startTime"
                 control={control}
@@ -139,7 +137,7 @@ export const VehiclePlanningForm = () => {
                 )}
               />
             </Grid>
-            <Grid item xs={1.7}>
+            <Grid item xs={1.3}>
               <Controller
                 name="endTime"
                 control={control}
@@ -154,15 +152,17 @@ export const VehiclePlanningForm = () => {
                 )}
               />
             </Grid>
+          </Grid>
+        </Box>
+        <Box display="flex" flexDirection="column">
+          <Box display="flex" alignItems="center">
+            <Typography variant="subtitle1">
+              Selecione os dias abaixo
+            </Typography>
+          </Box>
+          <Grid container spacing={1}>
             {daysOfWeek.map((day) => (
-              <Grid
-                display="flex"
-                justifyContent="center"
-                ml="20px"
-                item
-                xs={0.6}
-                key={day.field}
-              >
+              <Grid display="flex" justifyContent="center" item key={day.field}>
                 <Controller
                   name={day.field}
                   control={control}
