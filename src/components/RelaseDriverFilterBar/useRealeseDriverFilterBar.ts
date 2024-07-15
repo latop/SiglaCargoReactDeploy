@@ -27,7 +27,9 @@ const dateOrDayjsSchema = z.custom(
 
 const schema = z.object({
   dtRef: dateOrDayjsSchema,
-  locOrig: z.string(),
+  locOrig: z.string({
+    required_error: "*Obrigatório",
+  }),
   demand: z.string(),
   nickName: z.string().optional(),
   licensePlate: z.string().optional(),
@@ -51,6 +53,11 @@ export function useReleaseDriverFilterBar() {
   });
 
   const onSubmit = (data: FormFields) => {
+    if (!data?.locOrig.length) {
+      methods.setError("locOrig", { message: "*Obrigatório" });
+      return;
+    }
+
     const params = new URLSearchParams();
     Object.entries(data).forEach(([key, value]) => {
       if (dayjs.isDayjs(value)) {

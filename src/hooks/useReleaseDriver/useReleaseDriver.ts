@@ -25,7 +25,7 @@ export const useReleaseDriver = (options?: SWRConfiguration) => {
     },
   );
 
-  const isEmpty = !isLoading && data?.length === 0;
+  const isEmpty = !isLoading && !data?.length;
 
   const showContent = data?.length > 0;
 

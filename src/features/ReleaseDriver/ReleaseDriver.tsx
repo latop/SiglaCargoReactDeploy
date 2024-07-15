@@ -13,11 +13,10 @@ const columns: GridColDef[] = [
   { field: "saida", headerName: "SAÍDA", width: 200 },
   { field: "entrega", headerName: "ENTREGA", width: 200 },
   { field: "demanda", headerName: "DEMANDA", width: 200 },
-  { field: "destino", headerName: "DIREÇÃO", width: 200 },
-  // { field: "locOrig", headerName: "Cód. Origem", width: 200 },
+  { field: "destino", headerName: "DESTINO", width: 200 },
   { field: "motoristaPlan", headerName: "MOT.PLAN.", width: 200 },
   { field: "veiculoPlan", headerName: "VEÍCULO PLAN.", width: 200 },
-  { field: "dtCheckList", headerName: "CHECK-UP", width: 200 },
+  { field: "dtCheckList", headerName: "CHECK-LIST", width: 200 },
   { field: "motoristaLiberado", headerName: "MOT.REAL.", width: 200 },
   { field: "veiculoLiberado", headerName: "VEÍCULO.REAL.", width: 200 },
   { field: "dtLiberacao", headerName: "LIBERAÇÃO", width: 200 },
@@ -38,11 +37,14 @@ export function ReleaseDriver() {
           flexDirection: "column",
           alignItems: "center",
           margin: "0 auto",
+          width: "80%",
+          maxWidth: "1400px",
         }}
       >
         <ReleaseDriverFilterBar />
         <Box
           style={{
+            width: "100%",
             alignSelf: "flex-start",
             padding: "10px 0",
           }}
@@ -51,7 +53,7 @@ export function ReleaseDriver() {
         </Box>
         <Card
           sx={{
-            minWidth: "1080px",
+            width: "100%",
             height: "calc(100% - 30px)",
             margin: "10px auto 20px",
             position: "relative",
