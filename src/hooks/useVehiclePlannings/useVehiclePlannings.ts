@@ -8,7 +8,9 @@ export const useVehiclePlannings = (options?: SWRConfiguration) => {
   const searchParams = useSearchParams();
   const params = {
     fleetGroupId: searchParams.get("fleetGroupId"),
+    fleetGroupCode: searchParams.get("fleetGroupCode"),
     locationGroupId: searchParams.get("locationGroupId"),
+    locationGroupCode: searchParams.get("locationGroupCode"),
     driverId: searchParams.get("driverId"),
     tripDate: searchParams.get("tripDate"),
     licensePlate: searchParams.get("licensePlate"),

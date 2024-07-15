@@ -7,6 +7,7 @@ import dayjs, { Dayjs } from "dayjs";
 interface FormFields {
   fleetGroupId: string;
   locationGroupId: string;
+  locationGroupCode: string;
   driverId: string;
   licensePlate: string;
   nickName?: string;
@@ -24,6 +25,7 @@ const dateOrDayjsSchema = z.custom(
 const schema = z.object({
   fleetGroupId: z.string().optional(),
   locationGroupId: z.string().optional(),
+  locationGroupCode: z.string().optional(),
   driverId: z.string().optional(),
   nickName: z.string().optional(),
   licensePlate: z.string().optional(),
@@ -39,6 +41,7 @@ export function useVehiclePlanningsFilterBar() {
     defaultValues: {
       fleetGroupId: params.get("fleetGroupId") || "",
       locationGroupId: params.get("locationGroupId") || "",
+      locationGroupCode: params.get("locationGroupCode") || "",
       licensePlate: params.get("licensePlate") || "",
       fleetGroupCode: params.get("fleetGroupCode") || "",
       nickName: params.get("nickName") || "",

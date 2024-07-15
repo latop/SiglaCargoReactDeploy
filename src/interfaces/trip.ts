@@ -1,6 +1,7 @@
 export interface LocationGroup {
   code: string;
   description: string;
+  id: string;
 }
 
 export interface Location {

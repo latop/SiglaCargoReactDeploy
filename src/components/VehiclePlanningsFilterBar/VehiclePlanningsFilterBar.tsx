@@ -14,6 +14,8 @@ import { AutocompleteFleetGroup } from "../AutocompleteFleetGroup";
 import { AutocompleteDriver } from "../AutocompleteDriver";
 import { AutocompleteTruck } from "../AutocompleteTruck";
 import "dayjs/locale/pt-br";
+import { AutocompleteLocationGroup } from "../AutocompleteLocationGroup";
+import { LocationGroup } from "@/interfaces/trip";
 
 dayjs.extend(customParseFormat);
 
@@ -21,7 +23,12 @@ export function VehiclePlanningsFilterBar(
   props: React.HTMLProps<HTMLFormElement>,
 ) {
   const { methods, onSubmit } = useVehiclePlanningsFilterBar();
-  const { control, handleSubmit } = methods;
+  const { control, setValue, handleSubmit } = methods;
+
+  const handleChangeLocationGroup = (value: LocationGroup | null) => {
+    setValue("locationGroupId", value?.id || "");
+    setValue("locationGroupCode", value?.code || "");
+  };
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
@@ -48,6 +55,9 @@ export function VehiclePlanningsFilterBar(
               />
             </Grid>
 
+            <Grid item xs={2} paddingLeft="0">
+              <AutocompleteLocationGroup onChange={handleChangeLocationGroup} />
+            </Grid>
             <Grid item xs={2} paddingLeft="0">
               <AutocompleteFleetGroup />
             </Grid>
