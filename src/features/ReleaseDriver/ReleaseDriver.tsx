@@ -15,12 +15,12 @@ const columns: GridColDef[] = [
   { field: "demanda", headerName: "DEMANDA", width: 200 },
   { field: "destino", headerName: "DIREÇÃO", width: 200 },
   // { field: "locOrig", headerName: "Cód. Origem", width: 200 },
-  { field: "motoristaPlan", headerName: "MOT.PLAN", width: 200 },
-  { field: "veiculoPlan", headerName: "VEÍCULO PLAN", width: 200 },
-  // { field: "dtCheckList", headerName: "CHECK-UP", width: 200 },
-  // { field: "motoristaLiberado", headerName: "MOT.REAL.", width: 200 },
-  // { field: "veiculoLiberado", headerName: "VEÍCULO.REAL.", width: 200 },
-  // { field: "dtLiberacao", headerName: "LIBERAÇÃO", width: 200 },
+  { field: "motoristaPlan", headerName: "MOT.PLAN.", width: 200 },
+  { field: "veiculoPlan", headerName: "VEÍCULO PLAN.", width: 200 },
+  { field: "dtCheckList", headerName: "CHECK-UP", width: 200 },
+  { field: "motoristaLiberado", headerName: "MOT.REAL.", width: 200 },
+  { field: "veiculoLiberado", headerName: "VEÍCULO.REAL.", width: 200 },
+  { field: "dtLiberacao", headerName: "LIBERAÇÃO", width: 200 },
 ];
 
 export function ReleaseDriver() {
@@ -44,14 +44,14 @@ export function ReleaseDriver() {
         <Box
           style={{
             alignSelf: "flex-start",
-            padding: "10px 20px",
+            padding: "10px 0",
           }}
         >
           <strong>ORIGEM:</strong> {origem}
         </Box>
         <Card
           sx={{
-            width: "100%",
+            minWidth: "1080px",
             height: "calc(100% - 30px)",
             margin: "10px auto 20px",
             position: "relative",

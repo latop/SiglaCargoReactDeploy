@@ -23,13 +23,7 @@ export function ReleaseDriverFilterBar(
             width: "100%",
           }}
         >
-          <Grid
-            container
-            alignItems="flex-start"
-            gap={4}
-            padding="20px 20px 20px 20px"
-            width={"100%"}
-          >
+          <Grid container gap={4} padding="20px 20px 20px 0">
             <Grid item xs={1.2}>
               <Controller
                 name="dtRef"
