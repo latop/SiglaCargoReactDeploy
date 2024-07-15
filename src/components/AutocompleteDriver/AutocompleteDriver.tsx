@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import { TextField } from "@mui/material";
 import Autocomplete from "@mui/material/Autocomplete";
@@ -21,20 +21,20 @@ export function AutocompleteDriver({
     setValue,
     formState: { errors },
   } = useFormContext();
+  const [value, setLocalValue] = useState(watch(name));
 
   const { drivers, error } = useDrivers({
     pageSize: 10,
-    [name]: watch(name),
+    nickName: value,
   });
-
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleChange = (_: any, value: Driver | null) => {
     if (onChange) {
       onChange(value);
+    } else {
+      setValue("nickName", value?.nickName || "");
+      setValue("driverId", value?.id || "");
     }
-    setValue("nickName", value?.nickName || "");
-    setValue("driverId", value?.id || "");
-    setValue(name, value?.[keyCode] || "");
   };
 
   return (
@@ -64,7 +64,9 @@ export function AutocompleteDriver({
             <TextField
               {...field}
               {...params}
-              onChange={debounce(field.onChange, 300)}
+              onChange={debounce((e) => {
+                setLocalValue(e.target.value);
+              }, 300)}
               variant="outlined"
               fullWidth
               label="Motorista"

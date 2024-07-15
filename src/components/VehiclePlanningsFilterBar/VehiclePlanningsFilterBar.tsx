@@ -41,7 +41,7 @@ export function VehiclePlanningsFilterBar(
             width="100%"
             gap="16px"
           >
-            <Grid item xs={1.6}>
+            <Grid item xs={2}>
               <Controller
                 name="tripDate"
                 control={control}
@@ -61,18 +61,14 @@ export function VehiclePlanningsFilterBar(
             <Grid item xs={2} paddingLeft="0">
               <AutocompleteFleetGroup />
             </Grid>
-            <Grid item xs={2} paddingLeft="0">
+            <Grid item xs={2.25} paddingLeft="0">
               <AutocompleteDriver />
             </Grid>
-            <Grid item xs={1.6} paddingLeft="0">
+            <Grid item xs={2} paddingLeft="0">
               <AutocompleteTruck
                 name="licensePlate"
                 onChange={(value) => {
-                  if (value?.licensePlate) {
-                    methods.setValue("licensePlate", value?.licensePlate);
-                  } else {
-                    methods.setValue("licensePlate", "");
-                  }
+                  methods.setValue("licensePlate", value?.licensePlate ?? "");
                 }}
               />
             </Grid>

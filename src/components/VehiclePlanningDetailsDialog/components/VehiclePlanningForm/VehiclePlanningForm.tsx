@@ -40,9 +40,7 @@ export const VehiclePlanningForm = () => {
             <Grid item xs={1.7}>
               <AutocompleteTruck
                 onChange={(value) => {
-                  console.log("entrou", value?.fleetType?.fleetGroup.code);
                   setValue("truck", value);
-                  // setValue("truckId", value?.id);
                 }}
               />
             </Grid>
