@@ -1,7 +1,7 @@
 import React from "react";
 import { useFormContext, Controller } from "react-hook-form";
-import { Box, Grid, FormControlLabel, Switch } from "@mui/material";
-import { DateTimePicker } from "@/components/DatePicker";
+import { Box, Grid, FormControlLabel, Switch, TextField } from "@mui/material";
+import { DatePicker } from "@/components/DatePicker";
 
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -10,6 +10,7 @@ import customParseFormat from "dayjs/plugin/customParseFormat";
 import "dayjs/locale/pt-br";
 import { AutocompleteDriver } from "@/components/AutocompleteDriver";
 import { AutocompleteTruck } from "@/components/AutocompleteTruck";
+import { TimePicker } from "@mui/x-date-pickers";
 
 dayjs.extend(customParseFormat);
 
@@ -31,7 +32,7 @@ export const VehiclePlanningForm = () => {
       <Box display="flex" flexDirection="column" gap="20px" mt="5px">
         <Box display="flex" gap="20px">
           <Grid container spacing={1}>
-            <Grid item xs={1.2}>
+            <Grid item xs={1.7}>
               <AutocompleteTruck
                 onChange={(value) => {
                   setValue("truck", value);
@@ -40,19 +41,41 @@ export const VehiclePlanningForm = () => {
               />
             </Grid>
             <Grid item xs={1.7}>
-              <AutocompleteDriver
-                name="driver.nickName"
-                onChange={(value) => {
-                  setValue("driver", value);
-                }}
+              <Controller
+                name="truck.locationGroup.code"
+                control={control}
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    variant="outlined"
+                    fullWidth
+                    label="Base do veículo"
+                    disabled
+                  />
+                )}
               />
             </Grid>
             <Grid item xs={1.7}>
               <Controller
-                name="startTime"
+                name="truck.fleetType.fleetGroup.code"
+                control={control}
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    variant="outlined"
+                    fullWidth
+                    label="Grupo de frota"
+                    disabled
+                  />
+                )}
+              />
+            </Grid>
+            <Grid item xs={1.7}>
+              <Controller
+                name="startDate"
                 control={control}
                 render={({ field, fieldState: { error } }) => (
-                  <DateTimePicker
+                  <DatePicker
                     disabled={false}
                     label="Início planejado"
                     error={error?.message}
@@ -65,13 +88,55 @@ export const VehiclePlanningForm = () => {
             </Grid>
             <Grid item xs={1.7}>
               <Controller
-                name="endTime"
+                name="endDate"
                 control={control}
                 render={({ field, fieldState: { error } }) => (
-                  <DateTimePicker
+                  <DatePicker
                     disabled={false}
                     label="Fim planejado"
                     error={error?.message}
+                    {...field}
+                    value={field.value ? dayjs(field.value) : null}
+                    onChange={(date) => field.onChange(date?.format())}
+                  />
+                )}
+              />
+            </Grid>
+          </Grid>
+        </Box>
+        <Box display="flex" gap="20px">
+          <Grid container spacing={1}>
+            <Grid item xs={1.7}>
+              <AutocompleteDriver
+                name="driver.nickName"
+                onChange={(value) => {
+                  setValue("driver", value);
+                }}
+              />
+            </Grid>
+            <Grid item xs={1.7}>
+              <Controller
+                name="startTime"
+                control={control}
+                render={({ field }) => (
+                  <TimePicker
+                    disabled={false}
+                    label="Hora de início"
+                    {...field}
+                    value={field.value ? dayjs(field.value) : null}
+                    onChange={(date) => field.onChange(date?.format())}
+                  />
+                )}
+              />
+            </Grid>
+            <Grid item xs={1.7}>
+              <Controller
+                name="endTime"
+                control={control}
+                render={({ field }) => (
+                  <TimePicker
+                    disabled={false}
+                    label="Hora de fim"
                     {...field}
                     value={field.value ? dayjs(field.value) : null}
                     onChange={(date) => field.onChange(date?.format())}

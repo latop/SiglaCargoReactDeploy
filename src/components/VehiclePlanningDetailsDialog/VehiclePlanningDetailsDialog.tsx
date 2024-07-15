@@ -12,6 +12,7 @@ import { useVehiclePlanningDetailsDialog } from "./useVehiclePlanningDetailsDial
 import { useVehiclePlanningDetails } from "@/hooks/useVehiclePlanningDetails";
 import { VehiclePlanningForm } from "./components/VehiclePlanningForm";
 import { VehiclePlanningFormFooter } from "./components/VehiclePlanningFormFooter";
+import { useVehiclePlannings } from "@/hooks/useVehiclePlannings";
 
 interface VehiclePlanningDetailsProps {
   open: boolean;
@@ -24,8 +25,9 @@ export function VehiclePlanningDetailsDialog({
 }: VehiclePlanningDetailsProps) {
   const { addToast } = useToast();
 
-  const { updateVehiclePlanning, refetch, createVehiclePlanning } =
+  const { updateVehiclePlanning, createVehiclePlanning } =
     useVehiclePlanningDetails();
+  const { refetch } = useVehiclePlannings();
   const { vehiclePlanningDetails, isLoading, methods } =
     useVehiclePlanningDetailsDialog();
 
@@ -51,8 +53,8 @@ export function VehiclePlanningDetailsDialog({
       freqThu: data.freqThu ? 1 : 0,
       freqTue: data.freqTue ? 1 : 0,
       freqWed: data.freqWed ? 1 : 0,
-      startDate: data.startTime,
-      endDate: data.endTime,
+      startDate: data.startDate,
+      endDate: data.endDate,
     };
 
     await updateVehiclePlanning(body, {
@@ -80,8 +82,8 @@ export function VehiclePlanningDetailsDialog({
       freqThu: data.freqThu ? 1 : 0,
       freqTue: data.freqTue ? 1 : 0,
       freqWed: data.freqWed ? 1 : 0,
-      startDate: data.startTime,
-      endDate: data.endTime,
+      startDate: data.startDate,
+      endDate: data.endDate,
     };
     await createVehiclePlanning(body, {
       onSuccess: () => {

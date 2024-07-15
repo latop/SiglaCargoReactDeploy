@@ -12,6 +12,7 @@ export interface FleetType {
   code: string;
   description: string;
   fleetGroupId: string;
+  fleetGroup: FleetGroup;
   fleetModelId: string;
   companyId: string;
   standardUnit: string;

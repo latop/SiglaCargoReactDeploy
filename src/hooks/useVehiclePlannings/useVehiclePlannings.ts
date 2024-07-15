@@ -52,6 +52,11 @@ export const useVehiclePlannings = (options?: SWRConfiguration) => {
   const totalCount = data?.[0]?.totalCount || 0;
 
   const hasData = !isEmpty && !isLoading && !error && !isLoadingMore;
+
+  const refetch = () => {
+    mutate();
+  };
+
   return {
     vehiclePlannings,
     error,
@@ -61,6 +66,7 @@ export const useVehiclePlannings = (options?: SWRConfiguration) => {
     loadMore,
     size,
     isReachingEnd,
+    refetch,
     isLoading: isLoadingMore || isLoading,
     setSize,
     isValidating,

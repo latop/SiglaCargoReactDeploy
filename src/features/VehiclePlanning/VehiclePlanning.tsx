@@ -87,33 +87,52 @@ const columns: GridColDef[] = [
     sortable: false,
     filterable: false,
     valueGetter: (_, data: IVehiclePlanning) => {
-      return data.truck?.fleetType.code;
+      return data.truck?.fleetType?.fleetGroup?.code;
     },
   },
   {
-    field: "base",
-    headerName: "Base do veículo",
-    width: 150,
+    field: "truck.locationGroup.code",
+    headerName: "Base",
+    width: 100,
     sortable: false,
     filterable: false,
+    valueGetter: (_, data: IVehiclePlanning) => {
+      return data.truck?.locationGroup?.code;
+    },
+  },
+  {
+    field: "startDate",
+    headerName: "Dt Início",
+    width: 100,
+    sortable: false,
+    filterable: false,
+    valueFormatter: (value) =>
+      value ? dayjs(value).format("DD/MM/YYYY") : "N/A",
+  },
+  {
+    field: "endDate",
+    headerName: "Dt Fim",
+    width: 100,
+    sortable: false,
+    filterable: false,
+    valueFormatter: (value) =>
+      value ? dayjs(value).format("DD/MM/YYYY") : "N/A",
   },
   {
     field: "startTime",
-    headerName: "Início",
-    width: 170,
+    headerName: "Hr Início",
+    width: 80,
     sortable: false,
     filterable: false,
-    valueFormatter: (value) =>
-      value ? dayjs(value).format("DD/MM/YYYY HH:mm") : "N/A",
+    valueFormatter: (value) => (value ? dayjs(value).format("HH:mm") : "N/A"),
   },
   {
     field: "endTime",
-    headerName: "Fim",
-    width: 170,
+    headerName: "Hr Fim",
+    width: 120,
     sortable: false,
     filterable: false,
-    valueFormatter: (value) =>
-      value ? dayjs(value).format("DD/MM/YYYY HH:mm") : "N/A",
+    valueFormatter: (value) => (value ? dayjs(value).format("HH:mm") : "N/A"),
   },
   ...generateDayColumns(daysOfWeek),
 ];
