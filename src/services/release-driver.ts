@@ -16,7 +16,6 @@ export async function fetchReleaseDriver({
 }: {
   args: ReleaseDriverTypeParams;
 }) {
-  console.log(params);
   try {
     const response = await axios.get("/Journey/ReleaseDriver", { params });
     const data = response.data;

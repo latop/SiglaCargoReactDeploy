@@ -1,3 +1,4 @@
+import { ReleaseDriverInterface } from "@/interfaces/release-driver";
 import { fetchReleaseDriver } from "@/services/release-driver";
 import dayjs from "dayjs";
 import { useSearchParams } from "next/navigation";
@@ -15,7 +16,7 @@ export const useReleaseDriver = (options?: SWRConfiguration) => {
     locOrig: params.get("locOrig"),
   };
 
-  const { data, error, isLoading } = useSWR(
+  const { data, error, isLoading } = useSWR<ReleaseDriverInterface[]>(
     { url: "/release-driver", args: searchParams },
     fetchReleaseDriver,
     {
@@ -27,11 +28,11 @@ export const useReleaseDriver = (options?: SWRConfiguration) => {
 
   const isEmpty = !isLoading && !data?.length;
 
-  const showContent = data?.length > 0;
+  const showContent = data !== undefined && data?.length > 0;
 
   return {
     showContent,
-    data,
+    drivers: data,
     error,
     isLoading,
     isEmpty,
