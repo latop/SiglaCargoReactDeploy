@@ -6,6 +6,7 @@ import { AutocompleteDriver } from "../AutocompleteDriver";
 import { AutocompleteLocation } from "../AutocompleteLocation";
 import { GridSearchIcon } from "@mui/x-data-grid";
 import { useReleaseDriverFilterBar } from "./useRealeseDriverFilterBar";
+import { AutocompleteFleetGroup } from "../AutocompleteFleetGroup";
 
 export function ReleaseDriverFilterBar(
   props: React.HTMLProps<HTMLFormElement>,
@@ -16,14 +17,13 @@ export function ReleaseDriverFilterBar(
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
       <FormProvider {...methods}>
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          {...props}
-          style={{
-            width: "100%",
-          }}
-        >
-          <Grid container gap={4} padding="20px 20px 20px 0">
+        <form onSubmit={handleSubmit(onSubmit)} {...props}>
+          <Grid
+            container
+            padding="20px 20px 20px 0"
+            justifyContent="space-between"
+            gap={"16px"}
+          >
             <Grid item xs={1.2}>
               <Controller
                 name="dtRef"
@@ -42,7 +42,6 @@ export function ReleaseDriverFilterBar(
                 control={control}
                 render={({ field }) => (
                   <AutocompleteLocation label="Origem" {...field} />
-                  // error={error?.message}
                 )}
               />
             </Grid>
@@ -58,15 +57,18 @@ export function ReleaseDriverFilterBar(
             </Grid>
 
             <Grid item xs={1.1}>
-              <AutocompleteDriver />
+              <Controller
+                name="nickName"
+                control={control}
+                render={({ field }) => <AutocompleteDriver {...field} />}
+              />
             </Grid>
 
             <Grid item xs={1.1}>
               <Controller
                 name="fleetCode"
-                render={({ field }) => (
-                  <TextField label="Cód da Frota" {...field} />
-                )}
+                control={control}
+                render={({ field }) => <AutocompleteFleetGroup {...field} />}
               />
             </Grid>
 
