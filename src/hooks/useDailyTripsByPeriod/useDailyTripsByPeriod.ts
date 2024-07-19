@@ -15,6 +15,8 @@ export const useDailyTripsByPeriod = (options?: SWRConfiguration) => {
       ? dayjs(params.get("endDate")).format("YYYY-MM-DD")
       : null,
     fleetGroupCode: params.get("fleetGroupCode"),
+    locationGroupCode: params.get("locationGroupCode") || "",
+    licensePlate: params.get("licensePlate")?.toLocaleUpperCase() || "",
   };
 
   const getKey = (

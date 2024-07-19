@@ -10,6 +10,8 @@ import { AutocompleteFleetGroup } from "@/components/AutocompleteFleetGroup";
 import { useDailyTripsByPeriodFilterBar } from "./useDailyTripsByPeriodFilterBar";
 import SearchIcon from "@mui/icons-material/Search";
 import "dayjs/locale/pt-br";
+import { AutocompleteLocationGroup } from "../AutocompleteLocationGroup";
+import { AutocompleteTruck } from "../AutocompleteTruck";
 
 dayjs.extend(customParseFormat);
 
@@ -62,6 +64,16 @@ export function DailyTripsByPeriodFilterBar(
 
             <Grid item xs={1.1}>
               <AutocompleteFleetGroup />
+            </Grid>
+            <Grid item xs={1.1}>
+              <AutocompleteLocationGroup />
+            </Grid>
+            <Grid item xs={1.1}>
+              <AutocompleteTruck
+                onChange={(value) => {
+                  methods.setValue("licensePlate", value?.licensePlate);
+                }}
+              />
             </Grid>
 
             <Grid item xs={0.5}>
