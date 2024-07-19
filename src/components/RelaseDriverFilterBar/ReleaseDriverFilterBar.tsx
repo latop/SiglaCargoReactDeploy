@@ -17,13 +17,12 @@ export function ReleaseDriverFilterBar(
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
       <FormProvider {...methods}>
-        <form onSubmit={handleSubmit(onSubmit)} {...props}>
-          <Grid
-            container
-            padding="20px 20px 20px 0"
-            justifyContent="space-between"
-            gap={"16px"}
-          >
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          style={{ width: "100%" }}
+          {...props}
+        >
+          <Grid container padding="20px 20px 20px 0" spacing={1}>
             <Grid item xs={1.2}>
               <Controller
                 name="dtRef"

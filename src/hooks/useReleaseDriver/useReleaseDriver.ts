@@ -29,19 +29,19 @@ export const useReleaseDriver = (options?: SWRConfiguration) => {
     };
   };
 
-  const { data, error, isLoading, size, setSize, isValidating } =
+  const { data, error, isLoading, size, setSize, isValidating, mutate } =
     useSWRInfinite<ReleaseDriverResponse>(getKey, fetchReleaseDriver, {
       revalidateFirstPage: false,
       revalidateIfStale: false,
       revalidateOnFocus: false,
       ...options,
     });
-
-  const isEmpty = !isLoading && !data?.length;
+  const hasContent = data?.[0].drivers && Object.keys(data?.[0].drivers).length;
+  const isEmpty = !isLoading && !hasContent && !params.get("locOrigin")?.length;
   const hasNext = data?.[data.length - 1]?.hasNext;
   const isReachingEnd = !hasNext && !isEmpty;
   const isLoadingMore = isValidating;
-  const showContent = data !== undefined && data?.length > 0;
+  const showContent = data !== undefined && !isEmpty;
 
   const loadMore = (page: number) => {
     if (hasNext && !isLoadingMore) {
@@ -62,5 +62,7 @@ export const useReleaseDriver = (options?: SWRConfiguration) => {
     loadMore,
     size,
     totalCount,
+    hasNext,
+    mutate,
   };
 };

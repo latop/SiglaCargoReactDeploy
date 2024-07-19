@@ -1,8 +1,17 @@
-import { Box, Dialog, DialogTitle } from "@mui/material";
+import {
+  Box,
+  CircularProgress,
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  IconButton,
+} from "@mui/material";
 import { FC } from "react";
 import { useReleaseDriverDialog } from "./useReleaseDriverDialog";
 import { FormProvider } from "react-hook-form";
 import { useDialog } from "@/hooks/useDialog/useDialog";
+import CloseIcon from "@mui/icons-material/Close";
+import { ReleaseDriverForm } from "./ReleaseDriverForm";
 
 interface ReleaseDriverDialogProps {
   onClose: () => void;
@@ -13,10 +22,9 @@ export const ReleaseDriverDialog: FC<ReleaseDriverDialogProps> = ({
   onClose,
   open,
 }) => {
-  const { releaseDriverId, methods } = useReleaseDriverDialog();
+  const { methods, loading } = useReleaseDriverDialog();
   const { openDialog } = useDialog();
 
-  console.log(releaseDriverId);
   const handleClose = () => {
     openDialog({
       title: "Salvar informações?",
@@ -40,6 +48,33 @@ export const ReleaseDriverDialog: FC<ReleaseDriverDialogProps> = ({
             <Box display="flex" justifyContent="space-between">
               Motorista para liberar
             </Box>
+            <IconButton
+              aria-label="close"
+              onClick={handleClose}
+              sx={{
+                position: "absolute",
+                right: 8,
+                top: 8,
+                color: (theme) => theme.palette.grey[500],
+              }}
+            >
+              <CloseIcon />
+            </IconButton>
+            <DialogContent dividers sx={{ padding: "16px" }}>
+              {loading && (
+                <Box
+                  display="flex"
+                  alignItems="center"
+                  justifyContent="center"
+                  padding="10px"
+                  height="100%"
+                >
+                  <CircularProgress />
+                </Box>
+              )}
+
+              {!loading && <ReleaseDriverForm />}
+            </DialogContent>
           </DialogTitle>
         </form>
       </FormProvider>

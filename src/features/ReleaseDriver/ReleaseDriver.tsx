@@ -14,7 +14,7 @@ import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import dayjs from "dayjs";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
-import { FaCheck, FaEdit, FaTimes } from "react-icons/fa";
+import { FaEdit } from "react-icons/fa";
 
 export function ReleaseDriver() {
   const columns: GridColDef[] = [
@@ -68,34 +68,29 @@ export function ReleaseDriver() {
       },
     },
     {
-      field: "action",
-      headerName: "AÇÃO",
-      width: 100,
-      renderCell: (params) => (
-        <IconButton
-          onClick={() => handleOpenDialog(params.row.dailyTripSectionId)}
-          style={{
-            background: "transparent",
-            border: "none",
-            outline: "none",
-            color: "black",
-            cursor: "pointer",
-          }}
-        >
-          <FaEdit />
-        </IconButton>
-      ),
-    },
-    {
       field: "dtCheckList",
       headerName: "CHECK-LIST",
       width: 100,
       renderCell: (params) => {
-        const hasDtCheckList =
-          params?.row.dtCheckList !== undefined &&
-          params?.row.dtCheckList !== null;
-        if (hasDtCheckList) return <FaCheck fill="green" />;
-        else return <FaTimes fill="red" />;
+        if (
+          params.row.dtCheckList === null ||
+          params.row.dtCheckList === undefined
+        )
+          return (
+            <IconButton
+              onClick={() => handleOpenDialog(params.row.dailyTripSectionId)}
+              style={{
+                background: "transparent",
+                border: "none",
+                outline: "none",
+                color: "black",
+                cursor: "pointer",
+              }}
+            >
+              <FaEdit />
+            </IconButton>
+          );
+        return params.row.dtCheckList;
       },
     },
 
@@ -209,9 +204,6 @@ export function ReleaseDriver() {
                 onPaginationModelChange={(params) => {
                   loadMore(params.page + 1);
                 }}
-                onCellDoubleClick={(params) =>
-                  handleOpenDialog(params.row.dailyTripSectionId)
-                }
                 initialState={{
                   pagination: {
                     paginationModel: { page: 0, pageSize: 100 },

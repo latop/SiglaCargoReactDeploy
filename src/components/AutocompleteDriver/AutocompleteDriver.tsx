@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import { TextField } from "@mui/material";
@@ -9,9 +10,11 @@ import debounce from "debounce";
 export function AutocompleteDriver({
   name = "nickName",
   keyCode = "nickName",
+  label,
 }: {
   name?: string;
   keyCode?: keyof Driver;
+  label?: string;
 }) {
   const {
     control,
@@ -54,8 +57,8 @@ export function AutocompleteDriver({
               !field.value
                 ? "Digite o nome do motorista"
                 : !drivers && !error
-                ? "Carregando..."
-                : "Nenhum resultado encontrado"
+                  ? "Carregando..."
+                  : "Nenhum resultado encontrado"
             }
             getOptionLabel={(option: Driver) => option.nickName}
             renderInput={(params) => (
@@ -65,7 +68,7 @@ export function AutocompleteDriver({
                 onChange={debounce(field.onChange, 300)}
                 variant="outlined"
                 fullWidth
-                label="Motorista"
+                label={label ? label : "Motorista"}
                 error={!!errors[field.name]}
                 helperText={errors[field.name]?.message?.toString()}
               />
