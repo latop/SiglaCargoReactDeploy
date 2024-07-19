@@ -41,7 +41,7 @@ export function AutocompleteTruck({
           clearOnEscape
           options={trucks || []}
           loadingText="Carregando..."
-          defaultValue={{ [keyCode]: field.value?.[keyCode] || "" } as Truck}
+          defaultValue={{ [keyCode]: field.value?.[keyCode] || field.value || "" } as Truck}
           isOptionEqualToValue={(option: Truck, value: Truck) =>
             option[keyCode] === value[keyCode]
           }
