@@ -1,7 +1,7 @@
 import React from "react";
 import { Controller, FormProvider } from "react-hook-form";
 import dayjs from "dayjs";
-import { Button, Grid } from "@mui/material";
+import { Button, Grid, TextField } from "@mui/material";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@/components/DatePicker";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -10,6 +10,7 @@ import { AutocompleteFleetGroup } from "@/components/AutocompleteFleetGroup";
 import { useDailyTripsByPeriodFilterBar } from "./useDailyTripsByPeriodFilterBar";
 import SearchIcon from "@mui/icons-material/Search";
 import "dayjs/locale/pt-br";
+import { AutocompleteLocationGroup } from "../AutocompleteLocationGroup";
 
 dayjs.extend(customParseFormat);
 
@@ -62,6 +63,19 @@ export function DailyTripsByPeriodFilterBar(
 
             <Grid item xs={1.1}>
               <AutocompleteFleetGroup />
+            </Grid>
+            <Grid item xs={1.1}>
+              <AutocompleteLocationGroup />
+            </Grid>
+            <Grid item xs={1.1}>
+              <Controller
+                name="licensePlate"
+                control={control}
+                rules={{ required: true }}
+                render={({ field }) => (
+                  <TextField label="Placa do veículo" {...field} />
+                )}
+              />
             </Grid>
 
             <Grid item xs={0.5}>
