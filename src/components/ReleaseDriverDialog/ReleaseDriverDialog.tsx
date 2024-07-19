@@ -12,6 +12,7 @@ import { FormProvider } from "react-hook-form";
 import { useDialog } from "@/hooks/useDialog/useDialog";
 import CloseIcon from "@mui/icons-material/Close";
 import { ReleaseDriverForm } from "./ReleaseDriverForm";
+import { ReleaseDriverFormFooter } from "./ReleaseDriverFormFooter";
 
 interface ReleaseDriverDialogProps {
   onClose: () => void;
@@ -43,40 +44,44 @@ export const ReleaseDriverDialog: FC<ReleaseDriverDialogProps> = ({
       PaperProps={{ sx: { height: "100%", maxWidth: "1400px" } }}
     >
       <FormProvider {...methods}>
-        <form>
-          <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
+        <form
+          style={{ display: "flex", flexDirection: "column", height: "100%" }}
+        >
+          <DialogTitle sx={{ m: 0, p: 2 }}>
             <Box display="flex" justifyContent="space-between">
               Motorista para liberar
             </Box>
-            <IconButton
-              aria-label="close"
-              onClick={handleClose}
-              sx={{
-                position: "absolute",
-                right: 8,
-                top: 8,
-                color: (theme) => theme.palette.grey[500],
-              }}
-            >
-              <CloseIcon />
-            </IconButton>
-            <DialogContent dividers sx={{ padding: "16px" }}>
-              {loading && (
-                <Box
-                  display="flex"
-                  alignItems="center"
-                  justifyContent="center"
-                  padding="10px"
-                  height="100%"
-                >
-                  <CircularProgress />
-                </Box>
-              )}
-
-              {!loading && <ReleaseDriverForm />}
-            </DialogContent>
           </DialogTitle>
+
+          <IconButton
+            aria-label="close"
+            onClick={handleClose}
+            sx={{
+              position: "absolute",
+              right: 8,
+              top: 8,
+              color: (theme) => theme.palette.grey[500],
+            }}
+          >
+            <CloseIcon />
+          </IconButton>
+          <DialogContent dividers sx={{ padding: "16px", height: "100%" }}>
+            {loading && (
+              <Box
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
+                padding="10px"
+                height="100%"
+              >
+                <CircularProgress />
+              </Box>
+            )}
+
+            {!loading && <ReleaseDriverForm />}
+          </DialogContent>
         </form>
+        <ReleaseDriverFormFooter />
       </FormProvider>
     </Dialog>
   );

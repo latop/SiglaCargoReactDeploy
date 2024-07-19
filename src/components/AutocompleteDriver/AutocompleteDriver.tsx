@@ -25,7 +25,7 @@ export function AutocompleteDriver({
 
   const { drivers, error } = useDrivers({
     pageSize: 10,
-    [name]: watch(name),
+    nickName: watch(name),
   });
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -35,13 +35,11 @@ export function AutocompleteDriver({
     setValue(name, value?.[keyCode] || "");
   };
 
-  console.log(watch(name), "watch(name)");
   return (
     <Controller
-      name="nickName"
+      name={name}
       control={control}
       render={({ field }) => (
-        console.log(field),
         (
           <Autocomplete
             clearOnEscape

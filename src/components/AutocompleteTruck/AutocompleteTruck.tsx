@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import { TextField } from "@mui/material";
@@ -52,8 +53,8 @@ export function AutocompleteTruck({
             !field.value
               ? "Digite o código"
               : !trucks && !error
-              ? "Carregando..."
-              : "Nenhum resultado encontrado"
+                ? "Carregando..."
+                : "Nenhum resultado encontrado"
           }
           getOptionLabel={(option: Truck) => option[keyCode] as string}
           renderInput={(params) => (

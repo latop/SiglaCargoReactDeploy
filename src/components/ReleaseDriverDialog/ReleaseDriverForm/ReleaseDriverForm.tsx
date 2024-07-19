@@ -1,5 +1,5 @@
 import React from "react";
-import { Controller, Form } from "react-hook-form";
+import { Controller } from "react-hook-form";
 import { Box, TextField, Grid } from "@mui/material";
 
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -22,160 +22,141 @@ export const ReleaseDriverForm = () => {
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
-      <Form {...methods}>
-        <Box display="flex" flexDirection="column" gap="20px" mt="5px">
-          <Box display="flex" gap="20px">
-            <Grid container spacing={2}>
-              <Grid item xs={1.7}>
-                <Controller
-                  name="saida"
-                  control={control}
-                  render={({ field }) => {
-                    return (
-                      <TextField
-                        disabled
-                        sx={{
-                          "& .MuiInputBase-input.Mui-disabled": {
-                            WebkitTextFillColor: "#000000",
-                            opacity: 1,
-                          },
-                        }}
-                        label="SAIDA"
-                        {...field}
-                        value={
-                          field.value
-                            ? dayjs(field.value).format("DD/MM/YYYY HH:mm")
-                            : dayjs()
-                        }
-                      />
-                    );
-                  }}
-                />
-              </Grid>
-              <Grid item xs={1.7}>
-                <Controller
-                  name="entrega"
-                  control={control}
-                  render={({ field }) => {
-                    return (
-                      <TextField
-                        disabled
-                        sx={{
-                          "& .MuiInputBase-input.Mui-disabled": {
-                            WebkitTextFillColor: "#000000",
-                            opacity: 1,
-                          },
-                        }}
-                        label="ENTREGA"
-                        {...field}
-                        value={
-                          field.value
-                            ? dayjs(field.value).format("DD/MM/YYYY HH:mm")
-                            : dayjs()
-                        }
-                      />
-                    );
-                  }}
-                />
-              </Grid>
-              <Grid item xs={1.7}>
-                <Controller
-                  name="demanda"
-                  control={control}
-                  render={({ field }) => {
-                    return (
-                      <TextField
-                        disabled
-                        sx={{
-                          "& .MuiInputBase-input.Mui-disabled": {
-                            WebkitTextFillColor: "#000000",
-                            opacity: 1,
-                          },
-                        }}
-                        label="DEMANDA"
-                        {...field}
-                        value={field.value}
-                      />
-                    );
-                  }}
-                />
-              </Grid>
-              <Grid item xs={1.7}>
-                <Controller
-                  name="destino"
-                  control={control}
-                  render={({ field }) => {
-                    return (
-                      <TextField
-                        disabled
-                        sx={{
-                          "& .MuiInputBase-input.Mui-disabled": {
-                            WebkitTextFillColor: "#000000",
-                            opacity: 1,
-                          },
-                        }}
-                        label="DESTINO"
-                        {...field}
-                        value={field.value}
-                      />
-                    );
-                  }}
-                />
-              </Grid>
+      <Box display="flex" flexDirection="column" gap="20px" mt="5px">
+        <Box display="flex" gap="20px">
+          <Grid container spacing={2}>
+            <Grid item xs={1.7}>
+              <Controller
+                name="saida"
+                control={control}
+                render={({ field }) => {
+                  return (
+                    <TextField
+                      disabled
+                      sx={{
+                        "& .MuiInputBase-input.Mui-disabled": {
+                          WebkitTextFillColor: "#000000",
+                          opacity: 1,
+                        },
+                      }}
+                      label="SAIDA"
+                      {...field}
+                      value={
+                        field.value
+                          ? dayjs(field.value).format("DD/MM/YYYY HH:mm")
+                          : dayjs()
+                      }
+                    />
+                  );
+                }}
+              />
             </Grid>
-          </Box>
-
-          <Box>
-            <Grid spacing={2} container>
-              <Grid item xs={1.7}>
-                <Controller
-                  control={control}
-                  name="motoristaLiberado"
-                  render={({ field }) => (
-                    <AutocompleteDriver label="Motorista liberado" {...field} />
-                  )}
-                />
-              </Grid>
-              <Grid item xs={1.7}>
-                <Controller
-                  name="motoristaPlan"
-                  control={control}
-                  render={({ field }) => {
-                    return (
-                      <AutocompleteDriver
-                        label={"Motorista Planejado"}
-                        {...field}
-                      />
-                    );
-                  }}
-                />
-              </Grid>
-              <Grid item xs={1.7}>
-                <Controller
-                  control={control}
-                  name="veiculoLiberado"
-                  render={({ field }) => {
-                    console.log(field.value);
-                    return (
-                      <AutocompleteTruck label="Veículo Liberado" {...field} />
-                    );
-                  }}
-                />
-              </Grid>
-              <Grid item xs={1.7}>
-                <Controller
-                  control={control}
-                  name="veiculoPlan"
-                  render={({ field }) => (
-                    <AutocompleteTruck label="Veículo Planejado" {...field} />
-                  )}
-                />
-              </Grid>
+            <Grid item xs={1.7}>
+              <Controller
+                name="entrega"
+                control={control}
+                render={({ field }) => {
+                  return (
+                    <TextField
+                      disabled
+                      sx={{
+                        "& .MuiInputBase-input.Mui-disabled": {
+                          WebkitTextFillColor: "#000000",
+                          opacity: 1,
+                        },
+                      }}
+                      label="ENTREGA"
+                      {...field}
+                      value={
+                        field.value
+                          ? dayjs(field.value).format("DD/MM/YYYY HH:mm")
+                          : dayjs()
+                      }
+                    />
+                  );
+                }}
+              />
             </Grid>
-          </Box>
-          <Box gap="10px" display="flex" flexDirection="column"></Box>
+            <Grid item xs={1.7}>
+              <Controller
+                name="demanda"
+                control={control}
+                render={({ field }) => {
+                  return (
+                    <TextField
+                      disabled
+                      sx={{
+                        "& .MuiInputBase-input.Mui-disabled": {
+                          WebkitTextFillColor: "#000000",
+                          opacity: 1,
+                        },
+                      }}
+                      label="DEMANDA"
+                      {...field}
+                      value={field.value}
+                    />
+                  );
+                }}
+              />
+            </Grid>
+            <Grid item xs={1.7}>
+              <Controller
+                name="destino"
+                control={control}
+                render={({ field }) => {
+                  return (
+                    <TextField
+                      disabled
+                      sx={{
+                        "& .MuiInputBase-input.Mui-disabled": {
+                          WebkitTextFillColor: "#000000",
+                          opacity: 1,
+                        },
+                      }}
+                      label="DESTINO"
+                      {...field}
+                      value={field.value}
+                    />
+                  );
+                }}
+              />
+            </Grid>
+          </Grid>
         </Box>
-      </Form>
+
+        <Box>
+          <Grid spacing={2} container>
+            <Grid item xs={1.7}>
+              <AutocompleteDriver
+                label={"Motorista Planejado"}
+                name="motoristaPlan"
+              />
+            </Grid>
+            <Grid item xs={1.7}>
+              <AutocompleteTruck
+                label="Veículo Planejado"
+                name="veiculoPlan"
+                onChange={(value) => {
+                  methods.setValue("veiculoPlan", value?.licensePlate);
+                }}
+              />
+            </Grid>
+            <Grid item xs={1.7}>
+              <AutocompleteDriver
+                label="Motorista liberado"
+                name="motoristaLiberado"
+              />
+            </Grid>
+            <Grid item xs={1.7}>
+              <AutocompleteTruck
+                label="Veículo Liberado"
+                name="veiculoLiberado"
+              />
+            </Grid>
+          </Grid>
+        </Box>
+        <Box gap="10px" display="flex" flexDirection="column"></Box>
+      </Box>
     </LocalizationProvider>
   );
 };
