@@ -35,8 +35,8 @@ const schema = z
   })
   .refine(
     (data) => {
-      const { startDate, endDate, licensePlate } = data;
-      if (licensePlate) return licensePlate.toUpperCase();
+      const { startDate, endDate } = data;
+
       if (dayjs(startDate as Dayjs | Date).isAfter(endDate as Dayjs | Date)) {
         return false;
       }
