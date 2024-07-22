@@ -134,11 +134,7 @@ export const ReleaseDriverDialog: FC<ReleaseDriverDialogProps> = ({
             padding="10px"
             width="100%"
           >
-            <Button
-              type="submit"
-              variant="contained"
-              onClick={() => handleClose({ isFromSaveButton: true })}
-            >
+            <Button type="submit" variant="contained" onClick={handleClose}>
               {isSubmitting && (
                 <CircularProgress
                   color="inherit"
