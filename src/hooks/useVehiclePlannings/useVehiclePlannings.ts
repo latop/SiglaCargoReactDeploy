@@ -50,7 +50,7 @@ export const useVehiclePlannings = (options?: SWRConfiguration) => {
   };
 
   const totalCount = data?.[0]?.totalCount || 0;
-
+  console.log(data);
   const hasData = !isEmpty && !isLoading && !error && !isLoadingMore;
   return {
     vehiclePlannings,

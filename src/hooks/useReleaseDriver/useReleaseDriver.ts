@@ -36,6 +36,7 @@ export const useReleaseDriver = (options?: SWRConfiguration) => {
       revalidateOnFocus: false,
       ...options,
     });
+
   const hasContent = data?.[0].drivers && Object.keys(data?.[0].drivers).length;
   const isEmpty = !isLoading && !hasContent && !params.get("locOrigin")?.length;
   const hasNext = data?.[data.length - 1]?.hasNext;
@@ -50,7 +51,7 @@ export const useReleaseDriver = (options?: SWRConfiguration) => {
   };
   const totalCount = data?.[0]?.totalCount || 0;
   const drivers = data?.map((page) => page.drivers).flat() || [];
-
+  console.log(data);
   return {
     showContent,
     drivers,

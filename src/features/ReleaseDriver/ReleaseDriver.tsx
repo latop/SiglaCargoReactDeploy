@@ -128,6 +128,7 @@ export function ReleaseDriver() {
     origem,
     totalCount,
     error,
+    size,
     loadMore,
   } = useReleaseDriver();
   const router = useRouter();
@@ -194,7 +195,7 @@ export function ReleaseDriver() {
         >
           {isLoading && <CircularProgress />}
           {(isEmpty || error) && <EmptyResult />}
-          {showContent && (
+          {showContent && !isLoading && (
             <div style={{ height: "100%", width: "100%" }}>
               <DataGrid
                 rows={drivers}
@@ -204,12 +205,28 @@ export function ReleaseDriver() {
                 onPaginationModelChange={(params) => {
                   loadMore(params.page + 1);
                 }}
-                initialState={{
-                  pagination: {
-                    paginationModel: { page: 0, pageSize: 100 },
+                localeText={{
+                  noRowsLabel: "Nenhum registro encontrado",
+                  columnMenuHideColumn: "Ocultar coluna",
+                  columnsManagementShowHideAllText: "Mostrar/Ocultar todas",
+                  columnMenuManageColumns: "Gerenciar colunas",
+                  MuiTablePagination: {
+                    labelRowsPerPage: "Registros por página",
+                    labelDisplayedRows: ({ from, to, count }) =>
+                      // eslint-disable-next-line prettier/prettier
+                      `${from}-${to} de ${count !== -1 ? count : `mais de ${to}`
+                      }`,
                   },
                 }}
-                pageSizeOptions={[100]}
+                onCellDoubleClick={(params) => {
+                  setHash(`#vehiclePlanning-${params.row.id}`);
+                }}
+                initialState={{
+                  pagination: {
+                    paginationModel: { page: size - 1, pageSize: 10 },
+                  },
+                }}
+                pageSizeOptions={[10]}
               />
             </div>
           )}

@@ -1,18 +1,21 @@
 import {
   Box,
+  Button,
   CircularProgress,
   Dialog,
+  DialogActions,
   DialogContent,
   DialogTitle,
   IconButton,
 } from "@mui/material";
 import { FC } from "react";
 import { useReleaseDriverDialog } from "./useReleaseDriverDialog";
-import { FormProvider } from "react-hook-form";
+import { FieldValues, FormProvider } from "react-hook-form";
 import { useDialog } from "@/hooks/useDialog/useDialog";
 import CloseIcon from "@mui/icons-material/Close";
 import { ReleaseDriverForm } from "./ReleaseDriverForm";
-import { ReleaseDriverFormFooter } from "./ReleaseDriverFormFooter";
+import dayjs from "dayjs";
+import { useToast } from "@/hooks/useToast";
 
 interface ReleaseDriverDialogProps {
   onClose: () => void;
@@ -23,25 +26,68 @@ export const ReleaseDriverDialog: FC<ReleaseDriverDialogProps> = ({
   onClose,
   open,
 }) => {
-  const { methods, loading } = useReleaseDriverDialog();
+  const { addToast } = useToast();
+
+  const {
+    methods,
+    loading,
+    driverAndTruckToRelase,
+    updateReleaseDriver,
+    mutate,
+  } = useReleaseDriverDialog();
   const { openDialog } = useDialog();
+  const {
+    formState: { isSubmitting },
+    handleSubmit,
+  } = methods;
+
+  const onSubmit = async (data: FieldValues) => {
+    const body = {
+      ...driverAndTruckToRelase,
+      saida: data?.saida,
+      entrega: data?.entrega,
+      demanda: data?.demanda,
+      destino: data?.destino,
+      motoristaPlan: data?.motoristaPlan,
+      veiculoPlan: data?.veiculoPlan,
+      motoristaLiberado: data?.motoristaLiberado,
+      veiculoLiberado: data?.veiculoLiberado?.licensePlate,
+      dtCheckList: dayjs().format(),
+    };
+
+    try {
+      await updateReleaseDriver(body, {
+        onSuccess: () => {
+          mutate();
+          addToast("Motorista liberado com sucesso");
+        },
+        onError: () => {
+          addToast("Algo deu errado...", {
+            type: "error",
+          });
+        },
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   const handleClose = () => {
     openDialog({
-      title: "Salvar informações?",
+      body: "Deseja salvar as alterações?",
       onConfirm: () => {
+        handleSubmit(onSubmit)();
         onClose();
       },
-      onCancel: () => console.log("não fecha"),
     });
   };
 
   return (
     <Dialog
-      onClose={handleClose}
+      onClose={onClose}
       open={open}
       fullWidth
-      PaperProps={{ sx: { height: "100%", maxWidth: "1400px" } }}
+      PaperProps={{ sx: { height: "30%", maxWidth: "1000px" } }}
     >
       <FormProvider {...methods}>
         <form
@@ -55,7 +101,7 @@ export const ReleaseDriverDialog: FC<ReleaseDriverDialogProps> = ({
 
           <IconButton
             aria-label="close"
-            onClick={handleClose}
+            onClick={onClose}
             sx={{
               position: "absolute",
               right: 8,
@@ -81,7 +127,29 @@ export const ReleaseDriverDialog: FC<ReleaseDriverDialogProps> = ({
             {!loading && <ReleaseDriverForm />}
           </DialogContent>
         </form>
-        <ReleaseDriverFormFooter />
+        <DialogActions>
+          <Box
+            display="flex"
+            justifyContent="flex-end"
+            padding="10px"
+            width="100%"
+          >
+            <Button
+              type="submit"
+              variant="contained"
+              onClick={() => handleClose({ isFromSaveButton: true })}
+            >
+              {isSubmitting && (
+                <CircularProgress
+                  color="inherit"
+                  size={20}
+                  sx={{ margin: "2px 11.45px" }}
+                />
+              )}
+              {!isSubmitting && `Salvar`}
+            </Button>
+          </Box>
+        </DialogActions>
       </FormProvider>
     </Dialog>
   );

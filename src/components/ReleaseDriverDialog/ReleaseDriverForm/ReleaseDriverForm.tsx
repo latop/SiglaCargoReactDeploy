@@ -15,17 +15,14 @@ dayjs.extend(customParseFormat);
 
 export const ReleaseDriverForm = () => {
   const { methods } = useReleaseDriverDialog();
-  const { control, formState } = methods;
-  const { defaultValues } = formState;
-
-  console.log(defaultValues);
+  const { control } = methods;
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
       <Box display="flex" flexDirection="column" gap="20px" mt="5px">
         <Box display="flex" gap="20px">
           <Grid container spacing={2}>
-            <Grid item xs={1.7}>
+            <Grid item xs={2}>
               <Controller
                 name="saida"
                 control={control}
@@ -41,17 +38,13 @@ export const ReleaseDriverForm = () => {
                       }}
                       label="SAIDA"
                       {...field}
-                      value={
-                        field.value
-                          ? dayjs(field.value).format("DD/MM/YYYY HH:mm")
-                          : dayjs()
-                      }
+                      value={field.value}
                     />
                   );
                 }}
               />
             </Grid>
-            <Grid item xs={1.7}>
+            <Grid item xs={2}>
               <Controller
                 name="entrega"
                 control={control}
@@ -67,17 +60,13 @@ export const ReleaseDriverForm = () => {
                       }}
                       label="ENTREGA"
                       {...field}
-                      value={
-                        field.value
-                          ? dayjs(field.value).format("DD/MM/YYYY HH:mm")
-                          : dayjs()
-                      }
+                      value={field.value}
                     />
                   );
                 }}
               />
             </Grid>
-            <Grid item xs={1.7}>
+            <Grid item xs={2}>
               <Controller
                 name="demanda"
                 control={control}
@@ -99,7 +88,7 @@ export const ReleaseDriverForm = () => {
                 }}
               />
             </Grid>
-            <Grid item xs={1.7}>
+            <Grid item xs={2}>
               <Controller
                 name="destino"
                 control={control}
@@ -126,13 +115,13 @@ export const ReleaseDriverForm = () => {
 
         <Box>
           <Grid spacing={2} container>
-            <Grid item xs={1.7}>
+            <Grid item xs={2}>
               <AutocompleteDriver
                 label={"Motorista Planejado"}
                 name="motoristaPlan"
               />
             </Grid>
-            <Grid item xs={1.7}>
+            <Grid item xs={2}>
               <AutocompleteTruck
                 label="Veículo Planejado"
                 name="veiculoPlan"
@@ -141,16 +130,19 @@ export const ReleaseDriverForm = () => {
                 }}
               />
             </Grid>
-            <Grid item xs={1.7}>
+            <Grid item xs={2}>
               <AutocompleteDriver
                 label="Motorista liberado"
                 name="motoristaLiberado"
               />
             </Grid>
-            <Grid item xs={1.7}>
+            <Grid item xs={2}>
               <AutocompleteTruck
                 label="Veículo Liberado"
                 name="veiculoLiberado"
+                onChange={(value) => {
+                  methods.setValue("veiculoLiberado", value?.licensePlate);
+                }}
               />
             </Grid>
           </Grid>
