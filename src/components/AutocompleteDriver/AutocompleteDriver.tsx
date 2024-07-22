@@ -10,10 +10,12 @@ import debounce from "debounce";
 export function AutocompleteDriver({
   name = "nickName",
   keyCode = "nickName",
+  label = "Motorista",
   onChange,
 }: {
   name?: string;
   keyCode?: keyof Driver;
+  label?: string;
   onChange?: (value: Driver | null) => void;
 }) {
   const {
@@ -70,7 +72,7 @@ export function AutocompleteDriver({
               }, 300)}
               variant="outlined"
               fullWidth
-              label="Motorista"
+              label={label}
               error={!!errors[field.name]}
               helperText={errors[field.name]?.message?.toString()}
             />

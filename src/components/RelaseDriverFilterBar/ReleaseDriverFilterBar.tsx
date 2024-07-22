@@ -35,14 +35,7 @@ export function ReleaseDriverFilterBar(
             </Grid>
 
             <Grid item xs={1.1}>
-              <Controller
-                name="locOrig"
-                rules={{ required: true }}
-                control={control}
-                render={({ field }) => (
-                  <AutocompleteLocation label="Origem" {...field} />
-                )}
-              />
+              <AutocompleteLocation label="Origem" name="locOrig" />
             </Grid>
 
             <Grid item xs={1.1}>
