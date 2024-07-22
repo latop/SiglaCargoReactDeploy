@@ -191,7 +191,6 @@ export function useTimelineTrips() {
     dragTime: number,
     newGroupOrder: number,
   ) => {
-    console.log(newGroupOrder, "newGroupOrder");
     if (!circuits) return;
     const newDriver = drivers?.[newGroupOrder];
     const driverName = drivers?.find(

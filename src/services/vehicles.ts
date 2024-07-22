@@ -12,7 +12,7 @@ export async function fetchTruck({ args }: { args: FetchTruckParams }) {
   try {
     const params = {
       PageSize: args.pageSize,
-      filter1String: args.licensePlate?.toUpperCase(),
+      filter1String: args.licensePlate?.toUpperCase?.(),
     };
 
     const response = await axios.get("/Truck", { params });
@@ -67,8 +67,8 @@ export async function fetchVehiclePlannings({
 }) {
   try {
     const params = {
-      filter1Id: args.fleetGroupId,
-      filter2Id: args.locationGroupId,
+      filter1Id: args.locationGroupId,
+      filter2Id: args.fleetGroupId,
       filter3Id: args.driverId,
       filter1String: args.tripDate,
       filter2String: args.licensePlate,

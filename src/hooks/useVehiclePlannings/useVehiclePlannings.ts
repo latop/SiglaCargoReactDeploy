@@ -8,7 +8,9 @@ export const useVehiclePlannings = (options?: SWRConfiguration) => {
   const searchParams = useSearchParams();
   const params = {
     fleetGroupId: searchParams.get("fleetGroupId"),
+    fleetGroupCode: searchParams.get("fleetGroupCode"),
     locationGroupId: searchParams.get("locationGroupId"),
+    locationGroupCode: searchParams.get("locationGroupCode"),
     driverId: searchParams.get("driverId"),
     tripDate: searchParams.get("tripDate"),
     licensePlate: searchParams.get("licensePlate"),
@@ -52,6 +54,11 @@ export const useVehiclePlannings = (options?: SWRConfiguration) => {
   const totalCount = data?.[0]?.totalCount || 0;
   console.log(data);
   const hasData = !isEmpty && !isLoading && !error && !isLoadingMore;
+
+  const refetch = () => {
+    mutate();
+  };
+
   return {
     vehiclePlannings,
     error,
@@ -61,6 +68,7 @@ export const useVehiclePlannings = (options?: SWRConfiguration) => {
     loadMore,
     size,
     isReachingEnd,
+    refetch,
     isLoading: isLoadingMore || isLoading,
     setSize,
     isValidating,

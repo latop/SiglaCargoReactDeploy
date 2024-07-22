@@ -12,6 +12,7 @@ import { useVehiclePlanningDetailsDialog } from "./useVehiclePlanningDetailsDial
 import { useVehiclePlanningDetails } from "@/hooks/useVehiclePlanningDetails";
 import { VehiclePlanningForm } from "./components/VehiclePlanningForm";
 import { VehiclePlanningFormFooter } from "./components/VehiclePlanningFormFooter";
+import { useVehiclePlannings } from "@/hooks/useVehiclePlannings";
 
 interface VehiclePlanningDetailsProps {
   open: boolean;
@@ -24,25 +25,74 @@ export function VehiclePlanningDetailsDialog({
 }: VehiclePlanningDetailsProps) {
   const { addToast } = useToast();
 
-  const { updateVehiclePlanning } = useVehiclePlanningDetails();
+  const { updateVehiclePlanning, createVehiclePlanning } =
+    useVehiclePlanningDetails();
+  const { refetch } = useVehiclePlannings();
   const { vehiclePlanningDetails, isLoading, methods } =
     useVehiclePlanningDetailsDialog();
 
   const onSubmit = async (data: FieldValues) => {
-    const { dailyTripSections, ...values } = data;
+    if (vehiclePlanningDetails) {
+      await handleUpdate(data);
+    } else {
+      await handleCreate(data);
+    }
+  };
+
+  const handleUpdate = async (data: FieldValues) => {
     const body = {
-      dailyTrip: {
-        ...values,
-      },
-      dailyTripSections,
+      id: vehiclePlanningDetails?.id,
+      driverId: data.driver?.id,
+      truckId: data.truck?.id,
+      startTime: data.startTime,
+      endTime: data.endTime,
+      freqFri: data.freqFri ? 1 : 0,
+      freqMon: data.freqMon ? 1 : 0,
+      freqSat: data.freqSat ? 1 : 0,
+      freqSun: data.freqSun ? 1 : 0,
+      freqThu: data.freqThu ? 1 : 0,
+      freqTue: data.freqTue ? 1 : 0,
+      freqWed: data.freqWed ? 1 : 0,
+      startDate: data.startDate,
+      endDate: data.endDate,
     };
+
     await updateVehiclePlanning(body, {
       onSuccess: () => {
         addToast("Viagem salva com sucesso");
+        refetch();
         onClose();
       },
       onError: () => {
         addToast("Erro ao salvar viagem", { type: "error" });
+      },
+    });
+  };
+
+  const handleCreate = async (data: FieldValues) => {
+    const body = {
+      driverId: data.driver?.id,
+      truckId: data.truck?.id,
+      startTime: data.startTime,
+      endTime: data.endTime,
+      freqFri: data.freqFri ? 1 : 0,
+      freqMon: data.freqMon ? 1 : 0,
+      freqSat: data.freqSat ? 1 : 0,
+      freqSun: data.freqSun ? 1 : 0,
+      freqThu: data.freqThu ? 1 : 0,
+      freqTue: data.freqTue ? 1 : 0,
+      freqWed: data.freqWed ? 1 : 0,
+      startDate: data.startDate,
+      endDate: data.endDate,
+    };
+    await createVehiclePlanning(body, {
+      onSuccess: () => {
+        addToast("Viagem criada com sucesso");
+        refetch();
+        onClose();
+      },
+      onError: () => {
+        addToast("Erro ao criar viagem", { type: "error" });
       },
     });
   };
@@ -55,10 +105,11 @@ export function VehiclePlanningDetailsDialog({
     onClose();
     methods.reset({
       id: "",
-      driverId: "",
-      truck: null,
+      driver: null,
       startTime: dayjs().format("YYYY-MM-DDTHH:mm:ss"),
       endTime: dayjs().format("YYYY-MM-DDTHH:mm:ss"),
+      startDate: dayjs().format("YYYY-MM-DD"),
+      endDate: dayjs().format("YYYY-MM-DD"),
       freqTue: false,
       freqWed: false,
       freqThu: false,

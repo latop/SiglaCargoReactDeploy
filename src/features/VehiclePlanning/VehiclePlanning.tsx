@@ -16,6 +16,7 @@ import CheckIcon from "@mui/icons-material/Check";
 import { useHash } from "@/hooks/useHash";
 import { VehiclePlanningsFilterBar } from "@/components/VehiclePlanningsFilterBar";
 import { VehiclePlanningDetailsDialog } from "@/components/VehiclePlanningDetailsDialog";
+import { GenerateVehiclePlanningDialog } from "@/components/GenerateVehiclePlanningDialog";
 
 interface DayColumn {
   field: string;
@@ -71,11 +72,14 @@ const columns: GridColDef[] = [
     },
   },
   {
-    field: "driverId",
+    field: "driver.nickName",
     headerName: "Motorista",
     width: 200,
     sortable: false,
     filterable: false,
+    valueGetter: (_, data: IVehiclePlanning) => {
+      return data.driver?.nickName;
+    },
   },
   {
     field: "fleetType",
@@ -84,33 +88,52 @@ const columns: GridColDef[] = [
     sortable: false,
     filterable: false,
     valueGetter: (_, data: IVehiclePlanning) => {
-      return data.truck?.fleetType.code;
+      return data.truck?.fleetType?.fleetGroup?.code;
     },
   },
   {
-    field: "base",
-    headerName: "Base do veículo",
-    width: 150,
+    field: "truck.locationGroup.code",
+    headerName: "Base",
+    width: 100,
     sortable: false,
     filterable: false,
+    valueGetter: (_, data: IVehiclePlanning) => {
+      return data.truck?.locationGroup?.code;
+    },
+  },
+  {
+    field: "startDate",
+    headerName: "Dt Início",
+    width: 100,
+    sortable: false,
+    filterable: false,
+    valueFormatter: (value) =>
+      value ? dayjs(value).format("DD/MM/YYYY") : "N/A",
+  },
+  {
+    field: "endDate",
+    headerName: "Dt Fim",
+    width: 100,
+    sortable: false,
+    filterable: false,
+    valueFormatter: (value) =>
+      value ? dayjs(value).format("DD/MM/YYYY") : "N/A",
   },
   {
     field: "startTime",
-    headerName: "Início",
-    width: 170,
+    headerName: "Hr Início",
+    width: 80,
     sortable: false,
     filterable: false,
-    valueFormatter: (value) =>
-      value ? dayjs(value).format("DD/MM/YYYY HH:mm") : "N/A",
+    valueFormatter: (value) => (value ? dayjs(value).format("HH:mm") : "N/A"),
   },
   {
     field: "endTime",
-    headerName: "Fim",
-    width: 170,
+    headerName: "Hr Fim",
+    width: 120,
     sortable: false,
     filterable: false,
-    valueFormatter: (value) =>
-      value ? dayjs(value).format("DD/MM/YYYY HH:mm") : "N/A",
+    valueFormatter: (value) => (value ? dayjs(value).format("HH:mm") : "N/A"),
   },
   ...generateDayColumns(daysOfWeek),
 ];
@@ -118,6 +141,7 @@ const columns: GridColDef[] = [
 export function VehiclePlanning() {
   const [hash, setHash] = useHash();
   const isOpen = hash.includes("vehiclePlanning");
+  const isOpenGenerate = hash.includes("generateVehiclePlanning");
   const params = useSearchParams();
   const router = useRouter();
   const {
@@ -149,6 +173,10 @@ export function VehiclePlanning() {
     setHash("#vehiclePlanning");
   };
 
+  const handleOpenGenerate = () => {
+    setHash("#generateVehiclePlanning");
+  };
+
   return (
     <MainContainer>
       <AppBar>
@@ -165,9 +193,18 @@ export function VehiclePlanning() {
         }}
       >
         <VehiclePlanningsFilterBar />
-        <Box display="flex" justifyContent="flex-end" mt="25px" mb="10px">
+        <Box
+          display="flex"
+          justifyContent="flex-end"
+          gap="10px"
+          mt="25px"
+          mb="10px"
+        >
           <Button variant="outlined" size="small" onClick={handleAddTravel}>
-            Adicionar viagem
+            Adicionar
+          </Button>
+          <Button variant="outlined" size="small" onClick={handleOpenGenerate}>
+            Ger. diária
           </Button>
         </Box>
         {showContent && (
@@ -225,6 +262,10 @@ export function VehiclePlanning() {
       <VehiclePlanningDetailsDialog
         open={!!isOpen}
         onClose={handleCloseDialog}
+      />
+      <GenerateVehiclePlanningDialog
+        onClose={handleCloseDialog}
+        open={isOpenGenerate}
       />
     </MainContainer>
   );

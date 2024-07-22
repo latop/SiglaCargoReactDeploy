@@ -1,10 +1,9 @@
 import useSWR, { SWRConfiguration } from "swr";
-import { FetchLineParams } from "@/services/trips";
-import { fetchTruck } from "@/services/vehicles";
+import { fetchTruck, FetchTruckParams } from "@/services/vehicles";
 import { Truck } from "@/interfaces/vehicle";
 
 export const useTruck = (
-  params?: FetchLineParams,
+  params?: FetchTruckParams,
   options?: SWRConfiguration,
 ) => {
   const { data, error, isLoading } = useSWR<Truck[]>(

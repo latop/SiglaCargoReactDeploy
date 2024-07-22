@@ -7,6 +7,7 @@ import dayjs, { Dayjs } from "dayjs";
 interface FormFields {
   fleetGroupCode: string;
   locationDestId: string;
+  fleetGroupId: string;
   locationOrigId: string;
   tripDate: Dayjs;
   sto: string;
@@ -22,6 +23,7 @@ const dateOrDayjsSchema = z.custom(
 
 const schema = z.object({
   fleetGroupCode: z.string().optional(),
+  fleetGroupId: z.string().optional(),
   locationOrigId: z.string().optional(),
   locationDestId: z.string().optional(),
   tripDate: dateOrDayjsSchema,
@@ -36,6 +38,7 @@ export function useDailyTripsFilterBar() {
     resolver: zodResolver(schema),
     defaultValues: {
       fleetGroupCode: params.get("fleetGroupCode") || "",
+      fleetGroupId: params.get("fleetGroupId") || "",
       locationDestId: params.get("locationDestId") || "",
       locationOrigId: params.get("locationOrigId") || "",
       tripDate: params.get("tripDate")

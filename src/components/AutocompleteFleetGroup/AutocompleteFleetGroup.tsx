@@ -9,9 +9,11 @@ import { FleetGroup } from "@/interfaces/vehicle";
 export function AutocompleteFleetGroup({
   name = "fleetGroupCode",
   keyCode = "code",
+  onChange,
 }: {
   name?: string;
   keyCode?: keyof FleetGroup;
+  onChange?: (value: FleetGroup | null) => void;
 }) {
   const {
     control,
@@ -31,9 +33,13 @@ export function AutocompleteFleetGroup({
     _: SyntheticEvent<Element, Event>,
     value: FleetGroup | null,
   ) => {
-    setValue(name, value?.[keyCode] || "");
-    setValue("fleetGroupId", value?.id || "");
-    setValue("fleetGroupCode", value?.code || "");
+    if (onChange) {
+      onChange(value);
+    } else {
+      setValue(name, value?.[keyCode] || "");
+      setValue("fleetGroupId", value?.id || "");
+      setValue("fleetGroupCode", value?.code || "");
+    }
   };
 
   return (

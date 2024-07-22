@@ -7,13 +7,15 @@ import { Button, Grid } from "@mui/material";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@/components/DatePicker";
-import { TextField } from "@mui/material";
 import { useVehiclePlanningsFilterBar } from "./useVehiclePlanningsFilterBar";
 import SearchIcon from "@mui/icons-material/Search";
 import customParseFormat from "dayjs/plugin/customParseFormat";
-import "dayjs/locale/pt-br";
 import { AutocompleteFleetGroup } from "../AutocompleteFleetGroup";
 import { AutocompleteDriver } from "../AutocompleteDriver";
+import { AutocompleteTruck } from "../AutocompleteTruck";
+import "dayjs/locale/pt-br";
+import { AutocompleteLocationGroup } from "../AutocompleteLocationGroup";
+import { LocationGroup } from "@/interfaces/trip";
 
 dayjs.extend(customParseFormat);
 
@@ -21,7 +23,12 @@ export function VehiclePlanningsFilterBar(
   props: React.HTMLProps<HTMLFormElement>,
 ) {
   const { methods, onSubmit } = useVehiclePlanningsFilterBar();
-  const { control, handleSubmit } = methods;
+  const { control, setValue, handleSubmit } = methods;
+
+  const handleChangeLocationGroup = (value: LocationGroup | null) => {
+    setValue("locationGroupId", value?.id || "");
+    setValue("locationGroupCode", value?.code || "");
+  };
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
@@ -34,7 +41,7 @@ export function VehiclePlanningsFilterBar(
             width="100%"
             gap="16px"
           >
-            <Grid item xs={1.6}>
+            <Grid item xs={2}>
               <Controller
                 name="tripDate"
                 control={control}
@@ -49,25 +56,20 @@ export function VehiclePlanningsFilterBar(
             </Grid>
 
             <Grid item xs={2} paddingLeft="0">
-              <AutocompleteFleetGroup />
+              <AutocompleteLocationGroup onChange={handleChangeLocationGroup} />
             </Grid>
             <Grid item xs={2} paddingLeft="0">
+              <AutocompleteFleetGroup />
+            </Grid>
+            <Grid item xs={2.25} paddingLeft="0">
               <AutocompleteDriver />
             </Grid>
-            <Grid item xs={1.6} paddingLeft="0">
-              <Controller
+            <Grid item xs={2} paddingLeft="0">
+              <AutocompleteTruck
                 name="licensePlate"
-                control={control}
-                render={({ field, fieldState: { error } }) => (
-                  <TextField
-                    {...field}
-                    variant="outlined"
-                    fullWidth
-                    label="Placa"
-                    error={!!error?.message}
-                    helperText={error?.message?.toString()}
-                  />
-                )}
+                onChange={(value) => {
+                  methods.setValue("licensePlate", value?.licensePlate ?? "");
+                }}
               />
             </Grid>
             <Grid item xs={1}>

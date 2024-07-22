@@ -3,14 +3,14 @@ import { useHash } from "@/hooks/useHash";
 import { fetchCircuit } from "@/services/schedule";
 import { CircuitJourney } from "@/interfaces/schedule";
 import { Driver } from "@/interfaces/driver";
-import { usePost } from "@/hooks/usePost";
+import { useFetch } from "@/hooks/useFetch";
 import { AxiosResponse, AxiosError } from "axios";
 
 interface useCircuitParams {
   ciruictCode?: string;
 }
 export const useCircuit = (options?: SWRConfiguration) => {
-  const [postCircuit, { loading }] = usePost();
+  const [postCircuit, { loading }] = useFetch();
   const [hash] = useHash();
   const match = (hash as string)?.match(/#journeyDetails-(.+)/);
   const journeyDetailId = match?.[1];
