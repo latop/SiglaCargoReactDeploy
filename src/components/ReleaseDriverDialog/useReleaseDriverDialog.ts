@@ -1,5 +1,5 @@
+import { useFetch } from "@/hooks/useFetch";
 import { useHash } from "@/hooks/useHash";
-import { usePost } from "@/hooks/usePost";
 import { useReleaseDriver } from "@/hooks/useReleaseDriver/useReleaseDriver";
 import { ReleaseDriverInterface } from "@/interfaces/release-driver";
 import { useEffect } from "react";
@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 
 export function useReleaseDriverDialog() {
   const [hash] = useHash();
-  const [create] = usePost();
+  const [create] = useFetch();
 
   const match = (hash as string)?.match(/#releaseDriverId-(.+)/);
   const releaseDriverId = match?.[1];
