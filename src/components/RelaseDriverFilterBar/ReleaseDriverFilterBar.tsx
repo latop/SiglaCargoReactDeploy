@@ -22,8 +22,8 @@ export function ReleaseDriverFilterBar(
           style={{ width: "100%" }}
           {...props}
         >
-          <Grid container padding="20px 20px 20px 0" spacing={1}>
-            <Grid item xs={1.2}>
+          <Grid container padding="20px 20px 20px 0" spacing={1} width={"100%"}>
+            <Grid item xs={1.3}>
               <Controller
                 name="dtRef"
                 rules={{ required: true }}
@@ -34,11 +34,11 @@ export function ReleaseDriverFilterBar(
               />
             </Grid>
 
-            <Grid item xs={1.1}>
+            <Grid item xs={2}>
               <AutocompleteLocation label="Origem" name="locOrig" />
             </Grid>
 
-            <Grid item xs={1.1}>
+            <Grid item xs={2}>
               <Controller
                 name="demand"
                 control={control}
@@ -48,7 +48,7 @@ export function ReleaseDriverFilterBar(
               />
             </Grid>
 
-            <Grid item xs={1.1}>
+            <Grid item xs={2}>
               <Controller
                 name="nickName"
                 control={control}
@@ -56,7 +56,7 @@ export function ReleaseDriverFilterBar(
               />
             </Grid>
 
-            <Grid item xs={1.1}>
+            <Grid item xs={2}>
               <Controller
                 name="fleetCode"
                 control={control}
@@ -64,7 +64,7 @@ export function ReleaseDriverFilterBar(
               />
             </Grid>
 
-            <Grid item xs={0.5}>
+            <Grid item xs={0.5} marginLeft={"auto"}>
               <Button
                 type="submit"
                 size="large"

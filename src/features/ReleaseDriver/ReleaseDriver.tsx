@@ -21,7 +21,7 @@ export function ReleaseDriver() {
     {
       field: "saida",
       headerName: "SAÍDA",
-      width: 200,
+      width: 150,
       valueGetter: (_, data: ReleaseDriverInterface) => {
         return data.saida ? data.saida : "N/A";
       },
@@ -29,7 +29,7 @@ export function ReleaseDriver() {
     {
       field: "entrega",
       headerName: "ENTREGA",
-      width: 200,
+      width: 150,
       valueGetter: (_, data: ReleaseDriverInterface) => {
         return data.entrega ? data.entrega : "N/A";
       },
@@ -37,7 +37,7 @@ export function ReleaseDriver() {
     {
       field: "demanda",
       headerName: "DEMANDA",
-      width: 200,
+      width: 150,
 
       valueGetter: (_, data: ReleaseDriverInterface) => {
         return data.demanda ? data.demanda : "N/A";
@@ -46,7 +46,7 @@ export function ReleaseDriver() {
     {
       field: "destino",
       headerName: "DESTINO",
-      width: 200,
+      width: 150,
       valueGetter: (_, data: ReleaseDriverInterface) => {
         return data.destino ? data.destino : "N/A";
       },
@@ -54,7 +54,7 @@ export function ReleaseDriver() {
     {
       field: "motoristaPlan",
       headerName: "MOT.PLAN.",
-      width: 200,
+      width: 150,
       valueGetter: (_, data: ReleaseDriverInterface) => {
         return data.motoristaPlan ? data.motoristaPlan : "N/A";
       },
@@ -62,7 +62,7 @@ export function ReleaseDriver() {
     {
       field: "veiculoPlan",
       headerName: "VEÍCULO PLAN.",
-      width: 200,
+      width: 150,
       valueGetter: (_, data: ReleaseDriverInterface) => {
         return data.veiculoPlan ? data.veiculoPlan : "N/A";
       },
@@ -70,7 +70,7 @@ export function ReleaseDriver() {
     {
       field: "dtCheckList",
       headerName: "CHECK-LIST",
-      width: 100,
+      width: 70,
       renderCell: (params) => {
         if (
           params.row.dtCheckList === null ||
@@ -97,7 +97,7 @@ export function ReleaseDriver() {
     {
       field: "motoristaLiberado",
       headerName: "MOT.REAL.",
-      width: 200,
+      width: 150,
       valueGetter: (_, data: ReleaseDriverInterface) => {
         return data.motoristaLiberado ? data.motoristaLiberado : "N/A";
       },
@@ -105,7 +105,7 @@ export function ReleaseDriver() {
     {
       field: "veiculoLiberado",
       headerName: "VEÍCULO.REAL.",
-      width: 200,
+      width: 150,
       valueGetter: (_, data: ReleaseDriverInterface) => {
         return data.veiculoLiberado ? data.veiculoLiberado : "N/A";
       },
@@ -113,7 +113,7 @@ export function ReleaseDriver() {
     {
       field: "dtLiberacao",
       headerName: "LIBERAÇÃO",
-      width: 200,
+      width: 100,
       valueGetter: (_, data: ReleaseDriverInterface) => {
         return data.dtLiberacao ? data.dtLiberacao : "N/A";
       },
@@ -163,17 +163,16 @@ export function ReleaseDriver() {
 
       <Box
         sx={{
+          width: "1400px",
           height: "100%",
+          margin: "auto",
           display: "flex",
           flexDirection: "column",
-          alignItems: "center",
-          margin: "0 auto",
-          width: "80%",
         }}
       >
         <ReleaseDriverFilterBar />
         <Box
-          style={{
+          sx={{
             width: "100%",
             alignSelf: "flex-start",
             padding: "10px 0",
@@ -184,7 +183,7 @@ export function ReleaseDriver() {
         <Card
           sx={{
             width: "100%",
-            height: "calc(100% - 30px)",
+            height: "90%",
             margin: "10px auto 20px",
             position: "relative",
             display: "flex",
@@ -196,7 +195,7 @@ export function ReleaseDriver() {
           {isLoading && <CircularProgress />}
           {(isEmpty || error) && <EmptyResult />}
           {showContent && !isLoading && (
-            <div style={{ height: "100%", width: "100%" }}>
+            <Box sx={{ height: "100%", width: "100%", overflowY: "auto" }}>
               <DataGrid
                 rows={drivers}
                 columns={columns}
@@ -228,7 +227,7 @@ export function ReleaseDriver() {
                 }}
                 pageSizeOptions={[10]}
               />
-            </div>
+            </Box>
           )}
         </Card>
       </Box>

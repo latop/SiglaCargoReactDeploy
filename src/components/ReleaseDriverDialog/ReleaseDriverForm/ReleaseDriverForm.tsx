@@ -19,136 +19,136 @@ export const ReleaseDriverForm = () => {
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
-      <Box display="flex" flexDirection="column" gap="20px" mt="5px">
-        <Box display="flex" gap="20px">
-          <Grid container spacing={2}>
-            <Grid item xs={2}>
-              <Controller
-                name="saida"
-                control={control}
-                render={({ field }) => {
-                  return (
-                    <TextField
-                      disabled
-                      sx={{
-                        "& .MuiInputBase-input.Mui-disabled": {
-                          WebkitTextFillColor: "#000000",
-                          opacity: 1,
-                        },
-                      }}
-                      label="SAIDA"
-                      {...field}
-                      value={field.value}
-                    />
-                  );
-                }}
-              />
-            </Grid>
-            <Grid item xs={2}>
-              <Controller
-                name="entrega"
-                control={control}
-                render={({ field }) => {
-                  return (
-                    <TextField
-                      disabled
-                      sx={{
-                        "& .MuiInputBase-input.Mui-disabled": {
-                          WebkitTextFillColor: "#000000",
-                          opacity: 1,
-                        },
-                      }}
-                      label="ENTREGA"
-                      {...field}
-                      value={field.value}
-                    />
-                  );
-                }}
-              />
-            </Grid>
-            <Grid item xs={2}>
-              <Controller
-                name="demanda"
-                control={control}
-                render={({ field }) => {
-                  return (
-                    <TextField
-                      disabled
-                      sx={{
-                        "& .MuiInputBase-input.Mui-disabled": {
-                          WebkitTextFillColor: "#000000",
-                          opacity: 1,
-                        },
-                      }}
-                      label="DEMANDA"
-                      {...field}
-                      value={field.value}
-                    />
-                  );
-                }}
-              />
-            </Grid>
-            <Grid item xs={2}>
-              <Controller
-                name="destino"
-                control={control}
-                render={({ field }) => {
-                  return (
-                    <TextField
-                      disabled
-                      sx={{
-                        "& .MuiInputBase-input.Mui-disabled": {
-                          WebkitTextFillColor: "#000000",
-                          opacity: 1,
-                        },
-                      }}
-                      label="DESTINO"
-                      {...field}
-                      value={field.value}
-                    />
-                  );
-                }}
-              />
-            </Grid>
+      <Box display="flex" flexDirection="column" gap="20px">
+        <Grid
+          container
+          spacing={1}
+          width={"100%"}
+          rowSpacing={2}
+          flexWrap={"nowrap"}
+        >
+          <Grid item xs={2}>
+            <Controller
+              name="saida"
+              control={control}
+              render={({ field }) => {
+                return (
+                  <TextField
+                    disabled
+                    sx={{
+                      "& .MuiInputBase-input.Mui-disabled": {
+                        WebkitTextFillColor: "#000000",
+                        opacity: 1,
+                      },
+                    }}
+                    label="SAIDA"
+                    {...field}
+                    value={field.value}
+                  />
+                );
+              }}
+            />
           </Grid>
-        </Box>
+          <Grid item xs={2}>
+            <Controller
+              name="entrega"
+              control={control}
+              render={({ field }) => {
+                return (
+                  <TextField
+                    disabled
+                    sx={{
+                      "& .MuiInputBase-input.Mui-disabled": {
+                        WebkitTextFillColor: "#000000",
+                        opacity: 1,
+                      },
+                    }}
+                    label="ENTREGA"
+                    {...field}
+                    value={field.value}
+                  />
+                );
+              }}
+            />
+          </Grid>
+          <Grid item xs={2}>
+            <Controller
+              name="demanda"
+              control={control}
+              render={({ field }) => {
+                return (
+                  <TextField
+                    disabled
+                    sx={{
+                      "& .MuiInputBase-input.Mui-disabled": {
+                        WebkitTextFillColor: "#000000",
+                        opacity: 1,
+                      },
+                    }}
+                    label="DEMANDA"
+                    {...field}
+                    value={field.value}
+                  />
+                );
+              }}
+            />
+          </Grid>
+          <Grid item xs={2}>
+            <Controller
+              name="destino"
+              control={control}
+              render={({ field }) => {
+                return (
+                  <TextField
+                    disabled
+                    sx={{
+                      "& .MuiInputBase-input.Mui-disabled": {
+                        WebkitTextFillColor: "#000000",
+                        opacity: 1,
+                      },
+                    }}
+                    label="DESTINO"
+                    {...field}
+                    value={field.value}
+                  />
+                );
+              }}
+            />
+          </Grid>
 
-        <Box>
-          <Grid spacing={2} container>
-            <Grid item xs={2}>
-              <AutocompleteDriver
-                label={"Motorista Planejado"}
-                name="motoristaPlan"
-              />
-            </Grid>
-            <Grid item xs={2}>
-              <AutocompleteTruck
-                label="Veículo Planejado"
-                name="veiculoPlan"
-                onChange={(value) => {
-                  methods.setValue("veiculoPlan", value?.licensePlate);
-                }}
-              />
-            </Grid>
-            <Grid item xs={2}>
-              <AutocompleteDriver
-                label="Motorista liberado"
-                name="motoristaLiberado"
-              />
-            </Grid>
-            <Grid item xs={2}>
-              <AutocompleteTruck
-                label="Veículo Liberado"
-                name="veiculoLiberado"
-                onChange={(value) => {
-                  methods.setValue("veiculoLiberado", value?.licensePlate);
-                }}
-              />
-            </Grid>
+          <Grid item xs={2}>
+            <AutocompleteDriver
+              label={"Motorista Planejado"}
+              name="motoristaPlan"
+            />
           </Grid>
-        </Box>
-        <Box gap="10px" display="flex" flexDirection="column"></Box>
+          <Grid item xs={2}>
+            <AutocompleteTruck
+              label="Veículo Planejado"
+              name="veiculoPlan"
+              onChange={(value) => {
+                methods.setValue("veiculoPlan", value?.licensePlate);
+              }}
+            />
+          </Grid>
+          <Grid item xs={2}>
+            <AutocompleteDriver
+              label="Motorista liberado"
+              name="motoristaLiberado"
+            />
+          </Grid>
+          <Grid item xs={2}>
+            <AutocompleteTruck
+              label="Veículo Liberado"
+              name="veiculoLiberado"
+              onChange={(value) => {
+                methods.setValue("veiculoLiberado", value?.licensePlate);
+              }}
+            />
+          </Grid>
+        </Grid>
       </Box>
+      <Box gap="10px" display="flex" flexDirection="column"></Box>
     </LocalizationProvider>
   );
 };

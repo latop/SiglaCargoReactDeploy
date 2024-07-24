@@ -51,7 +51,7 @@ export const useReleaseDriver = (options?: SWRConfiguration) => {
   };
   const totalCount = data?.[0]?.totalCount || 0;
   const drivers = data?.map((page) => page.drivers).flat() || [];
-  console.log(data);
+
   return {
     showContent,
     drivers,

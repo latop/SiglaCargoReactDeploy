@@ -87,7 +87,7 @@ export const ReleaseDriverDialog: FC<ReleaseDriverDialogProps> = ({
       onClose={onClose}
       open={open}
       fullWidth
-      PaperProps={{ sx: { height: "30%", maxWidth: "1000px" } }}
+      PaperProps={{ sx: { maxWidth: "1200px" } }}
     >
       <FormProvider {...methods}>
         <form
@@ -119,6 +119,7 @@ export const ReleaseDriverDialog: FC<ReleaseDriverDialogProps> = ({
                 justifyContent="center"
                 padding="10px"
                 height="100%"
+                width="100%"
               >
                 <CircularProgress />
               </Box>
