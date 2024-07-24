@@ -1,5 +1,5 @@
 import React from "react";
-import { Controller } from "react-hook-form";
+import { Controller, useFormContext } from "react-hook-form";
 import { Box, TextField, Grid } from "@mui/material";
 
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -7,14 +7,13 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import "dayjs/locale/pt-br";
-import { useReleaseDriverDialog } from "../useReleaseDriverDialog";
 import { AutocompleteDriver } from "@/components/AutocompleteDriver";
 import { AutocompleteTruck } from "@/components/AutocompleteTruck";
 
 dayjs.extend(customParseFormat);
 
 export const ReleaseDriverForm = () => {
-  const { methods } = useReleaseDriverDialog();
+  const methods = useFormContext();
   const { control } = methods;
 
   return (
@@ -120,6 +119,9 @@ export const ReleaseDriverForm = () => {
             <AutocompleteDriver
               label={"Motorista Planejado"}
               name="motoristaPlan"
+              onChange={(value) => {
+                methods.setValue("motoristaPlan", value?.nickName);
+              }}
             />
           </Grid>
           <Grid item xs={2}>
@@ -127,6 +129,7 @@ export const ReleaseDriverForm = () => {
               label="Veículo Planejado"
               name="veiculoPlan"
               onChange={(value) => {
+                console.log(value?.licensePlate);
                 methods.setValue("veiculoPlan", value?.licensePlate);
               }}
             />
@@ -135,6 +138,9 @@ export const ReleaseDriverForm = () => {
             <AutocompleteDriver
               label="Motorista liberado"
               name="motoristaLiberado"
+              onChange={(value) => {
+                methods.setValue("motoristaLiberado", value?.nickName);
+              }}
             />
           </Grid>
           <Grid item xs={2}>

@@ -114,8 +114,28 @@ export function ReleaseDriver() {
       field: "dtLiberacao",
       headerName: "LIBERAÇÃO",
       width: 100,
-      valueGetter: (_, data: ReleaseDriverInterface) => {
-        return data.dtLiberacao ? data.dtLiberacao : "N/A";
+      renderCell: (params) => {
+        if (
+          (params.row.motoristaLiberado === null ||
+            params.row.motoristaLiberado === undefined) &&
+          (params.row.veiculoLiberado === null ||
+            params.row.veiculoLiberado === undefined)
+        )
+          return "N/A";
+        return (
+          <IconButton
+            onClick={() => handleOpenDialog(params.row.dailyTripSectionId)}
+            style={{
+              background: "transparent",
+              border: "none",
+              outline: "none",
+              color: "black",
+              cursor: "pointer",
+            }}
+          >
+            <FaEdit />
+          </IconButton>
+        );
       },
     },
   ];

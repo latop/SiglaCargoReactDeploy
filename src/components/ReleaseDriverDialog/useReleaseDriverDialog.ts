@@ -44,8 +44,8 @@ export function useReleaseDriverDialog() {
       destino: data?.destino,
       motoristaPlan: data?.motoristaPlan,
       veiculoPlan: data?.veiculoPlan,
-      motoristaLiberado: data?.motoristaPlan,
-      veiculoLiberado: data?.veiculoPlan,
+      motoristaLiberado: data?.motoristaLiberado,
+      veiculoLiberado: data?.veiculoLiberado,
     };
     return defaultValues;
   };
