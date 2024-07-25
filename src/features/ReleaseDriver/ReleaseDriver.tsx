@@ -124,7 +124,7 @@ export function ReleaseDriver() {
           return "N/A";
         return (
           <IconButton
-            onClick={() => handleOpenDialog(params.row.dailyTripSectionId)}
+            onClick={() => console.log("esperando api")}
             style={{
               background: "transparent",
               border: "none",
