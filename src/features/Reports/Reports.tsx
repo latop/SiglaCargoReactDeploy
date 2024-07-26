@@ -5,10 +5,10 @@ import { HeaderTitle } from "@/components/HeaderTitle/HeaderTitle";
 import { MainContainer } from "@/components/MainContainer";
 import { useReports } from "@/hooks/useReports";
 import { Box } from "@mui/material";
+import { ReportAccordion } from "./ReportAccordion";
 
 export function Reports() {
   const { data } = useReports();
-  console.log(data);
   return (
     <MainContainer>
       <AppBar style={{ display: "block" }}>
@@ -32,16 +32,15 @@ export function Reports() {
         >
           <h1>Lista de relatórios</h1>
         </Box>
-
-        {data &&
-          data?.map((item) => (
-            <>
-              <p key={item.code}>{item.code}</p>
-              <p key={item.code}>{item.description}</p>
-              <p key={item.code}>{item.parameterName}</p>
-              <p key={item.code}>{item.parameterType}</p>
-            </>
-          ))}
+        <ReportAccordion data={data} />
+        {/* {data?.map((item) => (
+          <>
+            <p key={item.code}>{item.code}</p>
+            <p key={item.code}>{item.description}</p>
+            <p key={item.code}>{item.parameterName}</p>
+            <p key={item.code}>{item.parameterType}</p>
+          </>
+        ))} */}
       </Box>
     </MainContainer>
   );
