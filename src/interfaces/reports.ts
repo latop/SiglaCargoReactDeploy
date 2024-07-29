@@ -3,4 +3,5 @@ export interface ReportsResponse {
   description: string;
   parameterName: string[];
   parameterType: string[];
+  parameterCondition: string[];
 }

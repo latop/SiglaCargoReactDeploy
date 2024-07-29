@@ -33,14 +33,6 @@ export function Reports() {
           <h1>Lista de relatórios</h1>
         </Box>
         <ReportAccordion data={data} />
-        {/* {data?.map((item) => (
-          <>
-            <p key={item.code}>{item.code}</p>
-            <p key={item.code}>{item.description}</p>
-            <p key={item.code}>{item.parameterName}</p>
-            <p key={item.code}>{item.parameterType}</p>
-          </>
-        ))} */}
       </Box>
     </MainContainer>
   );
