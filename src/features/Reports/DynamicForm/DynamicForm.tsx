@@ -1,5 +1,5 @@
 import { DatePicker } from "@/components/DatePicker";
-import { Box, TextField } from "@mui/material";
+import { Box, Grid, TextField } from "@mui/material";
 import dayjs from "dayjs";
 import { Controller, FormProvider, useFormContext } from "react-hook-form";
 import customParseFormat from "dayjs/plugin/customParseFormat";
@@ -23,23 +23,33 @@ export function DynamicForm({
 
   const renderField = (param: string, type: string, condition: string) => {
     if (param === "Cód. Localidade") {
-      return <AutocompleteLocation key={param} name={param} label={param} />;
+      return (
+        <Grid item xs={2}>
+          <AutocompleteLocation key={param} name={param} label={param} />
+        </Grid>
+      );
     }
 
     if (param === "Cód. Frota") {
-      return <AutocompleteFleetGroup key={param} name={param} />;
+      return (
+        <Grid item xs={2}>
+          <AutocompleteFleetGroup key={param} name={param} />
+        </Grid>
+      );
     }
 
     if (param === "Placa") {
       return (
-        <AutocompleteTruck
-          key={param}
-          name={param}
-          label={param}
-          onChange={(e) => {
-            methods.setValue("licensePlate", e?.licensePlate ?? "");
-          }}
-        />
+        <Grid item xs={2}>
+          <AutocompleteTruck
+            key={param}
+            name={param}
+            label={param}
+            onChange={(e) => {
+              methods.setValue("licensePlate", e?.licensePlate ?? "");
+            }}
+          />
+        </Grid>
       );
     }
 
@@ -52,15 +62,19 @@ export function DynamicForm({
         rules={{ required: condition === "obligatory" }}
         render={({ field }) =>
           type === "datetime" ? (
-            <DatePicker label={param} {...field} />
+            <Grid item>
+              <DatePicker label={param} {...field} />
+            </Grid>
           ) : (
-            <TextField
-              {...field}
-              label={param}
-              fullWidth
-              margin="normal"
-              required={condition === "obligatory"}
-            />
+            <Grid item>
+              <TextField
+                {...field}
+                label={param}
+                fullWidth
+                margin="normal"
+                required={condition === "obligatory"}
+              />
+            </Grid>
           )
         }
       />
@@ -76,17 +90,11 @@ export function DynamicForm({
           gap: 3,
         }}
       >
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            gap: 2,
-          }}
-        >
+        <Grid container gap={1}>
           {parameters.map((param, index) =>
             renderField(param, types[index], conditions[index]),
           )}
-        </Box>
+        </Grid>
       </Box>
     </FormProvider>
   );
