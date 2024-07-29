@@ -7,12 +7,13 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { ReportsResponse } from "@/interfaces/reports";
-import { Box } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import { DynamicForm } from "../DynamicForm";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { useReportAccordion } from "./useReportAccordion";
 import { FormProvider } from "react-hook-form";
+import DownloadIcon from "@mui/icons-material/Download";
 
 export function ReportAccordion({
   data,
@@ -43,6 +44,29 @@ export function ReportAccordion({
                     types={item.parameterType}
                     conditions={item.parameterCondition}
                   />
+                  <Box
+                    mt={1}
+                    sx={{
+                      display: "flex",
+                      gap: 2,
+                      width: 200,
+                    }}
+                  >
+                    <Button type="submit" variant="contained" color="primary">
+                      Enviar
+                    </Button>
+                    <Button
+                      type="submit"
+                      variant="contained"
+                      color="primary"
+                      sx={{
+                        display: "flex",
+                        gap: 0.5,
+                      }}
+                    >
+                      Baixar <DownloadIcon fontSize="inherit" />
+                    </Button>
+                  </Box>
                 </AccordionDetails>
               </Accordion>
             ))}
