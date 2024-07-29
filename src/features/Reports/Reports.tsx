@@ -3,9 +3,9 @@
 import { AppBar } from "@/components/AppBar";
 import { HeaderTitle } from "@/components/HeaderTitle/HeaderTitle";
 import { MainContainer } from "@/components/MainContainer";
+import { ReportAccordion } from "@/components/ReportAccordion";
 import { useReports } from "@/hooks/useReports";
 import { Box } from "@mui/material";
-import { ReportAccordion } from "./ReportAccordion";
 
 export function Reports() {
   const { data } = useReports();
