@@ -12,7 +12,7 @@ export const useReports = (options?: SWRConfiguration) => {
     { ...options },
   );
   const { addToast } = useToast();
-  const [postReports] = useFetch();
+  const [postReports, { data: reportsData }] = useFetch();
   const methods = useForm();
   const onSubmit = async (data: FieldValues) => {
     const parameter = Object.entries(data)
@@ -24,6 +24,7 @@ export const useReports = (options?: SWRConfiguration) => {
     const body = {
       reportCode: data.reportCode,
       parameter,
+      fileType: "XLS",
     };
     await postReports("/api/Report/Report", body, {
       onSuccess: () => {
@@ -32,8 +33,22 @@ export const useReports = (options?: SWRConfiguration) => {
       onError: () => {
         addToast("Erro ao criar relatório", { type: "error" });
       },
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     });
   };
+
+  const handleDownload = async () => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const url = window.URL.createObjectURL(new Blob([reportsData as any]));
+    console.log(reportsData);
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute("download", `report-${Date.now().toLocaleString()}.xlsx`);
+    document.body.appendChild(link);
+    link.click();
+  };
+
+  const isFileAvailable = !isLoading && !!reportsData;
 
   return {
     data,
@@ -42,5 +57,7 @@ export const useReports = (options?: SWRConfiguration) => {
     mutate,
     methods,
     onSubmit,
+    handleDownload,
+    isFileAvailable,
   };
 };

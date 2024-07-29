@@ -28,7 +28,8 @@ export function DynamicForm({
   types: string[];
   conditions: string[];
 }) {
-  const { methods, onSubmit } = useReports();
+
+  const { methods, onSubmit, handleDownload, isFileAvailable } = useReports();
   const { handleSubmit } = methods;
 
 
@@ -77,7 +78,7 @@ export function DynamicForm({
           <Grid item>
             <DatePicker label={param} {...field}
               value={field.value ? dayjs(field.value) : null}
-              onChange={(date) => field.onChange(date?.format())}
+              onChange={(date) => field.onChange(date?.format("YYYY-MM-DD"))}
             />
           </Grid>
         )}
@@ -108,7 +109,7 @@ export function DynamicForm({
                 }}>
                   Enviar
                 </Button>
-                <Button
+                {isFileAvailable && <Button
                   type="submit"
                   variant="contained"
                   color="primary"
@@ -116,9 +117,11 @@ export function DynamicForm({
                     display: "flex",
                     gap: 0.5,
                   }}
+                  id="download"
+                  onClick={handleDownload}
                 >
                   Baixar <DownloadIcon fontSize="inherit" />
-                </Button>
+                </Button>}
               </Grid>
             </Grid>
           </Box>

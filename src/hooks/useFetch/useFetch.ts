@@ -7,6 +7,7 @@ type useFetchOptions<T> = {
   onSuccess?: (response: AxiosResponse<T>) => void;
   onError?: (error: AxiosError) => void;
   method?: "post" | "put" | "delete";
+  headers?: Record<string, string>;
 };
 
 export function useFetch<T>() {
@@ -25,16 +26,17 @@ export function useFetch<T>() {
     setError(null);
 
     const method = options?.method || "post";
+    const headers = options?.headers || {};
 
     try {
       let response: AxiosResponse<T>;
 
       if (method === "post") {
-        response = await axios.post<T>(url, body);
+        response = await axios.post<T>(url, body, { headers });
       } else if (method === "put") {
-        response = await axios.put<T>(url, body);
+        response = await axios.put<T>(url, body, { headers });
       } else if (method === "delete") {
-        response = await axios.delete<T>(url, { data: body });
+        response = await axios.delete<T>(url, { data: body, headers });
       } else {
         throw new Error(`Unsupported method: ${method}`);
       }
