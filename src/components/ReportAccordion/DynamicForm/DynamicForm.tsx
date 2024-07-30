@@ -117,8 +117,8 @@ export function DynamicForm({
                     display: "flex",
                     gap: 0.5,
                   }}
-                  id="download"
-                  onClick={handleDownload}
+                  id="downloadReport"
+                  onClick={() => handleDownload(reportCode)}
                 >
                   Baixar <DownloadIcon fontSize="inherit" />
                 </Button>}

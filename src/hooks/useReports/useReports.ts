@@ -1,18 +1,27 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ReportsResponse } from "@/interfaces/reports";
-import { fetchReports } from "@/services/reports";
+import { fetchReports, fetchReportsDownload } from "@/services/reports";
 import { FieldValues, useForm } from "react-hook-form";
 import useSWR, { SWRConfiguration } from "swr";
-import { useFetch } from "../useFetch";
+
+import axios from "axios";
 import { useToast } from "../useToast";
+import React from "react";
+
+axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_URL;
 
 export const useReports = (options?: SWRConfiguration) => {
+  const { addToast } = useToast();
+  const [isDownloadAvailable, setDownloadAvailable] =
+    React.useState<boolean>(false);
+  const [blobFile, setBlobFile] = React.useState<Blob>();
+  const [fileName, setFileName] = React.useState<string>();
   const { data, error, isLoading, mutate } = useSWR<ReportsResponse[]>(
     "/reports",
     fetchReports,
     { ...options },
   );
-  const { addToast } = useToast();
-  const [postReports, { data: reportsData }] = useFetch();
+
   const methods = useForm();
   const onSubmit = async (data: FieldValues) => {
     const parameter = Object.entries(data)
@@ -26,29 +35,34 @@ export const useReports = (options?: SWRConfiguration) => {
       parameter,
       fileType: "XLS",
     };
-    await postReports("/api/Report/Report", body, {
-      onSuccess: () => {
-        addToast("Relatório criado com sucesso", { type: "success" });
-      },
-      onError: () => {
-        addToast("Erro ao criar relatório", { type: "error" });
-      },
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    });
+    await getReport(body);
   };
 
-  const handleDownload = async () => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const url = window.URL.createObjectURL(new Blob([reportsData as any]));
-    console.log(reportsData);
+  const getReport = async (body: any) => {
+    try {
+      const { blob, filename } = await fetchReportsDownload(body);
+      addToast("Relatório salvo com sucesso", { type: "success" });
+      setDownloadAvailable(true);
+      setBlobFile(blob);
+      setFileName(filename);
+    } catch (e) {
+      addToast("Error ao salvar relatório", { type: "error" });
+      setDownloadAvailable(false);
+    }
+  };
+
+  const handleDownload = (index: string) => {
+    const url = window.URL.createObjectURL(blobFile as Blob);
     const link = document.createElement("a");
     link.href = url;
-    link.setAttribute("download", `report-${Date.now().toLocaleString()}.xlsx`);
-    document.body.appendChild(link);
+    link.setAttribute("download", fileName as string);
+    const downloadReport = document.getElementById(`downloadReport-${index}`);
+    downloadReport?.appendChild(link);
     link.click();
+    downloadReport?.removeChild(link);
   };
 
-  const isFileAvailable = !isLoading && !!reportsData;
+  const isFileAvailable = !isLoading && isDownloadAvailable;
 
   return {
     data,
@@ -57,7 +71,7 @@ export const useReports = (options?: SWRConfiguration) => {
     mutate,
     methods,
     onSubmit,
-    handleDownload,
     isFileAvailable,
+    handleDownload,
   };
 };

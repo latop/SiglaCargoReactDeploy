@@ -8,6 +8,7 @@ type useFetchOptions<T> = {
   onError?: (error: AxiosError) => void;
   method?: "post" | "put" | "delete";
   headers?: Record<string, string>;
+  responseType?: "json" | "blob";
 };
 
 export function useFetch<T>() {
@@ -27,12 +28,13 @@ export function useFetch<T>() {
 
     const method = options?.method || "post";
     const headers = options?.headers || {};
+    const responseType = options?.responseType || "json";
 
     try {
       let response: AxiosResponse<T>;
 
       if (method === "post") {
-        response = await axios.post<T>(url, body, { headers });
+        response = await axios.post<T>(url, body, { headers, responseType });
       } else if (method === "put") {
         response = await axios.put<T>(url, body, { headers });
       } else if (method === "delete") {
