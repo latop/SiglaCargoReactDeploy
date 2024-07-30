@@ -41,12 +41,13 @@ export const useReports = (options?: SWRConfiguration) => {
   const getReport = async (body: any) => {
     try {
       const { blob, filename } = await fetchReportsDownload(body);
-      addToast("Relatório salvo com sucesso", { type: "success" });
       setDownloadAvailable(true);
       setBlobFile(blob);
       setFileName(filename);
+      if (blobFile) return;
+      addToast("Relatório pronto para download", { type: "success" });
     } catch (e) {
-      addToast("Error ao salvar relatório", { type: "error" });
+      addToast("Error ao preparar relatório", { type: "error" });
       setDownloadAvailable(false);
     }
   };
