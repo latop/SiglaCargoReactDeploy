@@ -9,6 +9,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { ReportsResponse } from "@/interfaces/reports";
 import { Box } from "@mui/material";
 import { DynamicForm } from "./DynamicForm";
+import { ReportSchemas } from "./DynamicForm/useDynamicForm";
 
 export function ReportAccordion({
   data,
@@ -17,26 +18,26 @@ export function ReportAccordion({
 }) {
   return (
     <Box>
-      {data?.map((item) => (
-        <Accordion
-          key={item.code}
-          sx={{
-            padding: 2,
-          }}
-        >
-          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography fontWeight={500}>{item.description}</Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <DynamicForm
-              reportCode={item.code}
-              parameters={item.parameterName}
-              types={item.parameterType}
-              conditions={item.parameterCondition}
-            />
-          </AccordionDetails>
-        </Accordion>
-      ))}
+      {data?.map((item) => {
+        return (
+          <Accordion
+            key={item.code}
+            sx={{
+              padding: 2,
+            }}
+          >
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+              <Typography fontWeight={500}>{item.description}</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <DynamicForm
+                reportCode={item.code as keyof ReportSchemas}
+                parameters={item.parameterName}
+              />
+            </AccordionDetails>
+          </Accordion>
+        );
+      })}
     </Box>
   );
 }

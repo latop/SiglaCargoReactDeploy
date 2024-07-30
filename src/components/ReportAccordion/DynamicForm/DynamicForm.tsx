@@ -1,9 +1,10 @@
-/* eslint-disable prettier/prettier */
+"use client";
+
 import { Box, Button, Grid } from "@mui/material";
 import { Controller, FormProvider } from "react-hook-form";
-import { AutocompleteLocation } from "@/components/AutocompleteLocation";
 import { AutocompleteFleetGroup } from "@/components/AutocompleteFleetGroup";
 import { AutocompleteTruck } from "@/components/AutocompleteTruck";
+import { AutocompleteLocationGroup } from "@/components/AutocompleteLocationGroup";
 import { DatePicker } from "@/components/DatePicker";
 
 import { LocalizationProvider } from "@mui/x-date-pickers";
@@ -14,117 +15,218 @@ import customParseFormat from "dayjs/plugin/customParseFormat";
 import "dayjs/locale/pt-br";
 
 import DownloadIcon from "@mui/icons-material/Download";
-import { useReports } from "@/hooks/useReports";
+import { ReportSchemas, useDynamicForm } from "./useDynamicForm";
 
 dayjs.extend(customParseFormat);
 export function DynamicForm({
   reportCode,
-  parameters,
-  types,
-  conditions,
 }: {
-  reportCode: string;
-  parameters: string[];
-  types: string[];
-  conditions: string[];
+  reportCode: keyof ReportSchemas;
+  parameters?: string[];
 }) {
-
-  const { methods, onSubmit, handleDownload, isFileAvailable } = useReports();
+  const { methods, onSubmit, handleDownload, isFileAvailable } =
+    useDynamicForm(reportCode);
   const { handleSubmit } = methods;
 
-
-  const renderField = (param: string, type: string, condition: string) => {
-    if (param === "Cód. Localidade") {
+  const RenderFields = () => {
+    if (reportCode === "R01") {
       return (
-        <Grid item xs={2}>
-          <AutocompleteLocation key={param} />
-        </Grid>
-      );
-    }
-
-    if (param === "Cód. Frota") {
-      return (
-        <Grid item xs={2}>
-          <AutocompleteFleetGroup key={param} />
-        </Grid>
-      );
-    }
-
-    if (param === "Placa") {
-      return (
-        <Grid item xs={2}>
-          <AutocompleteTruck
-            onChange={(e) => {
-              methods.setValue("licensePlate", e?.licensePlate);
-            }}
-          />
-        </Grid>
-      );
-    }
-
-    return (
-      <Controller
-        key={param}
-        name={
-          param === "Início"
-            ? "startDate"
-            : param === "Fim"
-              ? "endDate"
-              : "dtRef"
-        }
-        control={methods.control}
-        rules={{ required: condition === "obligatory" }}
-        render={({ field }) => (
-          <Grid item>
-            <DatePicker label={param} {...field}
-              value={field.value ? dayjs(field.value) : null}
-              onChange={(date) => field.onChange(date?.format("YYYY-MM-DD"))}
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            gap: 3,
+          }}
+        >
+          <Grid container gap={1}>
+            <Controller
+              key={reportCode}
+              name={"startDate"}
+              control={methods.control}
+              render={({ field }) => (
+                <Grid item>
+                  <DatePicker
+                    label={"Início"}
+                    {...field}
+                    value={field.value ? dayjs(field.value) : null}
+                    onChange={(date) =>
+                      field.onChange(date?.format("YYYY-MM-DD"))
+                    }
+                  />
+                </Grid>
+              )}
             />
+            <Controller
+              key={reportCode}
+              name={"endDate"}
+              control={methods.control}
+              render={({ field }) => (
+                <Grid item>
+                  <DatePicker
+                    label={"Fim"}
+                    {...field}
+                    value={field.value ? dayjs(field.value) : null}
+                    onChange={(date) =>
+                      field.onChange(date?.format("YYYY-MM-DD"))
+                    }
+                  />
+                </Grid>
+              )}
+            />
+            <Grid item xs={2}>
+              <AutocompleteLocationGroup name="locationCode" />
+            </Grid>
           </Grid>
-        )}
-      />
-    );
+        </Box>
+      );
+    }
+
+    if (reportCode === "R02") {
+      return (
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            gap: 3,
+          }}
+        >
+          <Grid container gap={1}>
+            <Controller
+              key={reportCode}
+              name={"refDate"}
+              control={methods.control}
+              render={({ field }) => (
+                <Grid item>
+                  <DatePicker
+                    label={"Data Ref"}
+                    {...field}
+                    value={field.value ? dayjs(field.value) : null}
+                    onChange={(date) =>
+                      field.onChange(date?.format("YYYY-MM-DD"))
+                    }
+                  />
+                </Grid>
+              )}
+            />
+            <Grid item xs={2}>
+              <AutocompleteLocationGroup name="locationCode" />
+            </Grid>
+            <Grid item xs={2}>
+              <AutocompleteFleetGroup name="fleetCode" />
+            </Grid>
+          </Grid>
+        </Box>
+      );
+    }
+    if (reportCode === "R03") {
+      return (
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            gap: 3,
+          }}
+        >
+          <Grid container gap={1}>
+            <Controller
+              key={reportCode}
+              name={"refDate"}
+              control={methods.control}
+              render={({ field }) => (
+                <Grid item>
+                  <DatePicker
+                    label={"Data Ref"}
+                    {...field}
+                    value={field.value ? dayjs(field.value) : null}
+                    onChange={(date) =>
+                      field.onChange(date?.format("YYYY-MM-DD"))
+                    }
+                  />
+                </Grid>
+              )}
+            />
+            <Grid item xs={2}>
+              <AutocompleteFleetGroup name="fleetCode" />
+            </Grid>
+            <Grid item xs={2}>
+              <AutocompleteTruck
+                name="licensePlate"
+                onChange={(e) => {
+                  methods.setValue("licensePlate", e?.licensePlate);
+                }}
+              />
+            </Grid>
+          </Grid>
+        </Box>
+      );
+    }
+    if (reportCode === "R04") {
+      return (
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            gap: 3,
+          }}
+        >
+          <Grid container gap={1}>
+            <Controller
+              key={reportCode}
+              name={"refDate"}
+              control={methods.control}
+              render={({ field }) => (
+                <Grid item>
+                  <DatePicker
+                    label={"Data Ref"}
+                    {...field}
+                    value={field.value ? dayjs(field.value) : null}
+                    onChange={(date) =>
+                      field.onChange(date?.format("YYYY-MM-DD"))
+                    }
+                  />
+                </Grid>
+              )}
+            />
+            <Grid item xs={2}>
+              <AutocompleteLocationGroup name="locationCode" />
+            </Grid>
+          </Grid>
+        </Box>
+      );
+    }
   };
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              gap: 3,
-            }}
-          >
-            <Grid container gap={1}>
-              {parameters.map((param, index) =>
-                renderField(param, types[index], conditions[index]),
-              )}
-
-              <Grid container gap={1} mt={1}>
-                <Button type="submit" variant="contained" color="primary" onClick={() => {
-                  methods.setValue("reportCode", reportCode)
-
-                }}>
-                  Enviar
-                </Button>
-                {isFileAvailable && <Button
-                  type="submit"
-                  variant="contained"
-                  color="primary"
-                  sx={{
-                    display: "flex",
-                    gap: 0.5,
-                  }}
-                  id="downloadReport"
-                  onClick={() => handleDownload(reportCode)}
-                >
-                  Baixar <DownloadIcon fontSize="inherit" />
-                </Button>}
-              </Grid>
-            </Grid>
-          </Box>
+          <RenderFields />
+          <Grid container gap={1} mt={1}>
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              onClick={() => {
+                methods.setValue("reportCode", reportCode);
+              }}
+            >
+              Enviar
+            </Button>
+            {isFileAvailable && (
+              <Button
+                variant="contained"
+                color="primary"
+                sx={{
+                  display: "flex",
+                  gap: 0.5,
+                }}
+                id="downloadReport"
+                onClick={() => handleDownload(reportCode)}
+              >
+                Baixar <DownloadIcon fontSize="inherit" />
+              </Button>
+            )}
+          </Grid>
         </form>
       </FormProvider>
     </LocalizationProvider>
