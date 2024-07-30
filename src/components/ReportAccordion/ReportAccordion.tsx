@@ -30,10 +30,7 @@ export function ReportAccordion({
               <Typography fontWeight={500}>{item.description}</Typography>
             </AccordionSummary>
             <AccordionDetails>
-              <DynamicForm
-                reportCode={item.code as keyof ReportSchemas}
-                parameters={item.parameterName}
-              />
+              <DynamicForm reportCode={item.code as keyof ReportSchemas} />
             </AccordionDetails>
           </Accordion>
         );

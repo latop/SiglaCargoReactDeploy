@@ -4,34 +4,42 @@ import { fetchReportsDownload } from "@/services/reports";
 import { FieldValues, useForm } from "react-hook-form";
 
 import axios from "axios";
-// import { zodResolver } from "@hookform/resolvers/zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useToast } from "@/hooks/useToast";
+import dayjs from "dayjs";
 
 axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_URL;
+
+const dateOrDayjsSchema = z.custom(
+  (val) => val instanceof Date || dayjs.isDayjs(val),
+  {
+    message: "Data é obrigatório",
+  },
+);
 
 const reportSchemas = {
   R01: z.object({
     reportCode: z.string(),
-    startDate: z.string().datetime({ message: "Data é obrigatória" }),
-    endDate: z.string().datetime({ message: "Data é obrigatória" }),
+    startDate: dateOrDayjsSchema,
+    endDate: dateOrDayjsSchema,
     locationCode: z.string({ required_error: "Localização é obrigatória" }),
   }),
   R02: z.object({
     reportCode: z.string(),
-    refDate: z.string().datetime({ message: "Data é obrigatória" }),
+    refDate: dateOrDayjsSchema,
     locationCode: z.string().optional(),
     fleetCode: z.string().optional(),
   }),
   R03: z.object({
     reportCode: z.string(),
-    refDate: z.string().datetime({ message: "Data é obrigatória" }),
+    refDate: dateOrDayjsSchema,
     fleetCode: z.string().optional(),
     licensePlate: z.string().optional(),
   }),
   R04: z.object({
     reportCode: z.string(),
-    refDate: z.string().datetime({ message: "Data é obrigatória" }),
+    refDate: dateOrDayjsSchema,
     locationCode: z.string({ required_error: "Localização é obrigatória" }),
   }),
 };
@@ -45,15 +53,21 @@ type R04Schema = z.infer<typeof reportSchemas.R04>;
 
 export type ReportFormSchema = R01Schema | R02Schema | R03Schema | R04Schema;
 
-export const useDynamicForm = () => {
+export const useDynamicForm = (reportCode: keyof ReportSchemas) => {
   const { addToast } = useToast();
   const [isDownloadAvailable, setDownloadAvailable] =
     React.useState<boolean>(false);
   const [blobFile, setBlobFile] = React.useState<Blob>();
   const [fileName, setFileName] = React.useState<string>();
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
+  const filename = `Report_${reportCode}_${dayjs().format(
+    "YYYYMMDDHHmm",
+  )}.xlsx`;
 
-  const methods = useForm<ReportFormSchema>();
+  const schema = reportSchemas[reportCode];
+  const methods = useForm<ReportFormSchema>({
+    resolver: zodResolver(schema),
+  });
 
   const onSubmit = async (data: FieldValues) => {
     const parameter = Object.entries(data)
@@ -72,10 +86,12 @@ export const useDynamicForm = () => {
 
   const getReport = async (body: any) => {
     setIsLoading(true);
+
     try {
-      const { blob, filename } = await fetchReportsDownload(body);
+      const { blob } = await fetchReportsDownload(body);
       setDownloadAvailable(true);
       setBlobFile(blob);
+
       setFileName(filename);
       if (blobFile) return;
       addToast("Relatório pronto para download", { type: "success" });
@@ -86,7 +102,6 @@ export const useDynamicForm = () => {
       setIsLoading(false);
     }
   };
-
   const handleDownload = (index: string) => {
     const url = window.URL.createObjectURL(blobFile as Blob);
     const link = document.createElement("a");

@@ -1,13 +1,11 @@
 "use client";
 
-import { Box, Button, Grid } from "@mui/material";
+import { Box, Button, CircularProgress, Grid } from "@mui/material";
 import { Controller, FormProvider } from "react-hook-form";
 import { AutocompleteFleetGroup } from "@/components/AutocompleteFleetGroup";
 import { AutocompleteTruck } from "@/components/AutocompleteTruck";
-import { AutocompleteLocationGroup } from "@/components/AutocompleteLocationGroup";
-import { DatePicker } from "@/components/DatePicker";
 
-import { LocalizationProvider } from "@mui/x-date-pickers";
+import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 
 import dayjs from "dayjs";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -16,18 +14,17 @@ import "dayjs/locale/pt-br";
 
 import DownloadIcon from "@mui/icons-material/Download";
 import { ReportSchemas, useDynamicForm } from "./useDynamicForm";
+import { AutocompleteLocationGroup } from "@/components/AutocompleteLocationGroup";
 
 dayjs.extend(customParseFormat);
 export function DynamicForm({
   reportCode,
 }: {
   reportCode: keyof ReportSchemas;
-  parameters?: string[];
 }) {
-  const { methods, onSubmit, handleDownload, isFileAvailable } =
+  const { methods, onSubmit, handleDownload, isFileAvailable, isLoading } =
     useDynamicForm(reportCode);
   const { handleSubmit } = methods;
-
   const RenderFields = () => {
     if (reportCode === "R01") {
       return (
@@ -45,14 +42,7 @@ export function DynamicForm({
               control={methods.control}
               render={({ field }) => (
                 <Grid item>
-                  <DatePicker
-                    label={"Início"}
-                    {...field}
-                    value={field.value ? dayjs(field.value) : null}
-                    onChange={(date) =>
-                      field.onChange(date?.format("YYYY-MM-DD"))
-                    }
-                  />
+                  <DatePicker label={"Início"} {...field} />
                 </Grid>
               )}
             />
@@ -62,14 +52,7 @@ export function DynamicForm({
               control={methods.control}
               render={({ field }) => (
                 <Grid item>
-                  <DatePicker
-                    label={"Fim"}
-                    {...field}
-                    value={field.value ? dayjs(field.value) : null}
-                    onChange={(date) =>
-                      field.onChange(date?.format("YYYY-MM-DD"))
-                    }
-                  />
+                  <DatePicker label={"Fim"} {...field} />
                 </Grid>
               )}
             />
@@ -97,14 +80,7 @@ export function DynamicForm({
               control={methods.control}
               render={({ field }) => (
                 <Grid item>
-                  <DatePicker
-                    label={"Data Ref"}
-                    {...field}
-                    value={field.value ? dayjs(field.value) : null}
-                    onChange={(date) =>
-                      field.onChange(date?.format("YYYY-MM-DD"))
-                    }
-                  />
+                  <DatePicker label="Data Ref" {...field} />
                 </Grid>
               )}
             />
@@ -134,14 +110,7 @@ export function DynamicForm({
               control={methods.control}
               render={({ field }) => (
                 <Grid item>
-                  <DatePicker
-                    label={"Data Ref"}
-                    {...field}
-                    value={field.value ? dayjs(field.value) : null}
-                    onChange={(date) =>
-                      field.onChange(date?.format("YYYY-MM-DD"))
-                    }
-                  />
+                  <DatePicker label={"Data Ref"} {...field} />
                 </Grid>
               )}
             />
@@ -176,14 +145,7 @@ export function DynamicForm({
               control={methods.control}
               render={({ field }) => (
                 <Grid item>
-                  <DatePicker
-                    label={"Data Ref"}
-                    {...field}
-                    value={field.value ? dayjs(field.value) : null}
-                    onChange={(date) =>
-                      field.onChange(date?.format("YYYY-MM-DD"))
-                    }
-                  />
+                  <DatePicker label={"Data Ref"} {...field} />
                 </Grid>
               )}
             />
@@ -203,6 +165,7 @@ export function DynamicForm({
           <RenderFields />
           <Grid container gap={1} mt={1}>
             <Button
+              disabled={isLoading}
               type="submit"
               variant="contained"
               color="primary"
@@ -210,7 +173,11 @@ export function DynamicForm({
                 methods.setValue("reportCode", reportCode);
               }}
             >
-              Enviar
+              {!isLoading ? (
+                "Enviar"
+              ) : (
+                <CircularProgress size={"16px"} color="inherit" />
+              )}
             </Button>
             {isFileAvailable && (
               <Button
