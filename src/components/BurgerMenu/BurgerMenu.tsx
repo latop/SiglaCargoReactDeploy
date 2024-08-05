@@ -16,6 +16,7 @@ import SwapVertIcon from "@mui/icons-material/SwapVert";
 import MovingIcon from "@mui/icons-material/Moving";
 import { BiTrip } from "react-icons/bi";
 import NoCrashIcon from "@mui/icons-material/NoCrash";
+import AssignmentIcon from "@mui/icons-material/Assignment";
 
 interface BurgerMenuProps {
   isOpen: boolean;
@@ -66,6 +67,11 @@ const routes: RouteItem[] = [
     text: "Liberação de motoristas",
     icon: <NoCrashIcon />,
     path: "/release-driver",
+  },
+  {
+    text: "Relatórios",
+    icon: <AssignmentIcon />,
+    path: "/reports",
   },
 ];
 
