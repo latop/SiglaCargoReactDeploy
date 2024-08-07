@@ -17,6 +17,7 @@ import MovingIcon from "@mui/icons-material/Moving";
 import { BiTrip } from "react-icons/bi";
 import NoCrashIcon from "@mui/icons-material/NoCrash";
 import AssignmentIcon from "@mui/icons-material/Assignment";
+import RvHookupIcon from "@mui/icons-material/RvHookup";
 
 interface BurgerMenuProps {
   isOpen: boolean;
@@ -42,6 +43,11 @@ const routes: RouteItem[] = [
     text: "Coordenação de viagens",
     icon: <TbSteeringWheel />,
     path: "/daily-trips-schedule",
+  },
+  {
+    text: "Associação diária de Veículos",
+    icon: <RvHookupIcon />,
+    path: "/daily-vehicle-association",
   },
   {
     text: "Partidas e chegadas",
