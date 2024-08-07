@@ -6,6 +6,8 @@ import { Providers } from "@/providers";
 
 import { Open_Sans } from "next/font/google";
 
+import "./App.css";
+
 const openSans = Open_Sans({
   weight: ["400", "500", "700"],
   style: ["normal", "italic"],
