@@ -64,7 +64,7 @@ export function Login() {
     } else if (data?.authenticated === false && !loading) {
       addToast("Credenciais inválidas", { type: "error" });
     }
-  }, [loading]);
+  }, [data, loading]);
 
   const isLoading = loading ? (
     <CircularProgress
