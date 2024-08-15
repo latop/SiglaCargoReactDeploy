@@ -13,29 +13,29 @@ import customParseFormat from "dayjs/plugin/customParseFormat";
 import "dayjs/locale/pt-br";
 
 import DownloadIcon from "@mui/icons-material/Download";
-import { ReportSchemas, useDynamicForm } from "./useDynamicForm";
+import { useDynamicForm } from "./useDynamicForm";
 import { AutocompleteLocationGroup } from "@/components/AutocompleteLocationGroup";
+import { ReportsResponse } from "@/interfaces/reports";
 
 dayjs.extend(customParseFormat);
 export function DynamicForm({
   reportCode,
+  parameterName,
+  item,
 }: {
-  reportCode: keyof ReportSchemas;
+  reportCode: string;
+  parameterName: string[];
+  item: ReportsResponse;
 }) {
   const { methods, onSubmit, handleDownload, isFileAvailable, isLoading } =
-    useDynamicForm(reportCode);
+    useDynamicForm(item);
   const { handleSubmit } = methods;
-  const RenderFields = () => {
-    if (reportCode === "R01") {
-      return (
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            gap: 3,
-          }}
-        >
-          <Grid container gap={1}>
+
+  const RenderField = () =>
+    parameterName.map((item) => {
+      switch (item) {
+        case "Início":
+          return (
             <Controller
               key={reportCode}
               name={"startDate"}
@@ -46,6 +46,9 @@ export function DynamicForm({
                 </Grid>
               )}
             />
+          );
+        case "Fim":
+          return (
             <Controller
               key={reportCode}
               name={"endDate"}
@@ -56,67 +59,34 @@ export function DynamicForm({
                 </Grid>
               )}
             />
-            <Grid item xs={2}>
-              <AutocompleteLocationGroup name="locationCode" />
-            </Grid>
-          </Grid>
-        </Box>
-      );
-    }
-
-    if (reportCode === "R02") {
-      return (
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            gap: 3,
-          }}
-        >
-          <Grid container gap={1}>
+          );
+        case "Data Ref.":
+          return (
             <Controller
               key={reportCode}
               name={"refDate"}
               control={methods.control}
               render={({ field }) => (
                 <Grid item>
-                  <DatePicker label="Data Ref" {...field} />
+                  <DatePicker label={"Data Ref."} {...field} />
                 </Grid>
               )}
             />
+          );
+        case "Cód. Localidade":
+          return (
             <Grid item xs={2}>
               <AutocompleteLocationGroup name="locationCode" />
             </Grid>
+          );
+        case "Cód. Frota":
+          return (
             <Grid item xs={2}>
               <AutocompleteFleetGroup name="fleetCode" />
             </Grid>
-          </Grid>
-        </Box>
-      );
-    }
-    if (reportCode === "R03") {
-      return (
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            gap: 3,
-          }}
-        >
-          <Grid container gap={1}>
-            <Controller
-              key={reportCode}
-              name={"refDate"}
-              control={methods.control}
-              render={({ field }) => (
-                <Grid item>
-                  <DatePicker label={"Data Ref"} {...field} />
-                </Grid>
-              )}
-            />
-            <Grid item xs={2}>
-              <AutocompleteFleetGroup name="fleetCode" />
-            </Grid>
+          );
+        case "Placa":
+          return (
             <Grid item xs={2}>
               <AutocompleteTruck
                 name="licensePlate"
@@ -125,44 +95,27 @@ export function DynamicForm({
                 }}
               />
             </Grid>
-          </Grid>
-        </Box>
-      );
-    }
-    if (reportCode === "R04") {
-      return (
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            gap: 3,
-          }}
-        >
-          <Grid container gap={1}>
-            <Controller
-              key={reportCode}
-              name={"refDate"}
-              control={methods.control}
-              render={({ field }) => (
-                <Grid item>
-                  <DatePicker label={"Data Ref"} {...field} />
-                </Grid>
-              )}
-            />
-            <Grid item xs={2}>
-              <AutocompleteLocationGroup name="locationCode" />
-            </Grid>
-          </Grid>
-        </Box>
-      );
-    }
-  };
+          );
+        default:
+          return null;
+      }
+    });
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <RenderFields />
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              gap: 3,
+            }}
+          >
+            <Grid container gap={1}>
+              <RenderField />
+            </Grid>
+          </Box>
           <Grid container gap={1} mt={1}>
             <Button
               disabled={isLoading}
