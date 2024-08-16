@@ -18,6 +18,7 @@ import { useRouter } from "next/navigation";
 import { useFetch } from "@/hooks/useFetch";
 import { useToast } from "@/hooks/useToast";
 import { Dayjs } from "dayjs";
+import { setCookie } from "nookies";
 
 type AuthenticatedResponse = {
   authenticated: boolean;
@@ -49,16 +50,23 @@ export function Login() {
     router.prefetch("/dashboard");
   }, []);
 
+  const handleAuthetication = (body: object) => {
+    getAuth("/api/Login", body);
+  };
+
   const onSubmit = (data: FieldValues) => {
     const body = {
       ...data,
       domain: "application",
     };
-    getAuth("/api/Login", body);
+    handleAuthetication(body);
   };
 
   useEffect(() => {
     if (data?.authenticated && !loading) {
+      setCookie(null, "accessToken", data?.accessToken as string, {
+        maxAge: 60 * 60 * 24,
+      });
       router.push("/dashboard");
       addToast("Loggin realizado com sucesso", { type: "success" });
     } else if (data?.authenticated === false && !loading) {
