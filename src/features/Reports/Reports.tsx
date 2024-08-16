@@ -5,15 +5,16 @@ import { HeaderTitle } from "@/components/HeaderTitle/HeaderTitle";
 import { MainContainer } from "@/components/MainContainer";
 import { ReportAccordion } from "@/components/ReportAccordion";
 import { useReports } from "@/hooks/useReports";
-import { Box } from "@mui/material";
+import { Box, CircularProgress } from "@mui/material";
 
 export function Reports() {
-  const { data } = useReports();
+  const { data, isLoading } = useReports();
   return (
     <MainContainer>
       <AppBar style={{ display: "block" }}>
         <HeaderTitle>Relatórios</HeaderTitle>
       </AppBar>
+
       <Box
         sx={{
           width: "1400px",
@@ -32,7 +33,12 @@ export function Reports() {
         >
           <h1>Lista de relatórios</h1>
         </Box>
-        <ReportAccordion data={data} />
+
+        {isLoading ? (
+          <CircularProgress style={{ margin: "auto" }} />
+        ) : (
+          <ReportAccordion data={data} />
+        )}
       </Box>
     </MainContainer>
   );

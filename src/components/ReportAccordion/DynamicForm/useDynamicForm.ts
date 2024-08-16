@@ -16,9 +16,7 @@ export const useDynamicForm = (data: ReportsResponse) => {
   const [isDownloadAvailable, setDownloadAvailable] =
     React.useState<boolean>(false);
   const [blobFile, setBlobFile] = React.useState<Blob>();
-  const [fileName, setFileName] = React.useState<string>();
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
-  const filename = `Report_${data.code}_${dayjs().format("YYYYMMDDHHmm")}.xlsx`;
 
   const methods = useForm();
 
@@ -45,21 +43,25 @@ export const useDynamicForm = (data: ReportsResponse) => {
       setDownloadAvailable(true);
       setBlobFile(blob);
 
-      setFileName(filename);
       if (blobFile) return;
       addToast("Relatório pronto para download", { type: "success" });
-    } catch (e) {
-      addToast("Error ao preparar relatório", { type: "error" });
+    } catch (error) {
+      console.log(error);
+      addToast(`${(error as Error).message}`, { type: "error" });
       setDownloadAvailable(false);
     } finally {
       setIsLoading(false);
     }
   };
   const handleDownload = (index: string) => {
-    const url = window.URL.createObjectURL(blobFile as Blob);
     const link = document.createElement("a");
-    link.href = url;
-    link.setAttribute("download", fileName as string);
+    link.href = URL.createObjectURL(blobFile as Blob);
+
+    const filename = `Report_${data.code}_${dayjs().format(
+      "YYYYMMDDHHmm",
+    )}.xlsx`;
+
+    link.setAttribute("download", filename as string);
     const downloadReport = document.getElementById(`downloadReport-${index}`);
     downloadReport?.appendChild(link);
     link.click();
