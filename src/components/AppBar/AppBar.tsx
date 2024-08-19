@@ -10,7 +10,7 @@ import {
   Typography,
 } from "@mui/material";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
-
+import { destroyCookie } from "nookies";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useRouter } from "next/navigation";
 import { BurgerMenu } from "../BurgerMenu";
@@ -47,6 +47,7 @@ export function AppBar({ children, ...props }: AppBarProps) {
   }, []);
 
   const handleLogout = () => {
+    destroyCookie(null, "accessToken");
     router.push("/");
   };
 

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect } from "react";
-import { useForm, Controller } from "react-hook-form";
+import { useForm, Controller, FieldValues } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import {
@@ -12,15 +12,31 @@ import {
   Button,
   Typography,
   Container,
+  CircularProgress,
 } from "@mui/material";
 import { useRouter } from "next/navigation";
+import { useFetch } from "@/hooks/useFetch";
+import { useToast } from "@/hooks/useToast";
+import { Dayjs } from "dayjs";
+import { setCookie } from "nookies";
+
+type AuthenticatedResponse = {
+  authenticated: boolean;
+  created: Dayjs;
+  expiration: Dayjs;
+  accessToken: string;
+  userName: string;
+  message: string;
+};
 
 const schema = z.object({
-  email: z.string().email({ message: "Invalid email address" }),
+  userLogin: z.string().email({ message: "Invalid email address" }),
   password: z.string().min(1, { message: "Password is required" }),
 });
 
 export function Login() {
+  const { addToast } = useToast();
+  const [getAuth, { data, loading }] = useFetch<AuthenticatedResponse>();
   const router = useRouter();
   const {
     control,
@@ -30,13 +46,45 @@ export function Login() {
     resolver: zodResolver(schema),
   });
 
-  const onSubmit = () => {
-    router.push("/dashboard");
-  };
-
   useEffect(() => {
     router.prefetch("/dashboard");
   }, []);
+
+  const handleAuthetication = (body: object) => {
+    getAuth("/api/Login", body);
+  };
+
+  const onSubmit = (data: FieldValues) => {
+    const body = {
+      ...data,
+      domain: "application",
+    };
+    handleAuthetication(body);
+  };
+
+  useEffect(() => {
+    if (data?.authenticated && !loading) {
+      setCookie(null, "accessToken", data?.accessToken as string, {
+        maxAge: 60 * 60 * 24,
+      });
+      router.push("/dashboard");
+      addToast("Loggin realizado com sucesso", { type: "success" });
+    } else if (data?.authenticated === false && !loading) {
+      addToast("Credenciais inválidas", { type: "error" });
+    }
+  }, [data, loading]);
+
+  const isLoading = loading ? (
+    <CircularProgress
+      color="inherit"
+      style={{
+        height: 24,
+        width: 24,
+      }}
+    />
+  ) : (
+    "Entrar"
+  );
 
   return (
     <Container
@@ -70,7 +118,7 @@ export function Login() {
             sx={{ mt: 1 }}
           >
             <Controller
-              name="email"
+              name="userLogin"
               control={control}
               defaultValue=""
               render={({ field }) => (
@@ -108,7 +156,7 @@ export function Login() {
               )}
             />
             <Button type="submit" fullWidth variant="contained" sx={{ mt: 3 }}>
-              Entrar
+              {isLoading}
             </Button>
           </Box>
         </CardContent>
