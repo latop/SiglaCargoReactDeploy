@@ -9,19 +9,26 @@ export async function fetchReports(): Promise<ReportsResponse[]> {
     const data = response.data;
     return data;
   } catch (error) {
-    console.log(error);
-    throw new Error();
+    throw new Error((error as Error)?.message);
   }
 }
 export async function fetchReportsDownload(
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  body: any,
+  body: object,
 ): Promise<{ blob: Blob; filename: string }> {
   try {
     const response = await axios.post("/api/Report/Report", body, {
       responseType: "blob",
       headers: {
         "access-control-expose-headers": "x-pagination",
+      },
+      onDownloadProgress: (progressEvent) => {
+        console.log(
+          "Download progress: " +
+            Math.round(
+              (progressEvent.loaded / (progressEvent.total ?? 1)) * 100,
+            ) +
+            "%",
+        );
       },
     });
 
@@ -39,7 +46,7 @@ export async function fetchReportsDownload(
       filename,
     };
   } catch (error) {
-    console.log(error);
-    throw new Error("Failed to fetch report");
+    console.error(error);
+    throw new Error((error as Error)?.message);
   }
 }

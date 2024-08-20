@@ -9,7 +9,6 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { ReportsResponse } from "@/interfaces/reports";
 import { Box } from "@mui/material";
 import { DynamicForm } from "./DynamicForm";
-import { ReportSchemas } from "./DynamicForm/useDynamicForm";
 
 export function ReportAccordion({
   data,
@@ -30,7 +29,12 @@ export function ReportAccordion({
               <Typography fontWeight={500}>{item.description}</Typography>
             </AccordionSummary>
             <AccordionDetails>
-              <DynamicForm reportCode={item.code as keyof ReportSchemas} />
+              <DynamicForm
+                reportCode={item.code}
+                parameterName={item.parameterName}
+                item={item}
+                key={item.code}
+              />
             </AccordionDetails>
           </Accordion>
         );
