@@ -74,6 +74,19 @@ export function DynamicForm({
               )}
             />
           );
+        case "Dt. Ref.":
+          return (
+            <Controller
+              key={reportCode}
+              name={"refDate"}
+              control={methods.control}
+              render={({ field }) => (
+                <Grid item>
+                  <DatePicker label={"Data Ref."} {...field} />
+                </Grid>
+              )}
+            />
+          );
         case "Cód. Localidade":
           return (
             <Grid item xs={2}>
