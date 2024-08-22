@@ -17,6 +17,7 @@ import MovingIcon from "@mui/icons-material/Moving";
 import { BiTrip } from "react-icons/bi";
 import NoCrashIcon from "@mui/icons-material/NoCrash";
 import AssignmentIcon from "@mui/icons-material/Assignment";
+import UploadFileIcon from "@mui/icons-material/UploadFile";
 
 interface BurgerMenuProps {
   isOpen: boolean;
@@ -72,6 +73,11 @@ const routes: RouteItem[] = [
     text: "Relatórios",
     icon: <AssignmentIcon />,
     path: "/reports",
+  },
+  {
+    text: "Importação de viagens",
+    icon: <UploadFileIcon />,
+    path: "/import-trips",
   },
 ];
 
