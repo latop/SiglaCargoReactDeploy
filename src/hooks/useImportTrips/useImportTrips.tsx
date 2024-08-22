@@ -28,6 +28,8 @@ export const useImportTrips = () => {
     endDate: searchParams.get("endDate"),
   };
 
+  const hasParamsToSearch = Boolean(Object.entries(params).length);
+
   const { data, error, isLoading, mutate, isValidating } = useSWR(
     {
       url: "/import-trips",
@@ -40,6 +42,10 @@ export const useImportTrips = () => {
     if (event.target.files && event.target.files.length > 0) {
       setSelectedFile(event.target.files[0]);
     }
+  };
+
+  const handleClearFile = () => {
+    setSelectedFile(null);
   };
 
   const onSubmit = (data: ImportTripsForm) => {
@@ -59,5 +65,7 @@ export const useImportTrips = () => {
     onSubmit,
     selectedFile,
     currentFile,
+    hasParamsToSearch,
+    handleClearFile,
   };
 };

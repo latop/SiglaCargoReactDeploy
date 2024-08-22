@@ -5,29 +5,10 @@ import { ImportTripsFilterBar } from "@/components/ImportTripsFilterBar";
 import { MainContainer } from "@/components/MainContainer";
 import { useImportTrips } from "@/hooks/useImportTrips";
 import { ImportTripsResponseItem } from "@/interfaces/import-trips";
-import {
-  Box,
-  Button,
-  Card,
-  CircularProgress,
-  Grid,
-  Input,
-} from "@mui/material";
+import { Box, Card, CircularProgress } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import UploadIcon from "@mui/icons-material/Upload";
-import AddIcon from "@mui/icons-material/Add";
-import ClearIcon from "@mui/icons-material/Clear";
 import dayjs from "dayjs";
-import { CSSProperties } from "react";
-import { FormProvider } from "react-hook-form";
-import { AutocompleteLocationGroup } from "@/components/AutocompleteLocationGroup";
-
-const labelStyle: CSSProperties = {
-  display: "flex",
-  alignItems: "center",
-  gap: "8px",
-  cursor: "pointer",
-};
+import { UploadTripFileForm } from "@/components/UploadTripFileForm/UploadTripForm";
 
 export function ImportTrips() {
   const columns: GridColDef[] = [
@@ -54,34 +35,10 @@ export function ImportTrips() {
     },
   ];
 
-  const {
-    data,
-    isLoading,
-    handleFileChange,
-    formMethods,
-    onSubmit,
-    selectedFile,
-    currentFile,
-  } = useImportTrips();
-
-  const RenderButtonText = () => {
-    if (currentFile)
-      return (
-        <>
-          {currentFile}
-          <ClearIcon fontSize="inherit" />
-        </>
-      );
-    return (
-      <>
-        Importar Viagem
-        <AddIcon fontSize="inherit" />
-      </>
-    );
-  };
+  const { data, isLoading, hasParamsToSearch } = useImportTrips();
 
   const Content = () => {
-    if (isLoading) return <CircularProgress />;
+    if (isLoading && hasParamsToSearch) return <CircularProgress />;
     if (data?.length)
       return (
         <DataGrid
@@ -116,54 +73,7 @@ export function ImportTrips() {
           justifyContent={"space-between"}
         >
           <ImportTripsFilterBar />
-
-          <FormProvider {...formMethods}>
-            <form onSubmit={formMethods.handleSubmit(onSubmit)}>
-              <Grid
-                container
-                gap={1}
-                alignItems={"center"}
-                justifyContent={"flex-end"}
-              >
-                <Grid item>
-                  <Button color="primary" variant="outlined">
-                    <label style={labelStyle}>
-                      <Input
-                        type="file"
-                        sx={{ display: "none" }}
-                        inputProps={{ accept: ".xlsx" }}
-                        {...formMethods.register("File", {
-                          onChange: handleFileChange,
-                        })}
-                      />
-                      <RenderButtonText />
-                    </label>
-                  </Button>
-                </Grid>
-                <Grid item>
-                  {selectedFile && (
-                    <AutocompleteLocationGroup
-                      name="Locationcode"
-                      label="Cód. Loc"
-                    />
-                  )}
-                </Grid>
-
-                <Grid item>
-                  {selectedFile && (
-                    <Button
-                      type="submit"
-                      color="primary"
-                      variant="contained"
-                      size="large"
-                    >
-                      <UploadIcon />
-                    </Button>
-                  )}
-                </Grid>
-              </Grid>
-            </form>
-          </FormProvider>
+          <UploadTripFileForm />
         </Box>
 
         <Card
