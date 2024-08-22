@@ -1,8 +1,27 @@
 import useSWR from "swr";
 import { fetchImportTrips } from "@/services/import-trips";
 import { useSearchParams } from "next/navigation";
+import { ChangeEvent, useState } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+const schema = z.object({
+  Locationcode: z.string(),
+  File: z.custom<FileList>((value) => value instanceof FileList, {
+    message: "Must be a file",
+  }),
+});
+
+type ImportTripsForm = z.infer<typeof schema>;
 
 export const useImportTrips = () => {
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+
+  const formMethods = useForm<ImportTripsForm>({
+    resolver: zodResolver(schema),
+  });
+
   const searchParams = useSearchParams();
   const params = {
     startDate: searchParams.get("startDate"),
@@ -17,11 +36,25 @@ export const useImportTrips = () => {
     fetchImportTrips,
   );
 
+  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files.length > 0) {
+      setSelectedFile(event.target.files[0]);
+    }
+  };
+
+  const onSubmit = (data: ImportTripsForm) => {
+    console.log(data);
+  };
+
   return {
     data,
     error,
     isLoading,
     mutate,
     isValidating,
+    handleFileChange,
+    formMethods,
+    onSubmit,
+    selectedFile,
   };
 };

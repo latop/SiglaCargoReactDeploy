@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React, { SyntheticEvent } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import { TextField } from "@mui/material";
@@ -10,10 +11,12 @@ export function AutocompleteLocationGroup({
   name = "locationGroupCode",
   keyCode = "code",
   onChange,
+  label = "Cód da localização",
 }: {
   name?: string;
   keyCode?: keyof LocationGroup;
   onChange?: (value: LocationGroup | null) => void;
+  label?: string;
 }) {
   const {
     control,
@@ -57,8 +60,8 @@ export function AutocompleteLocationGroup({
             !field.value
               ? "Digite o código"
               : !locationGroups && !error
-              ? "Carregando..."
-              : "Nenhum resultado encontrado"
+                ? "Carregando..."
+                : "Nenhum resultado encontrado"
           }
           getOptionLabel={(option: LocationGroup) =>
             option.description
@@ -72,7 +75,7 @@ export function AutocompleteLocationGroup({
               onChange={debounce(field.onChange, 300)}
               variant="outlined"
               fullWidth
-              label="Cód da localização"
+              label={label}
               error={!!errors[field.name]}
               helperText={errors[field.name]?.message?.toString()}
             />
