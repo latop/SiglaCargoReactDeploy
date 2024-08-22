@@ -16,6 +16,7 @@ import {
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import UploadIcon from "@mui/icons-material/Upload";
 import AddIcon from "@mui/icons-material/Add";
+import ClearIcon from "@mui/icons-material/Clear";
 import dayjs from "dayjs";
 import { CSSProperties } from "react";
 import { FormProvider } from "react-hook-form";
@@ -60,7 +61,24 @@ export function ImportTrips() {
     formMethods,
     onSubmit,
     selectedFile,
+    currentFile,
   } = useImportTrips();
+
+  const RenderButtonText = () => {
+    if (currentFile)
+      return (
+        <>
+          {currentFile}
+          <ClearIcon fontSize="inherit" />
+        </>
+      );
+    return (
+      <>
+        Importar Viagem
+        <AddIcon fontSize="inherit" />
+      </>
+    );
+  };
 
   const Content = () => {
     if (isLoading) return <CircularProgress />;
@@ -75,7 +93,11 @@ export function ImportTrips() {
     return null;
   };
   return (
-    <MainContainer>
+    <MainContainer
+      sx={{
+        overflow: "hidden",
+      }}
+    >
       <AppBar style={{ display: "block" }}>
         <HeaderTitle>Importação de viagens</HeaderTitle>
       </AppBar>
@@ -114,8 +136,7 @@ export function ImportTrips() {
                           onChange: handleFileChange,
                         })}
                       />
-                      Importar Viagem
-                      <AddIcon fontSize="inherit" />
+                      <RenderButtonText />
                     </label>
                   </Button>
                 </Grid>

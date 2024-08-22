@@ -43,8 +43,10 @@ export const useImportTrips = () => {
   };
 
   const onSubmit = (data: ImportTripsForm) => {
-    console.log(data);
+    console.log(data.File[0]);
   };
+
+  const currentFile = selectedFile?.name;
 
   return {
     data,
@@ -56,5 +58,6 @@ export const useImportTrips = () => {
     formMethods,
     onSubmit,
     selectedFile,
+    currentFile,
   };
 };
