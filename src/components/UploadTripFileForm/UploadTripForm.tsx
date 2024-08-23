@@ -1,5 +1,5 @@
 "use client";
-import { Button, Grid, Input } from "@mui/material";
+import { Button, CircularProgress, Grid, Input } from "@mui/material";
 import UploadIcon from "@mui/icons-material/Upload";
 import { CSSProperties } from "react";
 import { FormProvider } from "react-hook-form";
@@ -23,6 +23,7 @@ export function UploadTripFileForm() {
     selectedFile,
     currentFile,
     handleClearFile,
+    loadingPostFile,
   } = useImportTrips();
 
   const ButtonFileActions = () => {
@@ -31,27 +32,32 @@ export function UploadTripFileForm() {
         <Button
           onClick={handleClearFile}
           variant="outlined"
+          size="large"
           sx={{
             display: "flex",
             alignItems: "center",
-            justifyContent: "center",
-            gap: "8px",
           }}
         >
-          <p
-            style={{
-              maxWidth: "100px",
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-            }}
-          >
-            {currentFile}
-          </p>
-          <ClearIcon fontSize="inherit" />
+          {loadingPostFile ? (
+            <CircularProgress size="14px" />
+          ) : (
+            <>
+              <p
+                style={{
+                  maxWidth: "100px",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                }}
+              >
+                {currentFile}
+              </p>
+              <ClearIcon fontSize="small" />
+            </>
+          )}
         </Button>
       );
     return (
-      <Button color="primary" variant="outlined">
+      <Button color="primary" variant="outlined" size="large">
         <label style={labelStyle}>
           <Input
             type="file"
@@ -62,7 +68,7 @@ export function UploadTripFileForm() {
             })}
           />
           Importar Viagem
-          <GridAddIcon fontSize="inherit" />
+          <GridAddIcon fontSize="small" />
         </label>
       </Button>
     );
@@ -70,17 +76,23 @@ export function UploadTripFileForm() {
 
   return (
     <FormProvider {...formMethods}>
-      <form onSubmit={formMethods.handleSubmit(onSubmit)}>
+      <form
+        onSubmit={formMethods.handleSubmit(onSubmit)}
+        style={{
+          flexGrow: 1,
+        }}
+      >
         <Grid
-          container
+          display={"flex"}
           gap={1}
-          alignItems={"center"}
+          alignItems={"flex-start"}
+          flexDirection={"row"}
           justifyContent={"flex-end"}
         >
           <Grid item>
             <ButtonFileActions />
           </Grid>
-          <Grid item>
+          <Grid item xs={1.25}>
             {selectedFile && (
               <AutocompleteLocationGroup name="Locationcode" label="Cód. Loc" />
             )}

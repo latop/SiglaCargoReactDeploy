@@ -69,8 +69,9 @@ export function ImportTrips() {
           display={"flex"}
           flexDirection={"row"}
           gap={2}
-          paddingBottom={"20px"}
           justifyContent={"space-between"}
+          minHeight={"64px"}
+          alignItems={"flex-start"}
         >
           <ImportTripsFilterBar />
           <UploadTripFileForm />

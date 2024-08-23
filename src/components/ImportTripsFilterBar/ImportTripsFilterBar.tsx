@@ -13,8 +13,8 @@ export function ImportTripsFilterBar(props: React.HTMLProps<HTMLFormElement>) {
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(onSubmit)} {...props}>
-          <Grid container gap={1}>
-            <Grid item xs={4}>
+          <Grid container gap={1} zeroMinWidth>
+            <Grid item xs={3.2}>
               <Controller
                 name="startDate"
                 rules={{ required: true }}
@@ -22,7 +22,7 @@ export function ImportTripsFilterBar(props: React.HTMLProps<HTMLFormElement>) {
                 render={({ field }) => <DatePicker label="Início" {...field} />}
               />
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={3.2}>
               <Controller
                 name="endDate"
                 rules={{ required: true }}
