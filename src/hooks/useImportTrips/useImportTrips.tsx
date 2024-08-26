@@ -1,4 +1,4 @@
-import useSWR from "swr";
+import useSWRImmutable from "swr/immutable";
 import { fetchImportTrips } from "@/services/import-trips";
 import { useSearchParams } from "next/navigation";
 import { ChangeEvent, useState } from "react";
@@ -21,7 +21,6 @@ type ImportTripsForm = z.infer<typeof schema>;
 
 export const useImportTrips = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-
   const [postFile, { error: postError, loading: loadingPostFile }] = useFetch();
   const { addToast } = useToast();
 
@@ -34,15 +33,23 @@ export const useImportTrips = () => {
     startDate: searchParams.get("startDate"),
     endDate: searchParams.get("endDate"),
   };
+
   const hasParamsToSearch = Boolean(
-    Object.values(params).filter(Boolean).length,
+    Object.values(params)?.filter(Boolean).length,
   );
-  const { data, error, isLoading, mutate, isValidating } = useSWR(
+
+  const { data, error, isLoading, mutate, isValidating } = useSWRImmutable(
     {
       url: "/import-trips",
       args: params,
     },
     fetchImportTrips,
+    {
+      revalidateIfStale: false,
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false,
+      revalidateOnMount: false,
+    },
   );
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -55,6 +62,7 @@ export const useImportTrips = () => {
     setSelectedFile(null);
   };
 
+  console.log(selectedFile);
   const onSubmit = async (data: ImportTripsForm) => {
     const body = {
       File: data.File[0],
@@ -64,11 +72,14 @@ export const useImportTrips = () => {
     await postFile("/importGTMS", body, {
       headers: { "Content-Type": "multipart/form-data" },
       onSuccess: () => {
+        console.log(selectedFile);
         addToast("Arquivo enviado com sucesso!", { type: "success" });
         handleClearFile();
       },
       onError: () => {
-        addToast("Falha ao enviar arquivo" + postError, { type: "error" });
+        addToast("Falha ao enviar arquivo" + " " + postError, {
+          type: "error",
+        });
       },
     });
   };

@@ -24,9 +24,12 @@ export function UploadTripFileForm() {
     currentFile,
     handleClearFile,
     loadingPostFile,
+    isLoading,
   } = useImportTrips();
 
   const ButtonFileActions = () => {
+    if (isLoading) return null;
+
     if (currentFile)
       return (
         <Button
@@ -39,7 +42,7 @@ export function UploadTripFileForm() {
           }}
         >
           {loadingPostFile ? (
-            <CircularProgress size="14px" />
+            <CircularProgress size="20px" />
           ) : (
             <>
               <p
@@ -56,6 +59,7 @@ export function UploadTripFileForm() {
           )}
         </Button>
       );
+
     return (
       <Button color="primary" variant="outlined" size="large">
         <label style={labelStyle}>
