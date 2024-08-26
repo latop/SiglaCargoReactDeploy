@@ -34,9 +34,9 @@ export const useImportTrips = () => {
     startDate: searchParams.get("startDate"),
     endDate: searchParams.get("endDate"),
   };
-
-  const hasParamsToSearch = Boolean(Object.entries(params).length);
-
+  const hasParamsToSearch = Boolean(
+    Object.values(params).filter(Boolean).length,
+  );
   const { data, error, isLoading, mutate, isValidating } = useSWR(
     {
       url: "/import-trips",
