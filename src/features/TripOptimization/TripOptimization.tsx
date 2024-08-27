@@ -24,7 +24,6 @@ export function TripOptimization() {
   const match = (hash as string)?.match(/#tripId-(.+)/);
   const tripId = match?.[1];
   const isOpen = !!tripId?.length;
-  console.log(isOpen);
 
   const columns: GridColDef[] = [
     {
@@ -75,6 +74,7 @@ export function TripOptimization() {
                 openDialog({
                   body: "Deseja deletar esta otimização?",
                   onConfirm: () => {
+                    console.log(params.row.id);
                     handleDeleteOptmitzationTrip(params.row.id);
                     closeDialog();
                   },

@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
@@ -67,7 +69,15 @@ export function TripOptimizationDialog({
       </DialogTitle>
       <DialogContent dividers sx={{ padding: "20px" }}>
         {isLoading ? (
-          <CircularProgress />
+          <Box
+            height={"100%"}
+            width={"100%"}
+            display={"flex"}
+            alignItems="center"
+            justifyContent="center"
+          >
+            <CircularProgress />
+          </Box>
         ) : (
           <DataGrid
             columns={columns}
