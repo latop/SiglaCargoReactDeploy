@@ -25,7 +25,6 @@ export function useFetch<T>() {
     setLoading(true);
     setData(null);
     setError(null);
-
     const method = options?.method || "post";
     const headers = options?.headers || {};
     const responseType = options?.responseType || "json";

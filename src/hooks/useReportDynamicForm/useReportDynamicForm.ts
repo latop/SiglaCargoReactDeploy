@@ -11,7 +11,7 @@ import { ReportsResponse } from "@/interfaces/reports";
 
 axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_URL;
 
-export const useDynamicForm = (data: ReportsResponse) => {
+export const useReportDynamicForm = (data: ReportsResponse) => {
   const { addToast } = useToast();
   const [isDownloadAvailable, setDownloadAvailable] =
     React.useState<boolean>(false);

@@ -13,13 +13,13 @@ import customParseFormat from "dayjs/plugin/customParseFormat";
 import "dayjs/locale/pt-br";
 
 import DownloadIcon from "@mui/icons-material/Download";
-import { useDynamicForm } from "./useDynamicForm";
+import { useReportDynamicForm } from "@/hooks/useReportDynamicForm";
 import { AutocompleteLocationGroup } from "@/components/AutocompleteLocationGroup";
 import { ReportsResponse } from "@/interfaces/reports";
 
 dayjs.extend(customParseFormat);
 
-export function DynamicForm({
+export function ReportDynamicForm({
   reportCode,
   parameterName,
   item,
@@ -29,7 +29,7 @@ export function DynamicForm({
   item: ReportsResponse;
 }) {
   const { methods, onSubmit, handleDownload, isFileAvailable, isLoading } =
-    useDynamicForm(item);
+    useReportDynamicForm(item);
   const { handleSubmit } = methods;
 
   const RenderField = () =>
@@ -62,18 +62,6 @@ export function DynamicForm({
             />
           );
         case "Data Ref.":
-          return (
-            <Controller
-              key={reportCode}
-              name={"refDate"}
-              control={methods.control}
-              render={({ field }) => (
-                <Grid item>
-                  <DatePicker label={"Data Ref."} {...field} />
-                </Grid>
-              )}
-            />
-          );
         case "Dt. Ref.":
           return (
             <Controller

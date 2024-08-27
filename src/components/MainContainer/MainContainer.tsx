@@ -3,9 +3,16 @@
 
 import { CircularProgress, Box } from "@mui/material";
 import { Container } from "./MainContainer.styles";
+import { CSSProperties } from "react";
 
-export function MainContainer({ children }: { children: React.ReactNode }) {
-  return <Container>{children}</Container>;
+export function MainContainer({
+  children,
+  sx,
+}: {
+  children: React.ReactNode;
+  sx?: CSSProperties;
+}) {
+  return <Container style={sx}>{children}</Container>;
 }
 
 function Content({
@@ -15,7 +22,7 @@ function Content({
 }: {
   children: React.ReactNode;
   loading?: boolean;
-  sx?: any;
+  sx?: CSSProperties;
 }) {
   return (
     <Box
