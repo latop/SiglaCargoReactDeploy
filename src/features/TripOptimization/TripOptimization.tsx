@@ -74,7 +74,6 @@ export function TripOptimization() {
                 openDialog({
                   body: "Deseja deletar esta otimização?",
                   onConfirm: () => {
-                    console.log(params.row.id);
                     handleDeleteOptmitzationTrip(params.row.id);
                     closeDialog();
                   },
