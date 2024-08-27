@@ -29,17 +29,22 @@ export const useTripOptimization = () => {
   };
 
   const handleDeleteOptmitzationTrip = async (id: string) => {
-    await deleteOptmizationTrip("/Optimizer/removeotm", id, {
-      method: "delete",
-      onSuccess: () => {
-        addToast("Removido com sucesso!", { type: "success" });
-        mutate();
+    console.log(id);
+    await deleteOptmizationTrip(
+      "/Optimizer/removeotm",
+      { id },
+      {
+        method: "delete",
+        onSuccess: () => {
+          addToast("Removido com sucesso!", { type: "success" });
+          mutate();
+        },
+        onError: () => {
+          addToast("Erro ao remover, tente novamente", { type: "success" });
+          mutate();
+        },
       },
-      onError: () => {
-        addToast("Erro ao remover, tente novamente", { type: "success" });
-        mutate();
-      },
-    });
+    );
   };
 
   return {
