@@ -28,11 +28,10 @@ export const useTripOptimization = () => {
     await fetchGenerateScheduleCircuit({ args: params });
   };
 
-  const handleDeleteOptmitzationTrip = async (id: string) => {
-    console.log(id);
+  const handleDeleteOptmitzationTrip = async (otmId: string) => {
     await deleteOptmizationTrip(
       "/Optimizer/removeotm",
-      { id },
+      { otmId },
       {
         method: "delete",
         onSuccess: () => {

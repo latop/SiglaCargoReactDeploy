@@ -21,9 +21,9 @@ export function TripOptimization() {
     useTripOptimization();
   const { openDialog, closeDialog } = useDialog();
   const [hash, setHash] = useHash();
-  const match = (hash as string)?.match(/#tripId-(.+)/);
-  const tripId = match?.[1];
-  const isOpen = !!tripId?.length;
+  const match = (hash as string)?.match(/#otmId-(.+)/);
+  const otmId = match?.[1];
+  const isOpen = !!otmId?.length;
 
   const columns: GridColDef[] = [
     {
@@ -63,7 +63,7 @@ export function TripOptimization() {
                 cursor: "pointer",
                 color: "#1565c0",
               }}
-              onClick={() => setHash(`#tripId-${params.row.id}`)}
+              onClick={() => setHash(`#otmId-${params.row.id}`)}
             />
             <DeleteForeverIcon
               sx={{

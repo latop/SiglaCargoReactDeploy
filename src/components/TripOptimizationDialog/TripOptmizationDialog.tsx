@@ -50,11 +50,7 @@ export function TripOptimizationDialog({
       },
     },
   ];
-  // {
-  //   Nickname;
-  //   Sto;
-  //   Data;
-  // }
+
   return (
     <Dialog
       onClose={handleClose}

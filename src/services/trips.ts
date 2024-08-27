@@ -135,16 +135,9 @@ export async function fetchGenerateScheduleCircuit({
   }
 }
 
-interface FetchOptmizedTripParams {
-  tripId: string;
-}
-
-export async function fetchOptmizedTrip({
-  args,
-}: {
-  args: FetchOptmizedTripParams;
-}) {
-  const params = { tripId: args.tripId };
+export async function fetchOptmizedTrip({ otmId }: { otmId: string }) {
+  const params = { otmId };
+  console.log(params);
   try {
     const response = await axios.get("/Optimizer/getotm", {
       params,

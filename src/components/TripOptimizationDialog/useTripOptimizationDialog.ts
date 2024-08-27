@@ -4,7 +4,10 @@ import useSWR from "swr";
 
 export const useTripOptimizationDialog = () => {
   const [hash] = useHash();
-  const { data, isLoading } = useSWR({ args: hash }, fetchOptmizedTrip, {
+
+  const match = (hash as string)?.match(/#otmId-(.+)/);
+  const otmId = match?.[1];
+  const { data, isLoading } = useSWR({ otmId }, fetchOptmizedTrip, {
     revalidateOnMount: true,
     revalidateIfStale: false,
   });
