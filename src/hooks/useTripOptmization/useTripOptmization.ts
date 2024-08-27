@@ -1,24 +1,25 @@
-import { FetchOptmizedTripsData } from "@/interfaces/trip";
 import {
   fetchGenerateScheduleCircuit,
   fetchOptmizedTrips,
 } from "@/services/trips";
 import { useSearchParams } from "next/navigation";
 import useSWR from "swr";
+import { useFetch } from "../useFetch";
+import { useToast } from "../useToast";
 
 export const useTripOptmization = () => {
+  const [deleteOptmizationTrip] = useFetch();
+  const { addToast } = useToast();
+
   const {
     data: optmizedTrips,
     mutate,
     isLoading,
-  } = useSWR<FetchOptmizedTripsData[]>(
-    { url: "/trip-optimization" },
-    fetchOptmizedTrips,
-  );
+  } = useSWR({ url: "/trip-optimization" }, fetchOptmizedTrips);
 
   const searchParams = useSearchParams();
 
-  const handleOptmize = async () => {
+  const handleOptmizeTrip = async () => {
     const params = {
       start: searchParams.get("start") || "",
       end: searchParams.get("end") || "",
@@ -27,10 +28,25 @@ export const useTripOptmization = () => {
     await fetchGenerateScheduleCircuit({ args: params });
   };
 
+  const handleDeleteOptmitzationTrip = async (id: string) => {
+    await deleteOptmizationTrip("/Optimizer/removeotm", id, {
+      method: "delete",
+      onSuccess: () => {
+        addToast("Removido com sucesso!", { type: "success" });
+        mutate();
+      },
+      onError: () => {
+        addToast("Erro ao remover, tente novamente", { type: "success" });
+        mutate();
+      },
+    });
+  };
+
   return {
     optmizedTrips,
     mutate,
     isLoading,
-    handleOptmize,
+    handleOptmizeTrip,
+    handleDeleteOptmitzationTrip,
   };
 };

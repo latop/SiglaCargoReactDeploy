@@ -9,8 +9,15 @@ import { FetchOptmizedTripsData } from "@/interfaces/trip";
 import { Box, Card, CircularProgress } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import dayjs from "dayjs";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import InfoIcon from "@mui/icons-material/Info";
+
+import { useDialog } from "@/hooks/useDialog/useDialog";
 
 export function TripOptmization() {
+  const { optmizedTrips, isLoading, handleDeleteOptmitzationTrip } =
+    useTripOptmization();
+  const { openDialog, closeDialog } = useDialog();
   const columns: GridColDef[] = [
     {
       field: "process",
@@ -31,9 +38,48 @@ export function TripOptmization() {
       headerName: "Status",
       width: 150,
     },
+    {
+      field: "details",
+      headerName: "Detalhes",
+      width: 100,
+      renderCell: (params) => {
+        return (
+          <span
+            style={{
+              paddingTop: 12,
+              display: "flex",
+              gap: "8px",
+            }}
+          >
+            <InfoIcon
+              sx={{
+                cursor: "pointer",
+                color: "#1565c0",
+              }}
+            />
+            <DeleteForeverIcon
+              sx={{
+                cursor: "pointer",
+                color: "#e53935",
+              }}
+              onClick={() =>
+                openDialog({
+                  body: "Deseja deletar esta otimização?",
+                  onConfirm: () => {
+                    handleDeleteOptmitzationTrip(params.row.id);
+                    closeDialog();
+                  },
+                  onCancel: () => {
+                    closeDialog();
+                  },
+                })
+              }
+            />
+          </span>
+        );
+      },
+    },
   ];
-
-  const { optmizedTrips, isLoading } = useTripOptmization();
 
   return (
     <MainContainer>
