@@ -21,7 +21,7 @@ type ImportTripsForm = z.infer<typeof schema>;
 
 export const useImportTrips = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [postFile, { error: postError, loading: loadingPostFile }] = useFetch();
+  const [postFile, { loading: loadingPostFile }] = useFetch();
   const { addToast } = useToast();
 
   const formMethods = useForm<ImportTripsForm>({
@@ -69,19 +69,24 @@ export const useImportTrips = () => {
       Locationcode: data.Locationcode,
     };
     console.log(body);
-    await postFile("/importGTMS", body, {
-      headers: { "Content-Type": "multipart/form-data" },
-      onSuccess: () => {
-        console.log(selectedFile);
-        addToast("Arquivo enviado com sucesso!", { type: "success" });
-        handleClearFile();
-      },
-      onError: () => {
-        addToast("Falha ao enviar arquivo" + " " + postError, {
-          type: "error",
-        });
-      },
-    });
+    try {
+      await postFile("/importGTMS", body, {
+        headers: { "Content-Type": "multipart/form-data" },
+        onSuccess: () => {
+          console.log(selectedFile);
+          addToast("Arquivo enviado com sucesso!", { type: "success" });
+          handleClearFile();
+        },
+        onError: () => {
+          addToast("Falha ao enviar arquivo.", {
+            type: "error",
+          });
+        },
+      });
+    } catch (error) {
+      console.error((error as Error).message);
+      throw new Error();
+    }
   };
 
   const currentFile = selectedFile?.name;

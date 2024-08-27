@@ -18,6 +18,7 @@ import { BiTrip } from "react-icons/bi";
 import NoCrashIcon from "@mui/icons-material/NoCrash";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
+import SettingsSuggestIcon from "@mui/icons-material/SettingsSuggest";
 
 interface BurgerMenuProps {
   isOpen: boolean;
@@ -78,6 +79,11 @@ const routes: RouteItem[] = [
     text: "Importação de viagens",
     icon: <UploadFileIcon />,
     path: "/import-trips",
+  },
+  {
+    text: "Otimizacão de viagens",
+    icon: <SettingsSuggestIcon />,
+    path: "/trip-optmization",
   },
 ];
 

@@ -96,3 +96,41 @@ export async function fetchTripTypes({ args }: { args: FetchTripTypeParams }) {
     return error;
   }
 }
+
+export async function fetchOptmizedTrips() {
+  try {
+    const response = await axios.get("/Optimizer/getallotm");
+    const data = response.data;
+    return data;
+  } catch (error) {
+    console.error(error);
+    return error;
+  }
+}
+
+interface FetchGenerateScheduleCircuitParams {
+  start: string;
+  end: string;
+  locationGroupCode: string;
+}
+export async function fetchGenerateScheduleCircuit({
+  args,
+}: {
+  args: FetchGenerateScheduleCircuitParams;
+}) {
+  const params = {
+    start: args.start,
+    end: args.end,
+    locationGroupCode: args.locationGroupCode,
+  };
+  try {
+    const response = await axios.get("/Optimizer/GenerateScheduleCircuit", {
+      params,
+    });
+    const data = response.data;
+    return data;
+  } catch (error) {
+    console.error(error);
+    return error;
+  }
+}
