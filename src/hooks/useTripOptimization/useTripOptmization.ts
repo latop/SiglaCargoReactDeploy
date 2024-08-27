@@ -4,12 +4,11 @@ import {
 } from "@/services/trips";
 import { useSearchParams } from "next/navigation";
 import useSWR from "swr";
+import { useFetch } from "../useFetch";
 import { useToast } from "../useToast";
-import axios from "axios";
-
-axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_URL;
 
 export const useTripOptimization = () => {
+  const [deleteOptmizationTrip] = useFetch();
   const { addToast } = useToast();
 
   const {
@@ -30,14 +29,19 @@ export const useTripOptimization = () => {
   };
 
   const handleDeleteOptmitzationTrip = async (otmId: string) => {
-    try {
-      await axios.delete(`/Optimizer/removeotm?otmId=${otmId}`);
-      addToast("Removido com sucesso!", { type: "success" });
-      mutate();
-    } catch (error) {
-      addToast("Erro ao remover, tente novamente", { type: "success" });
-      console.log(error);
-    }
+    const body = { otmId };
+
+    await deleteOptmizationTrip(`/Optimizer/removeotm?otmId=${otmId}`, body, {
+      method: "delete",
+      onSuccess: () => {
+        addToast("Removido com sucesso!" + " " + otmId, { type: "success" });
+        mutate();
+      },
+      onError: () => {
+        addToast("Erro ao remover, tente novamente", { type: "success" });
+        mutate();
+      },
+    });
   };
 
   return {
