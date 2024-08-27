@@ -3,8 +3,8 @@
 import { AppBar } from "@/components/AppBar";
 import { HeaderTitle } from "@/components/HeaderTitle/HeaderTitle";
 import { MainContainer } from "@/components/MainContainer";
-import { TripOptmizationFilterBar } from "@/components/TripOptmizationFilterBar";
-import { useTripOptmization } from "@/hooks/useTripOptmization";
+import { TripOptmizationFilterBar } from "@/components/TripOptimizationFilterBar";
+import { useTripOptimization } from "@/hooks/useTripOptimization";
 import { FetchOptmizedTripsData } from "@/interfaces/trip";
 import { Box, Card, CircularProgress } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
@@ -13,11 +13,18 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import InfoIcon from "@mui/icons-material/Info";
 
 import { useDialog } from "@/hooks/useDialog/useDialog";
+import { useHash } from "@/hooks/useHash";
 
-export function TripOptmization() {
+export function TripOptimization() {
   const { optmizedTrips, isLoading, handleDeleteOptmitzationTrip } =
-    useTripOptmization();
+    useTripOptimization();
   const { openDialog, closeDialog } = useDialog();
+  const [hash, setHash] = useHash();
+  const match = (hash as string)?.match(/#tripId-(.+)/);
+  const tripId = match?.[1];
+  const isOpen = !!tripId?.length;
+  console.log(isOpen);
+
   const columns: GridColDef[] = [
     {
       field: "process",
@@ -56,6 +63,7 @@ export function TripOptmization() {
                 cursor: "pointer",
                 color: "#1565c0",
               }}
+              onClick={() => setHash(`#tripId-${params.row.id}`)}
             />
             <DeleteForeverIcon
               sx={{

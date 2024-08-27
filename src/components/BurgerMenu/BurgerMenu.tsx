@@ -83,7 +83,7 @@ const routes: RouteItem[] = [
   {
     text: "Otimizacão de viagens",
     icon: <SettingsSuggestIcon />,
-    path: "/trip-optmization",
+    path: "/trip-optimization",
   },
 ];
 

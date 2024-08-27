@@ -7,7 +7,7 @@ import useSWR from "swr";
 import { useFetch } from "../useFetch";
 import { useToast } from "../useToast";
 
-export const useTripOptmization = () => {
+export const useTripOptimization = () => {
   const [deleteOptmizationTrip] = useFetch();
   const { addToast } = useToast();
 

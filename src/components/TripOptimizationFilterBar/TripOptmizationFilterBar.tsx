@@ -6,9 +6,9 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { Controller, FormProvider } from "react-hook-form";
 import SettingsIcon from "@mui/icons-material/Settings";
 import RefreshIcon from "@mui/icons-material/Refresh";
-import { useTripOptmizationFilterBar } from "@/hooks/useTripOptmizationFilterBar";
+import { useTripOptmizationFilterBar } from "@/hooks/useTripOptimizationFilterBar";
 import { AutocompleteLocationGroup } from "../AutocompleteLocationGroup";
-import { useTripOptmization } from "@/hooks/useTripOptmization";
+import { useTripOptimization } from "@/hooks/useTripOptimization";
 import { useToast } from "@/hooks/useToast";
 import { useDialog } from "@/hooks/useDialog/useDialog";
 
@@ -19,7 +19,7 @@ export function TripOptmizationFilterBar() {
     handleSubmit,
     formState: { isValid },
   } = methods;
-  const { mutate, isLoading, handleOptmizeTrip } = useTripOptmization();
+  const { mutate, isLoading, handleOptmizeTrip } = useTripOptimization();
   const { addToast } = useToast();
 
   const { openDialog, closeDialog } = useDialog();
