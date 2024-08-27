@@ -14,6 +14,7 @@ import InfoIcon from "@mui/icons-material/Info";
 
 import { useDialog } from "@/hooks/useDialog/useDialog";
 import { useHash } from "@/hooks/useHash";
+import { TripOptimizationDialog } from "@/components/TripOptimizationDialog/TripOptmizationDialog";
 
 export function TripOptimization() {
   const { optmizedTrips, isLoading, handleDeleteOptmitzationTrip } =
@@ -131,11 +132,13 @@ export function TripOptimization() {
                 columns={columns}
                 rows={optmizedTrips || []}
                 getRowId={(row) => row.id}
+                hideFooterPagination={true}
               />
             )}
           </Box>
         </Card>
       </Box>
+      <TripOptimizationDialog open={isOpen} onClose={() => setHash("")} />
     </MainContainer>
   );
 }

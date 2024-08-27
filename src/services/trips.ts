@@ -134,3 +134,25 @@ export async function fetchGenerateScheduleCircuit({
     return error;
   }
 }
+
+interface FetchOptmizedTripParams {
+  tripId: string;
+}
+
+export async function fetchOptmizedTrip({
+  args,
+}: {
+  args: FetchOptmizedTripParams;
+}) {
+  const params = { tripId: args.tripId };
+  try {
+    const response = await axios.get("/Optimizer/getotm", {
+      params,
+    });
+    const data = response.data;
+    return data;
+  } catch (error) {
+    console.error(error);
+    return error;
+  }
+}

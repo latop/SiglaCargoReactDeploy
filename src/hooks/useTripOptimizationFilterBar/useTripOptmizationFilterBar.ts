@@ -49,7 +49,7 @@ export function useTripOptmizationFilterBar() {
       }
     });
     params.append("locationGroupCode", data.locationGroupCode);
-    router.push(`/trip-optmization?${params.toString()}`);
+    router.push(`/trip-optimization?${params.toString()}`);
   };
 
   return {
