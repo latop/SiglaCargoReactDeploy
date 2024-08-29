@@ -1,7 +1,7 @@
 import React from "react";
 import { Controller, FormProvider } from "react-hook-form";
 import dayjs from "dayjs";
-import { Button, Grid } from "@mui/material";
+import { Button, Grid, Switch, TextField } from "@mui/material";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@/components/DatePicker";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -73,6 +73,35 @@ export function DailyTripsByPeriodFilterBar(
                 onChange={(value) => {
                   methods.setValue("licensePlate", value?.licensePlate);
                 }}
+              />
+            </Grid>
+
+            <Grid item xs={0.9}>
+              <Controller
+                name="showTruckAssignment"
+                control={control}
+                rules={{ required: true }}
+                render={({ field }) => (
+                  <TextField
+                    label="Atribuição de caminhão"
+                    id="showTruckAssignment"
+                    variant="outlined"
+                    fullWidth
+                    InputProps={{
+                      startAdornment: (
+                        <Switch
+                          size="medium"
+                          id="showTruckAssignment"
+                          {...field}
+                          value={field.value}
+                          onChange={(value) => {
+                            field.onChange(value);
+                          }}
+                        />
+                      ),
+                    }}
+                  />
+                )}
               />
             </Grid>
 

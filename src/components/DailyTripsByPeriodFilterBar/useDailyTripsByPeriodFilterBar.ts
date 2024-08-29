@@ -16,6 +16,7 @@ interface FormFields {
   fleetGroupCode?: string;
   locationGroupCode?: string;
   licensePlate?: string;
+  showTruckAssignment?: boolean;
 }
 
 const dateOrDayjsSchema = z.custom(
@@ -32,6 +33,7 @@ const schema = z
     fleetGroupCode: z.string().optional(),
     locationGroupCode: z.string().optional(),
     licensePlate: z.string().optional(),
+    showTruckAssignment: z.boolean().optional(),
   })
   .refine(
     (data) => {
@@ -70,6 +72,7 @@ export function useDailyTripsByPeriodFilterBar() {
       fleetGroupCode: params.get("fleetGroupCode") || "",
       locationGroupCode: params.get("locationGroupCode") || "",
       licensePlate: params.get("licensePlate") || "",
+      showTruckAssignment: Boolean(params.get("showTruckAssignment")) || false,
     },
   });
 

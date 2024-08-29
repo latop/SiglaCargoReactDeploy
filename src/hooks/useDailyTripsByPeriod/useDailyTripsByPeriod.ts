@@ -17,6 +17,7 @@ export const useDailyTripsByPeriod = (options?: SWRConfiguration) => {
     fleetGroupCode: params.get("fleetGroupCode"),
     locationGroupCode: params.get("locationGroupCode") || "",
     licensePlate: params.get("licensePlate")?.toLocaleUpperCase() || "",
+    showTruckAssignment: params.get("showTruckAssignment") || false,
   };
 
   const getKey = (
