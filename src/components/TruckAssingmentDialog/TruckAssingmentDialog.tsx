@@ -2,14 +2,17 @@
 
 import {
   Box,
+  Button,
   CircularProgress,
   Dialog,
+  DialogActions,
   DialogContent,
   DialogTitle,
 } from "@mui/material";
 import { useTruckAssignmentDialog } from "./useTruckAssingmentDialog";
 import dayjs from "dayjs";
 import CloseIcon from "@mui/icons-material/Close";
+import DeleteIcon from "@mui/icons-material/Delete";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 
 export const TruckAssignmentDialog = ({
@@ -19,7 +22,8 @@ export const TruckAssignmentDialog = ({
   isOpen: boolean;
   onClose?: () => void;
 }) => {
-  const { data, isLoading, truckAssignmentId } = useTruckAssignmentDialog();
+  const { data, isLoading, truckAssignmentId, handleDelete, loadingDeletion } =
+    useTruckAssignmentDialog();
   const columns: GridColDef[] = [
     { field: "id", headerName: "ID", width: 150 },
     { field: "truckId", headerName: "Truck ID", width: 150 },
@@ -63,7 +67,6 @@ export const TruckAssignmentDialog = ({
       <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
         <Box display="flex" justifyContent="space-between">
           Atribuição de caminhão
-          <CloseIcon onClick={onClose} sx={{ cursor: "pointer" }} />
         </Box>
         <hr style={{ opacity: 0.2, margin: "1rem 0" }} />
       </DialogTitle>
@@ -79,6 +82,38 @@ export const TruckAssignmentDialog = ({
           />
         )}
       </DialogContent>
+      <DialogActions>
+        <Box
+          display="flex"
+          justifyContent="flex-end"
+          gap={1}
+          padding="10px"
+          width="100%"
+        >
+          <Button type="submit" variant="contained" onClick={onClose}>
+            <p>Cancelar</p>
+            <CloseIcon sx={{ cursor: "pointer" }} />
+          </Button>
+          <Button
+            type="submit"
+            variant="contained"
+            color="error"
+            onClick={async () => {
+              await handleDelete();
+              onClose && onClose?.();
+            }}
+          >
+            {loadingDeletion ? (
+              <CircularProgress color="inherit" />
+            ) : (
+              <>
+                Excluir
+                <DeleteIcon />
+              </>
+            )}
+          </Button>
+        </Box>
+      </DialogActions>
     </Dialog>
   );
 };
