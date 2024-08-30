@@ -24,6 +24,7 @@ export const TruckAssignmentDialog = ({
 }) => {
   const { data, isLoading, truckAssignmentId, handleDelete, loadingDeletion } =
     useTruckAssignmentDialog();
+
   const columns: GridColDef[] = [
     { field: "id", headerName: "ID", width: 150 },
     { field: "truckId", headerName: "Truck ID", width: 150 },
@@ -62,6 +63,11 @@ export const TruckAssignmentDialog = ({
   ];
   const rows = [data];
 
+  const onDelete = async () => {
+    await handleDelete();
+    onClose && onClose?.();
+  };
+
   return (
     <Dialog open={isOpen} onClose={onClose} fullWidth maxWidth={"lg"}>
       <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
@@ -82,38 +88,37 @@ export const TruckAssignmentDialog = ({
           />
         )}
       </DialogContent>
-      <DialogActions>
-        <Box
-          display="flex"
-          justifyContent="flex-end"
-          gap={1}
-          padding="10px"
-          width="100%"
-        >
-          <Button type="submit" variant="contained" onClick={onClose}>
-            <p>Cancelar</p>
-            <CloseIcon sx={{ cursor: "pointer" }} />
-          </Button>
-          <Button
-            type="submit"
-            variant="contained"
-            color="error"
-            onClick={async () => {
-              await handleDelete();
-              onClose && onClose?.();
-            }}
+      {!isLoading && (
+        <DialogActions>
+          <Box
+            display="flex"
+            justifyContent="flex-end"
+            gap={1}
+            padding="10px"
+            width="100%"
           >
-            {loadingDeletion ? (
-              <CircularProgress color="inherit" />
-            ) : (
-              <>
-                Excluir
-                <DeleteIcon />
-              </>
-            )}
-          </Button>
-        </Box>
-      </DialogActions>
+            <Button type="submit" variant="contained" onClick={onClose}>
+              <p>Cancelar</p>
+              <CloseIcon sx={{ cursor: "pointer" }} />
+            </Button>
+            <Button
+              type="submit"
+              variant="contained"
+              color="error"
+              onClick={onDelete}
+            >
+              {loadingDeletion ? (
+                <CircularProgress color="inherit" />
+              ) : (
+                <>
+                  Excluir
+                  <DeleteIcon />
+                </>
+              )}
+            </Button>
+          </Box>
+        </DialogActions>
+      )}
     </Dialog>
   );
 };

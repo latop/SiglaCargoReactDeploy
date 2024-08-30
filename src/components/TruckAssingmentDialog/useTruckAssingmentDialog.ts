@@ -1,3 +1,4 @@
+import { useDailyTripsByPeriod } from "@/hooks/useDailyTripsByPeriod";
 import { useFetch } from "@/hooks/useFetch";
 import { useHash } from "@/hooks/useHash";
 import { useToast } from "@/hooks/useToast";
@@ -5,6 +6,7 @@ import { fetchTruckAssignment } from "@/services/vehicles";
 import useSWR from "swr";
 
 export const useTruckAssignmentDialog = () => {
+  const { refetch } = useDailyTripsByPeriod();
   const [hash] = useHash();
   const [deleteAssignment, { loading: loadingDeletion }] = useFetch();
   const { addToast } = useToast();
@@ -23,6 +25,7 @@ export const useTruckAssignmentDialog = () => {
       {
         method: "delete",
         onSuccess: () => {
+          refetch();
           addToast("Atribuição deletada com sucesso.", { type: "success" });
         },
         onError: () => {
