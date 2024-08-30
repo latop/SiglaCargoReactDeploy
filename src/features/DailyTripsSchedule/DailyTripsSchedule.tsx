@@ -13,12 +13,20 @@ import { Box } from "@mui/material";
 import { TimelineDailyTripCard } from "./components/TimelineDailyTripCard";
 import { DailyTripsByPeriodFilterBar } from "@/components/DailyTripsByPeriodFilterBar";
 import { useHash } from "@/hooks/useHash";
+import { useSearchParams } from "next/navigation";
+import { TruckAssignmentDialog } from "@/components/TruckAssingmentDialog";
 
 export function DailyTripsSchedule() {
+  const params = useSearchParams();
   const { showContent } = useDailyTripsSchedule();
   const [hash, setHash] = useHash();
   const match = (hash as string)?.match(/#dailyTrip-(.+)/);
   const dailyTripId = match?.[1];
+
+  const hasShowTruckAssignment = params.get("showTruckAssignment") === "true";
+
+  const isDailyTripDialogOpen = !hasShowTruckAssignment && !!dailyTripId;
+  const isTruckAssignmentDialogOpen = hasShowTruckAssignment && !!dailyTripId;
 
   const handleCloseDialog = () => {
     setHash("");
@@ -65,7 +73,11 @@ export function DailyTripsSchedule() {
         </MainContainer.Content>
       )}
       <DailyTripDetailsDialog
-        open={!!dailyTripId}
+        open={isDailyTripDialogOpen}
+        onClose={handleCloseDialog}
+      />
+      <TruckAssignmentDialog
+        isOpen={isTruckAssignmentDialogOpen}
         onClose={handleCloseDialog}
       />
     </MainContainer>

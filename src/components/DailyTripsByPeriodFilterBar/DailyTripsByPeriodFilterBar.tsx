@@ -93,6 +93,7 @@ export function DailyTripsByPeriodFilterBar(
                           size="medium"
                           id="showTruckAssignment"
                           {...field}
+                          name="showTruckAssignment"
                           value={field.value}
                           onChange={(value) => {
                             field.onChange(value);
