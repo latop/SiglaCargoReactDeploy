@@ -94,9 +94,9 @@ export function DailyTripsByPeriodFilterBar(
                           id="showTruckAssignment"
                           {...field}
                           name="showTruckAssignment"
-                          value={field.value}
+                          checked={field.value}
                           onChange={(value) => {
-                            field.onChange(value);
+                            field.onChange(value.currentTarget.checked);
                           }}
                         />
                       ),

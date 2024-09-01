@@ -73,11 +73,20 @@ export const TruckAssignmentDialog = ({
       <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
         <Box display="flex" justifyContent="space-between">
           Atribuição de caminhão
+          <Button
+            type="submit"
+            variant="text"
+            color="inherit"
+            onClick={onClose}
+          >
+            <CloseIcon sx={{ cursor: "pointer", opacity: 0.6 }} />
+          </Button>
         </Box>
+
         <hr style={{ opacity: 0.2, margin: "1rem 0" }} />
       </DialogTitle>
-      <DialogContent>
-        {isLoading && <CircularProgress />}
+      <DialogContent sx={{ display: "flex", alignItems: "center" }}>
+        {isLoading && <CircularProgress sx={{ margin: "auto" }} />}
         {data && !isLoading && (
           <DataGrid
             rows={rows}
@@ -97,24 +106,25 @@ export const TruckAssignmentDialog = ({
             padding="10px"
             width="100%"
           >
-            <Button type="submit" variant="contained" onClick={onClose}>
-              <p>Cancelar</p>
-              <CloseIcon sx={{ cursor: "pointer" }} />
-            </Button>
             <Button
               type="submit"
               variant="contained"
               color="error"
               onClick={onDelete}
+              disabled={loadingDeletion}
             >
               {loadingDeletion ? (
-                <CircularProgress color="inherit" />
+                <CircularProgress color="inherit" size="16px" />
               ) : (
                 <>
                   Excluir
                   <DeleteIcon />
                 </>
               )}
+            </Button>
+            <Button type="submit" variant="contained" onClick={onClose}>
+              <p>Fechar</p>
+              <CloseIcon sx={{ cursor: "pointer" }} />
             </Button>
           </Box>
         </DialogActions>
