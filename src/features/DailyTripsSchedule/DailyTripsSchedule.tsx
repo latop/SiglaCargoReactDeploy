@@ -15,6 +15,7 @@ import { DailyTripsByPeriodFilterBar } from "@/components/DailyTripsByPeriodFilt
 import { useHash } from "@/hooks/useHash";
 import { useSearchParams } from "next/navigation";
 import { TruckAssignmentDialog } from "@/components/TruckAssingmentDialog";
+import { NewTruckAssignmentButton } from "./components/NewTruckAssignmentButton";
 
 export function DailyTripsSchedule() {
   const params = useSearchParams();
@@ -37,7 +38,16 @@ export function DailyTripsSchedule() {
       <AppBar>
         <HeaderTitle>Coordenação de viagens</HeaderTitle>
       </AppBar>
-      <DailyTripsByPeriodFilterBar />
+      <Box
+        display={"flex"}
+        justifyContent={"space-between"}
+        alignItems={"center"}
+        padding="20px 20px 0"
+      >
+        <DailyTripsByPeriodFilterBar />
+        {hasShowTruckAssignment && <NewTruckAssignmentButton />}
+      </Box>
+
       {showContent && (
         <MainContainer.Content sx={{ overflow: "hidden" }}>
           <GianttProvider>

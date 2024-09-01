@@ -25,14 +25,8 @@ export function DailyTripsByPeriodFilterBar(
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(onSubmit)} {...props}>
-          <Grid
-            container
-            alignItems="flex-start"
-            justifyContent="center"
-            padding="20px 20px 0"
-            spacing={1}
-          >
-            <Grid item xs={1.2}>
+          <Grid container alignItems="flex-start" gap={1}>
+            <Grid item xs={1.6}>
               <Controller
                 name="startDate"
                 rules={{ required: true }}
@@ -46,7 +40,7 @@ export function DailyTripsByPeriodFilterBar(
                 )}
               />
             </Grid>
-            <Grid item xs={1.2}>
+            <Grid item xs={1.6}>
               <Controller
                 name="endDate"
                 control={control}
@@ -62,13 +56,13 @@ export function DailyTripsByPeriodFilterBar(
               />
             </Grid>
 
-            <Grid item xs={1.1}>
+            <Grid item xs={1.2}>
               <AutocompleteFleetGroup />
             </Grid>
-            <Grid item xs={1.1}>
+            <Grid item xs={1.6}>
               <AutocompleteLocationGroup />
             </Grid>
-            <Grid item xs={1.1}>
+            <Grid item xs={1.5}>
               <AutocompleteTruck
                 onChange={(value) => {
                   methods.setValue("licensePlate", value?.licensePlate);
