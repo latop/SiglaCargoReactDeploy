@@ -9,13 +9,14 @@ import { GianttZoom } from "@/components/GianttZoom";
 import { DailyTripDetailsDialog } from "@/components/DailyTripDetailsDialog";
 import { GianttProvider } from "@/hooks/useGiantt";
 import { useDailyTripsSchedule } from "./useDailyTripsSchedule";
-import { Box } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import { TimelineDailyTripCard } from "./components/TimelineDailyTripCard";
 import { DailyTripsByPeriodFilterBar } from "@/components/DailyTripsByPeriodFilterBar";
 import { useHash } from "@/hooks/useHash";
 import { useSearchParams } from "next/navigation";
 import { TruckAssignmentDialog } from "@/components/TruckAssingmentDialog";
-import { NewTruckAssignmentButton } from "./components/NewTruckAssignmentButton";
+import AddIcon from "@mui/icons-material/Add";
+import { NewTruckAssingmentFormDialog } from "./components/NewTruckAssignmentFormDialog";
 
 export function DailyTripsSchedule() {
   const params = useSearchParams();
@@ -45,7 +46,15 @@ export function DailyTripsSchedule() {
         padding="20px 20px 0"
       >
         <DailyTripsByPeriodFilterBar />
-        {hasShowTruckAssignment && <NewTruckAssignmentButton />}
+        {hasShowTruckAssignment && (
+          <Button
+            variant="outlined"
+            onClick={() => setHash("#isNewAssignment")}
+          >
+            Adicionar atribuição
+            <AddIcon fontSize="small" />
+          </Button>
+        )}
       </Box>
 
       {showContent && (
@@ -88,6 +97,10 @@ export function DailyTripsSchedule() {
       />
       <TruckAssignmentDialog
         isOpen={isTruckAssignmentDialogOpen}
+        onClose={handleCloseDialog}
+      />
+      <NewTruckAssingmentFormDialog
+        isOpen={hash === "#isNewAssignment"}
         onClose={handleCloseDialog}
       />
     </MainContainer>
