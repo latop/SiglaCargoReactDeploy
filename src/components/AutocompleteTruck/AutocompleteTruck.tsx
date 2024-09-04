@@ -16,7 +16,7 @@ export function AutocompleteTruck({
   name?: string;
   label?: string;
   keyCode?: keyof Truck;
-  onChange: (value: Truck | null) => void;
+  onChange?: (value: Truck | null) => void;
 }) {
   const {
     control,
@@ -45,7 +45,7 @@ export function AutocompleteTruck({
             option[keyCode] === value[keyCode]
           }
           onChange={(_, value: Truck | null) => {
-            onChange(value);
+            onChange && onChange(value);
           }}
           noOptionsText={
             !field.value

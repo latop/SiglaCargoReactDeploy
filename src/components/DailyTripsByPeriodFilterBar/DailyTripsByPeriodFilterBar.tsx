@@ -1,7 +1,7 @@
 import React from "react";
 import { Controller, FormProvider } from "react-hook-form";
 import dayjs from "dayjs";
-import { Button, Grid } from "@mui/material";
+import { Button, Grid, Switch, TextField } from "@mui/material";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@/components/DatePicker";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -25,14 +25,8 @@ export function DailyTripsByPeriodFilterBar(
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(onSubmit)} {...props}>
-          <Grid
-            container
-            alignItems="flex-start"
-            justifyContent="center"
-            padding="20px 20px 0"
-            spacing={1}
-          >
-            <Grid item xs={1.2}>
+          <Grid container alignItems="flex-start" gap={1}>
+            <Grid item xs={1.6}>
               <Controller
                 name="startDate"
                 rules={{ required: true }}
@@ -46,7 +40,7 @@ export function DailyTripsByPeriodFilterBar(
                 )}
               />
             </Grid>
-            <Grid item xs={1.2}>
+            <Grid item xs={1.6}>
               <Controller
                 name="endDate"
                 control={control}
@@ -62,17 +56,47 @@ export function DailyTripsByPeriodFilterBar(
               />
             </Grid>
 
-            <Grid item xs={1.1}>
+            <Grid item xs={1.2}>
               <AutocompleteFleetGroup />
             </Grid>
-            <Grid item xs={1.1}>
+            <Grid item xs={1.6}>
               <AutocompleteLocationGroup />
             </Grid>
-            <Grid item xs={1.1}>
+            <Grid item xs={1.5}>
               <AutocompleteTruck
                 onChange={(value) => {
                   methods.setValue("licensePlate", value?.licensePlate);
                 }}
+              />
+            </Grid>
+
+            <Grid item xs={0.9}>
+              <Controller
+                name="showTruckAssignment"
+                control={control}
+                rules={{ required: true }}
+                render={({ field }) => (
+                  <TextField
+                    label="Atribuição de caminhão"
+                    id="showTruckAssignment"
+                    variant="outlined"
+                    fullWidth
+                    InputProps={{
+                      startAdornment: (
+                        <Switch
+                          size="medium"
+                          id="showTruckAssignment"
+                          {...field}
+                          name="showTruckAssignment"
+                          checked={field.value}
+                          onChange={(value) => {
+                            field.onChange(value.currentTarget.checked);
+                          }}
+                        />
+                      ),
+                    }}
+                  />
+                )}
               />
             </Grid>
 

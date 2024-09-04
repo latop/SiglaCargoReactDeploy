@@ -116,3 +116,21 @@ export async function fetchVehiclePlanningDetails({
     return error;
   }
 }
+export type FetchTruckAssignmentParams = {
+  id: string;
+};
+
+export const fetchTruckAssignment = async ({
+  args,
+}: {
+  args: FetchTruckAssignmentParams;
+}) => {
+  try {
+    const response = await axios.get(`/TruckAssignment/${args.id}`);
+    const data = response.data;
+    return data;
+  } catch (error) {
+    console.error(error);
+    return error;
+  }
+};
