@@ -13,6 +13,7 @@ import { useVehiclePlanningDetails } from "@/hooks/useVehiclePlanningDetails";
 import { VehiclePlanningForm } from "./components/VehiclePlanningForm";
 import { VehiclePlanningFormFooter } from "./components/VehiclePlanningFormFooter";
 import { useVehiclePlannings } from "@/hooks/useVehiclePlannings";
+import { useHash } from "@/hooks/useHash";
 
 interface VehiclePlanningDetailsProps {
   open: boolean;
@@ -24,9 +25,17 @@ export function VehiclePlanningDetailsDialog({
   onClose,
 }: VehiclePlanningDetailsProps) {
   const { addToast } = useToast();
+  const [hash] = useHash();
+  const match = (hash as string).match(/#vehiclePlanning-(.+)/);
 
-  const { updateVehiclePlanning, createVehiclePlanning } =
-    useVehiclePlanningDetails();
+  const vehiclePlanningId = match?.[1];
+
+  const {
+    updateVehiclePlanning,
+    createVehiclePlanning,
+    deleteVehiclePlanning,
+  } = useVehiclePlanningDetails();
+
   const { refetch } = useVehiclePlannings();
   const { vehiclePlanningDetails, isLoading, methods } =
     useVehiclePlanningDetailsDialog();
@@ -97,6 +106,21 @@ export function VehiclePlanningDetailsDialog({
     });
   };
 
+  const handleDelete = async () => {
+    await deleteVehiclePlanning(vehiclePlanningId, {
+      onSuccess: () => {
+        addToast("Viagem deletada com sucesso!", { type: "success" });
+        onClose();
+        refetch();
+      },
+      onError: () => {
+        addToast("Error ao deletar viagem.", { type: "error" });
+        onClose();
+        refetch();
+      },
+    });
+  };
+
   const { formState } = methods;
   const { defaultValues } = formState;
   const loading = isLoading || (vehiclePlanningDetails && !defaultValues?.id);
@@ -126,7 +150,7 @@ export function VehiclePlanningDetailsDialog({
       onClose={handleClose}
       open={open}
       fullWidth
-      PaperProps={{ sx: { height: "100%", maxWidth: "1400px" } }}
+      PaperProps={{ sx: { maxWidth: "1020px" } }}
     >
       <FormProvider {...methods}>
         <form
@@ -165,7 +189,7 @@ export function VehiclePlanningDetailsDialog({
               )}
               {!loading && <VehiclePlanningForm />}
             </DialogContent>
-            <VehiclePlanningFormFooter />
+            <VehiclePlanningFormFooter onDelete={handleDelete} />
           </>
         </form>
       </FormProvider>

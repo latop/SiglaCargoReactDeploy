@@ -52,6 +52,20 @@ export const useVehiclePlanningDetails = (
     });
   };
 
+  const deleteVehiclePlanning = (
+    id?: string,
+    options?: {
+      onSuccess?: () => void;
+      onError?: () => void;
+    },
+  ) => {
+    return create(`/TruckAssignmentPlan/${id}`, id, {
+      onSuccess: options?.onSuccess,
+      onError: options?.onError,
+      method: "delete",
+    });
+  };
+
   const refetch = () => {
     mutate();
   };
@@ -60,6 +74,7 @@ export const useVehiclePlanningDetails = (
     vehiclePlanningDetails: data,
     updateVehiclePlanning,
     createVehiclePlanning,
+    deleteVehiclePlanning,
     error,
     isLoading,
     refetch,
