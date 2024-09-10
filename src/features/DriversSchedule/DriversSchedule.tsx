@@ -32,7 +32,7 @@ export function DriversSchedule() {
   const [expanded, setExpanded] = React.useState(false);
   const [showSelectedView, setShowSelectedView] = useLocalStorage(
     "showSelectedView",
-    "1",
+    "2",
   );
   const [showActivityDialog, setShowActivityDialog] = React.useState(false);
   const [showJourneyDialog, setShowJourneyDialog] = React.useState(false);
@@ -45,9 +45,9 @@ export function DriversSchedule() {
     setShowJourneyDialog(false);
   };
 
-  const handleOpenActivityDialog = () => {
-    setShowActivityDialog(true);
-  };
+  // const handleOpenActivityDialog = () => {
+  //   setShowActivityDialog(true);
+  // };
 
   const handleCloseActivityDialog = () => {
     setShowActivityDialog(false);
@@ -132,21 +132,6 @@ export function DriversSchedule() {
                       color={theme.palette.primary.main}
                     >
                       Circuito
-                    </Typography>
-                  </Button>
-                  <Button
-                    variant="outlined"
-                    onClick={handleOpenActivityDialog}
-                    color="primary"
-                    size="medium"
-                  >
-                    <Icon component={AddIcon} fontSize="small" />
-                    <Typography
-                      variant="body2"
-                      ml="5px"
-                      color={theme.palette.primary.main}
-                    >
-                      Atividade
                     </Typography>
                   </Button>
                 </Box>

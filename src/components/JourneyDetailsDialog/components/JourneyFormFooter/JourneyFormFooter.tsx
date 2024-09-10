@@ -51,6 +51,21 @@ export function JourneyFormFooter({ loading = false }: JourneyFormFooterProps) {
               Atividade
             </Typography>
           </Button>
+          <Button
+            variant="outlined"
+            onClick={() => "chamar endpoint mais infos"}
+            color="primary"
+            size="small"
+          >
+            <Icon component={AddIcon} fontSize="small" />
+            <Typography
+              variant="body2"
+              ml="5px"
+              color={theme.palette.primary.main}
+            >
+              Mais informações
+            </Typography>
+          </Button>
         </Box>
         <Box display="flex" gap="10px">
           <Button type="submit" variant="contained">
