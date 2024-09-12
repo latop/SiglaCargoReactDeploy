@@ -3,7 +3,7 @@
 import { Button, Grid } from "@mui/material";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { Controller, FormProvider } from "react-hook-form";
+import { Controller, FieldValues, FormProvider } from "react-hook-form";
 import SettingsIcon from "@mui/icons-material/Settings";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import { useTripOptmizationFilterBar } from "@/hooks/useTripOptimizationFilterBar";
@@ -11,9 +11,11 @@ import { AutocompleteLocationGroup } from "../AutocompleteLocationGroup";
 import { useTripOptimization } from "@/hooks/useTripOptimization";
 import { useToast } from "@/hooks/useToast";
 import { useDialog } from "@/hooks/useDialog/useDialog";
+import dayjs from "dayjs";
 
 export function TripOptmizationFilterBar() {
   const { methods, onSubmit } = useTripOptmizationFilterBar();
+
   const {
     control,
     handleSubmit,
@@ -23,14 +25,14 @@ export function TripOptmizationFilterBar() {
   const { addToast } = useToast();
 
   const { openDialog, closeDialog } = useDialog();
-  const handleOptmize = () => {
-    handleOptmizeTrip();
-    addToast("Otimizando viagem", { type: "success" });
-    closeDialog();
-    mutate();
-  };
 
-  const handleDialogOptmize = () => {
+  const handleDialogOptmize = (data: FieldValues) => {
+    const params = {
+      start: dayjs(data.start).format("DD-MM-YYYY"),
+      end: dayjs(data.end).format("DD-MM-YYYY"),
+      locationGroupCode: data.locationGroupCode,
+    };
+
     if (!isValid) {
       addToast("Preencha os campos.", { type: "error" });
       return;
@@ -39,8 +41,21 @@ export function TripOptmizationFilterBar() {
     openDialog({
       title: "Confirmar otimização",
       message: "Deseja realmente otimizar essa viagem?",
-      onConfirm: () => {
-        handleOptmize();
+      onConfirm: async () => {
+        await handleOptmizeTrip(params, {
+          onSuccess: () => {
+            addToast("Otimizando viagem", { type: "success" });
+            closeDialog();
+            mutate();
+          },
+          onError: () => {
+            addToast(
+              "Error. Possivelmente sem demandas para otimizar, tente novamente",
+              { type: "error" },
+            );
+            closeDialog();
+          },
+        });
       },
       onCancel: () => {
         closeDialog();
@@ -75,11 +90,10 @@ export function TripOptmizationFilterBar() {
 
             <Grid item xs={2}>
               <Button
-                type="submit"
                 size="large"
                 variant="contained"
                 color="primary"
-                onClick={handleDialogOptmize}
+                onClick={methods.handleSubmit(handleDialogOptmize)}
               >
                 Otimizar
                 <SettingsIcon fontSize="inherit" sx={{ ml: "5px" }} />

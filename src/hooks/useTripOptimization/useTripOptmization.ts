@@ -1,14 +1,10 @@
-import {
-  fetchGenerateScheduleCircuit,
-  fetchOptmizedTrips,
-} from "@/services/trips";
-import { useSearchParams } from "next/navigation";
+import { fetchOptmizedTrips } from "@/services/trips";
 import useSWR from "swr";
 import { useFetch } from "../useFetch";
 import { useToast } from "../useToast";
 
 export const useTripOptimization = () => {
-  const [deleteOptmizationTrip] = useFetch();
+  const [create] = useFetch();
   const { addToast } = useToast();
 
   const {
@@ -17,21 +13,27 @@ export const useTripOptimization = () => {
     isLoading,
   } = useSWR({ url: "/trip-optimization" }, fetchOptmizedTrips);
 
-  const searchParams = useSearchParams();
-
-  const handleOptmizeTrip = async () => {
-    const params = {
-      start: searchParams.get("start") || "",
-      end: searchParams.get("end") || "",
-      locationGroupCode: searchParams.get("locationGroupCode") || "",
-    };
-    await fetchGenerateScheduleCircuit({ args: params });
+  const handleOptmizeTrip = async (
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    params: any,
+    options?: {
+      onSuccess?: () => void;
+      onError?: () => void;
+    },
+  ) => {
+    await create(
+      "/Optimizer/GenerateScheduleCircuit",
+      { params },
+      {
+        ...options,
+        method: "get",
+      },
+    );
   };
-
   const handleDeleteOptmitzationTrip = async (otmId: string) => {
     const body = { otmId };
 
-    await deleteOptmizationTrip(`/Optimizer/removeotm?otmId=${otmId}`, body, {
+    return await create(`/Optimizer/removeotm?otmId=${otmId}`, body, {
       method: "delete",
       onSuccess: () => {
         addToast("Removido com sucesso!" + " " + otmId, { type: "success" });

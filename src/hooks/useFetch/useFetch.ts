@@ -6,7 +6,7 @@ axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_URL;
 type useFetchOptions<T> = {
   onSuccess?: (response: AxiosResponse<T>) => void;
   onError?: (error: AxiosError) => void;
-  method?: "post" | "put" | "delete";
+  method?: "post" | "put" | "delete" | "get";
   headers?: Record<string, string>;
   responseType?: "json" | "blob";
 };
@@ -34,6 +34,8 @@ export function useFetch<T>() {
 
       if (method === "post") {
         response = await axios.post<T>(url, body, { headers, responseType });
+      } else if (method === "get") {
+        response = await axios.get<T>(url, body);
       } else if (method === "put") {
         response = await axios.put<T>(url, body, { headers });
       } else if (method === "delete") {
