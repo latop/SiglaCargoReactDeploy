@@ -28,8 +28,8 @@ export function TripOptmizationFilterBar() {
 
   const handleDialogOptmize = (data: FieldValues) => {
     const params = {
-      start: dayjs(data.start).format("DD-MM-YYYY"),
-      end: dayjs(data.end).format("DD-MM-YYYY"),
+      start: dayjs(data.start).format("YYYY-MM-DD"),
+      end: dayjs(data.end).format("YYYY-MM-DD"),
       locationGroupCode: data.locationGroupCode,
     };
 
@@ -50,7 +50,7 @@ export function TripOptmizationFilterBar() {
           },
           onError: () => {
             addToast(
-              "Error. Possivelmente sem demandas para otimizar, tente novamente",
+              "Possivelmente sem demandas para otimização, tente novamente mais tarde.",
               { type: "error" },
             );
             closeDialog();
