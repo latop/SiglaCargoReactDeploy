@@ -1,4 +1,8 @@
-import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import {
+  DatePicker,
+  LocalizationProvider,
+  TimePicker,
+} from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { Controller, FormProvider } from "react-hook-form";
 import { useNewTruckAssigment } from "./useNewTruckAssignment";
@@ -61,7 +65,7 @@ export const NewTruckAssingmentFormDialog = ({
                   control={methods.control}
                   render={({ field }) => (
                     <Grid item>
-                      <DatePicker label={"Começo"} {...field} />
+                      <TimePicker label={"Começo"} {...field} />
                     </Grid>
                   )}
                 />
@@ -70,7 +74,7 @@ export const NewTruckAssingmentFormDialog = ({
                   control={methods.control}
                   render={({ field }) => (
                     <Grid item>
-                      <DatePicker label={"Fim"} {...field} />
+                      <TimePicker label={"Fim"} {...field} />
                     </Grid>
                   )}
                 />
