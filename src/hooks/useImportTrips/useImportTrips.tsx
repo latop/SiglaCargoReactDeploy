@@ -21,7 +21,7 @@ type ImportTripsForm = z.infer<typeof schema>;
 
 export const useImportTrips = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [postFile, { loading: loadingPostFile }] = useFetch();
+  const [fetchAction, { loading: loadingPostFile }] = useFetch();
   const { addToast } = useToast();
 
   const formMethods = useForm<ImportTripsForm>({
@@ -70,7 +70,7 @@ export const useImportTrips = () => {
     };
     console.log(body);
     try {
-      await postFile("/importGTMS", body, {
+      await fetchAction("/importGTMS", body, {
         headers: { "Content-Type": "multipart/form-data" },
         onSuccess: () => {
           console.log(selectedFile);
@@ -91,6 +91,26 @@ export const useImportTrips = () => {
 
   const currentFile = selectedFile?.name;
 
+  const handleDeleteDemand = async (id: string) => {
+    try {
+      await fetchAction(`/deleteDemand?id=${id}`, id, {
+        method: "delete",
+        onSuccess: () => {
+          addToast("Arquivo enviado com sucesso!", { type: "success" });
+          handleClearFile();
+        },
+        onError: () => {
+          addToast("Falha ao enviar arquivo.", {
+            type: "error",
+          });
+        },
+      });
+    } catch (error) {
+      addToast("Error:" + (error as Error).message, { type: "error" });
+      console.error((error as Error).message);
+    }
+  };
+
   return {
     data,
     error,
@@ -105,5 +125,6 @@ export const useImportTrips = () => {
     handleClearFile,
     loadingPostFile,
     onSubmit,
+    handleDeleteDemand,
   };
 };
