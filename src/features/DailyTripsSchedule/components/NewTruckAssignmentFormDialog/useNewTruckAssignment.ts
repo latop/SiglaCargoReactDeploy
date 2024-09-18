@@ -61,10 +61,15 @@ export const useNewTruckAssigment = () => {
     });
   };
 
+  const handleSubmit = () => {
+    methods.handleSubmit(onSubmit);
+    methods.reset();
+  };
+
   return {
     methods,
     onSubmit,
-    handleSubmit: methods.handleSubmit(onSubmit),
+    handleSubmit,
     loadingPostTruckAssignment,
   };
 };

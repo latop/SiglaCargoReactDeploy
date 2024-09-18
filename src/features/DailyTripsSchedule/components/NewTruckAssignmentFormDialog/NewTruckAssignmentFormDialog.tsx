@@ -26,9 +26,14 @@ export const NewTruckAssingmentFormDialog = ({
   const { methods, handleSubmit, loadingPostTruckAssignment } =
     useNewTruckAssigment();
 
+  const handleClose = () => {
+    methods.reset({});
+    onClose();
+  };
+
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
-      <Dialog onClose={onClose} open={isOpen} maxWidth="lg">
+      <Dialog onClose={handleClose} open={isOpen} maxWidth="lg">
         <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
           <Box display="flex" justifyContent="space-between">
             Atribuição de caminhão

@@ -26,8 +26,7 @@ export const TruckAssignmentDialog = ({
     useTruckAssignmentDialog();
 
   const columns: GridColDef[] = [
-    { field: "id", headerName: "ID", width: 150 },
-    { field: "truckId", headerName: "Truck ID", width: 150 },
+    { field: "truckId", headerName: "Placa do caminhão", width: 150 },
     {
       field: "dtRef",
       headerName: "Date Reference",
@@ -36,7 +35,7 @@ export const TruckAssignmentDialog = ({
         return data.dtRef ? dayjs(data.dtRef).format("DD-MM-YY HH:mm") : "N/A";
       },
     },
-    { field: "driverId", headerName: "Driver ID", width: 150 },
+    { field: "driverId", headerName: "Nome do motorista", width: 150 },
     {
       field: "startTime",
       headerName: "Começo",
@@ -57,9 +56,6 @@ export const TruckAssignmentDialog = ({
           : "N/A";
       },
     },
-
-    { field: "userIdCreate", headerName: "User Created", width: 150 },
-    { field: "userIdUpdate", headerName: "User Updated", width: 150 },
   ];
   const rows = [data];
 
