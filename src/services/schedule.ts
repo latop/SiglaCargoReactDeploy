@@ -166,3 +166,24 @@ export async function fetchDailyTripDetails({
     return error;
   }
 }
+
+export type FetchCircuitTimesDetailsParams = {
+  idCircuit: string;
+};
+
+export async function fetchCircuitTimesDetails({
+  args: params,
+}: {
+  args: FetchCircuitTimesDetailsParams;
+}) {
+  try {
+    const response = await axios.get(`/gantt/GetCircuitTimesDetail`, {
+      params,
+    });
+    const data = response.data;
+    return data;
+  } catch (error) {
+    console.error(error);
+    return error;
+  }
+}
