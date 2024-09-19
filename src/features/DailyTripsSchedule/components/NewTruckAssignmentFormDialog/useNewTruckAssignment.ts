@@ -20,13 +20,18 @@ const NewTruckAssignmentSchema = z.object({
 
 type NewTruckAssignmentForm = z.infer<typeof NewTruckAssignmentSchema>;
 
+type DateType = {
+  startTime: string;
+  endTime: string;
+};
+
 export const useNewTruckAssigment = () => {
   const methods = useForm<NewTruckAssignmentForm>({
     resolver: zodResolver(NewTruckAssignmentSchema),
     defaultValues: {
       dtRef: dayjs(),
       startTime: dayjs(),
-      endTime: dayjs().add(7, "days"),
+      endTime: dayjs(),
       driverId: "",
       truckId: "",
     },
@@ -39,17 +44,52 @@ export const useNewTruckAssigment = () => {
 
   const [, setHash] = useHash();
 
+  const handleMidnightCrossing = ({
+    date,
+    dtRef,
+  }: {
+    date: DateType;
+    dtRef: string;
+  }) => {
+    const parsedDtRef = dayjs(dtRef);
+    const parsedStartTime = dayjs(date.startTime, "HH:mm:ss");
+    const parsedEndTime = dayjs(date.endTime, "HH:mm:ss");
+
+    let newDate = parsedDtRef.clone();
+    if (parsedEndTime.isBefore(parsedStartTime))
+      newDate = newDate.add(1, "day");
+
+    return {
+      dtRef: parsedDtRef.format("YYYY-MM-DD"),
+      startTime:
+        parsedDtRef.format("YYYY-MM-DD") +
+        "T" +
+        parsedStartTime.format("HH:mm:ss"),
+      endTime:
+        newDate.format("YYYY-MM-DD") + "T" + parsedEndTime.format("HH:mm:ss"),
+    };
+  };
+
   const onSubmit = async (data: FieldValues) => {
+    const date = {
+      startTime: data.startTime,
+      endTime: data.endTime,
+    };
+    const { dtRef, endTime, startTime } = handleMidnightCrossing({
+      date,
+      dtRef: data.dtRef,
+    });
+
     const body = {
       ...data,
-      startTime: dayjs().format("YYYY-MM-DDTHH:mm:ss"),
-      endTime: dayjs().format("YYYY-MM-DDTHH:mm:ss"),
-      dtRef: dayjs().format("YYYY-MM-DDTHH:mm:ss"),
+      dtRef,
+      endTime,
+      startTime,
     };
 
     await postTruckAssignment("/TruckAssignment", body, {
       onSuccess: () => {
-        addToast("Atribuição executada com sucess!", { type: "success" });
+        addToast("Atribuição executada com sucesso!", { type: "success" });
         setHash("");
         methods.reset({});
       },

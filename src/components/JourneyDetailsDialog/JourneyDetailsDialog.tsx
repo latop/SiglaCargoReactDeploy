@@ -31,29 +31,29 @@ const normalizeData = (data: CircuitJourney) => {
     tasksDriver:
       data.tasksDriver && data.tasksDriver.length > 0
         ? data.tasksDriver.map((taskDriver: TaskDriver) => ({
-            seq: taskDriver.seq,
-            demand: taskDriver.demand || null,
-            lineCode: taskDriver.lineCode || null,
-            sectionsReturn: taskDriver.activityCode ? null : [],
-            type: taskDriver.type || (taskDriver.activityCode ? "A" : "V"),
-            activityId: taskDriver.activityId || null,
-            activityCode: taskDriver.activityCode || null,
-            locOrig: taskDriver.locOrig || null,
-            locDest: taskDriver.locDest || null,
-            startPlanned: taskDriver.startPlanned
-              ? dayjs(taskDriver.startPlanned).format()
-              : null,
-            endPlanned: taskDriver.endPlanned
-              ? dayjs(taskDriver.endPlanned).format()
-              : null,
-            lineId: taskDriver.lineId || null,
-            startActual: taskDriver.startActual
-              ? dayjs(taskDriver.startActual).format()
-              : null,
-            endActual: taskDriver.endActual
-              ? dayjs(taskDriver.endActual).format()
-              : null,
-          }))
+          seq: taskDriver.seq,
+          demand: taskDriver.demand || null,
+          lineCode: taskDriver.lineCode || null,
+          sectionsReturn: taskDriver.activityCode ? null : [],
+          type: taskDriver.type || (taskDriver.activityCode ? "A" : "V"),
+          activityId: taskDriver.activityId || null,
+          activityCode: taskDriver.activityCode || null,
+          locOrig: taskDriver.locOrig || null,
+          locDest: taskDriver.locDest || null,
+          startPlanned: taskDriver.startPlanned
+            ? dayjs(taskDriver.startPlanned).format()
+            : null,
+          endPlanned: taskDriver.endPlanned
+            ? dayjs(taskDriver.endPlanned).format()
+            : null,
+          lineId: taskDriver.lineId || null,
+          startActual: taskDriver.startActual
+            ? dayjs(taskDriver.startActual).format()
+            : null,
+          endActual: taskDriver.endActual
+            ? dayjs(taskDriver.endActual).format()
+            : null,
+        }))
         : null,
   };
   return journeyDefaultValues;
@@ -72,6 +72,7 @@ export function JourneyDetailsDialog({
     createCircuit,
     isLoadingCreate,
     mutate: mutateCircuit,
+    isLoading: isLoadingCircuit,
   } = useCircuit();
   const { refetch: refetchJourneys } = useJourneysByPeriod();
   const { refetch: refetchDailyTrips } = useDailyTripsUnallocated();
@@ -106,7 +107,8 @@ export function JourneyDetailsDialog({
     }
   }, [data]);
 
-  const loading = isLoading || (data && !defaultValues?.circuitJourneyId);
+  const loading =
+    isLoading || (data && !defaultValues?.circuitJourneyId) || isLoadingCircuit;
 
   return (
     <Dialog
@@ -150,7 +152,7 @@ export function JourneyDetailsDialog({
               )}
               {!loading && <JourneyForm />}
             </DialogContent>
-            <JourneyFormFooter loading={isLoadingCreate} />
+            {!loading && <JourneyFormFooter loading={isLoadingCreate} />}
           </>
         </form>
       </FormProvider>

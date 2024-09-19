@@ -47,7 +47,7 @@ export function Login() {
   });
 
   useEffect(() => {
-    router.prefetch("/dashboard");
+    router.prefetch("/home");
   }, []);
 
   const handleAuthetication = (body: object) => {
@@ -67,7 +67,7 @@ export function Login() {
       setCookie(null, "accessToken", data?.accessToken as string, {
         maxAge: 60 * 60 * 24,
       });
-      router.push("/dashboard");
+      router.push("/home");
       addToast("Loggin realizado com sucesso", { type: "success" });
     } else if (data?.authenticated === false && !loading) {
       addToast("Credenciais inválidas", { type: "error" });

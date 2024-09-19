@@ -4,6 +4,8 @@ import AddIcon from "@mui/icons-material/Add";
 import theme from "@/styles/theme";
 import { Box, CircularProgress, Typography, Button, Icon } from "@mui/material";
 import { useJourneyFormFooter } from "./useJourneyFormFooter";
+import { useDialog } from "@/hooks/useDialog/useDialog";
+import { JourneyCircuitTimesDialog } from "@/components/JourneyCircuitTimesDialog";
 
 interface JourneyFormFooterProps {
   loading: boolean;
@@ -11,6 +13,15 @@ interface JourneyFormFooterProps {
 
 export function JourneyFormFooter({ loading = false }: JourneyFormFooterProps) {
   const { handleAddTravel, handleAddActivity } = useJourneyFormFooter();
+  const { openDialog, closeDialog } = useDialog();
+
+  const handleListCircuitJourney = () => {
+    openDialog({
+      title: "Informações",
+      body: <JourneyCircuitTimesDialog />,
+      onConfirm: closeDialog,
+    });
+  };
 
   return (
     <DialogActions>
@@ -51,6 +62,29 @@ export function JourneyFormFooter({ loading = false }: JourneyFormFooterProps) {
               Atividade
             </Typography>
           </Button>
+          {loading ? (
+            <CircularProgress
+              color="inherit"
+              size={20}
+              sx={{ margin: "2px 11.45px" }}
+            />
+          ) : (
+            <Button
+              variant="outlined"
+              onClick={handleListCircuitJourney}
+              color="primary"
+              size="small"
+            >
+              <Icon component={AddIcon} fontSize="small" />
+              <Typography
+                variant="body2"
+                ml="5px"
+                color={theme.palette.primary.main}
+              >
+                Mais informações
+              </Typography>
+            </Button>
+          )}
         </Box>
         <Box display="flex" gap="10px">
           <Button type="submit" variant="contained">

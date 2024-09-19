@@ -44,11 +44,11 @@ export const JourneyForm = () => {
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
       <Box display="flex" flexDirection="column" gap="20px" mt="5px">
         <Box display="flex" gap="20px">
-          <Grid container spacing={2} xs={3.03} columns={6}>
-            <Grid item xs={3}>
+          <Grid container spacing={2} columns={12}>
+            <Grid item xs={2}>
               <AutocompleteDriver />
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={2}>
               <Controller
                 name={`otmProcess`}
                 control={control}
@@ -57,7 +57,7 @@ export const JourneyForm = () => {
                 )}
               />
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={2}>
               <Controller
                 name="startDate"
                 control={control}
@@ -73,7 +73,7 @@ export const JourneyForm = () => {
                 )}
               />
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={2}>
               <Controller
                 name="endDate"
                 control={control}
@@ -89,9 +89,7 @@ export const JourneyForm = () => {
                 )}
               />
             </Grid>
-          </Grid>
-          <Grid container spacing={2} xs={6.1}>
-            <Grid item xs={12}>
+            <Grid item xs={4}>
               <Controller
                 name="notes"
                 control={control}
@@ -102,7 +100,6 @@ export const JourneyForm = () => {
                     label="Observações"
                     variant="outlined"
                     fullWidth
-                    multiline
                     maxRows={3}
                   />
                 )}
