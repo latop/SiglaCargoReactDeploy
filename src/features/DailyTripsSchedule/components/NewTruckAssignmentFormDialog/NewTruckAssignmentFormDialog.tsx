@@ -27,11 +27,10 @@ export const NewTruckAssingmentFormDialog = ({
   isOpen: boolean;
   onClose: () => void;
 }) => {
-  const { methods, handleSubmit, loadingPostTruckAssignment } =
+  const { methods, onSubmit, loadingPostTruckAssignment } =
     useNewTruckAssigment();
 
   const handleClose = () => {
-    methods.reset({});
     onClose();
   };
 
@@ -54,7 +53,7 @@ export const NewTruckAssingmentFormDialog = ({
         <hr style={{ opacity: 0.2, marginBottom: 1 }} />
         <DialogContent>
           <FormProvider {...methods}>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={methods.handleSubmit(onSubmit)}>
               <Grid container gap={1} rowGap={1.5}>
                 <Controller
                   name={"dtRef"}

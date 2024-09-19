@@ -87,7 +87,7 @@ export const useNewTruckAssigment = () => {
       startTime,
     };
 
-    await postTruckAssignment("/TruckAssignment", body, {
+    return await postTruckAssignment("/TruckAssignment", body, {
       onSuccess: () => {
         addToast("Atribuição executada com sucesso!", { type: "success" });
         setHash("");
@@ -101,15 +101,9 @@ export const useNewTruckAssigment = () => {
     });
   };
 
-  const handleSubmit = () => {
-    methods.handleSubmit(onSubmit);
-    methods.reset();
-  };
-
   return {
     methods,
     onSubmit,
-    handleSubmit,
     loadingPostTruckAssignment,
   };
 };
