@@ -14,6 +14,8 @@ import dayjs from "dayjs";
 import CloseIcon from "@mui/icons-material/Close";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { Driver } from "@/interfaces/driver";
+import { Truck } from "@/interfaces/vehicle";
 
 export const TruckAssignmentDialog = ({
   isOpen = false,
@@ -26,7 +28,19 @@ export const TruckAssignmentDialog = ({
     useTruckAssignmentDialog();
 
   const columns: GridColDef[] = [
-    { field: "truckId", headerName: "Placa do caminhão", width: 150 },
+    {
+      field: "truckId",
+      headerName: "Placa do caminhão",
+      width: 150,
+
+      valueGetter: (_, data: { truck: Truck }) => data.truck.licensePlate,
+    },
+    {
+      field: "driver",
+      headerName: "Nome do motorista",
+      width: 150,
+      valueGetter: (_, data: { driver: Driver }) => data.driver.name,
+    },
     {
       field: "dtRef",
       headerName: "Date Reference",
@@ -35,7 +49,7 @@ export const TruckAssignmentDialog = ({
         return data.dtRef ? dayjs(data.dtRef).format("DD-MM-YY HH:mm") : "N/A";
       },
     },
-    { field: "driverId", headerName: "Nome do motorista", width: 150 },
+
     {
       field: "startTime",
       headerName: "Começo",
