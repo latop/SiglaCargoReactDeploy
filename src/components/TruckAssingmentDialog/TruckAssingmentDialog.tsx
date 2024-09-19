@@ -33,13 +33,13 @@ export const TruckAssignmentDialog = ({
       headerName: "Placa do caminhão",
       width: 150,
 
-      valueGetter: (_, data: { truck: Truck }) => data.truck.licensePlate,
+      valueGetter: (_, data: { truck: Truck }) => data?.truck?.licensePlate,
     },
     {
       field: "driver",
       headerName: "Nome do motorista",
       width: 150,
-      valueGetter: (_, data: { driver: Driver }) => data.driver.name,
+      valueGetter: (_, data: { driver: Driver }) => data?.driver?.name,
     },
     {
       field: "dtRef",
@@ -75,7 +75,7 @@ export const TruckAssignmentDialog = ({
 
   const onDelete = async () => {
     await handleDelete();
-    onClose && onClose?.();
+    onClose?.();
   };
 
   return (
