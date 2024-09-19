@@ -1,3 +1,4 @@
+import { useDailyTripsByPeriod } from "@/hooks/useDailyTripsByPeriod";
 import { useFetch } from "@/hooks/useFetch";
 import { useHash } from "@/hooks/useHash";
 import { useToast } from "@/hooks/useToast";
@@ -26,6 +27,7 @@ type DateType = {
 };
 
 export const useNewTruckAssigment = () => {
+  const { refetch } = useDailyTripsByPeriod();
   const methods = useForm<NewTruckAssignmentForm>({
     resolver: zodResolver(NewTruckAssignmentSchema),
     defaultValues: {
@@ -91,6 +93,7 @@ export const useNewTruckAssigment = () => {
       onSuccess: () => {
         addToast("Atribuição executada com sucesso!", { type: "success" });
         setHash("");
+        refetch();
         methods.reset({});
       },
       onError: () => {
