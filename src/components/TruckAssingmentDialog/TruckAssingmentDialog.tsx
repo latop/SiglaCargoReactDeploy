@@ -43,7 +43,7 @@ export const TruckAssignmentDialog = ({
     },
     {
       field: "dtRef",
-      headerName: "Date Reference",
+      headerName: "Data de Referência",
       width: 150,
       valueGetter: (_, data) => {
         return data.dtRef ? dayjs(data.dtRef).format("DD-MM-YY HH:mm") : "N/A";

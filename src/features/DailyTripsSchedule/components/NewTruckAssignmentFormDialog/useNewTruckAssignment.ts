@@ -94,7 +94,7 @@ export const useNewTruckAssigment = () => {
         addToast("Atribuição executada com sucesso!", { type: "success" });
         setHash("");
         refetch();
-        methods.reset({});
+        methods.reset();
       },
       onError: () => {
         addToast("Erro ao criar atribuição criada.", {

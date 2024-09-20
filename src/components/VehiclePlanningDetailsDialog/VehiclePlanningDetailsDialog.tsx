@@ -68,7 +68,7 @@ export function VehiclePlanningDetailsDialog({
 
     await updateVehiclePlanning(body, {
       onSuccess: () => {
-        addToast("Viagem salva com sucesso");
+        addToast("Salvo com sucesso!");
         refetch();
         onClose();
       },

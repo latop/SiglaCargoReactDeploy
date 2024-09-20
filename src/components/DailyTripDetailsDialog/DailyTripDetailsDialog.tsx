@@ -35,7 +35,7 @@ export function DailyTripDetailsDialog({
     };
     await updateDailyTripDetails(body, {
       onSuccess: () => {
-        addToast("Viagem salva com sucesso");
+        addToast("Salvo com sucesso!");
         onClose();
       },
       onError: () => {

@@ -31,6 +31,7 @@ export const NewTruckAssingmentFormDialog = ({
     useNewTruckAssigment();
 
   const handleClose = () => {
+    methods.reset();
     onClose();
   };
 
@@ -54,12 +55,12 @@ export const NewTruckAssingmentFormDialog = ({
         <DialogContent>
           <FormProvider {...methods}>
             <form onSubmit={methods.handleSubmit(onSubmit)}>
-              <Grid container gap={1} rowGap={1.5}>
+              <Grid container gap={1} columns={12}>
                 <Controller
                   name={"dtRef"}
                   control={methods.control}
                   render={({ field }) => (
-                    <Grid item>
+                    <Grid item sm={2}>
                       <DatePicker label={"Data Ref."} {...field} />
                     </Grid>
                   )}
@@ -68,7 +69,7 @@ export const NewTruckAssingmentFormDialog = ({
                   name={"startTime"}
                   control={methods.control}
                   render={({ field }) => (
-                    <Grid item>
+                    <Grid item sm={2}>
                       <TimePicker label={"Começo"} {...field} />
                     </Grid>
                   )}
@@ -77,15 +78,15 @@ export const NewTruckAssingmentFormDialog = ({
                   name={"endTime"}
                   control={methods.control}
                   render={({ field }) => (
-                    <Grid item>
+                    <Grid item sm={2}>
                       <TimePicker label={"Fim"} {...field} />
                     </Grid>
                   )}
                 />
-                <Grid xs={3}>
+                <Grid xs={2}>
                   <AutocompleteDriver name={"driverId"} />
                 </Grid>
-                <Grid xs={3}>
+                <Grid xs={2}>
                   <AutocompleteTruck
                     name={"truckId"}
                     onChange={(value) =>

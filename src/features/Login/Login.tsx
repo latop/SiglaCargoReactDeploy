@@ -68,7 +68,7 @@ export function Login() {
         maxAge: 60 * 60 * 24,
       });
       router.push("/home");
-      addToast("Loggin realizado com sucesso", { type: "success" });
+      addToast("Login realizado com sucesso", { type: "success" });
     } else if (data?.authenticated === false && !loading) {
       addToast("Credenciais inválidas", { type: "error" });
     }

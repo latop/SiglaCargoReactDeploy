@@ -47,7 +47,7 @@ export function VehiclePlanningsFilterBar(
                 control={control}
                 render={({ field, fieldState: { error } }) => (
                   <DatePicker
-                    label="Data da viagem"
+                    label="Data de referência"
                     error={error?.message}
                     {...field}
                   />
