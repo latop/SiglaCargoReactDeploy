@@ -17,6 +17,7 @@ import { useHash } from "@/hooks/useHash";
 import { VehiclePlanningsFilterBar } from "@/components/VehiclePlanningsFilterBar";
 import { VehiclePlanningDetailsDialog } from "@/components/VehiclePlanningDetailsDialog";
 import { GenerateVehiclePlanningDialog } from "@/components/GenerateVehiclePlanningDialog";
+import { VehiclePlanningUpdateDialog } from "@/components/VehiclePlanningUpdateDialog";
 
 interface DayColumn {
   field: string;
@@ -140,7 +141,8 @@ const columns: GridColDef[] = [
 
 export function VehiclePlanning() {
   const [hash, setHash] = useHash();
-  const isOpen = hash.includes("vehiclePlanning");
+  const isOpenCreateDialog = hash.includes("vehiclePlanning");
+  const isOpenUpdateDialog = hash.includes("vehiclePlanning-");
   const isOpenGenerate = hash.includes("generateVehiclePlanning");
   const params = useSearchParams();
   const router = useRouter();
@@ -234,8 +236,8 @@ export function VehiclePlanning() {
                     MuiTablePagination: {
                       labelRowsPerPage: "Registros por página",
                       labelDisplayedRows: ({ from, to, count }) =>
-                        `${from}-${to} de ${
-                          count !== -1 ? count : `mais de ${to}`
+                        // eslint-disable-next-line prettier/prettier
+                        `${from}-${to} de ${count !== -1 ? count : `mais de ${to}`
                         }`,
                     },
                   }}
@@ -260,7 +262,11 @@ export function VehiclePlanning() {
         )}
       </Box>
       <VehiclePlanningDetailsDialog
-        open={!!isOpen}
+        open={!!isOpenCreateDialog}
+        onClose={handleCloseDialog}
+      />
+      <VehiclePlanningUpdateDialog
+        open={!!isOpenUpdateDialog}
         onClose={handleCloseDialog}
       />
       <GenerateVehiclePlanningDialog
