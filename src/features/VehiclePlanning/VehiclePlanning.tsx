@@ -15,7 +15,7 @@ import { IVehiclePlanning } from "@/interfaces/vehicle";
 import CheckIcon from "@mui/icons-material/Check";
 import { useHash } from "@/hooks/useHash";
 import { VehiclePlanningsFilterBar } from "@/components/VehiclePlanningsFilterBar";
-import { VehiclePlanningDetailsDialog } from "@/components/VehiclePlanningDetailsDialog";
+import { VehiclePlanningAddDialog } from "@/components/VehiclePlanningAddDialog";
 import { GenerateVehiclePlanningDialog } from "@/components/GenerateVehiclePlanningDialog";
 import { VehiclePlanningUpdateDialog } from "@/components/VehiclePlanningUpdateDialog";
 
@@ -261,7 +261,7 @@ export function VehiclePlanning() {
           </Card>
         )}
       </Box>
-      <VehiclePlanningDetailsDialog
+      <VehiclePlanningAddDialog
         open={!!isOpenCreateDialog}
         onClose={handleCloseDialog}
       />

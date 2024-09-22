@@ -7,7 +7,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import { useToast } from "@/hooks/useToast";
 import { Box, CircularProgress } from "@mui/material";
 import { FieldValues, FormProvider } from "react-hook-form";
-import { useVehiclePlanningDetailsDialog } from "./useVehiclePlanningDetailsDialog";
+import { useVehiclePlanningAddDialog } from "./useVehiclePlanningAddDialog";
 import { useVehiclePlanningDetails } from "@/hooks/useVehiclePlanningDetails";
 import { VehiclePlanningForm } from "./components/VehiclePlanningForm";
 import { VehiclePlanningFormFooter } from "./components/VehiclePlanningFormFooter";
@@ -18,7 +18,7 @@ interface VehiclePlanningDetailsProps {
   onClose: () => void;
 }
 
-export function VehiclePlanningDetailsDialog({
+export function VehiclePlanningAddDialog({
   open,
   onClose,
 }: VehiclePlanningDetailsProps) {
@@ -28,7 +28,7 @@ export function VehiclePlanningDetailsDialog({
 
   const { refetch } = useVehiclePlannings();
   const { vehiclePlanningDetails, isLoading, methods } =
-    useVehiclePlanningDetailsDialog();
+    useVehiclePlanningAddDialog();
 
   const onSubmit = async (data: FieldValues) => {
     await handleCreate(data);
@@ -116,8 +116,8 @@ export function VehiclePlanningDetailsDialog({
                 </Box>
               )}
               {!loading && <VehiclePlanningForm />}
-              <VehiclePlanningFormFooter />
             </DialogContent>
+            <VehiclePlanningFormFooter />
           </>
         </form>
       </FormProvider>

@@ -3,7 +3,7 @@ import dayjs from "dayjs";
 import { useForm } from "react-hook-form";
 import { useVehiclePlanningDetails } from "@/hooks/useVehiclePlanningDetails";
 
-export function useVehiclePlanningDetailsDialog() {
+export function useVehiclePlanningAddDialog() {
   const methods = useForm({
     defaultValues: {
       id: "",

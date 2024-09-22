@@ -1,5 +1,4 @@
-import React, { useEffect } from "react";
-import dayjs from "dayjs";
+import React from "react";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
@@ -30,8 +29,11 @@ export function VehiclePlanningUpdateDialog({
 
   const vehiclePlanningId = match?.[1];
 
-  const { updateVehiclePlanning, deleteVehiclePlanning } =
-    useVehiclePlanningDetails();
+  const {
+    updateVehiclePlanning,
+    deleteVehiclePlanning,
+    isLoading: isLoadingDetails,
+  } = useVehiclePlanningDetails();
 
   const { refetch } = useVehiclePlannings();
   const { vehiclePlanningDetails, isLoading, methods } =
@@ -90,32 +92,16 @@ export function VehiclePlanningUpdateDialog({
 
   const { formState } = methods;
   const { defaultValues } = formState;
-  const loading = isLoading || (vehiclePlanningDetails && !defaultValues?.id);
+  const loading =
+    isLoadingDetails ||
+    isLoading ||
+    (vehiclePlanningDetails && !defaultValues?.id);
 
   const handleClose = () => {
     onClose();
-    methods.reset({
-      id: "",
-      driver: null,
-      truck: null,
-      startTime: dayjs().format("YYYY-MM-DDTHH:mm:ss"),
-      endTime: dayjs().format("YYYY-MM-DDTHH:mm:ss"),
-      startDate: dayjs().format("YYYY-MM-DD"),
-      endDate: dayjs().format("YYYY-MM-DD"),
-      freqTue: false,
-      freqWed: false,
-      freqThu: false,
-      freqFri: false,
-      freqSat: false,
-      freqSun: false,
-      freqMon: false,
-    });
   };
-  const { handleSubmit, reset } = methods;
 
-  useEffect(() => {
-    reset();
-  }, []);
+  const { handleSubmit } = methods;
 
   return (
     <Dialog
