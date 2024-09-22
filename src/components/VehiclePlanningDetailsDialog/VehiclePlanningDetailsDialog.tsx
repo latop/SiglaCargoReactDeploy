@@ -1,5 +1,4 @@
 import React from "react";
-import dayjs from "dayjs";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
@@ -13,7 +12,6 @@ import { useVehiclePlanningDetails } from "@/hooks/useVehiclePlanningDetails";
 import { VehiclePlanningForm } from "./components/VehiclePlanningForm";
 import { VehiclePlanningFormFooter } from "./components/VehiclePlanningFormFooter";
 import { useVehiclePlannings } from "@/hooks/useVehiclePlannings";
-import { useHash } from "@/hooks/useHash";
 
 interface VehiclePlanningDetailsProps {
   open: boolean;
@@ -25,57 +23,15 @@ export function VehiclePlanningDetailsDialog({
   onClose,
 }: VehiclePlanningDetailsProps) {
   const { addToast } = useToast();
-  const [hash] = useHash();
-  const match = (hash as string).match(/#vehiclePlanning-(.+)/);
 
-  const vehiclePlanningId = match?.[1];
-
-  const {
-    updateVehiclePlanning,
-    createVehiclePlanning,
-    deleteVehiclePlanning,
-  } = useVehiclePlanningDetails();
+  const { createVehiclePlanning } = useVehiclePlanningDetails();
 
   const { refetch } = useVehiclePlannings();
   const { vehiclePlanningDetails, isLoading, methods } =
     useVehiclePlanningDetailsDialog();
 
   const onSubmit = async (data: FieldValues) => {
-    if (vehiclePlanningDetails) {
-      await handleUpdate(data);
-    } else {
-      await handleCreate(data);
-    }
-  };
-
-  const handleUpdate = async (data: FieldValues) => {
-    const body = {
-      id: vehiclePlanningDetails?.id,
-      driverId: data.driver?.id,
-      truckId: data.truck?.id,
-      startTime: data.startTime,
-      endTime: data.endTime,
-      freqFri: data.freqFri ? 1 : 0,
-      freqMon: data.freqMon ? 1 : 0,
-      freqSat: data.freqSat ? 1 : 0,
-      freqSun: data.freqSun ? 1 : 0,
-      freqThu: data.freqThu ? 1 : 0,
-      freqTue: data.freqTue ? 1 : 0,
-      freqWed: data.freqWed ? 1 : 0,
-      startDate: data.startDate,
-      endDate: data.endDate,
-    };
-
-    await updateVehiclePlanning(body, {
-      onSuccess: () => {
-        addToast("Salvo com sucesso!");
-        refetch();
-        onClose();
-      },
-      onError: () => {
-        addToast("Erro ao salvar viagem", { type: "error" });
-      },
-    });
+    await handleCreate(data);
   };
 
   const handleCreate = async (data: FieldValues) => {
@@ -99,24 +55,10 @@ export function VehiclePlanningDetailsDialog({
         addToast("Viagem criada com sucesso");
         refetch();
         onClose();
+        methods.reset();
       },
       onError: () => {
         addToast("Erro ao criar viagem", { type: "error" });
-      },
-    });
-  };
-
-  const handleDelete = async () => {
-    await deleteVehiclePlanning(vehiclePlanningId, {
-      onSuccess: () => {
-        addToast("Viagem deletada com sucesso!", { type: "success" });
-        onClose();
-        refetch();
-      },
-      onError: () => {
-        addToast("Error ao deletar viagem.", { type: "error" });
-        onClose();
-        refetch();
       },
     });
   };
@@ -127,21 +69,7 @@ export function VehiclePlanningDetailsDialog({
 
   const handleClose = () => {
     onClose();
-    methods.reset({
-      id: "",
-      driver: null,
-      startTime: dayjs().format("YYYY-MM-DDTHH:mm:ss"),
-      endTime: dayjs().format("YYYY-MM-DDTHH:mm:ss"),
-      startDate: dayjs().format("YYYY-MM-DD"),
-      endDate: dayjs().format("YYYY-MM-DD"),
-      freqTue: false,
-      freqWed: false,
-      freqThu: false,
-      freqFri: false,
-      freqSat: false,
-      freqSun: false,
-      freqMon: false,
-    });
+    methods.reset();
   };
   const { handleSubmit } = methods;
 
@@ -160,7 +88,7 @@ export function VehiclePlanningDetailsDialog({
           <>
             <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
               <Box display="flex" justifyContent="space-between">
-                Planejamento de veículo
+                Adicionar planejamento de veículo
               </Box>
             </DialogTitle>
             <IconButton
@@ -188,8 +116,8 @@ export function VehiclePlanningDetailsDialog({
                 </Box>
               )}
               {!loading && <VehiclePlanningForm />}
+              <VehiclePlanningFormFooter />
             </DialogContent>
-            <VehiclePlanningFormFooter onDelete={handleDelete} />
           </>
         </form>
       </FormProvider>
