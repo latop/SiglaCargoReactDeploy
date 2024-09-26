@@ -1,45 +1,41 @@
 import { SWRConfiguration } from "swr";
 import useSWRInfinite from "swr/infinite";
-import { DailyTripResponse } from "@/interfaces/daily-trip";
 import { useSearchParams } from "next/navigation";
-import { fetchLines } from "@/services/lines";
+import { LinesResponse } from "@/interfaces/lines";
+import { fetchLines } from "@/services/trips";
 
 export const useLines = (options?: SWRConfiguration) => {
   const searchParams = useSearchParams();
   const params = {
-    fleetGroupCode: searchParams.get("fleetGroupCode"),
     fleetGroupId: searchParams.get("fleetGroupId"),
     locationDestId: searchParams.get("locationDestId"),
     locationOrigId: searchParams.get("locationOrigId"),
-    tripDate: searchParams.get("tripDate"),
-    sto: searchParams.get("sto"),
-    flgStatus: searchParams.get("flgStatus"),
+    code: searchParams.get("code"),
   };
 
-  const getKey = (pageIndex: number, previousPageData: DailyTripResponse) => {
-    if (!params.tripDate) return null;
+  const getKey = (pageIndex: number, previousPageData: LinesResponse) => {
     if (previousPageData && !previousPageData.hasNext) return null;
+
     return {
       url: "/lines",
       args: { ...params, pageSize: 10, pageNumber: pageIndex + 1 },
     };
   };
   const { data, error, isLoading, mutate, size, setSize, isValidating } =
-    useSWRInfinite<DailyTripResponse>(getKey, fetchLines, {
+    useSWRInfinite<LinesResponse>(getKey, fetchLines, {
       revalidateFirstPage: false,
       revalidateIfStale: false,
       revalidateOnFocus: false,
       ...options,
     });
 
-  const lines = data?.map((page) => page).flat() || [];
-  console.log({ lines, size });
-
+  const lines = data?.map((page) => page.lines).flat() || [];
+  const totalCount = data?.[0]?.totalCount || 0;
   const isEmpty = !isLoading && lines?.length === 0 && !error;
 
   const isLoadingMore = isValidating;
   const hasNext = data?.[data.length - 1]?.hasNext;
-
+  const isReachingEnd = !hasNext && !isEmpty;
   // const isReachingEnd = !hasNext && !isEmpty;
 
   const loadMoreLines = (page: number) => {
@@ -53,13 +49,14 @@ export const useLines = (options?: SWRConfiguration) => {
     lines,
     error,
     isEmpty,
-    hasData,
     mutate,
     loadMoreLines,
     size,
-    // isReachingEnd,
+    isReachingEnd,
     isLoading: isLoadingMore || isLoading,
     setSize,
     isValidating,
+    totalCount,
+    hasData,
   };
 };

@@ -7,7 +7,6 @@ import { HeaderTitle } from "@/components/HeaderTitle/HeaderTitle";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { Box, Button, Card, CircularProgress } from "@mui/material";
 import { EmptyResult } from "@/components/EmptyResult";
-import dayjs from "dayjs";
 import { useRouter, useSearchParams } from "next/navigation";
 import { ErrorResult } from "@/components/ErrorResult";
 import { DailyTrip } from "@/interfaces/daily-trip";
@@ -60,12 +59,20 @@ const columns: GridColDef[] = [
 
 export function Lines() {
   const [hash, setHash] = useHash();
-  const isOpen = hash.includes("dailyTrip");
+  const isOpen = hash.includes("line");
   const params = useSearchParams();
   const router = useRouter();
 
-  const { lines, loadMoreLines, size, isLoading, isEmpty, hasData, error } =
-    useLines();
+  const {
+    lines,
+    loadMoreLines,
+    size,
+    isLoading,
+    isEmpty,
+    error,
+    totalCount,
+    hasData,
+  } = useLines();
 
   const showContent = params.get("tripDate");
 
@@ -73,17 +80,14 @@ export function Lines() {
     setHash("");
   };
 
-  useEffect(() => {
-    if (!params.get("tripDate")) {
-      const newParams = new URLSearchParams();
-      newParams.append("tripDate", dayjs().format("YYYY-MM-DD"));
-      router.push(`/lines?${newParams.toString()}`);
-    }
-  }, [params]);
-
   // const handleAddTravel = () => {
   //   setHash("#lines");
   // };
+
+  useEffect(() => {
+    const newParams = new URLSearchParams();
+    router.push(`/lines?${newParams.toString()}`);
+  }, [params]);
 
   return (
     <MainContainer>
@@ -143,6 +147,7 @@ export function Lines() {
                         }`,
                     },
                   }}
+                  rowCount={totalCount}
                   columns={columns}
                   onCellDoubleClick={(params) => {
                     setHash(`#line-${params.row.line.id}`);

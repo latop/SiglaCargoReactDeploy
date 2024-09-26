@@ -6,8 +6,7 @@ import { Controller, FormProvider } from "react-hook-form";
 import { Button, Grid } from "@mui/material";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { DatePicker } from "@/components/DatePicker";
-import { TextField, MenuItem } from "@mui/material";
+import { TextField } from "@mui/material";
 import { useLinesFilterBar } from "./useLinesFilterBar";
 import SearchIcon from "@mui/icons-material/Search";
 import customParseFormat from "dayjs/plugin/customParseFormat";
@@ -37,7 +36,7 @@ export function LinesFilterBar(props: React.HTMLProps<HTMLFormElement>) {
             width="100%"
             gap="16px"
           >
-            <Grid item xs={1.6}>
+            {/* <Grid item xs={1.6}>
               <Controller
                 name="tripDate"
                 control={control}
@@ -49,21 +48,21 @@ export function LinesFilterBar(props: React.HTMLProps<HTMLFormElement>) {
                   />
                 )}
               />
-            </Grid>
+            </Grid> */}
 
             <Grid item xs={2} paddingLeft="0">
               <AutocompleteFleetGroup onChange={handleChangeFleetGroup} />
             </Grid>
             <Grid item xs={1.6} paddingLeft="0">
               <Controller
-                name="sto"
+                name="code"
                 control={control}
                 render={({ field, fieldState: { error } }) => (
                   <TextField
                     {...field}
                     variant="outlined"
                     fullWidth
-                    label="STO"
+                    label="Código"
                     error={!!error?.message}
                     helperText={error?.message?.toString()}
                   />
@@ -82,26 +81,6 @@ export function LinesFilterBar(props: React.HTMLProps<HTMLFormElement>) {
                 name="locationDestId"
                 label="Destino"
                 keyCode="id"
-              />
-            </Grid>
-            <Grid item xs={1.6} paddingLeft="0">
-              <Controller
-                name="flgStatus"
-                control={control}
-                render={({ field, fieldState: { error } }) => (
-                  <TextField
-                    {...field}
-                    variant="outlined"
-                    fullWidth
-                    label="Status"
-                    select
-                    error={!!error?.message}
-                    helperText={error?.message?.toString()}
-                  >
-                    <MenuItem value="C">Cancelado</MenuItem>
-                    <MenuItem value="N">Ativo</MenuItem>
-                  </TextField>
-                )}
               />
             </Grid>
 

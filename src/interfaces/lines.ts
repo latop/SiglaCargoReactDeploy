@@ -25,3 +25,13 @@ export interface Line {
   tripType: TripType;
   id: string;
 }
+
+export interface LinesResponse {
+  hasNext: boolean;
+  currentPage: number;
+  lines: Line[];
+  pageSize: number;
+  totalPages: number;
+  totalCount: number;
+  hasPrevious: boolean;
+}
