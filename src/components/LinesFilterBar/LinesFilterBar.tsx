@@ -29,62 +29,53 @@ export function LinesFilterBar(props: React.HTMLProps<HTMLFormElement>) {
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(onSubmit)} {...props}>
-          <Grid
-            container
-            alignItems="center"
-            justifyContent="center"
-            width="100%"
-            gap="16px"
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+            }}
           >
-            {/* <Grid item xs={1.6}>
-              <Controller
-                name="tripDate"
-                control={control}
-                render={({ field, fieldState: { error } }) => (
-                  <DatePicker
-                    label="Data da viagem"
-                    error={error?.message}
-                    {...field}
-                  />
-                )}
-              />
-            </Grid> */}
-
-            <Grid item xs={2} paddingLeft="0">
-              <AutocompleteFleetGroup onChange={handleChangeFleetGroup} />
+            <Grid container alignItems="flex-start" width="100%" gap="16px">
+              <Grid item xs={2} paddingLeft="0">
+                <AutocompleteFleetGroup onChange={handleChangeFleetGroup} />
+              </Grid>
+              <Grid item xs={1.6} paddingLeft="0">
+                <Controller
+                  name="code"
+                  control={control}
+                  render={({ field, fieldState: { error } }) => (
+                    <TextField
+                      {...field}
+                      variant="outlined"
+                      fullWidth
+                      label="Código"
+                      error={!!error?.message}
+                      helperText={error?.message?.toString()}
+                      inputProps={{
+                        sx: {
+                          textTransform: "uppercase",
+                        },
+                      }}
+                    />
+                  )}
+                />
+              </Grid>
+              <Grid item xs={1.7} paddingLeft="0">
+                <AutocompleteLocation
+                  name="locationOrigId"
+                  label="Origem"
+                  keyCode="id"
+                />
+              </Grid>
+              <Grid item xs={1.6} paddingLeft="0">
+                <AutocompleteLocation
+                  name="locationDestId"
+                  label="Destino"
+                  keyCode="id"
+                />
+              </Grid>
             </Grid>
-            <Grid item xs={1.6} paddingLeft="0">
-              <Controller
-                name="code"
-                control={control}
-                render={({ field, fieldState: { error } }) => (
-                  <TextField
-                    {...field}
-                    variant="outlined"
-                    fullWidth
-                    label="Código"
-                    error={!!error?.message}
-                    helperText={error?.message?.toString()}
-                  />
-                )}
-              />
-            </Grid>
-            <Grid item xs={1.7} paddingLeft="0">
-              <AutocompleteLocation
-                name="locationOrigId"
-                label="Origem"
-                keyCode="id"
-              />
-            </Grid>
-            <Grid item xs={1.6} paddingLeft="0">
-              <AutocompleteLocation
-                name="locationDestId"
-                label="Destino"
-                keyCode="id"
-              />
-            </Grid>
-
-            <Grid item xs={1}>
+            <Grid item xs={1} justifySelf={"flex-end"}>
               <Button
                 type="submit"
                 size="large"
@@ -95,7 +86,7 @@ export function LinesFilterBar(props: React.HTMLProps<HTMLFormElement>) {
                 <SearchIcon />
               </Button>
             </Grid>
-          </Grid>
+          </div>
         </form>
       </FormProvider>
     </LocalizationProvider>

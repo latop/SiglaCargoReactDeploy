@@ -29,7 +29,7 @@ export function useLinesFilterBar() {
       fleetGroupId: params.get("fleetGroupId") || "",
       locationDestId: params.get("locationDestId") || "",
       locationOrigId: params.get("locationOrigId") || "",
-      code: params.get("code") || "",
+      code: params.get("code")?.toLocaleUpperCase() || "",
     },
   });
 
@@ -38,6 +38,7 @@ export function useLinesFilterBar() {
     Object.entries(data).forEach(([key, value]) => {
       if (value) {
         params.append(key, value);
+        if (key === "code") params.append(key, value.toLocaleUpperCase());
       }
     });
     router.push(`/lines?${params.toString()}`);
