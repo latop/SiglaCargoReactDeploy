@@ -9,10 +9,10 @@ import { Box, Button, Card, CircularProgress } from "@mui/material";
 import { EmptyResult } from "@/components/EmptyResult";
 import { ErrorResult } from "@/components/ErrorResult";
 import { DailyTrip } from "@/interfaces/daily-trip";
-import { DailyTripDetailsDialog } from "@/components/DailyTripDetailsDialog";
 import { useHash } from "@/hooks/useHash";
 import { useLines } from "@/hooks/useLines";
 import { LinesFilterBar } from "@/components/LinesFilterBar";
+import { AddLineDialog } from "@/components/AddLineDialog";
 
 const columns: GridColDef[] = [
   {
@@ -58,7 +58,7 @@ const columns: GridColDef[] = [
 
 export function Lines() {
   const [hash, setHash] = useHash();
-  const isOpen = hash.includes("line");
+  const isOpen = hash.includes("add-line");
 
   const {
     lines,
@@ -75,9 +75,9 @@ export function Lines() {
     setHash("");
   };
 
-  // const handleAddTravel = () => {
-  //   setHash("#lines");
-  // };
+  const handleAddLine = () => {
+    setHash("add-line");
+  };
 
   return (
     <MainContainer>
@@ -87,7 +87,7 @@ export function Lines() {
       <Box
         sx={{
           width: "1400px",
-          height: "100%",
+          height: "calc(100% - 64px)",
           padding: "20px",
           margin: "auto",
           display: "flex",
@@ -96,11 +96,7 @@ export function Lines() {
       >
         <LinesFilterBar />
         <Box display="flex" justifyContent="flex-end" mt="25px" mb="10px">
-          <Button
-            variant="outlined"
-            size="small"
-            onClick={() => console.log("adicionar viagens")}
-          >
+          <Button variant="outlined" size="small" onClick={handleAddLine}>
             Adicionar rotas
           </Button>
         </Box>
@@ -155,7 +151,7 @@ export function Lines() {
           )}
         </Card>
       </Box>
-      <DailyTripDetailsDialog open={!!isOpen} onClose={handleCloseDialog} />
+      <AddLineDialog open={!!isOpen} onClose={handleCloseDialog} />
     </MainContainer>
   );
 }
