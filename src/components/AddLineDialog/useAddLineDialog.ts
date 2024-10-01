@@ -1,6 +1,5 @@
-import { Line } from "@/interfaces/lines";
 import dayjs from "dayjs";
-import { useForm } from "react-hook-form";
+import { FieldValues, useForm } from "react-hook-form";
 
 export function useAddLineDialog() {
   const methods = useForm({
@@ -27,7 +26,7 @@ export function useAddLineDialog() {
     },
   });
 
-  const handleSubmit = (data: Line) => {
+  const handleSubmit = (data: FieldValues) => {
     const lineDefaultValues = {
       ...methods.getValues(),
       ...data,
