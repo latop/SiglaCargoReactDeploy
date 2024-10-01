@@ -6,6 +6,9 @@ import {
   Grid,
   FormControlLabel,
   Checkbox,
+  Typography,
+  Chip,
+  colors,
 } from "@mui/material";
 
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -17,6 +20,7 @@ import { AutocompleteFleetGroup } from "@/components/AutocompleteFleetGroup";
 import { AutocompleteLocation } from "@/components/AutocompleteLocation";
 import { AutocompleteTripType } from "@/components/AutocompleteTripType";
 import { DatePicker } from "@mui/x-date-pickers";
+import { AddLineSectionForm } from "../AddLineSectionForm";
 
 dayjs.extend(customParseFormat);
 
@@ -31,11 +35,10 @@ const daysOfWeek = [
 ];
 
 export const AddLineForm = () => {
-  const {
-    control,
-    // watch,
-    setValue,
-  } = useFormContext();
+  const { control, watch, setValue } = useFormContext();
+  const lineSections = watch("lineSections");
+
+  const countSections = lineSections?.length;
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
@@ -141,7 +144,7 @@ export const AddLineForm = () => {
                             padding: "0",
                           }}
                           {...field}
-                          checked={field.value}
+                          checked={Number(field.value)}
                         />
                       }
                       label={day.headerName}
@@ -213,6 +216,32 @@ export const AddLineForm = () => {
               />
             </Grid>
           </Grid>
+        </Box>
+        <Box
+          gap="10px"
+          display="flex"
+          flexDirection="column"
+          maxHeight={"300px"}
+        >
+          <Box display="flex" alignItems="center" gap="8px">
+            <Typography variant="subtitle2">Seções da viagem</Typography>
+            {countSections > 0 && (
+              <Chip label={countSections} color="default" size="small" />
+            )}
+          </Box>
+          {lineSections?.length === 0 && (
+            <Box display="flex">
+              <Typography variant="body2" color={colors.grey[700]}>
+                Não há seções para essa viagem.
+              </Typography>
+            </Box>
+          )}
+
+          <Box gap="16px" display="flex" flexDirection="column">
+            {lineSections?.map((_: object, index: number) => (
+              <AddLineSectionForm key={index} seq={index} />
+            ))}
+          </Box>
         </Box>
       </Box>
     </LocalizationProvider>
