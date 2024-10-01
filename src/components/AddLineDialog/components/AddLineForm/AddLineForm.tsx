@@ -33,12 +33,13 @@ const daysOfWeek = [
 export const AddLineForm = () => {
   const {
     control,
-    // watch, setValue
+    // watch,
+    setValue,
   } = useFormContext();
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
-      <Box display="flex" flexDirection="column" gap="20px" mt="5px">
+      <Box display="flex" flexDirection="column" gap="12px" mt="5px">
         <Box display="flex" gap="20px">
           <Grid container spacing={1}>
             <Grid item xs={2}>
@@ -58,7 +59,7 @@ export const AddLineForm = () => {
                 )}
               />
             </Grid>
-            <Grid item xs={10}>
+            <Grid item xs={8}>
               <Controller
                 name="description"
                 control={control}
@@ -114,7 +115,7 @@ export const AddLineForm = () => {
               <Grid
                 display="flex"
                 justifyContent="center"
-                xs={0.4}
+                xs={0.295}
                 item
                 key={day.field}
               >
@@ -149,10 +150,6 @@ export const AddLineForm = () => {
                 />
               </Grid>
             ))}
-          </Grid>
-        </Box>
-        <Box>
-          <Grid container spacing={1}>
             <Grid item xs={2}>
               <Controller
                 name="overtimeAllowed"
@@ -185,21 +182,35 @@ export const AddLineForm = () => {
                 )}
               />
             </Grid>
-            <Grid item xs={2}>
-              <AutocompleteTripType name="tripType.code" />
-            </Grid>
           </Grid>
         </Box>
+
         <Box display="flex" gap="20px">
           <Grid container spacing={1}>
             <Grid item xs={2}>
-              <AutocompleteLocation name="locationOrig.code" label="Origem" />
+              <AutocompleteLocation
+                name="locationOrig"
+                label="Origem"
+                onChange={(value) => setValue("locationOrig", value)}
+              />
             </Grid>
             <Grid item xs={2}>
-              <AutocompleteLocation name="locationDest.code" label="Destino" />
+              <AutocompleteLocation
+                name="locationDest"
+                label="Destino"
+                onChange={(value) => setValue("locationDest", value)}
+              />
             </Grid>
             <Grid item xs={2}>
               <AutocompleteFleetGroup name="fleetGroup.code" />
+            </Grid>
+            <Grid item xs={2}>
+              <AutocompleteTripType
+                name="tripType.code"
+                onChange={(value) => {
+                  setValue("tripType", value);
+                }}
+              />
             </Grid>
           </Grid>
         </Box>

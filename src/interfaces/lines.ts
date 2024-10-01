@@ -1,4 +1,4 @@
-import { TripType } from "./trip";
+import { Location, TripType } from "./trip";
 import { FleetGroup } from "./vehicle";
 
 export interface Line {
@@ -6,13 +6,13 @@ export interface Line {
   description: string;
   startDate: string;
   endDate: string;
-  freqMon: number;
-  freqTue: number;
-  freqWed: number;
-  freqThu: number;
-  freqFri: number;
-  freqSat: number;
-  freqSun: number;
+  freqMon: boolean;
+  freqTue: boolean;
+  freqWed: boolean;
+  freqThu: boolean;
+  freqFri: boolean;
+  freqSat: boolean;
+  freqSun: boolean;
   locationOrigId: string;
   locationDestId: string;
   cost: number;
