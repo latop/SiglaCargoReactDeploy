@@ -20,11 +20,10 @@ interface DailyTripDetailsProps {
 }
 
 export function AddLineDialog({ open, onClose }: DailyTripDetailsProps) {
-  // const { addToast } = useToast();
-
   const { methods, handleSubmit } = useAddLineDialog();
 
   const handleClose = () => {
+    methods.reset();
     onClose();
   };
 

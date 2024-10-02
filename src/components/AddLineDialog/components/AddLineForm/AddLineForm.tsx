@@ -47,24 +47,26 @@ export const AddLineForm = () => {
           <Grid container spacing={1}>
             <Grid item xs={2}>
               <Controller
-                name="code"
+                name="line.code"
                 control={control}
-                render={({ field, fieldState: { error } }) => (
-                  <TextField
-                    {...field}
-                    value={field.value.toUpperCase() || ""}
-                    variant="outlined"
-                    fullWidth
-                    label="Código"
-                    error={!!error?.message}
-                    helperText={error?.message?.toString()}
-                  />
-                )}
+                render={({ field, fieldState: { error } }) => {
+                  return (
+                    <TextField
+                      {...field}
+                      value={field?.value?.toUpperCase() || ""}
+                      variant="outlined"
+                      fullWidth
+                      label="Código"
+                      error={!!error?.message}
+                      helperText={error?.message?.toString()}
+                    />
+                  );
+                }}
               />
             </Grid>
             <Grid item xs={8}>
               <Controller
-                name="description"
+                name="line.description"
                 control={control}
                 render={({ field, fieldState: { error } }) => (
                   <TextField
@@ -84,7 +86,7 @@ export const AddLineForm = () => {
           <Grid container spacing={1} width={"100%"}>
             <Grid item xs={2}>
               <Controller
-                name="startDate"
+                name="line.startDate"
                 control={control}
                 render={({ field }) => (
                   <DatePicker
@@ -100,7 +102,7 @@ export const AddLineForm = () => {
             </Grid>
             <Grid item xs={2}>
               <Controller
-                name="endDate"
+                name="line.endDate"
                 control={control}
                 render={({ field }) => (
                   <DatePicker
@@ -123,7 +125,7 @@ export const AddLineForm = () => {
                 key={day.field}
               >
                 <Controller
-                  name={day.field}
+                  name={`line.${day.field}`}
                   control={control}
                   render={({ field }) => (
                     <FormControlLabel
@@ -144,7 +146,7 @@ export const AddLineForm = () => {
                             padding: "0",
                           }}
                           {...field}
-                          checked={Number(field.value)}
+                          checked={field.value}
                         />
                       }
                       label={day.headerName}
@@ -155,7 +157,7 @@ export const AddLineForm = () => {
             ))}
             <Grid item xs={2}>
               <Controller
-                name="overtimeAllowed"
+                name="line.overtimeAllowed"
                 control={control}
                 render={({ field, fieldState: { error } }) => (
                   <TextField
@@ -171,7 +173,7 @@ export const AddLineForm = () => {
             </Grid>
             <Grid item xs={2}>
               <Controller
-                name="cost"
+                name="line.cost"
                 control={control}
                 render={({ field, fieldState: { error } }) => (
                   <TextField
@@ -192,26 +194,29 @@ export const AddLineForm = () => {
           <Grid container spacing={1}>
             <Grid item xs={2}>
               <AutocompleteLocation
-                name="locationOrig"
+                name="line.locationOrig"
                 label="Origem"
-                onChange={(value) => setValue("locationOrig", value)}
+                onChange={(value) => setValue("line.locationOrig", value)}
               />
             </Grid>
             <Grid item xs={2}>
               <AutocompleteLocation
-                name="locationDest"
+                name="line.locationDest"
                 label="Destino"
-                onChange={(value) => setValue("locationDest", value)}
+                onChange={(value) => setValue("line.locationDest", value)}
               />
             </Grid>
             <Grid item xs={2}>
-              <AutocompleteFleetGroup name="fleetGroup.code" />
+              <AutocompleteFleetGroup
+                name="line.fleetGroup"
+                onChange={(value) => setValue("line.fleetGroup", value)}
+              />
             </Grid>
             <Grid item xs={2}>
               <AutocompleteTripType
-                name="tripType.code"
+                name="line.tripType"
                 onChange={(value) => {
-                  setValue("tripType", value);
+                  setValue("line.tripType", value);
                 }}
               />
             </Grid>

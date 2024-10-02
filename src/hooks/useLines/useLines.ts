@@ -49,7 +49,7 @@ export const useLines = (options?: SWRConfiguration) => {
     lines,
     error,
     isEmpty,
-    mutate,
+    refetchLines: mutate,
     loadMoreLines,
     size,
     isReachingEnd,
