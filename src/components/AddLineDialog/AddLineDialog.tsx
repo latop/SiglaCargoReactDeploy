@@ -21,7 +21,8 @@ interface DailyTripDetailsProps {
 
 export function AddLineDialog({ open, onClose }: DailyTripDetailsProps) {
   const { methods, handleSubmit } = useAddLineDialog();
-
+  const { formState } = methods;
+  console.log(formState.errors);
   const handleClose = () => {
     methods.reset();
     onClose();

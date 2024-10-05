@@ -2,49 +2,8 @@ import { useFetch } from "@/hooks/useFetch";
 import { useHash } from "@/hooks/useHash";
 import { useLines } from "@/hooks/useLines";
 import { useToast } from "@/hooks/useToast";
-import { zodResolver } from "@hookform/resolvers/zod";
 import dayjs from "dayjs";
 import { FieldValues, useForm } from "react-hook-form";
-import { z } from "zod";
-
-const lineSchema = z.object({
-  id: z.string(),
-  code: z.string().min(1, "Obrigatório*"),
-  description: z.string().min(1, "Obrigatório*"),
-  startDate: z.date(),
-  endDate: z.date(),
-  freqMon: z.number().optional(),
-  freqTue: z.number().optional(),
-  freqWed: z.number().optional(),
-  freqThu: z.number().optional(),
-  freqFri: z.number().optional(),
-  freqSat: z.number().optional(),
-  freqSun: z.number().optional(),
-  overtimeAllowed: z
-    .number({ invalid_type_error: "Número*" })
-    .optional()
-    .default(0),
-  locationOrigId: z.string().optional(),
-  locationDestId: z.string().optional(),
-  cost: z.number({ invalid_type_error: "Número*" }).default(0),
-  fleetGroupId: z.string().optional(),
-  fleetGroup: z.string().optional(),
-  tripTypeId: z.string().optional(),
-  tripType: z.string().optional(),
-});
-
-const lineSectionsSchema = z
-  .array(
-    z.object({
-      lineSections: z.string(),
-    }),
-  )
-  .optional();
-
-const rootSchema = z.object({
-  line: lineSchema,
-  lineSections: lineSectionsSchema,
-});
 
 export function useAddLineDialog() {
   const { refetchLines } = useLines();
@@ -74,8 +33,8 @@ export function useAddLineDialog() {
       },
       lineSections: [],
     },
-    resolver: zodResolver(rootSchema),
   });
+
   const { addToast } = useToast();
   const [lineCreate, { loading }] = useFetch();
   const [, setHash] = useHash();

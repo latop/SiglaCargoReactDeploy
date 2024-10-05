@@ -14,6 +14,7 @@ export function useAddLineFormFooter() {
       locationDest: null,
       locationDestId: lineSections.locationDestId,
       duration: null,
+      stopType: null,
     });
     setValue("lineSections", lineSections);
   };
