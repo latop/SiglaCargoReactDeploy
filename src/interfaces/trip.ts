@@ -27,3 +27,10 @@ export interface FetchOptmizedTripsData {
   userIdCreate: string | null;
   userIdUpdate: string | null;
 }
+
+export type StopType = {
+  stopTypeCode: string;
+  stopTime: number;
+  flgJourney: string;
+  id: string;
+};

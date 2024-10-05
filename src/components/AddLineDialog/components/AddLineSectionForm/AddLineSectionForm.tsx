@@ -17,6 +17,7 @@ import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import "dayjs/locale/pt-br";
 import { AutocompleteLocation } from "@/components/AutocompleteLocation";
+import { AutocompleteStopType } from "@/components/AutocompleteStopType";
 
 dayjs.extend(customParseFormat);
 
@@ -99,6 +100,14 @@ export const AddLineSectionForm = ({ seq }: { seq: number }) => {
               label="Destino"
               onChange={(value) => {
                 setValue(`lineSections.${seq}.locationDest`, value);
+              }}
+            />
+          </Grid>
+          <Grid item xs={1.5}>
+            <AutocompleteStopType
+              name={`lineSections.${seq}.stopType`}
+              onChange={(value) => {
+                setValue(`lineSections.${seq}.stopType`, value);
               }}
             />
           </Grid>

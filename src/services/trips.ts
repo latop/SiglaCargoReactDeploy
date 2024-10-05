@@ -177,3 +177,27 @@ export async function fetchLines({ args }: { args: FetchLinesParams }) {
     throw error;
   }
 }
+
+export interface FetchStopTypeParams {
+  pageSize?: number;
+  stopType?: string;
+}
+
+export async function fetchStopType({
+  args: params,
+}: {
+  args: FetchStopTypeParams;
+}) {
+  try {
+    const stopTypeParams = {
+      PageSize: params.pageSize,
+      filter1String: params.stopType?.toUpperCase(),
+    };
+    const response = await axios.get("/StopType", { params: stopTypeParams });
+    const data = response.data;
+    return data;
+  } catch (error) {
+    console.error(error);
+    return error;
+  }
+}
