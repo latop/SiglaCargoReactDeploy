@@ -36,7 +36,6 @@ export const useLines = (options?: SWRConfiguration) => {
   const isLoadingMore = isValidating;
   const hasNext = data?.[data.length - 1]?.hasNext;
   const isReachingEnd = !hasNext && !isEmpty;
-  // const isReachingEnd = !hasNext && !isEmpty;
 
   const loadMoreLines = (page: number) => {
     if (hasNext && !isLoadingMore) {

@@ -18,7 +18,7 @@ const columns: GridColDef[] = [
   {
     field: "line.code",
     headerName: "Cód. Linha",
-    width: 200,
+    width: 400,
     sortable: false,
     filterable: false,
     valueGetter: (_, data: DailyTrip) => {
@@ -28,7 +28,7 @@ const columns: GridColDef[] = [
   {
     field: "description",
     headerName: "Descrição",
-    width: 300,
+    width: 500,
     sortable: false,
     filterable: false,
     valueGetter: (_, data: DailyTrip) => {
@@ -50,7 +50,7 @@ const columns: GridColDef[] = [
   {
     field: "qtdLineSections",
     headerName: "Seções",
-    width: 150,
+    width: 100,
     sortable: false,
     filterable: false,
   },
