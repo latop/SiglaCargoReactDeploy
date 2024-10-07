@@ -13,6 +13,7 @@ import { useHash } from "@/hooks/useHash";
 import { useLines } from "@/hooks/useLines";
 import { LinesFilterBar } from "@/components/LinesFilterBar";
 import { AddLineDialog } from "@/components/AddLineDialog";
+import { UpdateLineDialog } from "@/components/UpdateLineDialog";
 
 const columns: GridColDef[] = [
   {
@@ -59,6 +60,7 @@ const columns: GridColDef[] = [
 export function Lines() {
   const [hash, setHash] = useHash();
   const isOpen = hash.includes("add-line");
+  const isLineOpen = hash.includes("#line-id-");
 
   const {
     lines,
@@ -135,7 +137,7 @@ export function Lines() {
                 rowCount={totalCount}
                 columns={columns}
                 onCellDoubleClick={(params) => {
-                  setHash(`#line-${params.row.line.id}`);
+                  setHash(`#line-id-${params.row.line.id}`);
                 }}
                 initialState={{
                   pagination: {
@@ -152,6 +154,7 @@ export function Lines() {
         </Card>
       </Box>
       <AddLineDialog open={!!isOpen} onClose={handleCloseDialog} />
+      <UpdateLineDialog open={!!isLineOpen} onClose={handleCloseDialog} />
     </MainContainer>
   );
 }

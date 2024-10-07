@@ -177,6 +177,17 @@ export async function fetchLines({ args }: { args: FetchLinesParams }) {
     throw error;
   }
 }
+export async function fetchLineById({ id }: { id: string }) {
+  try {
+    const response = await axios.get(`/returnline/${id}`);
+    const data = response.data;
+
+    return data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
 
 export interface FetchStopTypeParams {
   pageSize?: number;
