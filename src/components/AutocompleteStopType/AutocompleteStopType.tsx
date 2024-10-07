@@ -1,36 +1,47 @@
 /* eslint-disable prettier/prettier */
-import React from "react";
+import React, { SyntheticEvent } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import { TextField } from "@mui/material";
 import Autocomplete from "@mui/material/Autocomplete";
-import { useLine } from "@/hooks/useLine";
 import debounce from "debounce";
-import { Line } from "@/interfaces/daily-trip";
+import { StopType } from "@/interfaces/trip";
+import { useStopType } from "@/hooks/useStopType";
 
-export function AutocompleteLine({
-  name = "lineCode",
-  label = "Cód. da rota",
-  keyCode = "code",
+export function AutocompleteStopType({
+  name = "stopType",
+  label = "Tipo de parada",
+  keyCode = "stopTypeCode",
   onChange,
 }: {
   name?: string;
   label?: string;
-  keyCode?: keyof Line;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  onChange?: (value: any) => void;
+  keyCode?: keyof StopType;
+  onChange?: (value: StopType | null) => void;
+
 }) {
   const {
     control,
     watch,
-    setValue,
-    formState: { errors, dirtyFields },
+    setValue, formState: { errors, dirtyFields },
   } = useFormContext();
 
   const isDirty = dirtyFields[name];
-  const { lines, error } = useLine({
+  const { stopTypes, error } = useStopType({
     pageSize: 10,
     code: isDirty ? watch(name) : "",
   });
+
+  const handleChange = (
+    _: SyntheticEvent<Element, Event>,
+    value: StopType | null,
+  ) => {
+    if (onChange) {
+      onChange(value);
+    } else {
+      setValue(name, value?.[keyCode] || "");
+
+    }
+  };
 
   return (
     <Controller
@@ -40,24 +51,21 @@ export function AutocompleteLine({
         <Autocomplete
           forcePopupIcon={false}
           clearOnEscape
-          options={(lines as Line[]) || []}
+          options={stopTypes || []}
           loadingText="Carregando..."
-          defaultValue={{ code: field.value || "" } as Line}
-          isOptionEqualToValue={(option: Line, value: Line) =>
+          defaultValue={{ stopTypeCode: field.value || "" } as StopType}
+          isOptionEqualToValue={(option: StopType, value: StopType) =>
             option[keyCode] === value[keyCode]
           }
-          onChange={(_, value) => {
-            setValue(name, value?.[keyCode] || "");
-            onChange?.(value);
-          }}
+          onChange={handleChange}
           noOptionsText={
             !field.value
               ? "Digite o código"
-              : !lines && !error
+              : !stopTypes && !error
                 ? "Carregando..."
                 : "Nenhum resultado encontrado"
           }
-          getOptionLabel={(option: Line) => option.code}
+          getOptionLabel={(option: StopType) => option.stopTypeCode}
           renderInput={(params) => (
             <TextField
               {...field}

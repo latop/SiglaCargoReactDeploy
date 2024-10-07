@@ -13,6 +13,7 @@ export interface Location {
 export interface TripType {
   code: string;
   description: string;
+  id: string;
 }
 
 export interface FetchOptmizedTripsData {
@@ -26,3 +27,10 @@ export interface FetchOptmizedTripsData {
   userIdCreate: string | null;
   userIdUpdate: string | null;
 }
+
+export type StopType = {
+  stopTypeCode: string;
+  stopTime: number;
+  flgJourney: string;
+  id: string;
+};
