@@ -56,7 +56,6 @@ export function UpdateLineDialog({ open, onClose }: DailyTripDetailsProps) {
           {!isLoadingLine ? (
             <DialogContent dividers sx={{ padding: "16px" }}>
               <UpdateLineForm />
-              <UpdateLineFormFooter />
             </DialogContent>
           ) : (
             <Box
@@ -71,6 +70,7 @@ export function UpdateLineDialog({ open, onClose }: DailyTripDetailsProps) {
               <CircularProgress />
             </Box>
           )}
+          {!isLoadingLine && <UpdateLineFormFooter />}
         </form>
       </FormProvider>
     </Dialog>

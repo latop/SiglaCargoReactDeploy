@@ -10,8 +10,6 @@ export function useUpdateLineFormFooter() {
       lineId: "00000000-0000-0000-0000-000000000000",
       section: lineSections.length + 1,
       locationOrigId: lineSections.locationOrigId,
-      locationOrig: null,
-      locationDest: null,
       locationDestId: lineSections.locationDestId,
       duration: null,
       stopType: null,

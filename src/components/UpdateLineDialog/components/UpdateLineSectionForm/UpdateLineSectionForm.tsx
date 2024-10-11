@@ -69,22 +69,6 @@ export const UpdateLineSectionForm = ({ seq }: { seq: number }) => {
               )}
             />
           </Grid>
-          {/* <Grid item xs={1.5}>
-            <Controller
-              name={`lineSections.${seq}.stopTime`}
-              control={control}
-              render={({ field, fieldState: { error } }) => (
-                <TextField
-                  {...field}
-                  variant="outlined"
-                  fullWidth
-                  label="Tempo de Parada"
-                  error={!!error?.message}
-                  helperText={error?.message?.toString()}
-                />
-              )}
-            />
-          </Grid> */}
           <Grid item xs={1.5}>
             <AutocompleteLocation
               name={`lineSections.${seq}.locationOrig`}

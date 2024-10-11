@@ -4,7 +4,7 @@ import { Box, CircularProgress, Button, Typography, Icon } from "@mui/material";
 import { useFormContext } from "react-hook-form";
 import AddIcon from "@mui/icons-material/Add";
 import theme from "@/styles/theme";
-import { useUpdateLineFormFooter } from "./useAddLineFormFooter";
+import { useUpdateLineFormFooter } from "./useUpdateLineFormFooter";
 import { useUpdateLineDialog } from "../../useUpdateLineDialog";
 import { useDialog } from "@/hooks/useDialog/useDialog";
 

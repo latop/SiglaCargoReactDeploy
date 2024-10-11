@@ -40,10 +40,13 @@ export function useUpdateLineDialog() {
         freqWed: data?.line.freqWed ? 1 : 0,
         description: data?.line.description,
         code: data?.line.code,
-        tripType: data?.line.tripType,
         locationOrig: data?.line.locationOrig.code,
         locationDest: data?.line.locationDest.code,
-        fleetGroup: data?.line.fleetGroup,
+        locationOrigId: data?.line.locationOrig.id,
+        locationDestId: data?.line.locationDest.id,
+        tripType: data?.line.tripType,
+        tripTypeId: data?.line.tripType?.id,
+        fleetGroupId: data?.line.fleetGroupId,
       },
       lineSections: data?.lineSections?.map((section) => ({
         ...section,
@@ -65,6 +68,7 @@ export function useUpdateLineDialog() {
   const [lineCreate, { loading: loadingCreate }] = useFetch();
   const [, setHash] = useHash();
   const handleSubmit = async (data: FieldValues) => {
+    console.log(data.lineSections);
     const body = {
       line: {
         ...data.line,
@@ -82,15 +86,25 @@ export function useUpdateLineDialog() {
         code: data.line.code,
         tripType: data.line.tripType,
         tripTypeId: data.line.tripType?.id,
-        locationOrigId: data.line.locationOrig.id,
-        locationDestId: data.line.locationDest.id,
         locationOrig: data.line.locationOrig,
         locationDest: data.line.locationDest,
-        fleetGroupId: data.line.fleetGroup?.id,
+        locationOrigId: data.line.locationOrig.id,
+        locationDestId: data.line.locationDest.id,
+        fleetGroupId: data.line.fleetGroupId,
       },
-      lineSections: data.lineSections,
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      lineSections: data?.lineSections?.map((section: any) => {
+        return {
+          lineId: section.lineId,
+          locationOrigId: section.locationOrigId,
+          locationDestId: section.locationDestId,
+          stopType: section.stopType.stopTypeCode,
+          duration: section.duration,
+        };
+      }),
     };
-    console.log(body);
+
     return await lineCreate("/updateline", body, {
       onSuccess: () => {
         addToast("Rota atualizada com sucesso!", { type: "success" });

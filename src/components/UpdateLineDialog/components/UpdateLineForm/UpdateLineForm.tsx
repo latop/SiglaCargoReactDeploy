@@ -112,6 +112,11 @@ export const UpdateLineForm = () => {
                     {...field}
                     value={field.value ? dayjs(field.value) : null}
                     onChange={(date) => field.onChange(date?.format())}
+                    slotProps={{
+                      textField: {
+                        error: false,
+                      },
+                    }}
                   />
                 )}
               />
