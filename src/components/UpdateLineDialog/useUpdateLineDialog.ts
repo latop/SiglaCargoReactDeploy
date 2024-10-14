@@ -28,7 +28,6 @@ export function useUpdateLineDialog() {
   const methods = useForm();
 
   const normalizeData = (data: Line | undefined) => {
-    console.log(data);
     const lineDefaultValues = {
       line: {
         ...data?.line,
@@ -93,11 +92,11 @@ export function useUpdateLineDialog() {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       lineSections: data?.lineSections?.map((section: any) => {
         return {
-          lineId: section.lineId,
-          locationOrigId: section.locationOrigId,
-          locationDestId: section.locationDestId,
-          stopType: section.stopType.stopTypeCode,
-          duration: section.duration,
+          lineId: section?.lineId,
+          locationOrigId: section?.locationOrigId,
+          locationDestId: section?.locationDestId,
+          stopTypeId: section?.stopTypeId,
+          duration: section?.duration,
         };
       }),
     };
