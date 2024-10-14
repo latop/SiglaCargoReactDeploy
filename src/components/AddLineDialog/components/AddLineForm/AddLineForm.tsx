@@ -75,6 +75,9 @@ export const AddLineForm = () => {
                     fullWidth
                     label="Descrição"
                     error={!!error?.message}
+                    sx={{
+                      textTransform: "uppercase",
+                    }}
                     helperText={error?.message?.toString()}
                   />
                 )}
