@@ -28,6 +28,7 @@ export function useUpdateLineDialog() {
   const methods = useForm();
 
   const normalizeData = (data: Line | undefined) => {
+    console.log(data);
     const lineDefaultValues = {
       line: {
         ...data?.line,
@@ -68,10 +69,8 @@ export function useUpdateLineDialog() {
   const [lineCreate, { loading: loadingCreate }] = useFetch();
   const [, setHash] = useHash();
   const handleSubmit = async (data: FieldValues) => {
-    console.log(data.lineSections);
     const body = {
       line: {
-        ...data.line,
         id: data.line.id,
         startDate: dayjs(data.line.startDate).format("YYYY-MM-DD"),
         endDate: dayjs(data.line.endDate).format("YYYY-MM-DD"),
@@ -86,8 +85,6 @@ export function useUpdateLineDialog() {
         code: data.line.code,
         tripType: data.line.tripType,
         tripTypeId: data.line.tripType?.id,
-        locationOrig: data.line.locationOrig,
-        locationDest: data.line.locationDest,
         locationOrigId: data.line.locationOrig.id,
         locationDestId: data.line.locationDest.id,
         fleetGroupId: data.line.fleetGroupId,
