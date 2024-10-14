@@ -68,6 +68,7 @@ export function useUpdateLineDialog() {
   const [lineCreate, { loading: loadingCreate }] = useFetch();
   const [, setHash] = useHash();
   const handleSubmit = async (data: FieldValues) => {
+    console.log(data);
     const body = {
       line: {
         id: data.line.id,
@@ -84,14 +85,16 @@ export function useUpdateLineDialog() {
         code: data.line.code,
         tripType: data.line.tripType,
         tripTypeId: data.line.tripType?.id,
-        locationOrigId: data.line.locationOrig.id,
-        locationDestId: data.line.locationDest.id,
+        locationOrigId: data.line.locationOrigId,
+        locationDestId: data.line.locationDestId,
         fleetGroupId: data.line.fleetGroupId,
       },
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       lineSections: data?.lineSections?.map((section: any) => {
+        console.log(section);
         return {
+          id: section?.id,
           lineId: section?.lineId,
           locationOrigId: section?.locationOrigId,
           locationDestId: section?.locationDestId,
@@ -100,7 +103,6 @@ export function useUpdateLineDialog() {
         };
       }),
     };
-
     return await lineCreate("/updateline", body, {
       onSuccess: () => {
         addToast("Rota atualizada com sucesso!", { type: "success" });
