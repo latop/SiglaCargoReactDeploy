@@ -71,31 +71,21 @@ export const AddLineSectionForm = ({ seq }: { seq: number }) => {
           </Grid>
 
           <Grid item xs={1.5}>
-            <Controller
+            <AutocompleteLocation
               name={`lineSections.${seq}.locationOrig`}
-              control={control}
-              render={({ field }) => (
-                <AutocompleteLocation
-                  label="Origem"
-                  onChange={() => {
-                    setValue(`lineSections.${seq}.locationOrig`, field.value);
-                  }}
-                />
-              )}
+              label="Origem"
+              onChange={(value) => {
+                setValue(`lineSections.${seq}.locationOrig`, value);
+              }}
             />
           </Grid>
           <Grid item xs={1.5}>
-            <Controller
+            <AutocompleteLocation
+              label="Destino"
               name={`lineSections.${seq}.locationDest`}
-              control={control}
-              render={({ field }) => (
-                <AutocompleteLocation
-                  label="Destino"
-                  onChange={() => {
-                    setValue(`lineSections.${seq}.locationDest`, field.value);
-                  }}
-                />
-              )}
+              onChange={(value) => {
+                setValue(`lineSections.${seq}.locationDest`, value);
+              }}
             />
           </Grid>
           <Grid item xs={1.5}>

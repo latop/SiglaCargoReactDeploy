@@ -28,10 +28,13 @@ export function AutocompleteLocation({
   } = useFormContext();
 
   const isDirty = dirtyFields[name];
+
+
   const { locations, error } = useLocation({
     pageSize: 10,
-    code: isDirty ? watch(name) : "",
+    code: (isDirty && watch(name)) ?? watch(name) ?? "",
   });
+
   const handleChange = (
     _: SyntheticEvent<Element, Event>,
     value: Location | null,
