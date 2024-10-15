@@ -28,6 +28,7 @@ export function useUpdateLineDialog() {
   const methods = useForm();
 
   const normalizeData = (data: Line | undefined) => {
+    console.log(data);
     const lineDefaultValues = {
       line: {
         ...data?.line,
@@ -49,12 +50,13 @@ export function useUpdateLineDialog() {
         fleetGroupId: data?.line.fleetGroupId,
       },
       lineSections: data?.lineSections?.map((section) => ({
-        ...section,
         locationOrig: section.locationOrig.code,
         locationDest: section.locationDest.code,
         stopType: section.stopType.stopTypeCode,
       })),
     };
+
+    console.log(lineDefaultValues);
     return lineDefaultValues;
   };
 

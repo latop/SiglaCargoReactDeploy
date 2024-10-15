@@ -70,6 +70,38 @@ export const UpdateLineSectionForm = ({ seq }: { seq: number }) => {
             />
           </Grid>
           <Grid item xs={1.5}>
+            <Controller
+              name={`lineSections.${seq}.locationOrig`}
+              control={control}
+              render={({ field }) => (
+                <AutocompleteLocation
+                  name={`lineSections.${seq}.locationOrig`}
+                  label="Origem"
+                  onChange={() => {
+                    setValue(`lineSections.${seq}.locationOrig`, field.value);
+                  }}
+                />
+              )}
+            />
+          </Grid>
+          <Grid item xs={1.5}>
+            <Controller
+              name={`lineSections.${seq}.locationDest`}
+              control={control}
+              render={({ field }) => {
+                return (
+                  <AutocompleteLocation
+                    name={`lineSections.${seq}.locationDest`}
+                    label="Destino"
+                    onChange={() => {
+                      setValue(`lineSections.${seq}.locationDest`, field.value);
+                    }}
+                  />
+                );
+              }}
+            />
+          </Grid>
+          {/* <Grid item xs={1.5}>
             <AutocompleteLocation
               name={`lineSections.${seq}.locationOrig`}
               label="Origem"
@@ -86,7 +118,7 @@ export const UpdateLineSectionForm = ({ seq }: { seq: number }) => {
                 setValue(`lineSections.${seq}.locationDest`, value);
               }}
             />
-          </Grid>
+          </Grid> */}
           <Grid item xs={1.5}>
             <AutocompleteStopType
               name={`lineSections.${seq}.stopType`}
