@@ -69,38 +69,33 @@ export const AddLineSectionForm = ({ seq }: { seq: number }) => {
               )}
             />
           </Grid>
-          {/* <Grid item xs={1.5}>
+
+          <Grid item xs={1.5}>
             <Controller
-              name={`lineSections.${seq}.stopTime`}
+              name={`lineSections.${seq}.locationOrig`}
               control={control}
-              render={({ field, fieldState: { error } }) => (
-                <TextField
-                  {...field}
-                  variant="outlined"
-                  fullWidth
-                  label="Tempo de Parada"
-                  error={!!error?.message}
-                  helperText={error?.message?.toString()}
+              render={({ field }) => (
+                <AutocompleteLocation
+                  label="Origem"
+                  onChange={() => {
+                    setValue(`lineSections.${seq}.locationOrig`, field.value);
+                  }}
                 />
               )}
             />
-          </Grid> */}
-          <Grid item xs={1.5}>
-            <AutocompleteLocation
-              name={`lineSections.${seq}.locationOrig`}
-              label="Origem"
-              onChange={(value) => {
-                setValue(`lineSections.${seq}.locationOrig`, value);
-              }}
-            />
           </Grid>
           <Grid item xs={1.5}>
-            <AutocompleteLocation
+            <Controller
               name={`lineSections.${seq}.locationDest`}
-              label="Destino"
-              onChange={(value) => {
-                setValue(`lineSections.${seq}.locationDest`, value);
-              }}
+              control={control}
+              render={({ field }) => (
+                <AutocompleteLocation
+                  label="Destino"
+                  onChange={() => {
+                    setValue(`lineSections.${seq}.locationDest`, field.value);
+                  }}
+                />
+              )}
             />
           </Grid>
           <Grid item xs={1.5}>

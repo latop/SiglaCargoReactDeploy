@@ -196,17 +196,27 @@ export const AddLineForm = () => {
         <Box display="flex" gap="20px">
           <Grid container spacing={1}>
             <Grid item xs={2}>
-              <AutocompleteLocation
+              <Controller
                 name="line.locationOrig"
-                label="Origem"
-                onChange={(value) => setValue("line.locationOrig", value)}
+                control={control}
+                render={({ field }) => (
+                  <AutocompleteLocation
+                    label="Origem"
+                    onChange={() => setValue("line.locationOrig", field.value)}
+                  />
+                )}
               />
             </Grid>
             <Grid item xs={2}>
-              <AutocompleteLocation
+              <Controller
                 name="line.locationDest"
-                label="Destino"
-                onChange={(value) => setValue("line.locationDest", value)}
+                control={control}
+                render={({ field }) => (
+                  <AutocompleteLocation
+                    label="Destino"
+                    onChange={() => setValue("line.locationDest", field.value)}
+                  />
+                )}
               />
             </Grid>
             <Grid item xs={2}>
