@@ -28,7 +28,6 @@ export function useUpdateLineDialog() {
   const methods = useForm();
 
   const normalizeData = (data: Line | undefined) => {
-    console.log(data);
     const lineDefaultValues = {
       line: {
         ...data?.line,
@@ -57,7 +56,6 @@ export function useUpdateLineDialog() {
       })),
     };
 
-    console.log(lineDefaultValues);
     return lineDefaultValues;
   };
 
@@ -71,7 +69,6 @@ export function useUpdateLineDialog() {
   const [lineCreate, { loading: loadingCreate }] = useFetch();
   const [, setHash] = useHash();
   const handleSubmit = async (data: FieldValues) => {
-    console.log(data);
     const body = {
       line: {
         id: data.line.id,
@@ -95,7 +92,6 @@ export function useUpdateLineDialog() {
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       lineSections: data?.lineSections?.map((section: any) => {
-        console.log(section);
         return {
           id: section?.id,
           lineId: section?.lineId,
