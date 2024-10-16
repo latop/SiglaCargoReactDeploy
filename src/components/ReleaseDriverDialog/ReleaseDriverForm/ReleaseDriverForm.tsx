@@ -118,6 +118,7 @@ export const ReleaseDriverForm = () => {
           <Grid item xs={2}>
             <AutocompleteDriver
               label={"Motorista Planejado"}
+              disabled
               name="motoristaPlan"
               onChange={(value) => {
                 methods.setValue("motoristaPlan", value?.nickName);
@@ -128,6 +129,7 @@ export const ReleaseDriverForm = () => {
             <AutocompleteTruck
               label="Veículo Planejado"
               name="veiculoPlan"
+              disabled
               onChange={(value) => {
                 console.log(value?.licensePlate);
                 methods.setValue("veiculoPlan", value?.licensePlate);
@@ -152,6 +154,62 @@ export const ReleaseDriverForm = () => {
               }}
             />
           </Grid>
+          {/* <Grid item xs={2}>
+            <Controller
+              name="mdfe"
+              control={control}
+              render={({ field }) => {
+                return (
+                  <BaseNumberInput
+                    aria-label="MDFE"
+                    {...field}
+                  />
+                );
+              }}
+            />
+          </Grid>
+          <Grid item xs={2}>
+            <Controller
+              name="cte"
+              control={control}
+              render={({ field }) => {
+                return (
+                  <TextField
+                    sx={{
+                      "& .MuiInputBase-input.Mui-disabled": {
+                        WebkitTextFillColor: "#000000",
+                        opacity: 1,
+                      },
+                    }}
+                    label="CTE"
+                    {...field}
+                    value={field.value}
+                  />
+                );
+              }}
+            />
+          </Grid>
+          <Grid item xs={2}>
+            <Controller
+              name="obs"
+              control={control}
+              render={({ field }) => {
+                return (
+                  <TextField
+                    sx={{
+                      "& .MuiInputBase-input.Mui-disabled": {
+                        WebkitTextFillColor: "#000000",
+                        opacity: 1,
+                      },
+                    }}
+                    label="OBS"
+                    {...field}
+                    value={field.value}
+                  />
+                );
+              }}
+            />
+          </Grid> */}
         </Grid>
       </Box>
       <Box gap="10px" display="flex" flexDirection="column"></Box>
