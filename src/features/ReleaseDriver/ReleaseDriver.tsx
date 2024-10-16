@@ -115,27 +115,7 @@ export function ReleaseDriver() {
       headerName: "LIBERAÇÃO",
       width: 100,
       renderCell: (params) => {
-        if (
-          (params.row.motoristaLiberado === null ||
-            params.row.motoristaLiberado === undefined) &&
-          (params.row.veiculoLiberado === null ||
-            params.row.veiculoLiberado === undefined)
-        )
-          return "N/A";
-        return (
-          <IconButton
-            onClick={() => console.log("esperando api")}
-            style={{
-              background: "transparent",
-              border: "none",
-              outline: "none",
-              color: "black",
-              cursor: "pointer",
-            }}
-          >
-            <FaEdit />
-          </IconButton>
-        );
+        return params.row.dtLiberacao ? params.row.dtLiberacao : "";
       },
     },
   ];

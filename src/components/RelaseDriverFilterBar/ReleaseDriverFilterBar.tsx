@@ -1,4 +1,10 @@
-import { Button, Grid, TextField } from "@mui/material";
+import {
+  Button,
+  Checkbox,
+  FormControlLabel,
+  Grid,
+  TextField,
+} from "@mui/material";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { Controller, FormProvider } from "react-hook-form";
@@ -61,6 +67,25 @@ export function ReleaseDriverFilterBar(
                 name="fleetCode"
                 control={control}
                 render={({ field }) => <AutocompleteFleetGroup {...field} />}
+              />
+            </Grid>
+            <Grid item xs={2}>
+              <Controller
+                name={"notReleased"}
+                control={control}
+                render={({ field }) => (
+                  <FormControlLabel
+                    componentsProps={{
+                      typography: {
+                        variant: "body2",
+                      },
+                    }}
+                    control={
+                      <Checkbox size="small" {...field} checked={field.value} />
+                    }
+                    label={"Não Liberados"}
+                  />
+                )}
               />
             </Grid>
 
