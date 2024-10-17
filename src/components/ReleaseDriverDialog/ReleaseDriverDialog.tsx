@@ -53,6 +53,9 @@ export const ReleaseDriverDialog: FC<ReleaseDriverDialogProps> = ({
       motoristaLiberado: data?.motoristaLiberado,
       veiculoLiberado: data?.veiculoLiberado,
       dtCheckList: dayjs().format(),
+      mdfe: data?.mdfe,
+      cte: data?.cte,
+      obs: data?.obs,
     };
 
     try {

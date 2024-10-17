@@ -1,16 +1,20 @@
+import { Box, TextField } from "@mui/material";
 import React from "react";
 import { Controller, useFormContext } from "react-hook-form";
-import { Box, TextField, Grid } from "@mui/material";
 
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import dayjs from "dayjs";
-import customParseFormat from "dayjs/plugin/customParseFormat";
-import "dayjs/locale/pt-br";
 import { AutocompleteDriver } from "@/components/AutocompleteDriver";
 import { AutocompleteTruck } from "@/components/AutocompleteTruck";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import dayjs from "dayjs";
+import "dayjs/locale/pt-br";
+import customParseFormat from "dayjs/plugin/customParseFormat";
 
 dayjs.extend(customParseFormat);
+
+const BoxField = (children: unknown): React.ReactElement => (
+  <BoxField sx={{ flexBasis: "135px" }}>{children}</BoxField>
+);
 
 export const ReleaseDriverForm = () => {
   const methods = useFormContext();
@@ -19,14 +23,8 @@ export const ReleaseDriverForm = () => {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
       <Box display="flex" flexDirection="column" gap="20px">
-        <Grid
-          container
-          spacing={1}
-          width={"100%"}
-          rowSpacing={2}
-          flexWrap={"nowrap"}
-        >
-          <Grid item xs={2}>
+        <Box display="flex" flexDirection="row" gap="10px" flexWrap={"wrap"}>
+          <BoxField>
             <Controller
               name="saida"
               control={control}
@@ -47,8 +45,8 @@ export const ReleaseDriverForm = () => {
                 );
               }}
             />
-          </Grid>
-          <Grid item xs={2}>
+          </BoxField>
+          <BoxField>
             <Controller
               name="entrega"
               control={control}
@@ -69,8 +67,8 @@ export const ReleaseDriverForm = () => {
                 );
               }}
             />
-          </Grid>
-          <Grid item xs={2}>
+          </BoxField>
+          <BoxField>
             <Controller
               name="demanda"
               control={control}
@@ -91,8 +89,8 @@ export const ReleaseDriverForm = () => {
                 );
               }}
             />
-          </Grid>
-          <Grid item xs={2}>
+          </BoxField>
+          <BoxField>
             <Controller
               name="destino"
               control={control}
@@ -113,9 +111,8 @@ export const ReleaseDriverForm = () => {
                 );
               }}
             />
-          </Grid>
-
-          <Grid item xs={2}>
+          </BoxField>
+          <BoxField>
             <AutocompleteDriver
               label={"Motorista Planejado"}
               disabled
@@ -124,8 +121,8 @@ export const ReleaseDriverForm = () => {
                 methods.setValue("motoristaPlan", value?.nickName);
               }}
             />
-          </Grid>
-          <Grid item xs={2}>
+          </BoxField>
+          <BoxField>
             <AutocompleteTruck
               label="Veículo Planejado"
               name="veiculoPlan"
@@ -135,8 +132,8 @@ export const ReleaseDriverForm = () => {
                 methods.setValue("veiculoPlan", value?.licensePlate);
               }}
             />
-          </Grid>
-          <Grid item xs={2}>
+          </BoxField>
+          <BoxField>
             <AutocompleteDriver
               label="Motorista liberado"
               name="motoristaLiberado"
@@ -144,8 +141,8 @@ export const ReleaseDriverForm = () => {
                 methods.setValue("motoristaLiberado", value?.nickName);
               }}
             />
-          </Grid>
-          <Grid item xs={2}>
+          </BoxField>
+          <BoxField>
             <AutocompleteTruck
               label="Veículo Liberado"
               name="veiculoLiberado"
@@ -153,7 +150,7 @@ export const ReleaseDriverForm = () => {
                 methods.setValue("veiculoLiberado", value?.licensePlate);
               }}
             />
-          </Grid>
+          </BoxField>
           {/* <Grid item xs={2}>
             <Controller
               name="mdfe"
@@ -210,7 +207,7 @@ export const ReleaseDriverForm = () => {
               }}
             />
           </Grid> */}
-        </Grid>
+        </Box>
       </Box>
       <Box gap="10px" display="flex" flexDirection="column"></Box>
     </LocalizationProvider>
