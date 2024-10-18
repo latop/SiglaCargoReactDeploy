@@ -147,10 +147,15 @@ export function ReleaseDriver() {
   const isOpen = hash.includes("releaseDriverId");
 
   useEffect(() => {
-    if (!params.get("dtRef") || !params.get("locOrig")) {
+    if (
+      !params.get("dtRef") ||
+      !params.get("locOrig") ||
+      !params.get("notReleased")
+    ) {
       const newParams = new URLSearchParams();
       newParams.append("dtRef", dayjs().format("YYYY-MM-DD"));
       newParams.append("locOrig", "");
+      newParams.append("notReleased", "true");
       router.push(`/release-driver?${newParams.toString()}`);
     }
   }, [params]);

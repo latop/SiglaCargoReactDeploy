@@ -1,5 +1,4 @@
 import { Box, TextField } from "@mui/material";
-import React from "react";
 import { Controller, useFormContext } from "react-hook-form";
 
 import { AutocompleteDriver } from "@/components/AutocompleteDriver";
@@ -12,10 +11,6 @@ import customParseFormat from "dayjs/plugin/customParseFormat";
 
 dayjs.extend(customParseFormat);
 
-const BoxField = (children: unknown): React.ReactElement => (
-  <BoxField sx={{ flexBasis: "135px" }}>{children}</BoxField>
-);
-
 export const ReleaseDriverForm = () => {
   const methods = useFormContext();
   const { control } = methods;
@@ -24,7 +19,7 @@ export const ReleaseDriverForm = () => {
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
       <Box display="flex" flexDirection="column" gap="20px">
         <Box display="flex" flexDirection="row" gap="10px" flexWrap={"wrap"}>
-          <BoxField>
+          <Box sx={{ flexBasis: "135px" }}>
             <Controller
               name="saida"
               control={control}
@@ -45,8 +40,8 @@ export const ReleaseDriverForm = () => {
                 );
               }}
             />
-          </BoxField>
-          <BoxField>
+          </Box>
+          <Box sx={{ flexBasis: "135px" }}>
             <Controller
               name="entrega"
               control={control}
@@ -67,8 +62,8 @@ export const ReleaseDriverForm = () => {
                 );
               }}
             />
-          </BoxField>
-          <BoxField>
+          </Box>
+          <Box sx={{ flexBasis: "135px" }}>
             <Controller
               name="demanda"
               control={control}
@@ -89,8 +84,8 @@ export const ReleaseDriverForm = () => {
                 );
               }}
             />
-          </BoxField>
-          <BoxField>
+          </Box>
+          <Box sx={{ flexBasis: "135px" }}>
             <Controller
               name="destino"
               control={control}
@@ -111,8 +106,8 @@ export const ReleaseDriverForm = () => {
                 );
               }}
             />
-          </BoxField>
-          <BoxField>
+          </Box>
+          <Box sx={{ flexBasis: "135px" }}>
             <AutocompleteDriver
               label={"Motorista Planejado"}
               disabled
@@ -121,8 +116,8 @@ export const ReleaseDriverForm = () => {
                 methods.setValue("motoristaPlan", value?.nickName);
               }}
             />
-          </BoxField>
-          <BoxField>
+          </Box>
+          <Box sx={{ flexBasis: "135px" }}>
             <AutocompleteTruck
               label="Veículo Planejado"
               name="veiculoPlan"
@@ -132,8 +127,8 @@ export const ReleaseDriverForm = () => {
                 methods.setValue("veiculoPlan", value?.licensePlate);
               }}
             />
-          </BoxField>
-          <BoxField>
+          </Box>
+          <Box sx={{ flexBasis: "135px" }}>
             <AutocompleteDriver
               label="Motorista liberado"
               name="motoristaLiberado"
@@ -141,8 +136,8 @@ export const ReleaseDriverForm = () => {
                 methods.setValue("motoristaLiberado", value?.nickName);
               }}
             />
-          </BoxField>
-          <BoxField>
+          </Box>
+          <Box sx={{ flexBasis: "135px" }}>
             <AutocompleteTruck
               label="Veículo Liberado"
               name="veiculoLiberado"
@@ -150,22 +145,33 @@ export const ReleaseDriverForm = () => {
                 methods.setValue("veiculoLiberado", value?.licensePlate);
               }}
             />
-          </BoxField>
-          {/* <Grid item xs={2}>
+          </Box>
+          <Box sx={{ flexBasis: "135px" }}>
             <Controller
               name="mdfe"
               control={control}
               render={({ field }) => {
                 return (
-                  <BaseNumberInput
-                    aria-label="MDFE"
+                  <TextField
+                    sx={{
+                      "& .MuiInputBase-input.Mui-disabled": {
+                        WebkitTextFillColor: "#000000",
+                        opacity: 1,
+                      },
+                    }}
+                    label="MDFE"
+                    type="number"
                     {...field}
+                    value={field.value}
+                    inputProps={{
+                      maxLength: 12,
+                    }}
                   />
                 );
               }}
             />
-          </Grid>
-          <Grid item xs={2}>
+          </Box>
+          <Box sx={{ flexBasis: "415px" }}>
             <Controller
               name="cte"
               control={control}
@@ -180,13 +186,17 @@ export const ReleaseDriverForm = () => {
                     }}
                     label="CTE"
                     {...field}
+                    type="number"
                     value={field.value}
+                    inputProps={{
+                      maxLength: 10,
+                    }}
                   />
                 );
               }}
             />
-          </Grid>
-          <Grid item xs={2}>
+          </Box>
+          <Box sx={{ flexBasis: "135px" }}>
             <Controller
               name="obs"
               control={control}
@@ -202,11 +212,12 @@ export const ReleaseDriverForm = () => {
                     label="OBS"
                     {...field}
                     value={field.value}
+                    inputProps={{ maxLength: 50 }}
                   />
                 );
               }}
             />
-          </Grid> */}
+          </Box>
         </Box>
       </Box>
       <Box gap="10px" display="flex" flexDirection="column"></Box>
