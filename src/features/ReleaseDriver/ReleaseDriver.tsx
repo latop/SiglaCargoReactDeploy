@@ -115,27 +115,7 @@ export function ReleaseDriver() {
       headerName: "LIBERAÇÃO",
       width: 100,
       renderCell: (params) => {
-        if (
-          (params.row.motoristaLiberado === null ||
-            params.row.motoristaLiberado === undefined) &&
-          (params.row.veiculoLiberado === null ||
-            params.row.veiculoLiberado === undefined)
-        )
-          return "N/A";
-        return (
-          <IconButton
-            onClick={() => console.log("esperando api")}
-            style={{
-              background: "transparent",
-              border: "none",
-              outline: "none",
-              color: "black",
-              cursor: "pointer",
-            }}
-          >
-            <FaEdit />
-          </IconButton>
-        );
+        return params.row.dtLiberacao ? params.row.dtLiberacao : "";
       },
     },
   ];
@@ -144,10 +124,10 @@ export function ReleaseDriver() {
     showContent,
     drivers,
     isLoading,
-    isEmpty,
+    // isEmpty,
     origem,
     totalCount,
-    error,
+    // error,
     size,
     loadMore,
   } = useReleaseDriver();
@@ -167,10 +147,15 @@ export function ReleaseDriver() {
   const isOpen = hash.includes("releaseDriverId");
 
   useEffect(() => {
-    if (!params.get("dtRef") || !params.get("locOrig")) {
+    if (
+      !params.get("dtRef") ||
+      !params.get("locOrig") ||
+      !params.get("notReleased")
+    ) {
       const newParams = new URLSearchParams();
       newParams.append("dtRef", dayjs().format("YYYY-MM-DD"));
       newParams.append("locOrig", "");
+      newParams.append("notReleased", "true");
       router.push(`/release-driver?${newParams.toString()}`);
     }
   }, [params]);
@@ -213,7 +198,7 @@ export function ReleaseDriver() {
           }}
         >
           {isLoading && <CircularProgress />}
-          {(isEmpty || error) && <EmptyResult />}
+          {drivers.length === 0 && !isLoading && <EmptyResult />}
           {showContent && !isLoading && (
             <Box sx={{ height: "100%", width: "100%", overflowY: "auto" }}>
               <DataGrid

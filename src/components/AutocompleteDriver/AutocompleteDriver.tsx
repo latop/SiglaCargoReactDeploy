@@ -11,11 +11,13 @@ export function AutocompleteDriver({
   name = "nickName",
   keyCode = "nickName",
   label = "Motorista",
+  disabled = false,
   onChange,
 }: {
   name?: string;
   keyCode?: keyof Driver;
   label?: string;
+  disabled?: boolean;
   onChange?: (value: Driver | null) => void;
 }) {
   const {
@@ -47,6 +49,7 @@ export function AutocompleteDriver({
       render={({ field }) => (
         <Autocomplete
           clearOnEscape
+          disabled={disabled}
           forcePopupIcon={false}
           options={drivers || []}
           loadingText="Carregando..."
@@ -67,6 +70,12 @@ export function AutocompleteDriver({
             <TextField
               {...field}
               {...params}
+              sx={{
+                "& .MuiInputBase-input.Mui-disabled": {
+                  WebkitTextFillColor: "#000000",
+                  opacity: 1,
+                },
+              }}
               onChange={debounce((e) => {
                 setLocalValue(e.target.value);
               }, 300)}

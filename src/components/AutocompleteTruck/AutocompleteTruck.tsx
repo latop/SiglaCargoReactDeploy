@@ -11,11 +11,13 @@ export function AutocompleteTruck({
   name = "truck",
   label = "Placa do veículo",
   keyCode = "licensePlate",
+  disabled = false,
   onChange,
 }: {
   name?: string;
   label?: string;
   keyCode?: keyof Truck;
+  disabled?: boolean;
   onChange?: (value: Truck | null) => void;
 }) {
   const {
@@ -37,6 +39,7 @@ export function AutocompleteTruck({
       render={({ field }) => (
         <Autocomplete
           forcePopupIcon={false}
+          disabled={disabled}
           clearOnEscape
           options={trucks || []}
           loadingText="Carregando..."
@@ -60,6 +63,12 @@ export function AutocompleteTruck({
             <TextField
               {...field}
               {...params}
+              sx={{
+                "& .MuiInputBase-input.Mui-disabled": {
+                  WebkitTextFillColor: "#000000",
+                  opacity: 1,
+                },
+              }}
               onChange={debounce((event) => {
                 setLocalValue(event.target.value);
               }, 300)}
