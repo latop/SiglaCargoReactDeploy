@@ -5,14 +5,14 @@ import {
   Grid,
   TextField,
 } from "@mui/material";
+import { GridSearchIcon } from "@mui/x-data-grid";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { Controller, FormProvider } from "react-hook-form";
 import { AutocompleteDriver } from "../AutocompleteDriver";
-import { AutocompleteLocation } from "../AutocompleteLocation";
-import { GridSearchIcon } from "@mui/x-data-grid";
-import { useReleaseDriverFilterBar } from "./useRealeseDriverFilterBar";
 import { AutocompleteFleetGroup } from "../AutocompleteFleetGroup";
+import { AutocompleteLocationRelease } from "../AutocompleteLocationRelease";
+import { useReleaseDriverFilterBar } from "./useRealeseDriverFilterBar";
 
 export function ReleaseDriverFilterBar(
   props: React.HTMLProps<HTMLFormElement>,
@@ -41,7 +41,7 @@ export function ReleaseDriverFilterBar(
             </Grid>
 
             <Grid item xs={2}>
-              <AutocompleteLocation label="Origem" name="locOrig" />
+              <AutocompleteLocationRelease label="Origem" name="locOrig" />
             </Grid>
 
             <Grid item xs={2}>
