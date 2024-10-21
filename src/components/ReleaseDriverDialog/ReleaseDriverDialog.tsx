@@ -53,9 +53,9 @@ export const ReleaseDriverDialog: FC<ReleaseDriverDialogProps> = ({
       motoristaLiberado: data?.motoristaLiberado,
       veiculoLiberado: data?.veiculoLiberado,
       dtCheckList: dayjs().format(),
-      mdfe: data?.mdfe?.substr(0, 12),
-      cte: data?.cte?.substr(0, 10),
-      obs: data?.obs?.substr(0, 50),
+      mdfe: data?.mdfe,
+      cte: data?.cte,
+      obs: data?.obs,
     };
 
     try {
@@ -63,6 +63,7 @@ export const ReleaseDriverDialog: FC<ReleaseDriverDialogProps> = ({
         onSuccess: () => {
           mutate();
           addToast("Motorista liberado com sucesso");
+          onClose();
         },
         onError: () => {
           addToast("Algo deu errado...", {

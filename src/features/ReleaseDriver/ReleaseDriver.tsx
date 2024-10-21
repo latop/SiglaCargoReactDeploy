@@ -115,7 +115,9 @@ export function ReleaseDriver() {
       headerName: "LIBERAÇÃO",
       width: 100,
       renderCell: (params) => {
-        return params.row.dtLiberacao ? params.row.dtLiberacao : "";
+        return params.row.dtLiberacao
+          ? dayjs(params.row.dtLiberacao).format("DD/MM/YYYY HH:mm:ss")
+          : "";
       },
     },
   ];
@@ -141,6 +143,7 @@ export function ReleaseDriver() {
   };
 
   const handleCloseDialog = () => {
+    console.log("handleClose");
     setHash("");
   };
 
@@ -152,11 +155,29 @@ export function ReleaseDriver() {
       !params.get("locOrig") ||
       !params.get("notReleased")
     ) {
-      const newParams = new URLSearchParams();
-      newParams.append("dtRef", dayjs().format("YYYY-MM-DD"));
-      newParams.append("locOrig", "");
-      newParams.append("notReleased", "true");
-      router.push(`/release-driver?${newParams.toString()}`);
+      const dtRef = dayjs(params.get("dtRef")).isValid()
+        ? dayjs(params.get("dtRef")).format("YYYY-MM-DD")
+        : dayjs().format("YYYY-MM-DD");
+      const locOrig = params.get("locOrig") || "";
+      if (dtRef && locOrig) {
+        const newParams = new URLSearchParams();
+        newParams.append("dtRef", dtRef);
+        newParams.append("locOrig", locOrig);
+        newParams.append(
+          "notReleased",
+          params.get("notReleased") === "true" ? "true" : "false",
+        );
+        if (params.get("nickName")) {
+          newParams.append("nickName", params.get("nickName") || "");
+        }
+        if (params.get("fleetCode")) {
+          newParams.append("fleetCode", params.get("fleetCode") || "");
+        }
+        if (params.get("demand")) {
+          newParams.append("demand", params.get("demand") || "");
+        }
+        router.push(`/release-driver?${newParams.toString()}`);
+      }
     }
   }, [params]);
 
@@ -184,6 +205,7 @@ export function ReleaseDriver() {
           }}
         >
           <strong>ORIGEM:</strong> {origem}
+          {hash}
         </Box>
         <Card
           sx={{
@@ -227,7 +249,7 @@ export function ReleaseDriver() {
                 }}
                 initialState={{
                   pagination: {
-                    paginationModel: { page: size - 1, pageSize: 10 },
+                    paginationModel: { page: size - 1, pageSize: 100 },
                   },
                 }}
                 pageSizeOptions={[10]}

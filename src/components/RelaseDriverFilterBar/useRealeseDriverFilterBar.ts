@@ -50,7 +50,9 @@ export function useReleaseDriverFilterBar() {
       demand: params.get("demand") || "",
       fleetCode: params.get("fleetCode") || "",
       locOrig: params.get("locOrig") || "",
-      dtRef: params.get("dtRef") ? dayjs(params.get("dtRef")) : dayjs(),
+      dtRef: dayjs(params.get("dtRef")).isValid()
+        ? dayjs(params.get("dtRef"))
+        : dayjs(),
       notReleased: Boolean(params.get("notReleased")) || true,
     },
   });

@@ -163,6 +163,9 @@ export const ReleaseDriverForm = () => {
                     type="number"
                     {...field}
                     value={field.value}
+                    onInput={(e: React.ChangeEvent<HTMLInputElement>) => {
+                      e.target.value = e.target.value.slice(0, 12);
+                    }}
                     inputProps={{
                       maxLength: 12,
                     }}
@@ -171,7 +174,7 @@ export const ReleaseDriverForm = () => {
               }}
             />
           </Box>
-          <Box sx={{ flexBasis: "415px" }}>
+          <Box sx={{ flexBasis: "135px" }}>
             <Controller
               name="cte"
               control={control}
@@ -188,6 +191,9 @@ export const ReleaseDriverForm = () => {
                     {...field}
                     type="number"
                     value={field.value}
+                    onInput={(e: React.ChangeEvent<HTMLInputElement>) => {
+                      e.target.value = e.target.value.slice(0, 10);
+                    }}
                     inputProps={{
                       maxLength: 10,
                     }}
@@ -196,7 +202,7 @@ export const ReleaseDriverForm = () => {
               }}
             />
           </Box>
-          <Box sx={{ flexBasis: "135px" }}>
+          <Box sx={{ flexBasis: "425px" }}>
             <Controller
               name="obs"
               control={control}
@@ -204,6 +210,7 @@ export const ReleaseDriverForm = () => {
                 return (
                   <TextField
                     sx={{
+                      width: "100%",
                       "& .MuiInputBase-input.Mui-disabled": {
                         WebkitTextFillColor: "#000000",
                         opacity: 1,
@@ -213,6 +220,9 @@ export const ReleaseDriverForm = () => {
                     {...field}
                     value={field.value}
                     inputProps={{ maxLength: 50 }}
+                    onInput={(e: React.ChangeEvent<HTMLInputElement>) => {
+                      e.target.value = e.target.value.slice(0, 50);
+                    }}
                   />
                 );
               }}
