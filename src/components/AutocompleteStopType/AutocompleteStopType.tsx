@@ -3,46 +3,43 @@ import React, { SyntheticEvent } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import { TextField } from "@mui/material";
 import Autocomplete from "@mui/material/Autocomplete";
-import { useLocation } from "@/hooks/useLocation";
 import debounce from "debounce";
-import { Location } from "@/interfaces/trip";
+import { StopType } from "@/interfaces/trip";
+import { useStopType } from "@/hooks/useStopType";
 
-export interface AutocompleteLocationProps {
+export function AutocompleteStopType({
+  name = "stopType",
+  label = "Tipo de parada",
+  keyCode = "stopTypeCode",
+  onChange,
+}: {
   name?: string;
   label?: string;
-  keyCode?: keyof Location;
-  onChange?: (value: Location | null) => void;
-}
+  keyCode?: keyof StopType;
+  onChange?: (value: StopType | null) => void;
 
-export function AutocompleteLocation({
-  name = "locationCode",
-  label = "Cód. localização",
-  keyCode = "code",
-  onChange,
-}: AutocompleteLocationProps) {
+}) {
   const {
     control,
     watch,
-    setValue,
-    formState: { errors, dirtyFields },
+    setValue, formState: { errors, dirtyFields },
   } = useFormContext();
 
   const isDirty = dirtyFields[name];
-
-
-  const { locations, error } = useLocation({
+  const { stopTypes, error } = useStopType({
     pageSize: 10,
-    code: (isDirty && watch(name)) ?? watch(name) ?? "",
+    code: isDirty ? watch(name) : "",
   });
 
   const handleChange = (
     _: SyntheticEvent<Element, Event>,
-    value: Location | null,
+    value: StopType | null,
   ) => {
     if (onChange) {
       onChange(value);
     } else {
       setValue(name, value?.[keyCode] || "");
+
     }
   };
 
@@ -54,21 +51,21 @@ export function AutocompleteLocation({
         <Autocomplete
           forcePopupIcon={false}
           clearOnEscape
-          options={locations || []}
+          options={stopTypes || []}
           loadingText="Carregando..."
-          defaultValue={{ code: field.value || "" } as Location}
-          isOptionEqualToValue={(option: Location, value: Location) =>
-            option.id === value.id
+          defaultValue={{ stopTypeCode: field.value || "" } as StopType}
+          isOptionEqualToValue={(option: StopType, value: StopType) =>
+            option[keyCode] === value[keyCode]
           }
           onChange={handleChange}
           noOptionsText={
             !field.value
               ? "Digite o código"
-              : !locations && !error
+              : !stopTypes && !error
                 ? "Carregando..."
                 : "Nenhum resultado encontrado"
           }
-          getOptionLabel={(option: Location) => option.code}
+          getOptionLabel={(option: StopType) => option.stopTypeCode}
           renderInput={(params) => (
             <TextField
               {...field}

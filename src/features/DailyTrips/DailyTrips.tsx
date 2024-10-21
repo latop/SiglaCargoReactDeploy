@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 "use client";
 
 import React, { useEffect } from "react";
@@ -15,6 +16,7 @@ import { ErrorResult } from "@/components/ErrorResult";
 import { DailyTrip } from "@/interfaces/daily-trip";
 import { DailyTripDetailsDialog } from "@/components/DailyTripDetailsDialog";
 import { useHash } from "@/hooks/useHash";
+import { GenerateDailyTripDialog } from "@/components/GenerateDailyTripDialog";
 
 const columns: GridColDef[] = [
   {
@@ -95,6 +97,7 @@ const columns: GridColDef[] = [
 export function DailyTrips() {
   const [hash, setHash] = useHash();
   const isOpen = hash.includes("dailyTrip");
+  const isGenerateDialogOpen = hash.includes("generateTrip")
   const params = useSearchParams();
   const router = useRouter();
   const {
@@ -126,6 +129,12 @@ export function DailyTrips() {
     setHash("#dailyTrip");
   };
 
+
+  const handleOpenGenerateTripDialog = () => {
+    setHash("#generateTrip");
+  }
+
+
   return (
     <MainContainer>
       <AppBar>
@@ -142,7 +151,16 @@ export function DailyTrips() {
         }}
       >
         <DailyTripsFilterBar />
-        <Box display="flex" justifyContent="flex-end" mt="25px" mb="10px">
+        <Box
+          display="flex"
+          justifyContent="flex-end"
+          mt="25px"
+          mb="10px"
+          gap={1}
+        >
+          <Button variant="outlined" size="small" onClick={handleOpenGenerateTripDialog}>
+            Gerar viagem diária
+          </Button>
           <Button variant="outlined" size="small" onClick={handleAddTravel}>
             Adicionar viagem
           </Button>
@@ -174,8 +192,7 @@ export function DailyTrips() {
                     MuiTablePagination: {
                       labelRowsPerPage: "Registros por página",
                       labelDisplayedRows: ({ from, to, count }) =>
-                        `${from}-${to} de ${
-                          count !== -1 ? count : `mais de ${to}`
+                        `${from}-${to} de ${count !== -1 ? count : `mais de ${to}`
                         }`,
                     },
                   }}
@@ -200,6 +217,7 @@ export function DailyTrips() {
         )}
       </Box>
       <DailyTripDetailsDialog open={!!isOpen} onClose={handleCloseDialog} />
+      <GenerateDailyTripDialog isOpen={isGenerateDialogOpen} onClose={handleCloseDialog} />
     </MainContainer>
   );
 }
