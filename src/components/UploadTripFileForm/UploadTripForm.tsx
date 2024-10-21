@@ -7,6 +7,7 @@ import { AutocompleteLocationGroup } from "@/components/AutocompleteLocationGrou
 import { useImportTrips } from "@/hooks/useImportTrips";
 import { ClearIcon } from "@mui/x-date-pickers";
 import { GridAddIcon } from "@mui/x-data-grid";
+import React from "react";
 
 const labelStyle: CSSProperties = {
   display: "flex",

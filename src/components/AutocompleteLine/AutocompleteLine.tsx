@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import { TextField } from "@mui/material";
@@ -39,7 +40,7 @@ export function AutocompleteLine({
         <Autocomplete
           forcePopupIcon={false}
           clearOnEscape
-          options={lines || []}
+          options={(lines as Line[]) || []}
           loadingText="Carregando..."
           defaultValue={{ code: field.value || "" } as Line}
           isOptionEqualToValue={(option: Line, value: Line) =>
@@ -53,8 +54,8 @@ export function AutocompleteLine({
             !field.value
               ? "Digite o código"
               : !lines && !error
-              ? "Carregando..."
-              : "Nenhum resultado encontrado"
+                ? "Carregando..."
+                : "Nenhum resultado encontrado"
           }
           getOptionLabel={(option: Line) => option.code}
           renderInput={(params) => (
