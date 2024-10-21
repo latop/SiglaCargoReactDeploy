@@ -95,13 +95,14 @@ export function useUpdateLineDialog() {
         return {
           id: section?.id,
           lineId: section?.lineId,
-          locationOrigId: section?.locationOrigId,
-          locationDestId: section?.locationDestId,
-          stopTypeId: section?.stopTypeId,
-          duration: section?.duration,
+          locationOrigId: section?.locationOrigId || section.locationOrig.id,
+          locationDestId: section?.locationDestId || section.locationDest.id,
+          stopTypeId: section?.stopTypeId || section?.stopType?.id,
+          duration: Number(section?.duration),
         };
       }),
     };
+
     return await lineCreate("/updateline", body, {
       onSuccess: () => {
         addToast("Rota atualizada com sucesso!", { type: "success" });
