@@ -1,25 +1,21 @@
-/* eslint-disable prettier/prettier */
-import React, { SyntheticEvent } from "react";
-import { Controller, useFormContext } from "react-hook-form";
+import { useLocationRelease } from "@/hooks/useLocationRelease";
+import { Location } from "@/interfaces/trip";
 import { TextField } from "@mui/material";
 import Autocomplete from "@mui/material/Autocomplete";
-import { useLocation } from "@/hooks/useLocation";
 import debounce from "debounce";
-import { Location } from "@/interfaces/trip";
+import { Controller, useFormContext } from "react-hook-form";
 
-export interface AutocompleteLocationProps {
+export interface AutocompleteLocationReleaseProps {
   name?: string;
   label?: string;
   keyCode?: keyof Location;
-  onChange?: (value: Location | null) => void;
 }
 
-export function AutocompleteLocation({
+export function AutocompleteLocationRelease({
   name = "locationCode",
   label = "Cód. localização",
   keyCode = "code",
-  onChange,
-}: AutocompleteLocationProps) {
+}: AutocompleteLocationReleaseProps) {
   const {
     control,
     watch,
@@ -28,23 +24,10 @@ export function AutocompleteLocation({
   } = useFormContext();
 
   const isDirty = dirtyFields[name];
-
-
-  const { locations, error } = useLocation({
+  const { locations, error } = useLocationRelease({
     pageSize: 10,
-    code: (isDirty && watch(name)) ?? watch(name) ?? "",
+    code: isDirty ? watch(name) : "",
   });
-
-  const handleChange = (
-    _: SyntheticEvent<Element, Event>,
-    value: Location | null,
-  ) => {
-    if (onChange) {
-      onChange(value);
-    } else {
-      setValue(name, value?.[keyCode] || "");
-    }
-  };
 
   return (
     <Controller
@@ -56,17 +39,19 @@ export function AutocompleteLocation({
           clearOnEscape
           options={locations || []}
           loadingText="Carregando..."
-          defaultValue={{ code: field.value || null } as Location}
+          defaultValue={{ code: field.value || "" } as Location}
           isOptionEqualToValue={(option: Location, value: Location) =>
-            option.id === value.id
+            option[keyCode] === value[keyCode]
           }
-          onChange={handleChange}
+          onChange={(_, value) => {
+            setValue(name, value?.[keyCode] || "");
+          }}
           noOptionsText={
             !field.value
               ? "Digite o código"
               : !locations && !error
-                ? "Carregando..."
-                : "Nenhum resultado encontrado"
+              ? "Carregando..."
+              : "Nenhum resultado encontrado"
           }
           getOptionLabel={(option: Location) => option.code}
           renderInput={(params) => (
