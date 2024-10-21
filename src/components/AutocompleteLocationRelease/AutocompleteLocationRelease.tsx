@@ -1,22 +1,21 @@
-import React from "react";
-import { Controller, useFormContext } from "react-hook-form";
+import { useLocationRelease } from "@/hooks/useLocationRelease";
+import { Location } from "@/interfaces/trip";
 import { TextField } from "@mui/material";
 import Autocomplete from "@mui/material/Autocomplete";
-import { useLocation } from "@/hooks/useLocation";
 import debounce from "debounce";
-import { Location } from "@/interfaces/trip";
+import { Controller, useFormContext } from "react-hook-form";
 
-export interface AutocompleteLocationProps {
+export interface AutocompleteLocationReleaseProps {
   name?: string;
   label?: string;
   keyCode?: keyof Location;
 }
 
-export function AutocompleteLocation({
+export function AutocompleteLocationRelease({
   name = "locationCode",
   label = "Cód. localização",
   keyCode = "code",
-}: AutocompleteLocationProps) {
+}: AutocompleteLocationReleaseProps) {
   const {
     control,
     watch,
@@ -25,7 +24,7 @@ export function AutocompleteLocation({
   } = useFormContext();
 
   const isDirty = dirtyFields[name];
-  const { locations, error } = useLocation({
+  const { locations, error } = useLocationRelease({
     pageSize: 10,
     code: isDirty ? watch(name) : "",
   });
@@ -40,9 +39,9 @@ export function AutocompleteLocation({
           clearOnEscape
           options={locations || []}
           loadingText="Carregando..."
-          defaultValue={{ code: field.value || null } as Location}
+          defaultValue={{ code: field.value || "" } as Location}
           isOptionEqualToValue={(option: Location, value: Location) =>
-            option.id === value.id
+            option[keyCode] === value[keyCode]
           }
           onChange={(_, value) => {
             setValue(name, value?.[keyCode] || "");

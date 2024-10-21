@@ -115,27 +115,9 @@ export function ReleaseDriver() {
       headerName: "LIBERAÇÃO",
       width: 100,
       renderCell: (params) => {
-        if (
-          (params.row.motoristaLiberado === null ||
-            params.row.motoristaLiberado === undefined) &&
-          (params.row.veiculoLiberado === null ||
-            params.row.veiculoLiberado === undefined)
-        )
-          return "N/A";
-        return (
-          <IconButton
-            onClick={() => console.log("esperando api")}
-            style={{
-              background: "transparent",
-              border: "none",
-              outline: "none",
-              color: "black",
-              cursor: "pointer",
-            }}
-          >
-            <FaEdit />
-          </IconButton>
-        );
+        return params.row.dtLiberacao
+          ? dayjs(params.row.dtLiberacao).format("DD/MM/YYYY HH:mm:ss")
+          : "";
       },
     },
   ];
@@ -144,10 +126,10 @@ export function ReleaseDriver() {
     showContent,
     drivers,
     isLoading,
-    isEmpty,
+    // isEmpty,
     origem,
     totalCount,
-    error,
+    // error,
     size,
     loadMore,
   } = useReleaseDriver();
@@ -161,17 +143,41 @@ export function ReleaseDriver() {
   };
 
   const handleCloseDialog = () => {
+    console.log("handleClose");
     setHash("");
   };
 
   const isOpen = hash.includes("releaseDriverId");
 
   useEffect(() => {
-    if (!params.get("dtRef") || !params.get("locOrig")) {
-      const newParams = new URLSearchParams();
-      newParams.append("dtRef", dayjs().format("YYYY-MM-DD"));
-      newParams.append("locOrig", "");
-      router.push(`/release-driver?${newParams.toString()}`);
+    if (
+      !params.get("dtRef") ||
+      !params.get("locOrig") ||
+      !params.get("notReleased")
+    ) {
+      const dtRef = dayjs(params.get("dtRef")).isValid()
+        ? dayjs(params.get("dtRef")).format("YYYY-MM-DD")
+        : dayjs().format("YYYY-MM-DD");
+      const locOrig = params.get("locOrig") || "";
+      if (dtRef && locOrig) {
+        const newParams = new URLSearchParams();
+        newParams.append("dtRef", dtRef);
+        newParams.append("locOrig", locOrig);
+        newParams.append(
+          "notReleased",
+          params.get("notReleased") === "true" ? "true" : "false",
+        );
+        if (params.get("nickName")) {
+          newParams.append("nickName", params.get("nickName") || "");
+        }
+        if (params.get("fleetCode")) {
+          newParams.append("fleetCode", params.get("fleetCode") || "");
+        }
+        if (params.get("demand")) {
+          newParams.append("demand", params.get("demand") || "");
+        }
+        router.push(`/release-driver?${newParams.toString()}`);
+      }
     }
   }, [params]);
 
@@ -199,6 +205,7 @@ export function ReleaseDriver() {
           }}
         >
           <strong>ORIGEM:</strong> {origem}
+          {hash}
         </Box>
         <Card
           sx={{
@@ -213,7 +220,7 @@ export function ReleaseDriver() {
           }}
         >
           {isLoading && <CircularProgress />}
-          {(isEmpty || error) && <EmptyResult />}
+          {drivers.length === 0 && !isLoading && <EmptyResult />}
           {showContent && !isLoading && (
             <Box sx={{ height: "100%", width: "100%", overflowY: "auto" }}>
               <DataGrid
@@ -242,7 +249,7 @@ export function ReleaseDriver() {
                 }}
                 initialState={{
                   pagination: {
-                    paginationModel: { page: size - 1, pageSize: 10 },
+                    paginationModel: { page: size - 1, pageSize: 100 },
                   },
                 }}
                 pageSizeOptions={[10]}

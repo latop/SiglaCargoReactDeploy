@@ -15,6 +15,7 @@ export const useReleaseDriver = (options?: SWRConfiguration) => {
     fleetCode: params.get("fleetCode"),
     demand: params.get("demand"),
     locOrig: params.get("locOrig"),
+    notReleased: params.get("notReleased"),
   };
 
   const getKey = (

@@ -55,6 +55,27 @@ export async function fetchLocations({
   }
 }
 
+export async function fetchLocationsRelease({
+  args: params,
+}: {
+  args: FetchLocationParams;
+}) {
+  try {
+    const locationParams = {
+      PageSize: params.pageSize,
+      filter1String: params.code?.toUpperCase(),
+    };
+    const response = await axios.get("/Location/GetLocationRelease", {
+      params: locationParams,
+    });
+    const data = response.data;
+    return data;
+  } catch (error) {
+    console.error(error);
+    return error;
+  }
+}
+
 export interface FetchLineParams {
   pageSize?: number;
   code?: string;
