@@ -1,12 +1,18 @@
-import { Button, Grid, TextField } from "@mui/material";
+import {
+  Button,
+  Checkbox,
+  FormControlLabel,
+  Grid,
+  TextField,
+} from "@mui/material";
+import { GridSearchIcon } from "@mui/x-data-grid";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { Controller, FormProvider } from "react-hook-form";
 import { AutocompleteDriver } from "../AutocompleteDriver";
-import { AutocompleteLocation } from "../AutocompleteLocation";
-import { GridSearchIcon } from "@mui/x-data-grid";
-import { useReleaseDriverFilterBar } from "./useRealeseDriverFilterBar";
 import { AutocompleteFleetGroup } from "../AutocompleteFleetGroup";
+import { AutocompleteLocationRelease } from "../AutocompleteLocationRelease";
+import { useReleaseDriverFilterBar } from "./useRealeseDriverFilterBar";
 
 export function ReleaseDriverFilterBar(
   props: React.HTMLProps<HTMLFormElement>,
@@ -35,7 +41,7 @@ export function ReleaseDriverFilterBar(
             </Grid>
 
             <Grid item xs={2}>
-              <AutocompleteLocation label="Origem" name="locOrig" />
+              <AutocompleteLocationRelease label="Origem" name="locOrig" />
             </Grid>
 
             <Grid item xs={2}>
@@ -52,7 +58,14 @@ export function ReleaseDriverFilterBar(
               <Controller
                 name="nickName"
                 control={control}
-                render={({ field }) => <AutocompleteDriver {...field} />}
+                render={({ field }) => (
+                  <AutocompleteDriver
+                    {...field}
+                    onChange={(value) => {
+                      methods.setValue("nickName", value?.nickName);
+                    }}
+                  />
+                )}
               />
             </Grid>
 
@@ -60,7 +73,33 @@ export function ReleaseDriverFilterBar(
               <Controller
                 name="fleetCode"
                 control={control}
-                render={({ field }) => <AutocompleteFleetGroup {...field} />}
+                render={({ field }) => (
+                  <AutocompleteFleetGroup
+                    {...field}
+                    onChange={(value) => {
+                      methods.setValue("fleetCode", value?.description);
+                    }}
+                  />
+                )}
+              />
+            </Grid>
+            <Grid item xs={2}>
+              <Controller
+                name={"notReleased"}
+                control={control}
+                render={({ field }) => (
+                  <FormControlLabel
+                    componentsProps={{
+                      typography: {
+                        variant: "body2",
+                      },
+                    }}
+                    control={
+                      <Checkbox size="small" {...field} checked={field.value} />
+                    }
+                    label={"Não Liberados"}
+                  />
+                )}
               />
             </Grid>
 
