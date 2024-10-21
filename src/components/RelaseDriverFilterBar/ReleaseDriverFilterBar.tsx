@@ -58,7 +58,14 @@ export function ReleaseDriverFilterBar(
               <Controller
                 name="nickName"
                 control={control}
-                render={({ field }) => <AutocompleteDriver {...field} />}
+                render={({ field }) => (
+                  <AutocompleteDriver
+                    {...field}
+                    onChange={(value) => {
+                      methods.setValue("nickName", value?.nickName);
+                    }}
+                  />
+                )}
               />
             </Grid>
 
@@ -66,7 +73,14 @@ export function ReleaseDriverFilterBar(
               <Controller
                 name="fleetCode"
                 control={control}
-                render={({ field }) => <AutocompleteFleetGroup {...field} />}
+                render={({ field }) => (
+                  <AutocompleteFleetGroup
+                    {...field}
+                    onChange={(value) => {
+                      methods.setValue("fleetCode", value?.description);
+                    }}
+                  />
+                )}
               />
             </Grid>
             <Grid item xs={2}>
