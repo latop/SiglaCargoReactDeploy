@@ -25,6 +25,7 @@ export function LinesFilterBar(props: React.HTMLProps<HTMLFormElement>) {
     setValue("fleetGroupId", value?.id || "");
     setValue("fleetGroupCode", value?.code || "");
   };
+
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
       <FormProvider {...methods}>
@@ -74,17 +75,17 @@ export function LinesFilterBar(props: React.HTMLProps<HTMLFormElement>) {
                   keyCode="id"
                 />
               </Grid>
-            </Grid>
-            <Grid item xs={1} justifySelf={"flex-end"}>
-              <Button
-                type="submit"
-                size="large"
-                variant="contained"
-                color="primary"
-                fullWidth
-              >
-                <SearchIcon />
-              </Button>
+              <Grid item>
+                <Button
+                  type="submit"
+                  size="large"
+                  variant="contained"
+                  color="primary"
+                  fullWidth
+                >
+                  <SearchIcon />
+                </Button>
+              </Grid>
             </Grid>
           </div>
         </form>
