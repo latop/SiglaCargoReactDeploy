@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React, { SyntheticEvent } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import { TextField } from "@mui/material";
@@ -52,7 +53,7 @@ export function AutocompleteFleetGroup({
           forcePopupIcon={false}
           options={fleetGroups || []}
           loadingText="Carregando..."
-          defaultValue={{ [keyCode]: field.value ?? null } as FleetGroup}
+          defaultValue={{ [keyCode]: field.value ?? "" } as FleetGroup}
           isOptionEqualToValue={(option: FleetGroup, value: FleetGroup) =>
             option.id === value.id
           }
@@ -61,8 +62,8 @@ export function AutocompleteFleetGroup({
             !field.value
               ? "Digite o código"
               : !fleetGroups && !error
-              ? "Carregando..."
-              : "Nenhum resultado encontrado"
+                ? "Carregando..."
+                : "Nenhum resultado encontrado"
           }
           getOptionLabel={(option: FleetGroup) =>
             option.description

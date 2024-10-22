@@ -12,10 +12,9 @@ export const useLines = (options?: SWRConfiguration) => {
     locationOrigId: searchParams.get("locationOrigId"),
     code: searchParams.get("code"),
   };
-
   const getKey = (pageIndex: number, previousPageData: LinesResponse) => {
     if (previousPageData && !previousPageData.hasNext) return null;
-
+    if (!Object.values(params).some(Boolean)) return null;
     return {
       url: "/lines",
       args: { ...params, pageSize: 10, pageNumber: pageIndex + 1 },
