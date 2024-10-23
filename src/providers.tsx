@@ -7,7 +7,7 @@ import theme from "@/styles/theme";
 import { ThemeProvider } from "@mui/material/styles";
 import { ToastProvider } from "@/hooks/useToast/useToast";
 import { DialogProvider } from "./hooks/useDialog/useDialog";
-import QueryProvider from "./services/query/provider";
+import QueryProvider from "./services/configs/provider";
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
