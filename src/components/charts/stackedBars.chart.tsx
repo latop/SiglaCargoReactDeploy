@@ -25,12 +25,24 @@ interface Params {
   title: string;
 }
 
-const HorizontalBars = ({ data, title }: Params) => {
+const StackedBars = ({ data, title }: Params) => {
   const options = {
     responsive: true,
+    scales: {
+      x: {
+        stacked: true,
+      },
+      y: {
+        stacked: true,
+      },
+    },
     plugins: {
       legend: {
         position: "bottom" as const,
+      },
+      title: {
+        display: true,
+        text: title,
       },
     },
   };
@@ -45,9 +57,9 @@ const HorizontalBars = ({ data, title }: Params) => {
       }}
     >
       <h3>{title}</h3>
-      <Bar options={options} data={data} />
+      <Bar options={options} data={data} />;
     </div>
   );
 };
 
-export default HorizontalBars;
+export default StackedBars;

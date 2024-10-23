@@ -1,29 +1,19 @@
-import StackedBarChart from "@/components/charts/stackedBar.charts";
-import { ChartData } from "chart.js";
+import { CustomChartBarData } from "@/components/charts";
+import StackedBars from "@/components/charts/stackedBars.chart";
+import { Container } from "@mui/material";
 
 interface Params {
-  data: ChartData<"bar", (number | [number, number] | null)[], unknown>;
+  data: CustomChartBarData;
 }
-
 const DemandsChart = ({ data }: Params) => {
   return (
-    <div>
-      <StackedBarChart
-        labels={[
-          "2024-09-15",
-          "2024-09-16",
-          "2024-09-17",
-          "2024-09-18",
-          "2024-09-19",
-          "2024-09-20",
-          "2024-09-21",
-          "2024-09-22",
-          "2024-09-23",
-          "2024-09-24",
-        ]}
+    <Container>
+      <StackedBars
+        title="Total de Demandas por Base"
+        labels={data.labels as string[]}
         data={data}
       />
-    </div>
+    </Container>
   );
 };
 

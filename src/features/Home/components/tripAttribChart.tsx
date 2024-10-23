@@ -1,29 +1,20 @@
-import { ChartBarData } from "@/components/charts";
+import { CustomChartBarData } from "@/components/charts";
 import HorizontalBars from "@/components/charts/horizontalBars.charts";
+import { Container } from "@mui/material";
 
 interface Params {
-  data: ChartBarData;
+  data: CustomChartBarData;
 }
 
 const TripAttribChart = ({ data }: Params) => {
   return (
-    <div>
+    <Container>
       <HorizontalBars
-        labels={[
-          "2024-09-15",
-          "2024-09-16",
-          "2024-09-17",
-          "2024-09-18",
-          "2024-09-19",
-          "2024-09-20",
-          "2024-09-21",
-          "2024-09-22",
-          "2024-09-23",
-          "2024-09-24",
-        ]}
+        title="Quantidade de Viagens Produtivas Atribuidas"
+        labels={data.labels as string[]}
         data={data}
       />
-    </div>
+    </Container>
   );
 };
 
