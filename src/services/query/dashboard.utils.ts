@@ -18,7 +18,7 @@ export const dashboardAgroupByFieldTransform = async ({
     const parsedData = originalData.map((item) => {
       return {
         ...item,
-        [groupFieldLabel]: dayjs(item[groupFieldLabel]).format("DD/MM/YYYY"),
+        [groupFieldLabel]: dayjs(item[groupFieldLabel]).format("DD/MM"),
       };
     });
     const labels = Array.from(
@@ -40,10 +40,7 @@ export const dashboardAgroupByFieldTransform = async ({
         }
         let value = 0;
         if (exist.length > 0) {
-          value =
-            typeof exist[0][groupFieldValue] == "string"
-              ? parseInt(exist[0][groupFieldValue])
-              : exist[0][groupFieldValue];
+          value = exist[0][groupFieldValue] as number;
         }
 
         total[group].push(value);
@@ -71,7 +68,7 @@ export const dashboardTripsAttribTransform = async (
   return new Promise((resolve) => {
     const labels = Array.from(
       new Set(
-        originalData.map((item) => dayjs(item.tripDate).format("DD/MM/YYYY")),
+        originalData.map((item) => dayjs(item.tripDate).format("DD/MM")),
       ),
     );
 
@@ -108,7 +105,7 @@ export const dashboardTripsCompletedTransform = async (
   return new Promise((resolve) => {
     const labels = Array.from(
       new Set(
-        originalData.map((item) => dayjs(item.tripDate).format("DD/MM/YYYY")),
+        originalData.map((item) => dayjs(item.tripDate).format("DD/MM")),
       ),
     );
 

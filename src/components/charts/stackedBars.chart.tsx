@@ -40,10 +40,6 @@ const StackedBars = ({ data, title }: Params) => {
       legend: {
         position: "bottom" as const,
       },
-      title: {
-        display: true,
-        text: title,
-      },
     },
   };
 
@@ -56,8 +52,8 @@ const StackedBars = ({ data, title }: Params) => {
         flexDirection: "column",
       }}
     >
-      <h3>{title}</h3>
-      <Bar options={options} data={data} />;
+      <h2 style={{marginBottom:10}}>{title}</h2>
+      <Bar options={options} data={data} />
     </div>
   );
 };
