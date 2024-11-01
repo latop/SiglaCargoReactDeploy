@@ -3,7 +3,19 @@ import { AppBar } from "@/components/AppBar";
 import { HeaderTitle } from "@/components/HeaderTitle/HeaderTitle";
 import { MainContainer } from "@/components/MainContainer";
 import { useGetDashboardQuery } from "@/services/query/dashboard.query";
-import { Box, Card, CardContent, Chip, FormControl, Grid, InputLabel, MenuItem, OutlinedInput, Select, SelectChangeEvent } from "@mui/material";
+import {
+  Box,
+  Card,
+  CardContent,
+  Chip,
+  FormControl,
+  Grid,
+  InputLabel,
+  MenuItem,
+  OutlinedInput,
+  Select,
+  SelectChangeEvent,
+} from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import DemandsChart from "./components/demandsChart";
@@ -24,11 +36,11 @@ const MenuProps = {
 };
 
 const graphNameList = [
-  'Demandas',
-  'Viagens',
-  'Viagens Atribuídas',
-  'Viagens Completadas',
-]
+  "Demandas",
+  "Viagens",
+  "Viagens Atribuídas",
+  "Viagens Completadas",
+];
 
 interface GraphToShow {
   name: string;
@@ -38,67 +50,83 @@ interface GraphToShow {
 export function Home() {
   const { data, isLoading, isError } = useQuery(useGetDashboardQuery);
   const [graphSelected, setGraphSelected] = useState<string[]>(graphNameList);
-  const [graphBaseList, setGraphBaseList] = useState<GraphToShow[]>([])
-  const [graphToShow, setGraphToShow] = useState<GraphToShow[]>([])
+  const [graphBaseList, setGraphBaseList] = useState<GraphToShow[]>([]);
+  const [graphToShow, setGraphToShow] = useState<GraphToShow[]>([]);
 
-  const updateGraphToShow = (newGraphSelected?: string[], newGraphBaseList?: GraphToShow[]) => {
+  const updateGraphToShow = (
+    newGraphSelected?: string[],
+    newGraphBaseList?: GraphToShow[],
+  ) => {
     if (!newGraphSelected) {
-      newGraphSelected = graphSelected
+      newGraphSelected = graphSelected;
     }
     if (!newGraphBaseList) {
-      newGraphBaseList = graphBaseList
+      newGraphBaseList = graphBaseList;
     }
 
-    const newGraphToShow: GraphToShow[] = []
+    const newGraphToShow: GraphToShow[] = [];
     newGraphSelected.forEach((graphName) => {
-      const graph = newGraphBaseList.find((graph) => graph.name === graphName)
+      const graph = newGraphBaseList.find((graph) => graph.name === graphName);
       if (graph) {
-        newGraphToShow.push(graph)
+        newGraphToShow.push(graph);
       }
-    })
-    setGraphToShow(newGraphToShow)
-  }
+    });
+    setGraphToShow(newGraphToShow);
+  };
 
   const handleChange = (event: SelectChangeEvent<typeof graphNameList>) => {
     const {
       target: { value },
     } = event;
     if (value.length > 0) {
-      const newGraphSelected = typeof value === 'string' ? value.split(',') : value
+      const newGraphSelected =
+        typeof value === "string" ? value.split(",") : value;
       setGraphSelected(newGraphSelected);
-      updateGraphToShow(newGraphSelected)
+      updateGraphToShow(newGraphSelected);
     }
-
   };
 
   const CalcGridColumns = (index: number) => {
-    const qtdGraphs = graphToShow.length
+    const qtdGraphs = graphToShow.length;
     if (qtdGraphs === 1) {
-      return 12
+      return 12;
     }
     if (qtdGraphs % 2 === 0) {
-      return 6
+      return 6;
     }
-    return qtdGraphs % 2 === 1 && (index + 1) === qtdGraphs ? 12 : 6
-
-  }
+    return qtdGraphs % 2 === 1 && index + 1 === qtdGraphs ? 12 : 6;
+  };
 
   useEffect(() => {
     const newGraphs = [
       {
-        name: 'Demandas', data: data?.dashboardDemands ? <DemandsChart data={data.dashboardDemands} /> : undefined
+        name: "Demandas",
+        data: data?.dashboardDemands ? (
+          <DemandsChart data={data.dashboardDemands} />
+        ) : undefined,
       },
       {
-        name: 'Viagens', data: data?.dashboardTrips ? <TripsChart data={data.dashboardTrips} /> : undefined
+        name: "Viagens",
+        data: data?.dashboardTrips ? (
+          <TripsChart data={data.dashboardTrips} />
+        ) : undefined,
       },
       {
-        name: 'Viagens Atribuídas', data: data?.dashboardTripsAttrib ? <TripAttribChart data={data.dashboardTripsAttrib} /> : undefined
+        name: "Viagens Atribuídas",
+        data: data?.dashboardTripsAttrib ? (
+          <TripAttribChart data={data.dashboardTripsAttrib} />
+        ) : undefined,
       },
-      { name: 'Viagens Completadas', data: data?.dashboardTripsCompleted ? <TripsCompletedCard data={data.dashboardTripsCompleted} /> : undefined },
-    ]
-    setGraphBaseList(newGraphs)
-    updateGraphToShow(undefined, newGraphs)
-  }, [data])
+      {
+        name: "Viagens Completadas",
+        data: data?.dashboardTripsCompleted ? (
+          <TripsCompletedCard data={data.dashboardTripsCompleted} />
+        ) : undefined,
+      },
+    ];
+    setGraphBaseList(newGraphs);
+    updateGraphToShow(undefined, newGraphs);
+  }, [data]);
 
   return (
     <MainContainer>
@@ -108,13 +136,24 @@ export function Home() {
       {isError && <div>Error</div>}
 
       {isLoading && (
-        <Grid sx={{ padding: 4 }} container rowSpacing={4} columnSpacing={4} >
-          <Grid item xs={6}> <SkeletonChart /> </Grid>
-          <Grid item xs={6}> <SkeletonChart /> </Grid>
-          <Grid item xs={6}> <SkeletonChart /> </Grid>
-          <Grid item xs={6}> <SkeletonChart /> </Grid>
+        <Grid sx={{ padding: 4 }} container rowSpacing={4} columnSpacing={4}>
+          <Grid item xs={6}>
+            {" "}
+            <SkeletonChart />{" "}
+          </Grid>
+          <Grid item xs={6}>
+            {" "}
+            <SkeletonChart />{" "}
+          </Grid>
+          <Grid item xs={6}>
+            {" "}
+            <SkeletonChart />{" "}
+          </Grid>
+          <Grid item xs={6}>
+            {" "}
+            <SkeletonChart />{" "}
+          </Grid>
         </Grid>
-
       )}
 
       {!isLoading && (
@@ -135,9 +174,11 @@ export function Home() {
                   multiple
                   value={graphSelected}
                   onChange={handleChange}
-                  input={<OutlinedInput id="select-multiple-chip" label="Exibir" />}
+                  input={
+                    <OutlinedInput id="select-multiple-chip" label="Exibir" />
+                  }
                   renderValue={(selected) => (
-                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                    <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
                       {selected.map((value) => (
                         <Chip key={value} label={value} />
                       ))}
@@ -146,10 +187,7 @@ export function Home() {
                   MenuProps={MenuProps}
                 >
                   {graphNameList.map((name) => (
-                    <MenuItem
-                      key={name}
-                      value={name}
-                    >
+                    <MenuItem key={name} value={name}>
                       {name}
                     </MenuItem>
                   ))}
@@ -172,5 +210,5 @@ export function Home() {
         </Box>
       )}
     </MainContainer>
-  )
+  );
 }
