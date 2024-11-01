@@ -52,7 +52,7 @@ const StackedBars = ({ data, title }: Params) => {
         flexDirection: "column",
       }}
     >
-      <h2 style={{marginBottom:10}}>{title}</h2>
+      <h2 style={{ marginBottom: 10 }}>{title}</h2>
       <Bar options={options} data={data} />
     </div>
   );

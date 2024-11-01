@@ -67,9 +67,7 @@ export const dashboardTripsAttribTransform = async (
 ): Promise<CustomChartBarData> => {
   return new Promise((resolve) => {
     const labels = Array.from(
-      new Set(
-        originalData.map((item) => dayjs(item.tripDate).format("DD/MM")),
-      ),
+      new Set(originalData.map((item) => dayjs(item.tripDate).format("DD/MM"))),
     );
 
     const datasets: CustomChartDataSet[] = [];
@@ -104,9 +102,7 @@ export const dashboardTripsCompletedTransform = async (
 ): Promise<CustomChartBarData> => {
   return new Promise((resolve) => {
     const labels = Array.from(
-      new Set(
-        originalData.map((item) => dayjs(item.tripDate).format("DD/MM")),
-      ),
+      new Set(originalData.map((item) => dayjs(item.tripDate).format("DD/MM"))),
     );
 
     const datasets: CustomChartDataSet[] = [];
