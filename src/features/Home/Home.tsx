@@ -65,8 +65,8 @@ export function Home() {
     }
 
     const newGraphToShow: GraphToShow[] = [];
-    newGraphSelected.forEach((graphName) => {
-      const graph = newGraphBaseList.find((graph) => graph.name === graphName);
+    newGraphSelected?.forEach((graphName) => {
+      const graph = newGraphBaseList?.find((graph) => graph.name === graphName);
       if (graph) {
         newGraphToShow.push(graph);
       }
