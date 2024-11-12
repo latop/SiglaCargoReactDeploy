@@ -53,8 +53,10 @@ export function AutocompleteDriver({
           forcePopupIcon={false}
           options={drivers || []}
           loadingText="Carregando..."
-          defaultValue={{ [keyCode]: field.value ?? null } as Driver}
-          isOptionEqualToValue={(option: Driver, value: Driver) => option.id === value.id}
+          defaultValue={{ [keyCode]: field.value ?? "" } as Driver}
+          isOptionEqualToValue={(option: Driver, value: Driver) =>
+            option[keyCode] === value[keyCode]
+          }
           onChange={handleChange}
           noOptionsText={
             !field.value

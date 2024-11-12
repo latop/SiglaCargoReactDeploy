@@ -1,6 +1,7 @@
 "use client";
 
 import { AppBar } from "@/components/AppBar";
+import { DriversFilterBar } from "@/components/DriversFilterBar";
 import { EmptyResult } from "@/components/EmptyResult";
 import { ErrorResult } from "@/components/ErrorResult";
 import { HeaderTitle } from "@/components/HeaderTitle/HeaderTitle";
@@ -70,8 +71,10 @@ export function Drivers() {
           margin: "auto",
           display: "flex",
           flexDirection: "column",
+          gap: "16px",
         }}
       >
+        <DriversFilterBar />
         <Card
           sx={{
             width: "100%",
@@ -86,7 +89,7 @@ export function Drivers() {
           {isLoading && <CircularProgress />}
           {isEmpty && <EmptyResult />}
           {error && <ErrorResult />}
-          {hasData ? (
+          {hasData && (
             <div style={{ height: "100%", width: "100%" }}>
               <DataGrid
                 rows={drivers}
@@ -120,8 +123,6 @@ export function Drivers() {
                 pageSizeOptions={[10]}
               />
             </div>
-          ) : (
-            <CircularProgress />
           )}
         </Card>
       </Box>

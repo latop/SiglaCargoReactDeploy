@@ -2,11 +2,20 @@ import { fetchDriversPaginated, FetchDriversParams } from "@/services/drivers";
 import { SWRConfiguration } from "swr";
 import { DriversPaginated } from "@/interfaces/driver";
 import useSWRInfinite from "swr/infinite";
+import { useSearchParams } from "next/navigation";
+import dayjs from "dayjs";
 
-export const useDriversPaginated = (
-  params?: FetchDriversParams,
-  options?: SWRConfiguration,
-) => {
+export const useDriversPaginated = (options?: SWRConfiguration) => {
+  const searchParams = useSearchParams();
+
+  const params: FetchDriversParams = {
+    admission: searchParams.get("admission")
+      ? dayjs(searchParams.get("admission")).format("YYYY-MM-DD")
+      : "",
+    integrationCode: searchParams.get("integrationCode") || "",
+    nickName: searchParams.get("nickName") || "",
+  };
+
   const getKey = (pageIndex: number, previousPageData: DriversPaginated) => {
     if (previousPageData && !previousPageData.hasNext) return null;
 

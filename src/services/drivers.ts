@@ -5,9 +5,10 @@ axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_URL;
 
 export interface FetchDriversParams {
   pageSize?: number;
-  pageNumber: number;
+  pageNumber?: number;
   nickName?: string;
   integrationCode?: string;
+  admission?: string;
 }
 
 export interface FetchPositionParams {
@@ -24,7 +25,6 @@ export async function fetchDrivers({
     const driversParams = {
       PageSize: params.pageSize,
       filter1String: params.nickName?.toUpperCase(),
-      filter2String: params.integrationCode?.toUpperCase(),
     };
     const response = await axios.get("/Drivers", { params: driversParams });
     const data = response.data;
@@ -36,22 +36,25 @@ export async function fetchDrivers({
 }
 
 export async function fetchDriversPaginated({
-  args: params,
+  args,
 }: {
   args: FetchDriversParams;
 }): Promise<DriversPaginated> {
   try {
-    const driversParams = {
-      PageSize: params.pageSize,
-      PageNumber: params.pageNumber,
-      filter1String: params.nickName?.toUpperCase(),
-      filter2String: params.integrationCode?.toUpperCase(),
+    const params = {
+      PageSize: args.pageSize,
+      PageNumber: args.pageNumber,
+      filter1String: args.nickName?.toUpperCase(),
+      filter2String: args.integrationCode?.toUpperCase(),
+      // test: args.admission,
     };
-    const response = await axios.get("/Drivers", { params: driversParams });
+
+    const response = await axios.get("/Drivers", { params });
 
     const pagination = response.headers["x-pagination"]
       ? JSON.parse(response.headers["x-pagination"])
       : {};
+
     const normalizeData: DriversPaginated = {
       currentPage: pagination.CurrentPage || 1,
       hasNext: pagination.HasNext,
