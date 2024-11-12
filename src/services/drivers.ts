@@ -5,6 +5,7 @@ axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_URL;
 
 export interface FetchDriversParams {
   pageSize?: number;
+  pageNumber: number;
   nickName?: string;
   integrationCode?: string;
 }
@@ -42,6 +43,7 @@ export async function fetchDriversPaginated({
   try {
     const driversParams = {
       PageSize: params.pageSize,
+      PageNumber: params.pageNumber,
       filter1String: params.nickName?.toUpperCase(),
       filter2String: params.integrationCode?.toUpperCase(),
     };
@@ -59,7 +61,6 @@ export async function fetchDriversPaginated({
       drivers: response.data,
       totalCount: pagination.TotalCount,
     };
-
     return normalizeData;
   } catch (error) {
     console.error(error);
