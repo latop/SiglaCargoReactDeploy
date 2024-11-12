@@ -35,3 +35,13 @@ export interface Position {
   id: string;
   priority: number;
 }
+
+export type DriversPaginated = {
+  currentPage: number;
+  hasNext: boolean;
+  hasPrevious: boolean;
+  pageSize: number;
+  totalPages: number;
+  drivers: Driver[];
+  totalCount: number;
+};

@@ -1,3 +1,4 @@
+import { DriversPaginated } from "@/interfaces/driver";
 import axios from "axios";
 
 axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_URL;
@@ -5,6 +6,7 @@ axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_URL;
 export interface FetchDriversParams {
   pageSize?: number;
   nickName?: string;
+  integrationCode?: string;
 }
 
 export interface FetchPositionParams {
@@ -21,6 +23,7 @@ export async function fetchDrivers({
     const driversParams = {
       PageSize: params.pageSize,
       filter1String: params.nickName?.toUpperCase(),
+      filter2String: params.integrationCode?.toUpperCase(),
     };
     const response = await axios.get("/Drivers", { params: driversParams });
     const data = response.data;
@@ -28,6 +31,39 @@ export async function fetchDrivers({
   } catch (error) {
     console.error(error);
     return error;
+  }
+}
+
+export async function fetchDriversPaginated({
+  args: params,
+}: {
+  args: FetchDriversParams;
+}): Promise<DriversPaginated> {
+  try {
+    const driversParams = {
+      PageSize: params.pageSize,
+      filter1String: params.nickName?.toUpperCase(),
+      filter2String: params.integrationCode?.toUpperCase(),
+    };
+    const response = await axios.get("/Drivers", { params: driversParams });
+
+    const pagination = response.headers["x-pagination"]
+      ? JSON.parse(response.headers["x-pagination"])
+      : {};
+    const normalizeData: DriversPaginated = {
+      currentPage: pagination.CurrentPage || 1,
+      hasNext: pagination.HasNext,
+      hasPrevious: pagination.HasPrevious,
+      pageSize: pagination.PageSize,
+      totalPages: pagination.TotalPages,
+      drivers: response.data,
+      totalCount: pagination.TotalCount,
+    };
+
+    return normalizeData;
+  } catch (error) {
+    console.error(error);
+    throw error;
   }
 }
 

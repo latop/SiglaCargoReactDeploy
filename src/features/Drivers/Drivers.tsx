@@ -1,9 +1,13 @@
+"use client";
+
 import { AppBar } from "@/components/AppBar";
 import { HeaderTitle } from "@/components/HeaderTitle/HeaderTitle";
 import { MainContainer } from "@/components/MainContainer";
+import { useDriversPaginated } from "@/hooks/useDrivers";
 import { Box } from "@mui/material";
 
 export function Drivers() {
+  useDriversPaginated();
   return (
     <MainContainer>
       <AppBar>
