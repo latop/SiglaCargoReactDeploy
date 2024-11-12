@@ -9,6 +9,7 @@ import {
   ListItemButton,
 } from "@mui/material";
 import Link from "next/link";
+import PersonSearchIcon from "@mui/icons-material/PersonSearch";
 import HomeIcon from "@mui/icons-material/Home";
 import { TbSteeringWheel } from "react-icons/tb";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
@@ -90,6 +91,11 @@ const routes: RouteItem[] = [
     text: "Cadastro de rotas",
     icon: <RouteIcon />,
     path: "/lines",
+  },
+  {
+    text: "Motoristas",
+    icon: <PersonSearchIcon />,
+    path: "/drivers",
   },
 ];
 
