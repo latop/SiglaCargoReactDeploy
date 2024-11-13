@@ -16,6 +16,18 @@ export interface FetchPositionParams {
   code?: string;
 }
 
+export async function fetchDriverById({ id }: { id: string }) {
+  try {
+    const response = await axios.get(`/Drivers/${id}`);
+    const data = response.data;
+
+    return data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
 export async function fetchDrivers({
   args: params,
 }: {
