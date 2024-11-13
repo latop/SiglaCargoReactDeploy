@@ -38,6 +38,24 @@ export function DriversFilterBar() {
               </Grid>
 
               <Grid xs={2} item>
+                <Controller
+                  name="admission"
+                  control={methods.control}
+                  render={({ field, fieldState: { error } }) => (
+                    <DatePicker
+                      label="Data de Admissão"
+                      {...field}
+                      error={error?.message}
+                      value={
+                        field.value
+                          ? dayjs(dayjs(field.value).format("YYYY-MM-DD"))
+                          : null
+                      }
+                    />
+                  )}
+                />
+              </Grid>
+              <Grid xs={1.5} item>
                 {/* <AutocompleteDriver
                   label="Cód. Integração"
                   keyCode="integrationCode"
@@ -66,32 +84,9 @@ export function DriversFilterBar() {
                   }}
                 />
               </Grid>
-              <Grid xs={2} item>
-                <Controller
-                  name="admission"
-                  control={methods.control}
-                  render={({ field, fieldState: { error } }) => (
-                    <DatePicker
-                      label="Data de Admissão"
-                      {...field}
-                      error={error?.message}
-                      value={
-                        field.value
-                          ? dayjs(dayjs(field.value).format("YYYY-MM-DD"))
-                          : null
-                      }
-                    />
-                  )}
-                />
-              </Grid>
             </Grid>
           </Grid>
-          <Button
-            type="submit"
-            size="large"
-            variant="contained"
-            color="primary"
-          >
+          <Button type="submit" variant="contained" color="primary">
             <GridSearchIcon />
           </Button>
         </form>

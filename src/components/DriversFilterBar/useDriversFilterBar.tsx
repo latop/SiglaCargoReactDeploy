@@ -3,7 +3,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useRouter, useSearchParams } from "next/navigation";
 import dayjs, { Dayjs } from "dayjs";
-import { FetchDriversParams } from "@/services/drivers";
 
 type FormFields = {
   nickName?: string;
@@ -20,10 +19,10 @@ const schema = z.object({
 export function useDriversFilterBar() {
   const router = useRouter();
   const params = useSearchParams();
-  const defaultValues: FetchDriversParams = {
+  const defaultValues: FormFields = {
     admission: params.get("admission")
-      ? dayjs(params.get("admission")).format("YYYY-MM-DD")
-      : "",
+      ? dayjs(dayjs(params.get("admission")).format("YYYY-MM-DD"))
+      : null,
     integrationCode: params.get("integrationCode") || "",
     nickName: params.get("nickName") || "",
   };
@@ -38,7 +37,6 @@ export function useDriversFilterBar() {
       ...data,
       admission: dayjs(data.admission).format("YYYY-MM-DD"),
     };
-    console.log(body);
     const params = new URLSearchParams();
     Object.entries(body).forEach(([key, value]) => {
       if (dayjs.isDayjs(value)) {

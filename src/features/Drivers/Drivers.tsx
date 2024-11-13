@@ -6,11 +6,11 @@ import { EmptyResult } from "@/components/EmptyResult";
 import { ErrorResult } from "@/components/ErrorResult";
 import { HeaderTitle } from "@/components/HeaderTitle/HeaderTitle";
 import { MainContainer } from "@/components/MainContainer";
-import { UpdateDriverDialog } from "@/components/UpdateDriverDialog";
+import { UpdateDriverDialog } from "@/components/DriverDialog";
 import { useDriversPaginated } from "@/hooks/useDrivers";
 import { useHash } from "@/hooks/useHash";
 import { Driver } from "@/interfaces/driver";
-import { Box, Card, CircularProgress } from "@mui/material";
+import { Box, Button, Card, CircularProgress } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import dayjs from "dayjs";
 
@@ -60,9 +60,9 @@ export function Drivers() {
     hasData,
   } = useDriversPaginated();
   const [hash, setHash] = useHash();
-  const match = (hash as string)?.match(/#driver-id-(.+)/);
-  const driverId = match?.[1];
-  const isUpdateDriverDialogOpen = !!driverId;
+  const driverId = (hash as string)?.match(/#driver-id-(.+)/)?.[1];
+  const newDriver = (hash as string)?.match(/#add-driver/)?.[0];
+  const isDialogOpen = !!driverId || !!newDriver;
 
   return (
     <MainContainer>
@@ -81,6 +81,13 @@ export function Drivers() {
         }}
       >
         <DriversFilterBar />
+        <Button
+          variant="outlined"
+          sx={{ maxWidth: "200px", alignSelf: "flex-end" }}
+          onClick={() => setHash("#add-driver")}
+        >
+          Adicionar motorista
+        </Button>
         <Card
           sx={{
             width: "100%",
@@ -132,10 +139,7 @@ export function Drivers() {
           )}
         </Card>
       </Box>
-      <UpdateDriverDialog
-        open={isUpdateDriverDialogOpen}
-        onClose={() => setHash("")}
-      />
+      <UpdateDriverDialog open={isDialogOpen} onClose={() => setHash("")} />
     </MainContainer>
   );
 }

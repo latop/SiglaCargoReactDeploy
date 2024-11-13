@@ -7,6 +7,8 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import "dayjs/locale/pt-br";
+import { DriverTabs } from "../DriverTabs/DriverTabs";
+
 // import { AutocompleteFleetGroup } from "@/components/AutocompleteFleetGroup";
 // import { AutocompleteLocation } from "@/components/AutocompleteLocation";
 // import { AutocompleteTripType } from "@/components/AutocompleteTripType";
@@ -14,7 +16,7 @@ import "dayjs/locale/pt-br";
 
 dayjs.extend(customParseFormat);
 
-export const UpdateDriverForm = () => {
+export const DriverForm = () => {
   // const { control, watch, setValue } = useFormContext();
   // const lineSections = watch("lineSections");
 
@@ -29,7 +31,7 @@ export const UpdateDriverForm = () => {
           flexDirection="column"
           maxHeight={"300px"}
         >
-          Teste
+          <DriverTabs />
         </Box>
       </Box>
     </LocalizationProvider>

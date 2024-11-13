@@ -9,8 +9,8 @@ import {
   //  CircularProgress
 } from "@mui/material";
 import { FormProvider } from "react-hook-form";
-import { useUpdateDriverDialog } from "./useUpdateDriverDialog";
-import { UpdateDriverForm } from "./components/UpdateDriverForm";
+import { useDriverDialog } from "./useDriverDialog";
+import { DriverForm } from "./components/DriverForm";
 
 interface UpdateDriverDialogProps {
   open: boolean;
@@ -18,10 +18,15 @@ interface UpdateDriverDialogProps {
 }
 
 export function UpdateDriverDialog({ open, onClose }: UpdateDriverDialogProps) {
-  const { methods, handleSubmit } = useUpdateDriverDialog();
+  const { methods, handleSubmit, isToUpdateDriver } = useDriverDialog();
   const handleClose = () => {
     methods.reset();
     onClose();
+  };
+
+  const DialogHeader = () => {
+    if (isToUpdateDriver) return "Atualizar Motorista";
+    return "Adicionar Motorista";
   };
 
   return (
@@ -39,7 +44,7 @@ export function UpdateDriverDialog({ open, onClose }: UpdateDriverDialogProps) {
           <>
             <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
               <Box display="flex" justifyContent="space-between">
-                Atualizar Motorista
+                <DialogHeader />
               </Box>
             </DialogTitle>
             <IconButton
@@ -55,7 +60,7 @@ export function UpdateDriverDialog({ open, onClose }: UpdateDriverDialogProps) {
               <CloseIcon />
             </IconButton>
             <DialogContent dividers sx={{ padding: "16px" }}>
-              <UpdateDriverForm />
+              <DriverForm />
             </DialogContent>
             {/* <AddLineFormFooter /> */}
           </>
