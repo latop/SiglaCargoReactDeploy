@@ -8,9 +8,9 @@ import { useAttribution } from "@/hooks/useAttribution";
 import { Attribution } from "@/interfaces/driver";
 
 export function AutocompleteAttribution({
-  name = "lineCode",
-  label = "Cód. da rota",
-  keyCode = "code",
+  name = "attributionId",
+  label = "Cód. da Atribuicão",
+  keyCode = "id",
   onChange,
 }: {
   name?: string;

@@ -117,7 +117,7 @@ export async function fetchAttribuitions({
       PageSize: params.pageSize,
       filter1String: params.code?.toUpperCase(),
     };
-    const response = await axios.get<Attribution>("/Attribuition", {
+    const response = await axios.get<Attribution>("/Attribution", {
       params: attributionParams,
     });
     const data = response.data;

@@ -1,14 +1,6 @@
 import React from "react";
 import { useFormContext, Controller } from "react-hook-form";
-import {
-  Box,
-  TextField,
-  Grid,
-  colors,
-  IconButton,
-  Icon,
-  Tooltip,
-} from "@mui/material";
+import { Box, Grid, colors, IconButton, Icon, Tooltip } from "@mui/material";
 import { DateTimePicker } from "@/components/DatePicker";
 
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -17,6 +9,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import "dayjs/locale/pt-br";
+import { AutocompleteAttribution } from "@/components/AutocompleteAttribution/AutocompleteAttribution";
 
 dayjs.extend(customParseFormat);
 
@@ -71,7 +64,10 @@ export const DriverSectionAttribuitions = ({ seq }: { seq: number }) => {
             />
           </Grid>
           <Grid item xs={1.7}>
-            <Controller
+            <AutocompleteAttribution
+              name={`driverAttributions.${seq}.attributionId`}
+            />
+            {/* <Controller
               name={`driverAttributions.${seq}.attributionId`}
               control={control}
               render={({ field, fieldState: { error } }) => (
@@ -82,7 +78,7 @@ export const DriverSectionAttribuitions = ({ seq }: { seq: number }) => {
                   error={!!error?.message}
                 />
               )}
-            />
+            /> */}
           </Grid>
         </Grid>
         <Tooltip title="Remover viagem" arrow>
