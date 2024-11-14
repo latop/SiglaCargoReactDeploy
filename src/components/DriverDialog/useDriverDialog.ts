@@ -40,7 +40,11 @@ export function useDriverDialog() {
 
   const methods = useForm({
     defaultValues: {
-      driverAttributions: driverData?.driverAttributions || [],
+      driverAttributions:
+        driverData?.driverAttributions.map((data) => ({
+          ...data,
+          driverId: driverId,
+        })) || [],
     },
   });
 
@@ -88,5 +92,6 @@ export function useDriverDialog() {
     isToAddDriverToAdd,
     isToUpdateDriver: !!driverId,
     driverData,
+    driverId,
   };
 }
