@@ -9,19 +9,9 @@ import customParseFormat from "dayjs/plugin/customParseFormat";
 import "dayjs/locale/pt-br";
 import { DriverTabs } from "../DriverTabs/DriverTabs";
 
-// import { AutocompleteFleetGroup } from "@/components/AutocompleteFleetGroup";
-// import { AutocompleteLocation } from "@/components/AutocompleteLocation";
-// import { AutocompleteTripType } from "@/components/AutocompleteTripType";
-// import { DatePicker } from "@mui/x-date-pickers";
-
 dayjs.extend(customParseFormat);
 
 export const DriverForm = () => {
-  // const { control, watch, setValue } = useFormContext();
-  // const lineSections = watch("lineSections");
-
-  // const countSections = lineSections?.length;
-
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
       <Box display="flex" flexDirection="column" gap="12px" mt="5px">

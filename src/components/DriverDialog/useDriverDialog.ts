@@ -3,7 +3,6 @@ import { useHash } from "@/hooks/useHash";
 import { useToast } from "@/hooks/useToast";
 import { Driver } from "@/interfaces/driver";
 import { fetchDriverById } from "@/services/drivers";
-// import dayjs from "dayjs";
 import { FieldValues, useForm } from "react-hook-form";
 import useSWR from "swr";
 
@@ -39,7 +38,11 @@ export function useDriverDialog() {
     return driverDefaultValues;
   };
 
-  const methods = useForm();
+  const methods = useForm({
+    defaultValues: {
+      driverAttributions: driverData?.driverAttributions || [],
+    },
+  });
 
   const { addToast } = useToast();
   const [handleFetch, { loading: loadingCreate }] = useFetch();

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
@@ -6,6 +6,7 @@ import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import {
   Box,
+  CircularProgress,
   //  CircularProgress
 } from "@mui/material";
 import { FormProvider } from "react-hook-form";
@@ -18,9 +19,17 @@ interface UpdateDriverDialogProps {
 }
 
 export function UpdateDriverDialog({ open, onClose }: UpdateDriverDialogProps) {
-  const { methods, handleSubmit, isToUpdateDriver } = useDriverDialog();
+  const { methods, handleSubmit, isToUpdateDriver, isLoadingDriver } =
+    useDriverDialog();
+
+  useEffect(() => {
+    return () => {
+      if (!open) methods.reset({});
+    };
+  }, [open, methods]);
+
   const handleClose = () => {
-    methods.reset();
+    methods.reset({});
     onClose();
   };
 
@@ -34,7 +43,9 @@ export function UpdateDriverDialog({ open, onClose }: UpdateDriverDialogProps) {
       onClose={handleClose}
       open={open}
       fullWidth
-      PaperProps={{ sx: { height: "auto", maxWidth: "1300px" } }}
+      PaperProps={{
+        sx: { maxWidth: "1300px" },
+      }}
     >
       <FormProvider {...methods}>
         <form
@@ -60,7 +71,19 @@ export function UpdateDriverDialog({ open, onClose }: UpdateDriverDialogProps) {
               <CloseIcon />
             </IconButton>
             <DialogContent dividers sx={{ padding: "16px" }}>
-              <DriverForm />
+              {isLoadingDriver ? (
+                <Box
+                  width={"100%"}
+                  display={"flex"}
+                  alignItems={"center"}
+                  justifyContent={"center"}
+                  padding={"1rem"}
+                >
+                  <CircularProgress />
+                </Box>
+              ) : (
+                <DriverForm />
+              )}
             </DialogContent>
             {/* <AddLineFormFooter /> */}
           </>

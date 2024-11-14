@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 import { Tabs, Tab, Box } from "@mui/material";
+import { AttribuitionForm } from "../DriverSections";
 
 type TabsType =
   | "driverAttributions"
@@ -18,7 +19,7 @@ const tabsMap: Record<TabsType, string> = {
 };
 
 const TabContent: Record<TabsType, React.ReactNode> = {
-  driverAttributions: <div>Atribuições do Motorista</div>,
+  driverAttributions: <AttribuitionForm />,
   driverBases: <div>Bases do Motorista</div>,
   driverFleets: <div>Frotas do Motorista</div>,
   driverPositions: <div>Posições do Motorista</div>,
@@ -33,6 +34,8 @@ export const DriverTabs = () => {
     setSelectedTab(newValue);
   };
 
+  const tabsCount = Object.keys(tabsMap).length;
+
   return (
     <Box sx={{ width: "100%" }}>
       <Tabs
@@ -45,10 +48,14 @@ export const DriverTabs = () => {
             key={tabKey}
             label={tabsMap[tabKey as TabsType]}
             value={tabKey as TabsType}
+            sx={{
+              width: `calc(100% / ${tabsCount})`,
+              borderBottom: "solid 1px #b0bec5",
+            }}
           />
         ))}
       </Tabs>
-      <Box sx={{ padding: 2 }}>{TabContent[selectedTab]}</Box>
+      <Box sx={{ paddingTop: 2 }}>{TabContent[selectedTab]}</Box>
     </Box>
   );
 };
