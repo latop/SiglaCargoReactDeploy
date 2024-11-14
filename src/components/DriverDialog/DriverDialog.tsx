@@ -12,6 +12,7 @@ import {
 import { FormProvider } from "react-hook-form";
 import { useDriverDialog } from "./useDriverDialog";
 import { DriverForm } from "./components/DriverForm";
+import { DriverFormFooter } from "./components/DriverFormFooter/DriverFormFooter";
 
 interface UpdateDriverDialogProps {
   open: boolean;
@@ -83,7 +84,7 @@ export function UpdateDriverDialog({ open, onClose }: UpdateDriverDialogProps) {
                 <DriverForm />
               )}
             </DialogContent>
-            {/* <AddLineFormFooter /> */}
+            <DriverFormFooter />
           </>
         </form>
       </FormProvider>

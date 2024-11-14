@@ -5,7 +5,7 @@ export function useAddBaseSection() {
   const { watch, setValue } = useFormContext();
   const { driverId } = useDriverDialog();
   const handleAddStep = () => {
-    const driverBases = watch("driverBases");
+    const driverBases = watch("driverBases") ?? [];
 
     driverBases.push({
       driverId: driverId ? driverId : "00000000-0000-0000-0000-000000000000",

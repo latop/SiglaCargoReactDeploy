@@ -40,18 +40,18 @@ export function useDriverDialog() {
 
     return {
       ...data,
-      driverAttributions: mapWithDriverId(data?.driverAttributions) ?? [],
-      driverBases: mapWithDriverId(data?.driverBases) ?? [],
-      driverFleets: mapWithDriverId(data?.driverFleets) ?? [],
-      driverPositions: mapWithDriverId(data?.driverPositions) ?? [],
-      driverVacations: mapWithDriverId(data?.driverVacations) ?? [],
+      driverAttributions: mapWithDriverId(data?.driverAttributions),
+      driverBases: mapWithDriverId(data?.driverBases),
+      driverFleets: mapWithDriverId(data?.driverFleets),
+      driverPositions: mapWithDriverId(data?.driverPositions),
+      driverVacations: mapWithDriverId(data?.driverVacations),
     };
   };
 
   const methods = useForm<Driver>({
     defaultValues: getDefaultValues(driverData, driverId),
   });
-  console.log(methods.getValues());
+
   const { addToast } = useToast();
   const [handleFetch, { loading: loadingCreate }] = useFetch();
   const [, setHash] = useHash();
@@ -79,12 +79,15 @@ export function useDriverDialog() {
   };
 
   const handleSubmit = async (data: FieldValues) => {
-    const body = {};
+    const body = { ...data };
 
     if (!isToAddDriverToAdd && !!driverId) {
+      console.log("update", body);
       await handleUpdateDriver(data, body);
       return;
     }
+    console.log("add", body);
+
     await handleAddDriver(data, body);
   };
 
