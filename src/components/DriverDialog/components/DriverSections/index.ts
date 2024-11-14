@@ -1,2 +1,3 @@
 import { AttribuitionForm } from "./Attribuitions/AttribuitionsForm";
-export { AttribuitionForm };
+import { BasesForm } from "./Bases/BasesForm";
+export { AttribuitionForm, BasesForm };

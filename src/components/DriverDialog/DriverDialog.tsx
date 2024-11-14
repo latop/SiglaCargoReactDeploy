@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useLayoutEffect } from "react";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
@@ -22,10 +22,8 @@ export function UpdateDriverDialog({ open, onClose }: UpdateDriverDialogProps) {
   const { methods, handleSubmit, isToUpdateDriver, isLoadingDriver } =
     useDriverDialog();
 
-  useEffect(() => {
-    return () => {
-      if (!open) methods.reset({});
-    };
+  useLayoutEffect(() => {
+    if (!open) methods.reset({});
   }, [open, methods]);
 
   const handleClose = () => {

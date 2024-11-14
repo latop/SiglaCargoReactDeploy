@@ -15,7 +15,6 @@ export function useAddAttribuitionSection() {
       endDate: null,
     });
     setValue("driverAttributions", driverAttributions);
-    console.log(driverAttributions);
   };
 
   return {

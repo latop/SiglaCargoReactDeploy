@@ -26,28 +26,32 @@ export function useDriverDialog() {
     {
       onSuccess: (data) => {
         if (isToAddDriverToAdd) return;
-        methods.reset(normalizeData(data));
+        methods.reset(getDefaultValues(data, driverId));
       },
     },
   );
-  const normalizeData = (data: Driver) => {
-    const driverDefaultValues = {
-      ...data,
-    };
 
-    return driverDefaultValues;
+  const getDefaultValues = (
+    data: Driver | undefined,
+    driverId: string | undefined,
+  ) => {
+    const mapWithDriverId = (items: object[] | undefined) =>
+      items?.map((item) => ({ ...item, driverId }));
+
+    return {
+      ...data,
+      driverAttributions: mapWithDriverId(data?.driverAttributions) ?? [],
+      driverBases: mapWithDriverId(data?.driverBases) ?? [],
+      driverFleets: mapWithDriverId(data?.driverFleets) ?? [],
+      driverPositions: mapWithDriverId(data?.driverPositions) ?? [],
+      driverVacations: mapWithDriverId(data?.driverVacations) ?? [],
+    };
   };
 
-  const methods = useForm({
-    defaultValues: {
-      driverAttributions:
-        driverData?.driverAttributions.map((data) => ({
-          ...data,
-          driverId: driverId,
-        })) || [],
-    },
+  const methods = useForm<Driver>({
+    defaultValues: getDefaultValues(driverData, driverId),
   });
-
+  console.log(methods.getValues());
   const { addToast } = useToast();
   const [handleFetch, { loading: loadingCreate }] = useFetch();
   const [, setHash] = useHash();
@@ -62,6 +66,7 @@ export function useDriverDialog() {
       onError: (error) => addToast(error.message, { type: "error" }),
     });
   };
+
   const handleAddDriver = async (data: FieldValues, body: FieldValues) => {
     await handleFetch("/Driver", body, {
       onSuccess: () => {
@@ -74,7 +79,6 @@ export function useDriverDialog() {
   };
 
   const handleSubmit = async (data: FieldValues) => {
-    console.log(data);
     const body = {};
 
     if (!isToAddDriverToAdd && !!driverId) {
