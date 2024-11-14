@@ -79,6 +79,12 @@ export interface Position {
   priority: number;
 }
 
+export type Attribution = {
+  code: string;
+  description: string;
+  id: string;
+};
+
 export type DriversPaginated = {
   currentPage: number;
   hasNext: boolean;
