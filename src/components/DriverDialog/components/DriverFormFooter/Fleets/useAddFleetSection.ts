@@ -1,20 +1,20 @@
 import { useDriverDialog } from "@/components/DriverDialog/useDriverDialog";
 import { useFormContext } from "react-hook-form";
 
-export function useAddBaseSection() {
+export function useAddFleetSection() {
   const { watch, setValue } = useFormContext();
   const { driverId } = useDriverDialog();
-  const driverBases = watch("driverBases") ?? [];
+  const driverFleets = watch("driverFleets") ?? [];
 
   const handleAddStep = () => {
-    driverBases.push({
+    driverFleets.push({
       driverId: driverId ? driverId : "00000000-0000-0000-0000-000000000000",
       id: "00000000-0000-0000-0000-000000000000",
-      locationGroupId: driverBases.locationGroupId,
+      fleetGroupId: null,
       startDate: null,
       endDate: null,
     });
-    setValue("driverBases", driverBases);
+    setValue("driverFleets", driverFleets);
   };
 
   return {
