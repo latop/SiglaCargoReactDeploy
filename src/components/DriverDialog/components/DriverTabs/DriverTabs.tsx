@@ -31,7 +31,7 @@ export const DriverTabs = () => {
   const [selectedTab, setSelectedTab] =
     useState<TabsType>("driverAttributions");
 
-  const handleChange = (event: React.SyntheticEvent, newValue: TabsType) => {
+  const handleChange = (_: React.SyntheticEvent, newValue: TabsType) => {
     setSelectedTab(newValue);
   };
 
