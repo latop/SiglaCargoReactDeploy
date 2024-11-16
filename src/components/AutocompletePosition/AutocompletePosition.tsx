@@ -1,4 +1,5 @@
-import React from "react";
+/* eslint-disable prettier/prettier */
+import React, { SyntheticEvent } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import { TextField } from "@mui/material";
 import Autocomplete from "@mui/material/Autocomplete";
@@ -6,7 +7,17 @@ import debounce from "debounce";
 import { Position } from "@/interfaces/driver";
 import { usePosition } from "@/hooks/usePosition";
 
-export function AutocompletePosition() {
+export function AutocompletePosition({
+  name = "positionCode",
+  keyCode = "code",
+  onChange,
+  label = "Posição",
+}: {
+  name?: string;
+  keyCode?: keyof Position;
+  onChange?: (value: Position | null) => void;
+  label?: string;
+}) {
   const {
     control,
     watch,
@@ -19,9 +30,20 @@ export function AutocompletePosition() {
     code: watch("positionCode"),
   });
 
+  const handleChange = (
+    _: SyntheticEvent<Element, Event>,
+    value: Position | null,
+  ) => {
+    if (onChange) {
+      onChange(value);
+    } else {
+      setValue(name, value?.[keyCode] || "");
+    }
+  };
+
   return (
     <Controller
-      name="positionCode"
+      name={name}
       control={control}
       render={({ field }) => (
         <Autocomplete
@@ -29,17 +51,17 @@ export function AutocompletePosition() {
           forcePopupIcon={false}
           options={positions || []}
           loadingText="Carregando..."
-          defaultValue={{ code: field.value } as Position}
+          defaultValue={{ code: field.value ?? "" } as Position}
           isOptionEqualToValue={(option: Position, value: Position) =>
             option.code === value.code
           }
-          onChange={(_, value) => setValue("positionCode", value?.code || "")}
+          onChange={handleChange}
           noOptionsText={
             !field.value
               ? "Digite o código"
               : !positions && !error
-              ? "Carregando..."
-              : "Nenhum resultado encontrado"
+                ? "Carregando..."
+                : "Nenhum resultado encontrado"
           }
           getOptionLabel={(option: Position) => option.code}
           renderInput={(params) => (
@@ -49,7 +71,7 @@ export function AutocompletePosition() {
               onChange={debounce(field.onChange, 300)}
               variant="outlined"
               fullWidth
-              label="Posição"
+              label={label}
               error={!!errors[field.name]}
               helperText={errors[field.name]?.message?.toString()}
             />
