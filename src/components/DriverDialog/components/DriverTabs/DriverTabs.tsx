@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import { Tabs, Tab, Box } from "@mui/material";
 import { AttribuitionForm, BasesForm } from "../DriverSections";
-import { FleetsForm } from "../DriverFormFooter/Fleets/FleetsForm";
+import { FleetsForm } from "../DriverSections/Fleets/FleetsForm";
 
 type TabsType =
   | "driverAttributions"
