@@ -1,9 +1,13 @@
 import React, { useState } from "react";
 
 import { Tabs, Tab, Box } from "@mui/material";
-import { AttribuitionForm, BasesForm } from "../DriverSections";
-import { FleetsForm } from "../DriverSections/Fleets/FleetsForm";
-import { PositionsForm } from "../DriverSections/Positions";
+import {
+  AttribuitionForm,
+  BasesForm,
+  FleetsForm,
+  PositionsForm,
+  VacationsForm,
+} from "../DriverSections";
 
 type TabsType =
   | "driverAttributions"
@@ -25,7 +29,7 @@ const TabContent: Record<TabsType, React.ReactNode> = {
   driverBases: <BasesForm />,
   driverFleets: <FleetsForm />,
   driverPositions: <PositionsForm />,
-  driverVacations: <div>Férias do Motorista</div>,
+  driverVacations: <VacationsForm />,
 };
 
 export const DriverTabs = () => {

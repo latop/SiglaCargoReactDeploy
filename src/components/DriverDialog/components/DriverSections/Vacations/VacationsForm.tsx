@@ -1,21 +1,21 @@
 import { useFormContext } from "react-hook-form";
 import { Box, Button, Typography } from "@mui/material";
 import { EmptyTruck } from "@/components/EmptyTruck";
-import { DriverSectionPositions } from "./PositionsSection";
-import { useAddPositionSection } from "./useAddPositionsSection";
+import { useAddVacationSection } from "./useAddVacationsSection";
+import { DriverSectionVacations } from "./VacationsSection";
 
-export function PositionsForm() {
+export function VacationsForm() {
   const { watch } = useFormContext();
-  const { handleAddStep } = useAddPositionSection();
-  const driverBases = watch("driverPositions");
-  const hasDriverBases = driverBases && !!driverBases?.length;
+  const { handleAddStep } = useAddVacationSection();
+  const driverVacations = watch("driverVacations");
+  const hasDriverVacations = driverVacations && !!driverVacations?.length;
   return (
     <Box display={"flex"} flexDirection={"column"} flex={1} gap={"0.5rem"}>
-      {hasDriverBases &&
-        driverBases?.map((_: unknown, index: number) => (
-          <DriverSectionPositions key={index} seq={index} />
+      {hasDriverVacations &&
+        driverVacations?.map((_: unknown, index: number) => (
+          <DriverSectionVacations key={index} seq={index} />
         ))}
-      {!hasDriverBases && (
+      {!hasDriverVacations && (
         <Box
           display={"flex"}
           flexDirection={"column"}
