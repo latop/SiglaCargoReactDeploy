@@ -5,7 +5,6 @@ export function useAddPositionSection() {
   const { watch, setValue } = useFormContext();
   const { driverId } = useDriverDialog();
   const driverPositions = watch("driverPositions") ?? [];
-  console.log(driverPositions);
   const handleAddStep = () => {
     driverPositions.push({
       driverId: driverId ? driverId : "00000000-0000-0000-0000-000000000000",

@@ -5,8 +5,6 @@ export function useAddVacationSection() {
   const { watch, setValue } = useFormContext();
   const { driverId } = useDriverDialog();
   const driverVacations = watch("driverVacations") ?? [];
-  console.log(driverVacations);
-
   const handleAddStep = () => {
     driverVacations.push({
       driverId: driverId ? driverId : null,

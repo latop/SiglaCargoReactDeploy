@@ -5,7 +5,7 @@ export function useAddAttribuitionSection() {
   const { watch, setValue } = useFormContext();
   const { driverId } = useDriverDialog();
   const driverAttributions = watch("driverAttributions") ?? [];
-  console.log(driverAttributions);
+
   const handleAddStep = () => {
     driverAttributions.push({
       driverId: driverId ? driverId : "00000000-0000-0000-0000-000000000000",

@@ -51,7 +51,7 @@ export function useDriverDialog() {
   const methods = useForm<Driver>({
     defaultValues: getDefaultValues(driverData, driverId),
   });
-  console.log(methods.getValues());
+
   const { addToast } = useToast();
   const [handleFetch, { loading: loadingCreate }] = useFetch();
   const [, setHash] = useHash();
