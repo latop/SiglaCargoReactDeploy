@@ -160,11 +160,13 @@ export const ReleaseDriverForm = () => {
                       },
                     }}
                     label="MDFE"
-                    type="number"
+                    type="tel"
                     {...field}
                     value={field.value}
                     onInput={(e: React.ChangeEvent<HTMLInputElement>) => {
-                      e.target.value = e.target.value.slice(0, 12);
+                      e.target.value = e.target.value
+                        .slice(0, 12)
+                        .replace(/\D/g, "");
                     }}
                     inputProps={{
                       maxLength: 12,
@@ -189,10 +191,12 @@ export const ReleaseDriverForm = () => {
                     }}
                     label="CTE"
                     {...field}
-                    type="number"
+                    type="tel"
                     value={field.value}
                     onInput={(e: React.ChangeEvent<HTMLInputElement>) => {
-                      e.target.value = e.target.value.slice(0, 10);
+                      e.target.value = e.target.value
+                        .slice(0, 10)
+                        .replace(/\D/g, "");
                     }}
                     inputProps={{
                       maxLength: 10,
