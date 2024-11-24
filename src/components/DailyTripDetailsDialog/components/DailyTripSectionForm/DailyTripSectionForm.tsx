@@ -1,24 +1,26 @@
-import React from "react";
-import { useFormContext, Controller } from "react-hook-form";
+import { DateTimePicker } from "@/components/DatePicker";
 import {
   Box,
-  TextField,
-  Grid,
   colors,
-  IconButton,
+  Grid,
   Icon,
+  IconButton,
+  TextField,
   Tooltip,
 } from "@mui/material";
-import { DateTimePicker } from "@/components/DatePicker";
+import { Controller, useFormContext } from "react-hook-form";
 
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import DeleteIcon from "@mui/icons-material/Delete";
-import dayjs from "dayjs";
-import customParseFormat from "dayjs/plugin/customParseFormat";
-import "dayjs/locale/pt-br";
-import { AutocompleteLocation } from "@/components/AutocompleteLocation";
 import { AutocompleteDriver } from "@/components/AutocompleteDriver";
+import { AutocompleteLocation } from "@/components/AutocompleteLocation";
+import { AutocompleteStopType } from "@/components/AutocompleteStopType";
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import DeleteIcon from "@mui/icons-material/Delete";
+import ImageSearchOutlinedIcon from '@mui/icons-material/ImageSearchOutlined';
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import dayjs from "dayjs";
+import "dayjs/locale/pt-br";
+import customParseFormat from "dayjs/plugin/customParseFormat";
 
 dayjs.extend(customParseFormat);
 
@@ -31,16 +33,22 @@ export const DailyTripSectionForm = ({ seq }: { seq: number }) => {
     setValue("dailyTripSections", steps);
   };
 
+  const steps = getValues("dailyTripSections");
+
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
       <Box
         display={"flex"}
-        padding="10px"
-        bgcolor={colors.grey[100]}
+        padding="8px"
+        bgcolor={colors.blue[50]}
         borderRadius="4px"
+        boxShadow={2}
       >
         <Grid container spacing={1}>
-          <Grid item xs={1.2}>
+          <Grid item xs={12}>
+            <h5>Seção {seq + 1} - {steps[seq].locationOrig.code}</h5>
+          </Grid>
+          <Grid item xs={2}>
             <Controller
               name={`dailyTripSections.${seq}.truck.licensePlate`}
               control={control}
@@ -56,22 +64,30 @@ export const DailyTripSectionForm = ({ seq }: { seq: number }) => {
               )}
             />
           </Grid>
-          <Grid item xs={1.5}>
-            <AutocompleteDriver />
-          </Grid>
-          <Grid item xs={1.2}>
+          <Grid item xs={2}>
             <AutocompleteLocation
               name={`dailyTripSections.${seq}.locationOrig.code`}
               label="Origem"
             />
           </Grid>
-          <Grid item xs={1.2}>
+          <Grid item xs={2}>
             <AutocompleteLocation
               name={`dailyTripSections.${seq}.locationDest.code`}
               label="Destino"
             />
           </Grid>
-          <Grid item xs={1.7}>
+          <Grid item xs={2}>
+            <AutocompleteDriver />
+          </Grid>
+          <Grid item xs={4}>
+            <AutocompleteStopType
+              name={`dailyTripSections.${seq}.stopType.stopTypeCode`}
+              label="Parada"
+            />
+          </Grid>
+
+
+          <Grid item xs={2}>
             <Controller
               name={`dailyTripSections.${seq}.startPlanned`}
               control={control}
@@ -87,7 +103,7 @@ export const DailyTripSectionForm = ({ seq }: { seq: number }) => {
               )}
             />
           </Grid>
-          <Grid item xs={1.7}>
+          <Grid item xs={2}>
             <Controller
               name={`dailyTripSections.${seq}.endPlanned`}
               control={control}
@@ -103,7 +119,7 @@ export const DailyTripSectionForm = ({ seq }: { seq: number }) => {
               )}
             />
           </Grid>
-          <Grid item xs={1.7}>
+          <Grid item xs={2}>
             <Controller
               name={`dailyTripSections.${seq}.startEstimated`}
               control={control}
@@ -119,7 +135,7 @@ export const DailyTripSectionForm = ({ seq }: { seq: number }) => {
               )}
             />
           </Grid>
-          <Grid item xs={1.7}>
+          <Grid item xs={2}>
             <Controller
               name={`dailyTripSections.${seq}.endEstimated`}
               control={control}
@@ -135,12 +151,56 @@ export const DailyTripSectionForm = ({ seq }: { seq: number }) => {
               )}
             />
           </Grid>
+          <Grid item xs={2}>
+            <Controller
+              name={`dailyTripSections.${seq}.startActual`}
+              control={control}
+              render={({ field, fieldState: { error } }) => (
+                <DateTimePicker
+                  disabled={false}
+                  label="Início Real"
+                  error={error?.message}
+                  {...field}
+                  value={field.value ? dayjs(field.value) : null}
+                  onChange={(date) => field.onChange(date?.format())}
+                />
+              )}
+            />
+          </Grid>
+          <Grid item xs={2}>
+            <Controller
+              name={`dailyTripSections.${seq}.endActual`}
+              control={control}
+              render={({ field, fieldState: { error } }) => (
+                <DateTimePicker
+                  disabled={false}
+                  label="Fim Real"
+                  error={error?.message}
+                  {...field}
+                  value={field.value ? dayjs(field.value) : null}
+                  onChange={(date) => field.onChange(date?.format())}
+                />
+              )}
+            />
+          </Grid>
         </Grid>
-        <Tooltip title="Remover viagem" arrow>
-          <IconButton size="small" onClick={handleDeleteStep}>
-            <Icon component={DeleteIcon} fontSize="small" />
-          </IconButton>
-        </Tooltip>
+        <Box display={'flex'} flexDirection={'column'} justifyContent={"flex-end"} alignItems={"center"}>
+          <Tooltip title="Remover viagem" arrow>
+            <IconButton size="small" onClick={handleDeleteStep}>
+              <Icon component={DeleteIcon} fontSize="small" color="warning" />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Horários Planejados" arrow>
+            <IconButton size="small" >
+              <Icon component={AccessTimeIcon} fontSize="small" color="action" />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Justificativas" arrow>
+            <IconButton size="small" >
+              <Icon component={ImageSearchOutlinedIcon} fontSize="small" color="action" />
+            </IconButton>
+          </Tooltip>
+        </Box>
       </Box>
     </LocalizationProvider>
   );

@@ -1,36 +1,46 @@
-import React from "react";
-import { useFormContext, Controller } from "react-hook-form";
+import { DateTimePicker } from "@/components/DatePicker";
 import {
   Box,
-  colors,
-  TextField,
   Chip,
+  colors,
   Grid,
   MenuItem,
-  Typography,
-  IconButton,
+  styled,
+  TextField,
+  Typography
 } from "@mui/material";
-import { DateTimePicker } from "@/components/DatePicker";
 import { DateField } from "@mui/x-date-pickers/DateField";
-import { IoIosSearch } from "react-icons/io";
+import { Controller, useFormContext } from "react-hook-form";
 
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import dayjs from "dayjs";
-import customParseFormat from "dayjs/plugin/customParseFormat";
-import "dayjs/locale/pt-br";
-import { AutocompleteFleetGroup } from "@/components/AutocompleteFleetGroup";
-import { AutocompleteLocation } from "@/components/AutocompleteLocation";
-import { DailyTripSectionForm } from "../DailyTripSectionForm";
-import { DailyTrip } from "@/interfaces/daily-trip";
-import { AutocompleteLine } from "@/components/AutocompleteLine";
 import { AutocompleteCompany } from "@/components/AutocompleteCompany";
+import { AutocompleteFleetGroup } from "@/components/AutocompleteFleetGroup";
+import { AutocompleteLine } from "@/components/AutocompleteLine";
+import { AutocompleteLocation } from "@/components/AutocompleteLocation";
 import { AutocompleteTripType } from "@/components/AutocompleteTripType";
+import { DailyTrip } from "@/interfaces/daily-trip";
 import { fetchDailyTripDetails } from "@/services/schedule";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import dayjs from "dayjs";
+import "dayjs/locale/pt-br";
+import customParseFormat from "dayjs/plugin/customParseFormat";
+import { DailyTripSectionForm } from "../DailyTripSectionForm";
+const TextArea = styled(TextField)`
+  && {
+    height: 100%;
+
+    .MuiInputBase-root,
+    textarea {
+      height: 100% !important;
+    }
+  }
+`;
+
 
 dayjs.extend(customParseFormat);
 
 export const DailyTripForm = () => {
+
   const { control, watch, getValues, setValue, reset } = useFormContext();
   const dailyTripSections = watch("dailyTripSections");
 
@@ -60,76 +70,7 @@ export const DailyTripForm = () => {
       <Box display="flex" flexDirection="column" gap="20px" mt="5px">
         <Box display="flex" gap="20px">
           <Grid container spacing={1}>
-            <Grid item xs={1.7}>
-              <AutocompleteLine
-                onChange={(value) => {
-                  setValue("lineId", value?.id);
-                  setValue("line", value);
-                }}
-              />
-            </Grid>
-            <Grid item xs={1.7}>
-              <Controller
-                name="startPlanned"
-                control={control}
-                render={({ field, fieldState: { error } }) => (
-                  <DateTimePicker
-                    disabled={false}
-                    label="Início planejado"
-                    error={error?.message}
-                    {...field}
-                    value={field.value ? dayjs(field.value) : null}
-                    onChange={(date) => field.onChange(date?.format())}
-                  />
-                )}
-              />
-            </Grid>
-            <Grid item xs={1.7}>
-              <Controller
-                name="endPlanned"
-                control={control}
-                render={({ field, fieldState: { error } }) => (
-                  <DateTimePicker
-                    disabled={false}
-                    label="Fim planejado"
-                    error={error?.message}
-                    {...field}
-                    value={field.value ? dayjs(field.value) : null}
-                    onChange={(date) => field.onChange(date?.format())}
-                  />
-                )}
-              />
-            </Grid>
-            <Grid item xs={1.5} marginLeft="10px">
-              <IconButton
-                color="inherit"
-                aria-label="open drawer"
-                edge="start"
-                onClick={handleSearchInfos}
-              >
-                <IoIosSearch />
-              </IconButton>
-            </Grid>
-          </Grid>
-        </Box>
-        <Box display="flex" gap="20px">
-          <Grid container spacing={1}>
-            <Grid item xs={1.7}>
-              <Controller
-                name="tripDate"
-                control={control}
-                render={({ field }) => (
-                  <DateField
-                    disabled={false}
-                    label="Data da viagem"
-                    {...field}
-                    value={field.value ? dayjs(field.value) : null}
-                    onChange={(date) => field.onChange(date?.format())}
-                  />
-                )}
-              />
-            </Grid>
-            <Grid item xs={1.7}>
+            <Grid item xs={4}>
               <Controller
                 name="sto"
                 control={control}
@@ -145,7 +86,25 @@ export const DailyTripForm = () => {
                 )}
               />
             </Grid>
-            <Grid item xs={1.7}>
+            <Grid item xs={2}>
+              <Controller
+                name="tripDate"
+                control={control}
+                render={({ field }) => (
+                  <DateField
+                    disabled={false}
+                    label="Data da viagem"
+                    {...field}
+                    value={field.value ? dayjs(field.value) : null}
+                    onChange={(date) => field.onChange(date?.format())}
+                  />
+                )}
+              />
+            </Grid>
+            <Grid item xs={4}>
+              <AutocompleteCompany />
+            </Grid>
+            <Grid item xs={2}>
               <Controller
                 name="flgStatus"
                 control={control}
@@ -165,27 +124,82 @@ export const DailyTripForm = () => {
                 )}
               />
             </Grid>
+            {/* <Grid item xs={4}>
+              Açoes
+            </Grid> */}
 
-            <Grid item xs={1.7}>
-              <AutocompleteCompany />
+            <Grid item xs={4}>
+              <AutocompleteLine
+                onChange={(value) => {
+                  setValue("lineId", value?.id);
+                  setValue("line", value);
+                }}
+              />
             </Grid>
-            <Grid item xs={1.7}>
+            <Grid item xs={2}>
               <AutocompleteTripType name="tripType.code" />
             </Grid>
-          </Grid>
-        </Box>
-        <Box display="flex" gap="20px">
-          <Grid container spacing={1}>
-            <Grid item xs={1.7}>
-              <AutocompleteLocation name="locationOrig.code" label="Origem" />
-            </Grid>
-            <Grid item xs={1.7}>
-              <AutocompleteLocation name="locationDest.code" label="Destino" />
-            </Grid>
-            <Grid item xs={1.7}>
+            <Grid item xs={2}>
               <AutocompleteFleetGroup name="fleetGroup.code" />
             </Grid>
-            <Grid item xs={1.7}>
+            <Grid item xs={4}>
+              <Controller
+                name="notes"
+                control={control}
+                render={({ field, fieldState: { error } }) => (
+                  <TextArea
+                    {...field}
+                    disabled={false}
+                    label="Observações"
+                    variant="outlined"
+                    fullWidth
+                    maxRows={3}
+                  />
+                )}
+              />
+            </Grid>
+
+            <Grid item xs={2}>
+              <AutocompleteLocation name="locationOrig.code" label="Origem" />
+            </Grid>
+            <Grid item xs={2}>
+              <AutocompleteLocation name="locationDest.code" label="Destino" />
+            </Grid>
+
+
+            <Grid item xs={2}>
+              <Controller
+                name="startPlanned"
+                control={control}
+                render={({ field, fieldState: { error } }) => (
+                  <DateTimePicker
+                    disabled={false}
+                    label="Início planejado"
+                    error={error?.message}
+                    {...field}
+                    value={field.value ? dayjs(field.value) : null}
+                    onChange={(date) => field.onChange(date?.format())}
+                  />
+                )}
+              />
+            </Grid>
+            <Grid item xs={2}>
+              <Controller
+                name="endPlanned"
+                control={control}
+                render={({ field, fieldState: { error } }) => (
+                  <DateTimePicker
+                    disabled={false}
+                    label="Fim planejado"
+                    error={error?.message}
+                    {...field}
+                    value={field.value ? dayjs(field.value) : null}
+                    onChange={(date) => field.onChange(date?.format())}
+                  />
+                )}
+              />
+            </Grid>
+            <Grid item xs={2}>
               <Controller
                 name="startActual"
                 control={control}
@@ -201,7 +215,7 @@ export const DailyTripForm = () => {
                 )}
               />
             </Grid>
-            <Grid item xs={1.7}>
+            <Grid item xs={2}>
               <Controller
                 name="endActual"
                 control={control}
@@ -217,30 +231,41 @@ export const DailyTripForm = () => {
                 )}
               />
             </Grid>
+            {/* <Grid item xs={1.5} marginLeft="10px">
+              <IconButton
+                color="inherit"
+                aria-label="open drawer"
+                edge="start"
+                onClick={handleSearchInfos}
+              >
+                <IoIosSearch />
+              </IconButton>
+            </Grid> */}
           </Grid>
         </Box>
-        <Box gap="10px" display="flex" flexDirection="column">
-          <Box display="flex" alignItems="center" gap="8px">
-            <Typography variant="subtitle2">Seções da viagem</Typography>
-            {countSections > 0 && (
-              <Chip label={countSections} color="default" size="small" />
-            )}
-          </Box>
-          {dailyTripSections?.length === 0 && (
-            <Box display="flex">
-              <Typography variant="body2" color={colors.grey[700]}>
-                Não há seções para essa viagem.
-              </Typography>
-            </Box>
+      </Box>
+      <Box gap="10px" display="flex" flexDirection="column">
+        <Box display="flex" alignItems="center" gap="8px">
+          <Typography variant="subtitle2">Seções da viagem</Typography>
+          {countSections > 0 && (
+            <Chip label={countSections} color="default" size="small" />
           )}
-
-          <Box gap="16px" display="flex" flexDirection="column">
-            {dailyTripSections?.map((_: DailyTrip, index: number) => (
-              <DailyTripSectionForm key={index} seq={index} />
-            ))}
+        </Box>
+        {dailyTripSections?.length === 0 && (
+          <Box display="flex">
+            <Typography variant="body2" color={colors.grey[700]}>
+              Não há seções para essa viagem.
+            </Typography>
           </Box>
+        )}
+
+        <Box gap="8px" display="flex" flexDirection="column">
+          {dailyTripSections?.map((_: DailyTrip, index: number) => (
+            <DailyTripSectionForm key={index} seq={index} />
+          ))}
         </Box>
       </Box>
-    </LocalizationProvider>
+
+    </LocalizationProvider >
   );
 };
