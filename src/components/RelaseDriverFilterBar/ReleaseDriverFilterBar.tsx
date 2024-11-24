@@ -1,4 +1,4 @@
-import { Button, Grid, MenuItem, Select, TextField } from "@mui/material";
+import { Button, Grid, MenuItem, TextField } from "@mui/material";
 import { GridSearchIcon } from "@mui/x-data-grid";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -82,8 +82,9 @@ export function ReleaseDriverFilterBar(
                 name={"releaseStatus"}
                 control={control}
                 render={({ field }) => (
-                  <Select
+                  <TextField
                     {...field}
+                    select
                     onChange={(value) => {
                       console.log(value?.target);
                       methods.setValue("releaseStatus", value?.target.value);
@@ -92,7 +93,7 @@ export function ReleaseDriverFilterBar(
                     <MenuItem value={"all"}>Todos</MenuItem>
                     <MenuItem value={"notReleased"}>Não liberado</MenuItem>
                     <MenuItem value={"released"}>Liberado</MenuItem>
-                  </Select>
+                  </TextField>
                 )}
               />
             </Grid>

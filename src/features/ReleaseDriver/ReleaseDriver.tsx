@@ -83,7 +83,7 @@ export function ReleaseDriver() {
                 background: "transparent",
                 border: "none",
                 outline: "none",
-                color: "black",
+                color: "#24438f",
                 cursor: "pointer",
               }}
             >
@@ -158,7 +158,7 @@ export function ReleaseDriver() {
       const dtRef = dayjs(params.get("dtRef")).isValid()
         ? dayjs(params.get("dtRef")).format("YYYY-MM-DD")
         : dayjs().format("YYYY-MM-DD");
-      const locOrig = params.get("locOrig") || "";
+      const locOrig = params.get("origemlocOrig") || "";
       if (dtRef && locOrig) {
         const newParams = new URLSearchParams();
         newParams.append("dtRef", dtRef);
@@ -205,7 +205,6 @@ export function ReleaseDriver() {
           }}
         >
           <strong>ORIGEM:</strong> {origem}
-          {hash}
         </Box>
         <Card
           sx={{
