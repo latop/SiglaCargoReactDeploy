@@ -1,10 +1,4 @@
-import {
-  Button,
-  Checkbox,
-  FormControlLabel,
-  Grid,
-  TextField,
-} from "@mui/material";
+import { Button, Grid, MenuItem, Select, TextField } from "@mui/material";
 import { GridSearchIcon } from "@mui/x-data-grid";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -85,20 +79,20 @@ export function ReleaseDriverFilterBar(
             </Grid>
             <Grid item xs={2}>
               <Controller
-                name={"notReleased"}
+                name={"releaseStatus"}
                 control={control}
                 render={({ field }) => (
-                  <FormControlLabel
-                    componentsProps={{
-                      typography: {
-                        variant: "body2",
-                      },
+                  <Select
+                    {...field}
+                    onChange={(value) => {
+                      console.log(value?.target);
+                      methods.setValue("releaseStatus", value?.target.value);
                     }}
-                    control={
-                      <Checkbox size="small" {...field} checked={field.value} />
-                    }
-                    label={"Não Liberados"}
-                  />
+                  >
+                    <MenuItem value={"all"}>Todos</MenuItem>
+                    <MenuItem value={"notReleased"}>Não liberado</MenuItem>
+                    <MenuItem value={"released"}>Liberado</MenuItem>
+                  </Select>
                 )}
               />
             </Grid>
