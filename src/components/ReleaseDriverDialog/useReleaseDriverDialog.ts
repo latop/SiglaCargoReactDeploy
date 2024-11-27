@@ -2,6 +2,7 @@ import { useFetch } from "@/hooks/useFetch";
 import { useHash } from "@/hooks/useHash";
 import { useReleaseDriver } from "@/hooks/useReleaseDriver/useReleaseDriver";
 import { ReleaseDriverInterface } from "@/interfaces/release-driver";
+import dayjs from "dayjs";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
@@ -17,7 +18,7 @@ export function useReleaseDriverDialog() {
   const loading = isLoading && !error;
 
   const driverAndTruckToRelase = drivers.find(
-    (driver) => driver.dailyTripSectionId === releaseDriverId,
+    (driver) => driver.dailyTripSectionId === releaseDriverId
   );
 
   const methods = useForm();
@@ -28,7 +29,7 @@ export function useReleaseDriverDialog() {
     options?: {
       onSuccess?: () => void;
       onError?: () => void;
-    },
+    }
   ) => {
     return create("/Journey/ReleaseDriverCheck", body, {
       onSuccess: options?.onSuccess,
@@ -46,6 +47,16 @@ export function useReleaseDriverDialog() {
       veiculoPlan: data?.veiculoPlan,
       motoristaLiberado: data?.motoristaLiberado,
       veiculoLiberado: data?.veiculoLiberado,
+      dtCheckList: dayjs().format(),
+      mdfe: data?.mdfe,
+      cte: data?.cte,
+      obs: data?.obs,
+      presentationDate: data?.presentationDate,
+      issueDate: data?.issueDate,
+      issueResponsible: data?.issueResponsible,
+      palletInvoice: data?.palletInvoice,
+      productInvoice: data?.productInvoice,
+      isReturnLoaded: data?.isReturnLoaded,
     };
     return defaultValues;
   };

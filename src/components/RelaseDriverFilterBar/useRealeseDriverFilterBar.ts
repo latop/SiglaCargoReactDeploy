@@ -16,7 +16,7 @@ interface FormFields {
   nickName?: string;
   licensePlate?: string;
   fleetCode?: string;
-  notReleased?: boolean;
+  releaseStatus?: string;
 }
 
 const dateOrDayjsSchema = z.custom(
@@ -35,7 +35,7 @@ const schema = z.object({
   nickName: z.string().optional(),
   licensePlate: z.string().optional(),
   fleetCode: z.string().optional(),
-  notReleased: z.boolean().optional(),
+  releaseStatus: z.string().optional(),
 });
 
 export function useReleaseDriverFilterBar() {
@@ -53,11 +53,12 @@ export function useReleaseDriverFilterBar() {
       dtRef: dayjs(params.get("dtRef")).isValid()
         ? dayjs(params.get("dtRef"))
         : dayjs(),
-      notReleased: Boolean(params.get("notReleased")) || true,
+      releaseStatus: params.get("releaseStatus") || "notReleased",
     },
   });
 
   const onSubmit = (data: FormFields) => {
+    console.log(data);
     if (!data?.locOrig.length) {
       methods.setError("locOrig", { message: "*Obrigatório" });
       return;

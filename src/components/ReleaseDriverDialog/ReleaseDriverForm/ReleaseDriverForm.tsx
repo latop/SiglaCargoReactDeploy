@@ -1,4 +1,11 @@
-import { Box, TextField } from "@mui/material";
+import {
+  Box,
+  Checkbox,
+  FormControlLabel,
+  MenuItem,
+  Select,
+  TextField,
+} from "@mui/material";
 import { Controller, useFormContext } from "react-hook-form";
 
 import { AutocompleteDriver } from "@/components/AutocompleteDriver";
@@ -8,6 +15,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import dayjs from "dayjs";
 import "dayjs/locale/pt-br";
 import customParseFormat from "dayjs/plugin/customParseFormat";
+import { DateTimePicker } from "@mui/x-date-pickers";
 
 dayjs.extend(customParseFormat);
 
@@ -160,11 +168,13 @@ export const ReleaseDriverForm = () => {
                       },
                     }}
                     label="MDFE"
-                    type="number"
+                    type="tel"
                     {...field}
                     value={field.value}
                     onInput={(e: React.ChangeEvent<HTMLInputElement>) => {
-                      e.target.value = e.target.value.slice(0, 12);
+                      e.target.value = e.target.value
+                        .slice(0, 12)
+                        .replace(/\D/g, "");
                     }}
                     inputProps={{
                       maxLength: 12,
@@ -189,10 +199,12 @@ export const ReleaseDriverForm = () => {
                     }}
                     label="CTE"
                     {...field}
-                    type="number"
+                    type="tel"
                     value={field.value}
                     onInput={(e: React.ChangeEvent<HTMLInputElement>) => {
-                      e.target.value = e.target.value.slice(0, 10);
+                      e.target.value = e.target.value
+                        .slice(0, 10)
+                        .replace(/\D/g, "");
                     }}
                     inputProps={{
                       maxLength: 10,
@@ -200,6 +212,68 @@ export const ReleaseDriverForm = () => {
                   />
                 );
               }}
+            />
+          </Box>
+          <Box sx={{ flexBasis: "135px" }}>
+            <Controller
+              name="palletInvoice"
+              control={control}
+              render={({ field }) => {
+                return (
+                  <TextField
+                    label="Invoice do Pallet"
+                    {...field}
+                    type="tel"
+                    value={field.value}
+                    inputProps={{
+                      maxLength: 10,
+                    }}
+                  />
+                );
+              }}
+            />
+          </Box>
+          <Box sx={{ flexBasis: "135px" }}>
+            <Controller
+              name="productInvoice"
+              control={control}
+              render={({ field }) => {
+                return (
+                  <TextField
+                    label="Invoice do produto"
+                    {...field}
+                    type="tel"
+                    value={field.value}
+                    inputProps={{
+                      maxLength: 10,
+                    }}
+                  />
+                );
+              }}
+            />
+          </Box>
+          <Box sx={{ flexBasis: "135px" }}>
+            <Controller
+              name={"isReturnLoaded"}
+              control={control}
+              render={({ field }) => (
+                <TextField
+                  label="Retorno Carregado?"
+                  select
+                  sx={{
+                    width: "100%",
+                  }}
+                  defaultValue={"false"}
+                  {...field}
+                  onChange={(value) => {
+                    console.log(value?.target);
+                    methods.setValue("isReturnLoaded", value?.target.value);
+                  }}
+                >
+                  <MenuItem value={"false"}>Não</MenuItem>
+                  <MenuItem value={"true"}>Sim</MenuItem>
+                </TextField>
+              )}
             />
           </Box>
           <Box sx={{ flexBasis: "425px" }}>
@@ -228,7 +302,66 @@ export const ReleaseDriverForm = () => {
               }}
             />
           </Box>
+
+          <Box sx={{ flexBasis: "190px" }}>
+            <Controller
+              name="presentationDate"
+              control={control}
+              render={({ field }) => {
+                return (
+                  <DateTimePicker
+                    label="Data da Apresentação"
+                    {...field}
+                    value={field.value}
+                  />
+                );
+              }}
+            />
+          </Box>
+          <Box sx={{ flexBasis: "190px" }}>
+            <Controller
+              name="issueDate"
+              control={control}
+              render={({ field }) => {
+                return (
+                  <DateTimePicker
+                    label="Data do Problema"
+                    {...field}
+                    value={field.value}
+                  />
+                );
+              }}
+            />
+          </Box>
+          <Box sx={{ flexBasis: "280px" }}>
+            <Controller
+              name="issueResponsible"
+              control={control}
+              render={({ field }) => {
+                return (
+                  <TextField
+                    label="Responsável pelo problema"
+                    {...field}
+                    sx={{
+                      width: "100%",
+                    }}
+                    type="tel"
+                    value={field.value}
+                    inputProps={{
+                      maxLength: 200,
+                    }}
+                  />
+                );
+              }}
+            />
+          </Box>
         </Box>
+        <Box
+          display="flex"
+          flexDirection="row"
+          gap="10px"
+          flexWrap={"wrap"}
+        ></Box>
       </Box>
       <Box gap="10px" display="flex" flexDirection="column"></Box>
     </LocalizationProvider>
