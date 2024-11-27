@@ -1,11 +1,4 @@
-import {
-  Box,
-  Checkbox,
-  FormControlLabel,
-  MenuItem,
-  Select,
-  TextField,
-} from "@mui/material";
+import { Box, MenuItem, TextField } from "@mui/material";
 import { Controller, useFormContext } from "react-hook-form";
 
 import { AutocompleteDriver } from "@/components/AutocompleteDriver";

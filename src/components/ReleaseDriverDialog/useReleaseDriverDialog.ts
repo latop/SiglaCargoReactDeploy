@@ -18,7 +18,7 @@ export function useReleaseDriverDialog() {
   const loading = isLoading && !error;
 
   const driverAndTruckToRelase = drivers.find(
-    (driver) => driver.dailyTripSectionId === releaseDriverId
+    (driver) => driver.dailyTripSectionId === releaseDriverId,
   );
 
   const methods = useForm();
@@ -29,7 +29,7 @@ export function useReleaseDriverDialog() {
     options?: {
       onSuccess?: () => void;
       onError?: () => void;
-    }
+    },
   ) => {
     return create("/Journey/ReleaseDriverCheck", body, {
       onSuccess: options?.onSuccess,
