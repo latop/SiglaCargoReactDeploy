@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 import { Tabs, Tab, Box } from "@mui/material";
 import {
@@ -8,13 +8,7 @@ import {
   PositionsForm,
   VacationsForm,
 } from "../DriverSections";
-
-type TabsType =
-  | "driverAttributions"
-  | "driverBases"
-  | "driverFleets"
-  | "driverPositions"
-  | "driverVacations";
+import { TabsType, useDriverDialog } from "../../useDriverDialog";
 
 const tabsMap: Record<TabsType, string> = {
   driverAttributions: "Atribuições do Motorista",
@@ -33,9 +27,7 @@ const TabContent: Record<TabsType, React.ReactNode> = {
 };
 
 export const DriverTabs = () => {
-  const [selectedTab, setSelectedTab] =
-    useState<TabsType>("driverAttributions");
-
+  const { selectedTab, setSelectedTab } = useDriverDialog();
   const handleChange = (_: React.SyntheticEvent, newValue: TabsType) => {
     setSelectedTab(newValue);
   };

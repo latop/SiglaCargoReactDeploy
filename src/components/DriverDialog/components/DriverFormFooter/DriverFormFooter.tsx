@@ -4,6 +4,7 @@ import { Box, CircularProgress, Button } from "@mui/material";
 import { useFormContext } from "react-hook-form";
 import { useDialog } from "@/hooks/useDialog/useDialog";
 import { useDriverDialog } from "../../useDriverDialog";
+import { useDriverFormFooter } from "./useDriverFormFooter";
 
 export function DriverFormFooter() {
   const {
@@ -12,12 +13,28 @@ export function DriverFormFooter() {
     formState: { isSubmitting },
   } = useFormContext();
   const { handleSubmit } = useDriverDialog();
-
   const { openDialog } = useDialog();
+  const { handleAddStep } = useDriverFormFooter();
 
   return (
     <DialogActions>
-      <Box display="flex" justifyContent="flex-end" padding="10px" width="100%">
+      <Box
+        display="flex"
+        justifyContent="space-between"
+        padding="10px"
+        width="100%"
+      >
+        <Button
+          onClick={handleAddStep}
+          variant="outlined"
+          sx={{
+            width: "150px",
+            marginTop: "1rem",
+            alignSelf: "flex-end",
+          }}
+        >
+          Adicionar
+        </Button>
         <Button
           type="submit"
           variant="contained"

@@ -1,12 +1,10 @@
 import { useFormContext } from "react-hook-form";
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { EmptyTruck } from "@/components/EmptyTruck";
 import { DriverSectionPositions } from "./PositionsSection";
-import { useAddPositionSection } from "./useAddPositionsSection";
 
 export function PositionsForm() {
   const { watch } = useFormContext();
-  const { handleAddStep } = useAddPositionSection();
   const driverBases = watch("driverPositions");
   const hasDriverBases = driverBases && !!driverBases?.length;
   return (
@@ -26,17 +24,6 @@ export function PositionsForm() {
           <Typography>Adicione seções</Typography>
         </Box>
       )}
-      <Button
-        onClick={handleAddStep}
-        variant="outlined"
-        sx={{
-          width: "150px",
-          marginTop: "1rem",
-          alignSelf: "flex-end",
-        }}
-      >
-        Adicionar Seção
-      </Button>
     </Box>
   );
 }

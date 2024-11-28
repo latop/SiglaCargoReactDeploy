@@ -1,12 +1,10 @@
 import { useFormContext } from "react-hook-form";
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { DriverSectionFleets } from "./FleetsSections";
-import { useAddFleetSection } from "./useAddFleetSection";
 import { EmptyTruck } from "@/components/EmptyTruck";
 
 export function FleetsForm() {
   const { watch } = useFormContext();
-  const { handleAddStep } = useAddFleetSection();
   const driverFleets = watch("driverFleets");
   const hasDriverFleets = driverFleets && !!driverFleets?.length;
 
@@ -27,17 +25,6 @@ export function FleetsForm() {
           <Typography>Adicione seções</Typography>
         </Box>
       )}
-      <Button
-        onClick={handleAddStep}
-        variant="outlined"
-        sx={{
-          width: "150px",
-          marginTop: "1rem",
-          alignSelf: "flex-end",
-        }}
-      >
-        Adicionar Seção
-      </Button>
     </Box>
   );
 }

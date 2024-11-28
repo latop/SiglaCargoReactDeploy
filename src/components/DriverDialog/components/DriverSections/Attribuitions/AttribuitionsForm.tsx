@@ -1,12 +1,11 @@
 import { useFormContext } from "react-hook-form";
 import { DriverSectionAttribuitions } from "./AttribuitionsSection";
-import { Box, Button, Typography } from "@mui/material";
-import { useAddAttribuitionSection } from "./useAddAttribuitionSection";
+import { Box, Typography } from "@mui/material";
 import { EmptyTruck } from "@/components/EmptyTruck";
 
 export function AttribuitionForm() {
   const { watch } = useFormContext();
-  const { handleAddStep } = useAddAttribuitionSection();
+
   const driverAttributions = watch("driverAttributions");
   const hasDriverAttributions =
     driverAttributions && !!driverAttributions?.length;
@@ -28,17 +27,6 @@ export function AttribuitionForm() {
           <Typography>Adicione seções</Typography>
         </Box>
       )}
-      <Button
-        onClick={handleAddStep}
-        variant="outlined"
-        sx={{
-          width: "150px",
-          marginTop: "1rem",
-          alignSelf: "flex-end",
-        }}
-      >
-        Adicionar Seção
-      </Button>
     </Box>
   );
 }

@@ -5,9 +5,23 @@ import { Driver } from "@/interfaces/driver";
 import { fetchDriverById } from "@/services/drivers";
 import { FieldValues, useForm } from "react-hook-form";
 import useSWR from "swr";
+import { atom, useRecoilState } from "recoil";
+
+export type TabsType =
+  | "driverAttributions"
+  | "driverBases"
+  | "driverFleets"
+  | "driverPositions"
+  | "driverVacations";
+
+export const tabState = atom<TabsType>({
+  key: "selectedTab",
+  default: "driverAttributions",
+});
 
 export function useDriverDialog() {
   const [hash] = useHash();
+  const [selectedTab, setSelectedTab] = useRecoilState(tabState);
   const isToAddDriverToAdd = !!(hash as string)?.match(/#add-driver/)?.[0];
   const driverToUpdate = (hash as string)?.match(/#driver-id-(.+)/);
   const driverId = driverToUpdate?.[1];
@@ -25,6 +39,7 @@ export function useDriverDialog() {
     fetchDriverById,
     {
       onSuccess: (data) => {
+        console.log(data);
         if (isToAddDriverToAdd) return;
         methods.reset(getDefaultValues(data, driverId));
       },
@@ -100,5 +115,7 @@ export function useDriverDialog() {
     isToUpdateDriver: !!driverId,
     driverData,
     driverId,
+    selectedTab,
+    setSelectedTab,
   };
 }

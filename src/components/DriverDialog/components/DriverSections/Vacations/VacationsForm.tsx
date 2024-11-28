@@ -1,12 +1,10 @@
 import { useFormContext } from "react-hook-form";
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { EmptyTruck } from "@/components/EmptyTruck";
-import { useAddVacationSection } from "./useAddVacationsSection";
 import { DriverSectionVacations } from "./VacationsSection";
 
 export function VacationsForm() {
   const { watch } = useFormContext();
-  const { handleAddStep } = useAddVacationSection();
   const driverVacations = watch("driverVacations");
   const hasDriverVacations = driverVacations && !!driverVacations?.length;
   return (
@@ -26,17 +24,6 @@ export function VacationsForm() {
           <Typography>Adicione seções</Typography>
         </Box>
       )}
-      <Button
-        onClick={handleAddStep}
-        variant="outlined"
-        sx={{
-          width: "150px",
-          marginTop: "1rem",
-          alignSelf: "flex-end",
-        }}
-      >
-        Adicionar Seção
-      </Button>
     </Box>
   );
 }
