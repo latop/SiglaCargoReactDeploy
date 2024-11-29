@@ -53,7 +53,7 @@ export function UpdateDriverDialog({ open, onClose }: UpdateDriverDialogProps) {
           style={{ display: "flex", flexDirection: "column", height: "100%" }}
         >
           <DialogTitle
-            sx={{ m: 0, p: "0.5rem 1rem" }}
+            sx={{ m: 0, p: "1rem 1rem" }}
             id="customized-dialog-title"
           >
             <Box display="flex" justifyContent="space-between">
@@ -72,21 +72,14 @@ export function UpdateDriverDialog({ open, onClose }: UpdateDriverDialogProps) {
           >
             <CloseIcon />
           </IconButton>
-          <DialogContent
-            dividers
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              padding: "16px",
-            }}
-          >
-            {!isLoadingDriver ? (
+          <DialogContent dividers sx={{ padding: "16px" }}>
+            {isLoadingDriver ? (
               <Box
+                height={"100%"}
                 width={"100%"}
                 display={"flex"}
                 alignItems={"center"}
                 justifyContent={"center"}
-                padding={"1rem"}
               >
                 <CircularProgress />
               </Box>
