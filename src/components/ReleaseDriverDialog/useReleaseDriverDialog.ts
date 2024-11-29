@@ -57,6 +57,7 @@ export function useReleaseDriverDialog() {
       palletInvoice: data?.palletInvoice,
       productInvoice: data?.productInvoice,
       isReturnLoaded: data?.isReturnLoaded,
+      licensePlateTrailer: data?.licensePlateTrailer,
     };
     return defaultValues;
   };
