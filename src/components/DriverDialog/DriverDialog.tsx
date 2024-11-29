@@ -72,8 +72,15 @@ export function UpdateDriverDialog({ open, onClose }: UpdateDriverDialogProps) {
           >
             <CloseIcon />
           </IconButton>
-          <DialogContent dividers sx={{ padding: "16px" }}>
-            {isLoadingDriver ? (
+          <DialogContent
+            dividers
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              padding: "16px",
+            }}
+          >
+            {!isLoadingDriver ? (
               <Box
                 width={"100%"}
                 display={"flex"}
