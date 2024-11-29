@@ -9,7 +9,6 @@ import { useDriverFormFooter } from "./useDriverFormFooter";
 export function DriverFormFooter() {
   const {
     getValues,
-
     formState: { isSubmitting },
   } = useFormContext();
   const { handleSubmit } = useDriverDialog();
@@ -29,14 +28,12 @@ export function DriverFormFooter() {
           variant="outlined"
           sx={{
             width: "150px",
-            marginTop: "1rem",
             alignSelf: "flex-end",
           }}
         >
           Adicionar
         </Button>
         <Button
-          type="submit"
           variant="contained"
           onClick={() => {
             openDialog({
@@ -44,9 +41,7 @@ export function DriverFormFooter() {
               message: "Deseja realmente atualizar essa rota?",
               onConfirm: async () => {
                 await new Promise((resolve) => setTimeout(resolve, 1000));
-                alert("Rota atualizada com sucesso");
-                // handleSubmit(getValues());
-                handleSubmit(getValues());
+                await handleSubmit(getValues());
               },
             });
           }}

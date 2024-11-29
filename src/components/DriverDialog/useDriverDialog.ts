@@ -39,7 +39,6 @@ export function useDriverDialog() {
     fetchDriverById,
     {
       onSuccess: (data) => {
-        console.log(data);
         if (isToAddDriverToAdd) return;
         methods.reset(getDefaultValues(data, driverId));
       },
@@ -63,26 +62,24 @@ export function useDriverDialog() {
     };
   };
 
-  const methods = useForm<Driver>({
-    defaultValues: getDefaultValues(driverData, driverId),
-  });
+  const methods = useForm<Driver>();
 
   const { addToast } = useToast();
   const [handleFetch, { loading: loadingCreate }] = useFetch();
   const [, setHash] = useHash();
 
-  const handleUpdateDriver = async (data: FieldValues, body: FieldValues) => {
+  const handleUpdateDriver = async (body: FieldValues) => {
     await handleFetch("/updatedriver", body, {
       onSuccess: () => {
         addToast("Motorista atualizado com sucesso!", { type: "success" });
-        setHash("");
-        methods.reset({});
       },
       onError: (error) => addToast(error.message, { type: "error" }),
     });
   };
 
-  const handleAddDriver = async (data: FieldValues, body: FieldValues) => {
+  const handleAddDriver = async (body: FieldValues) => {
+    console.log(body);
+
     await handleFetch("/Driver", body, {
       onSuccess: () => {
         addToast("Motorista adicionado com sucesso!", { type: "success" });
@@ -98,12 +95,12 @@ export function useDriverDialog() {
 
     if (!isToAddDriverToAdd && !!driverId) {
       console.log("update", body);
-      await handleUpdateDriver(data, body);
+      await handleUpdateDriver(body);
       return;
     }
     console.log("add", body);
 
-    await handleAddDriver(data, body);
+    await handleAddDriver(body);
   };
 
   return {

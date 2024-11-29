@@ -25,7 +25,8 @@ export function UpdateDriverDialog({ open, onClose }: UpdateDriverDialogProps) {
 
   useLayoutEffect(() => {
     if (!open) methods.reset({});
-  }, [open, methods]);
+    return () => methods.reset({});
+  }, [open, methods.reset]);
 
   const handleClose = () => {
     methods.reset({});
@@ -43,7 +44,7 @@ export function UpdateDriverDialog({ open, onClose }: UpdateDriverDialogProps) {
       open={open}
       fullWidth
       PaperProps={{
-        sx: { maxWidth: "1300px" },
+        sx: { maxWidth: "1300px", height: "100%" },
       }}
     >
       <FormProvider {...methods}>
@@ -51,41 +52,42 @@ export function UpdateDriverDialog({ open, onClose }: UpdateDriverDialogProps) {
           onSubmit={methods.handleSubmit(handleSubmit)}
           style={{ display: "flex", flexDirection: "column", height: "100%" }}
         >
-          <>
-            <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
-              <Box display="flex" justifyContent="space-between">
-                <DialogHeader />
+          <DialogTitle
+            sx={{ m: 0, p: "0.5rem 1rem" }}
+            id="customized-dialog-title"
+          >
+            <Box display="flex" justifyContent="space-between">
+              <DialogHeader />
+            </Box>
+          </DialogTitle>
+          <IconButton
+            aria-label="close"
+            onClick={handleClose}
+            sx={{
+              position: "absolute",
+              right: 8,
+              top: 8,
+              color: (theme) => theme.palette.grey[500],
+            }}
+          >
+            <CloseIcon />
+          </IconButton>
+          <DialogContent dividers sx={{ padding: "16px" }}>
+            {isLoadingDriver ? (
+              <Box
+                width={"100%"}
+                display={"flex"}
+                alignItems={"center"}
+                justifyContent={"center"}
+                padding={"1rem"}
+              >
+                <CircularProgress />
               </Box>
-            </DialogTitle>
-            <IconButton
-              aria-label="close"
-              onClick={handleClose}
-              sx={{
-                position: "absolute",
-                right: 8,
-                top: 8,
-                color: (theme) => theme.palette.grey[500],
-              }}
-            >
-              <CloseIcon />
-            </IconButton>
-            <DialogContent dividers sx={{ padding: "16px" }}>
-              {isLoadingDriver ? (
-                <Box
-                  width={"100%"}
-                  display={"flex"}
-                  alignItems={"center"}
-                  justifyContent={"center"}
-                  padding={"1rem"}
-                >
-                  <CircularProgress />
-                </Box>
-              ) : (
-                <DriverForm />
-              )}
-            </DialogContent>
-            <DriverFormFooter />
-          </>
+            ) : (
+              <DriverForm />
+            )}
+          </DialogContent>
+          <DriverFormFooter />
         </form>
       </FormProvider>
     </Dialog>

@@ -35,11 +35,36 @@ export const DriverTabs = () => {
   const tabsCount = Object.keys(tabsMap).length;
 
   return (
-    <Box sx={{ width: "100%" }}>
+    <Box
+      gap="10px"
+      display="flex"
+      flexDirection="column"
+      maxHeight={"200px"}
+      sx={{
+        position: "relative",
+        overflowY: "auto",
+        "&::-webkit-scrollbar": {
+          width: "8px",
+        },
+        "&::-webkit-scrollbar-track": {
+          backgroundColor: "transparent",
+        },
+        "&::-webkit-scrollbar-thumb": {
+          backgroundColor: "#cbcbcb",
+          borderRadius: "4px",
+        },
+      }}
+    >
       <Tabs
         value={selectedTab}
         onChange={handleChange}
         aria-label="Driver tabs"
+        sx={{
+          top: 0,
+          position: "sticky",
+          zIndex: 10,
+          backgroundColor: "#fff",
+        }}
       >
         {Object.keys(tabsMap).map((tabKey) => (
           <Tab
