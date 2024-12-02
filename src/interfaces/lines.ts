@@ -57,7 +57,7 @@ interface StopType {
   userIdCreate: string | null;
   userIdUpdate: string | null;
 }
-export interface LinesResponse {
+export interface LinesPaginated {
   hasNext: boolean;
   currentPage: number;
   lines: Line[];

@@ -1,20 +1,23 @@
 /* eslint-disable prettier/prettier */
-import React, { SyntheticEvent } from "react";
+import React from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import { TextField } from "@mui/material";
 import Autocomplete from "@mui/material/Autocomplete";
-import { useFleetGroup } from "@/hooks/useFleetGroup";
 import debounce from "debounce";
-import { FleetGroup } from "@/interfaces/vehicle";
+import { useAttribution } from "@/hooks/useAttribution";
+import { Attribution } from "@/interfaces/driver";
 
-export function AutocompleteFleetGroup({
-  name = "fleetGroupCode",
-  keyCode = "code",
+export function AutocompleteAttribution({
+  name = "attributionId",
+  label = "Cód. da Atribuicão",
+  keyCode = "id",
   onChange,
 }: {
   name?: string;
-  keyCode?: keyof FleetGroup;
-  onChange?: (value: FleetGroup | null) => void;
+  label?: string;
+  keyCode?: keyof Attribution;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  onChange?: (value: any) => void;
 }) {
   const {
     control,
@@ -24,24 +27,10 @@ export function AutocompleteFleetGroup({
   } = useFormContext();
 
   const isDirty = dirtyFields[name];
-
-  const { fleetGroups, error } = useFleetGroup({
+  const { attribution, error } = useAttribution({
     pageSize: 10,
     code: isDirty ? watch(name) : "",
   });
-
-  const handleChange = (
-    _: SyntheticEvent<Element, Event>,
-    value: FleetGroup | null,
-  ) => {
-    if (onChange) {
-      onChange(value);
-    } else {
-      setValue(name, value?.[keyCode] || "");
-      setValue("fleetGroupId", value?.id || "");
-      setValue("fleetGroupCode", value?.code || "");
-    }
-  };
 
   return (
     <Controller
@@ -49,36 +38,34 @@ export function AutocompleteFleetGroup({
       control={control}
       render={({ field }) => (
         <Autocomplete
-          clearOnEscape
           forcePopupIcon={false}
-          options={fleetGroups || []}
+          clearOnEscape
+          options={(attribution as Attribution[]) || []}
           loadingText="Carregando..."
-          defaultValue={{ [keyCode]: field.value ?? "" } as FleetGroup}
-          isOptionEqualToValue={(option: FleetGroup, value: FleetGroup) =>
+          defaultValue={{ code: field.value || "" } as Attribution}
+          isOptionEqualToValue={(option: Attribution, value: Attribution) =>
             option[keyCode] === value[keyCode]
           }
-          onChange={handleChange}
+          onChange={(_, value) => {
+            setValue(name, value?.[keyCode] || "");
+            onChange?.(value);
+          }}
           noOptionsText={
             !field.value
               ? "Digite o código"
-              : !fleetGroups && !error
+              : !attribution && !error
                 ? "Carregando..."
                 : "Nenhum resultado encontrado"
           }
-          getOptionLabel={(option: FleetGroup) =>
-            option.description
-              ? `${option.code} - ${option.description}`
-              : option.code
-          }
+          getOptionLabel={(option: Attribution) => option.code}
           renderInput={(params) => (
             <TextField
               {...field}
               {...params}
-              autoComplete="off"
               onChange={debounce(field.onChange, 300)}
               variant="outlined"
               fullWidth
-              label="Cód da frota"
+              label={label}
               error={!!errors[field.name]}
               helperText={errors[field.name]?.message?.toString()}
             />
