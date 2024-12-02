@@ -23,7 +23,7 @@ export function ReleaseDriver() {
       headerName: "SAÍDA",
       width: 140,
       valueGetter: (_, data: ReleaseDriverInterface) => {
-        return data.saida ? data.saida : "N/A";
+        return data.saida ? data.saida : "";
       },
     },
     {
@@ -31,7 +31,7 @@ export function ReleaseDriver() {
       headerName: "ENTREGA",
       width: 140,
       valueGetter: (_, data: ReleaseDriverInterface) => {
-        return data.entrega ? data.entrega : "N/A";
+        return data.entrega ? data.entrega : "";
       },
     },
     {
@@ -40,7 +40,7 @@ export function ReleaseDriver() {
       width: 150,
 
       valueGetter: (_, data: ReleaseDriverInterface) => {
-        return data.demanda ? data.demanda : "N/A";
+        return data.demanda ? data.demanda : "";
       },
     },
     {
@@ -48,7 +48,7 @@ export function ReleaseDriver() {
       headerName: "DESTINO",
       width: 110,
       valueGetter: (_, data: ReleaseDriverInterface) => {
-        return data.destino ? data.destino : "N/A";
+        return data.destino ? data.destino : "";
       },
     },
     {
@@ -56,7 +56,7 @@ export function ReleaseDriver() {
       headerName: "MOT.PLAN.",
       width: 140,
       valueGetter: (_, data: ReleaseDriverInterface) => {
-        return data.motoristaPlan ? data.motoristaPlan : "N/A";
+        return data.motoristaPlan ? data.motoristaPlan : "";
       },
     },
     {
@@ -64,7 +64,7 @@ export function ReleaseDriver() {
       headerName: "VEÍCULO PLAN.",
       width: 140,
       valueGetter: (_, data: ReleaseDriverInterface) => {
-        return data.veiculoPlan ? data.veiculoPlan : "N/A";
+        return data.veiculoPlan ? data.veiculoPlan : "";
       },
     },
     {
@@ -99,7 +99,7 @@ export function ReleaseDriver() {
       headerName: "MOT.REAL.",
       width: 140,
       valueGetter: (_, data: ReleaseDriverInterface) => {
-        return data.motoristaLiberado ? data.motoristaLiberado : "N/A";
+        return data.motoristaLiberado ? data.motoristaLiberado : "";
       },
     },
     {
@@ -107,7 +107,7 @@ export function ReleaseDriver() {
       headerName: "VEÍCULO.REAL.",
       width: 150,
       valueGetter: (_, data: ReleaseDriverInterface) => {
-        return data.veiculoLiberado ? data.veiculoLiberado : "N/A";
+        return data.veiculoLiberado ? data.veiculoLiberado : "";
       },
     },
     {
