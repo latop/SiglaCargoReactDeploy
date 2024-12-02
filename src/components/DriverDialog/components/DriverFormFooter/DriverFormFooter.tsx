@@ -11,9 +11,16 @@ export function DriverFormFooter() {
     getValues,
     formState: { isSubmitting },
   } = useFormContext();
-  const { handleSubmit } = useDriverDialog();
+  const { handleSubmit, isToAddDriverToAdd } = useDriverDialog();
   const { openDialog } = useDialog();
   const { handleAddStep } = useDriverFormFooter();
+
+  const dialogTexts = {
+    title: isToAddDriverToAdd ? "Adicionar Motorista" : "Atualizar Motorista",
+    message: isToAddDriverToAdd
+      ? "Deseja realmente adicionar esse motorista?"
+      : "Deseja realmente atualizar esse motorista?",
+  };
 
   return (
     <DialogActions>
@@ -37,10 +44,8 @@ export function DriverFormFooter() {
           variant="contained"
           onClick={() => {
             openDialog({
-              title: "Atualizar a rota",
-              message: "Deseja realmente atualizar essa rota?",
+              ...dialogTexts,
               onConfirm: async () => {
-                await new Promise((resolve) => setTimeout(resolve, 1000));
                 await handleSubmit(getValues());
               },
             });

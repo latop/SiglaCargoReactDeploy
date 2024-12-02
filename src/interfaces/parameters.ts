@@ -27,3 +27,11 @@ export interface Company {
   countryId: string;
   isSupplier: boolean;
 }
+
+export interface Country {
+  code: string;
+  name: string;
+  codeAlpha3: string;
+  codeNum: number;
+  id: string;
+}

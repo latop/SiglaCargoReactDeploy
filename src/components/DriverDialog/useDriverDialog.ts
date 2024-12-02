@@ -30,7 +30,7 @@ export function useDriverDialog() {
     if (!driverId || isToAddDriverToAdd) return null;
     return {
       id: driverId,
-      url: "/Driver",
+      url: "/Drivers",
     };
   };
 
@@ -80,7 +80,7 @@ export function useDriverDialog() {
   const handleAddDriver = async (body: FieldValues) => {
     console.log(body);
 
-    await handleFetch("/Driver", body, {
+    await handleFetch("/Drivers", body, {
       onSuccess: () => {
         addToast("Motorista adicionado com sucesso!", { type: "success" });
         setHash("");
@@ -91,8 +91,8 @@ export function useDriverDialog() {
   };
 
   const handleSubmit = async (data: FieldValues) => {
-    const body = { ...data };
-
+    const body = { ...data, countryId: data?.countryId };
+    console.log(body);
     if (!isToAddDriverToAdd && !!driverId) {
       console.log("update", body);
       await handleUpdateDriver(body);

@@ -22,6 +22,7 @@ import { Controller, useFormContext } from "react-hook-form";
 import { Driver } from "@/interfaces/driver";
 import { DatePicker } from "@/components/DatePicker";
 import { formatCellphone, formatCep } from "@/utils";
+import { AutocompleteContries } from "@/components/AutocompleteCountries";
 
 dayjs.extend(customParseFormat);
 
@@ -44,6 +45,10 @@ export const DriverForm = () => {
                       label="Nome"
                       variant="outlined"
                       fullWidth
+                      sx={{ textTransform: "uppercase" }}
+                      onChange={(e) => {
+                        field.onChange(e.target.value.toUpperCase());
+                      }}
                     />
                   );
                 }}
@@ -60,6 +65,10 @@ export const DriverForm = () => {
                       label="Sobre nome"
                       variant="outlined"
                       fullWidth
+                      sx={{ textTransform: "uppercase" }}
+                      onChange={(e) => {
+                        field.onChange(e.target.value.toUpperCase());
+                      }}
                     />
                   );
                 }}
@@ -76,6 +85,10 @@ export const DriverForm = () => {
                       label="Apelido"
                       variant="outlined"
                       fullWidth
+                      sx={{ textTransform: "uppercase" }}
+                      onChange={(e) => {
+                        field.onChange(e.target.value.toUpperCase());
+                      }}
                     />
                   );
                 }}
@@ -291,18 +304,11 @@ export const DriverForm = () => {
               />
             </Grid>
             <Grid item xs={3}>
-              <Controller
-                control={methods.control}
-                name={"countryId"}
-                render={({ field }) => {
-                  return (
-                    <TextField
-                      {...field}
-                      label="País"
-                      variant="outlined"
-                      fullWidth
-                    />
-                  );
+              <AutocompleteContries
+                label="País"
+                name="countryId"
+                onChange={(value) => {
+                  methods.setValue("countryId", value?.id || "");
                 }}
               />
             </Grid>

@@ -47,3 +47,14 @@ export async function fetchCompanies({ args }: { args: FetchCompanyParams }) {
     return error;
   }
 }
+
+export const fetchCountries = async () => {
+  try {
+    const response = await axios.get("/Countries");
+    const data = response.data;
+    return data;
+  } catch (error) {
+    console.error(error);
+    return error;
+  }
+};
