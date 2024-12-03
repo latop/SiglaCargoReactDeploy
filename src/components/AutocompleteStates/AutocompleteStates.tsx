@@ -4,20 +4,20 @@ import { Controller, useFormContext } from "react-hook-form";
 import { TextField } from "@mui/material";
 import Autocomplete from "@mui/material/Autocomplete";
 import debounce from "debounce";
-import { Country } from "@/interfaces/parameters";
-import { useCountries } from "@/hooks/useCountries";
+import { State } from "@/interfaces/parameters";
+import { useStates } from "@/hooks/useStates";
 
-export function AutocompleteContries({
+export function AutocompleteStates({
   name = "name",
-  label = "País",
+  label = "Estados",
   keyCode = "name",
   onChange,
 
 }: {
   name?: string;
   label?: string;
-  keyCode?: keyof Country;
-  onChange?: (value: Country | null) => void;
+  keyCode?: keyof State;
+  onChange?: (value: State | null) => void;
 }) {
   const {
     control,
@@ -27,11 +27,11 @@ export function AutocompleteContries({
   } = useFormContext();
 
   const isDirty = dirtyFields[name];
-  const { contries, error } = useCountries({
+  const { states, error } = useStates({
     code: isDirty ? watch(name) : "",
   });
 
-  const handleChange = (_: unknown, value: Country | null) => {
+  const handleChange = (_: unknown, value: State | null) => {
     if (onChange) {
       onChange(value);
     } else {
@@ -49,21 +49,21 @@ export function AutocompleteContries({
         <Autocomplete
           forcePopupIcon={false}
           clearOnEscape
-          options={contries || []}
+          options={states || []}
           loadingText="Carregando..."
-          defaultValue={{ name: field.value || "" } as Country}
-          isOptionEqualToValue={(option: Country, value: Country) =>
+          defaultValue={{ name: field.value || "" } as State}
+          isOptionEqualToValue={(option: State, value: State) =>
             option[keyCode] === value[keyCode]
           }
           onChange={handleChange}
           noOptionsText={
             !field.value
               ? "Digite o código"
-              : !contries && !error
+              : !states && !error
                 ? "Carregando..."
                 : "Nenhum resultado encontrado"
           }
-          getOptionLabel={(option: Country) => option.name}
+          getOptionLabel={(option: State) => option?.name}
           renderInput={(params) => (
             <TextField
               {...field}

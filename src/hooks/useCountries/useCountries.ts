@@ -13,7 +13,7 @@ export const useCountries = (
   );
 
   return {
-    companies: data,
+    contries: data,
     error,
     isLoading,
   };

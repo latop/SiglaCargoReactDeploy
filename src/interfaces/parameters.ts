@@ -35,3 +35,12 @@ export interface Country {
   codeNum: number;
   id: string;
 }
+
+export interface State {
+  code: string;
+  name: string;
+  regionId: string | null;
+  countryId: string;
+  country: Country;
+  id: string;
+}

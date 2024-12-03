@@ -23,6 +23,7 @@ import { Driver } from "@/interfaces/driver";
 import { DatePicker } from "@/components/DatePicker";
 import { formatCellphone, formatCep } from "@/utils";
 import { AutocompleteContries } from "@/components/AutocompleteCountries";
+import { AutocompleteStates } from "@/components/AutocompleteStates";
 
 dayjs.extend(customParseFormat);
 
@@ -288,18 +289,12 @@ export const DriverForm = () => {
               />
             </Grid>
             <Grid item xs={3}>
-              <Controller
-                control={methods.control}
+              <AutocompleteStates
                 name={"stateId"}
-                render={({ field }) => {
-                  return (
-                    <TextField
-                      {...field}
-                      label="Estado"
-                      variant="outlined"
-                      fullWidth
-                    />
-                  );
+                label="Estado"
+                keyCode="name"
+                onChange={(value) => {
+                  methods.setValue("stateId", value?.id || "");
                 }}
               />
             </Grid>
@@ -307,6 +302,7 @@ export const DriverForm = () => {
               <AutocompleteContries
                 label="País"
                 name="countryId"
+                keyCode="name"
                 onChange={(value) => {
                   methods.setValue("countryId", value?.id || "");
                 }}

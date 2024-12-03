@@ -58,3 +58,14 @@ export const fetchCountries = async () => {
     return error;
   }
 };
+
+export const fetchStates = async () => {
+  try {
+    const response = await axios.get("/States");
+    const data = response.data;
+    return data;
+  } catch (error) {
+    console.error(error);
+    return error;
+  }
+};

@@ -91,7 +91,7 @@ export function useDriverDialog() {
   };
 
   const handleSubmit = async (data: FieldValues) => {
-    const body = { ...data, countryId: data?.countryId };
+    const body = { ...data };
     console.log(body);
     if (!isToAddDriverToAdd && !!driverId) {
       console.log("update", body);
