@@ -64,7 +64,7 @@ export const ReleaseDriverDialog: FC<ReleaseDriverDialogProps> = ({
       isReturnLoaded: data?.isReturnLoaded,
       licensePlateTrailer: data?.licensePlateTrailer,
     };
-
+    console.log("body", body);
     try {
       await updateReleaseDriver(body, {
         onSuccess: () => {
