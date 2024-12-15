@@ -21,17 +21,17 @@ export function ReleaseDriver() {
     {
       field: "saida",
       headerName: "SAÍDA",
-      width: 150,
+      width: 140,
       valueGetter: (_, data: ReleaseDriverInterface) => {
-        return data.saida ? data.saida : "N/A";
+        return data.saida ? data.saida : "";
       },
     },
     {
       field: "entrega",
       headerName: "ENTREGA",
-      width: 150,
+      width: 140,
       valueGetter: (_, data: ReleaseDriverInterface) => {
-        return data.entrega ? data.entrega : "N/A";
+        return data.entrega ? data.entrega : "";
       },
     },
     {
@@ -40,37 +40,37 @@ export function ReleaseDriver() {
       width: 150,
 
       valueGetter: (_, data: ReleaseDriverInterface) => {
-        return data.demanda ? data.demanda : "N/A";
+        return data.demanda ? data.demanda : "";
       },
     },
     {
       field: "destino",
       headerName: "DESTINO",
-      width: 150,
+      width: 110,
       valueGetter: (_, data: ReleaseDriverInterface) => {
-        return data.destino ? data.destino : "N/A";
+        return data.destino ? data.destino : "";
       },
     },
     {
       field: "motoristaPlan",
       headerName: "MOT.PLAN.",
-      width: 150,
+      width: 140,
       valueGetter: (_, data: ReleaseDriverInterface) => {
-        return data.motoristaPlan ? data.motoristaPlan : "N/A";
+        return data.motoristaPlan ? data.motoristaPlan : "";
       },
     },
     {
       field: "veiculoPlan",
       headerName: "VEÍCULO PLAN.",
-      width: 150,
+      width: 140,
       valueGetter: (_, data: ReleaseDriverInterface) => {
-        return data.veiculoPlan ? data.veiculoPlan : "N/A";
+        return data.veiculoPlan ? data.veiculoPlan : "";
       },
     },
     {
       field: "dtCheckList",
       headerName: "CHECK-LIST",
-      width: 70,
+      width: 140,
       renderCell: (params) => {
         if (
           params.row.dtCheckList === null ||
@@ -83,7 +83,7 @@ export function ReleaseDriver() {
                 background: "transparent",
                 border: "none",
                 outline: "none",
-                color: "black",
+                color: "#24438f",
                 cursor: "pointer",
               }}
             >
@@ -97,9 +97,9 @@ export function ReleaseDriver() {
     {
       field: "motoristaLiberado",
       headerName: "MOT.REAL.",
-      width: 150,
+      width: 140,
       valueGetter: (_, data: ReleaseDriverInterface) => {
-        return data.motoristaLiberado ? data.motoristaLiberado : "N/A";
+        return data.motoristaLiberado ? data.motoristaLiberado : "";
       },
     },
     {
@@ -107,16 +107,16 @@ export function ReleaseDriver() {
       headerName: "VEÍCULO.REAL.",
       width: 150,
       valueGetter: (_, data: ReleaseDriverInterface) => {
-        return data.veiculoLiberado ? data.veiculoLiberado : "N/A";
+        return data.veiculoLiberado ? data.veiculoLiberado : "";
       },
     },
     {
       field: "dtLiberacao",
       headerName: "LIBERAÇÃO",
-      width: 100,
+      width: 140,
       renderCell: (params) => {
         return params.row.dtLiberacao
-          ? dayjs(params.row.dtLiberacao).format("DD/MM/YYYY HH:mm:ss")
+          ? dayjs(params.row.dtLiberacao).format("DD/MM/YYYY HH:mm")
           : "";
       },
     },
@@ -153,19 +153,19 @@ export function ReleaseDriver() {
     if (
       !params.get("dtRef") ||
       !params.get("locOrig") ||
-      !params.get("notReleased")
+      !params.get("releaseStatus")
     ) {
       const dtRef = dayjs(params.get("dtRef")).isValid()
         ? dayjs(params.get("dtRef")).format("YYYY-MM-DD")
         : dayjs().format("YYYY-MM-DD");
-      const locOrig = params.get("locOrig") || "";
+      const locOrig = params.get("origemlocOrig") || "";
       if (dtRef && locOrig) {
         const newParams = new URLSearchParams();
         newParams.append("dtRef", dtRef);
         newParams.append("locOrig", locOrig);
         newParams.append(
-          "notReleased",
-          params.get("notReleased") === "true" ? "true" : "false",
+          "releaseStatus",
+          params.get("releaseStatus") === "true" ? "true" : "false",
         );
         if (params.get("nickName")) {
           newParams.append("nickName", params.get("nickName") || "");
@@ -205,7 +205,6 @@ export function ReleaseDriver() {
           }}
         >
           <strong>ORIGEM:</strong> {origem}
-          {hash}
         </Box>
         <Card
           sx={{

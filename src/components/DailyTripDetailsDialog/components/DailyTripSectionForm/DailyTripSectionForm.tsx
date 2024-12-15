@@ -13,9 +13,9 @@ import { Controller, useFormContext } from "react-hook-form";
 import { AutocompleteDriver } from "@/components/AutocompleteDriver";
 import { AutocompleteLocation } from "@/components/AutocompleteLocation";
 import { AutocompleteStopType } from "@/components/AutocompleteStopType";
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import DeleteIcon from "@mui/icons-material/Delete";
-import ImageSearchOutlinedIcon from '@mui/icons-material/ImageSearchOutlined';
+import ImageSearchOutlinedIcon from "@mui/icons-material/ImageSearchOutlined";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import dayjs from "dayjs";
@@ -46,7 +46,9 @@ export const DailyTripSectionForm = ({ seq }: { seq: number }) => {
       >
         <Grid container spacing={1}>
           <Grid item xs={12}>
-            <h5>Seção {seq + 1} - {steps[seq].locationOrig.code}</h5>
+            <h5>
+              Seção {seq + 1} - {steps[seq].locationOrig.code}
+            </h5>
           </Grid>
           <Grid item xs={2}>
             <Controller
@@ -85,7 +87,6 @@ export const DailyTripSectionForm = ({ seq }: { seq: number }) => {
               label="Parada"
             />
           </Grid>
-
 
           <Grid item xs={2}>
             <Controller
@@ -184,20 +185,33 @@ export const DailyTripSectionForm = ({ seq }: { seq: number }) => {
             />
           </Grid>
         </Grid>
-        <Box display={'flex'} flexDirection={'column'} justifyContent={"flex-end"} alignItems={"center"}>
+        <Box
+          display={"flex"}
+          flexDirection={"column"}
+          justifyContent={"flex-end"}
+          alignItems={"center"}
+        >
           <Tooltip title="Remover viagem" arrow>
             <IconButton size="small" onClick={handleDeleteStep}>
               <Icon component={DeleteIcon} fontSize="small" color="warning" />
             </IconButton>
           </Tooltip>
           <Tooltip title="Horários Planejados" arrow>
-            <IconButton size="small" >
-              <Icon component={AccessTimeIcon} fontSize="small" color="action" />
+            <IconButton size="small">
+              <Icon
+                component={AccessTimeIcon}
+                fontSize="small"
+                color="action"
+              />
             </IconButton>
           </Tooltip>
           <Tooltip title="Justificativas" arrow>
-            <IconButton size="small" >
-              <Icon component={ImageSearchOutlinedIcon} fontSize="small" color="action" />
+            <IconButton size="small">
+              <Icon
+                component={ImageSearchOutlinedIcon}
+                fontSize="small"
+                color="action"
+              />
             </IconButton>
           </Tooltip>
         </Box>

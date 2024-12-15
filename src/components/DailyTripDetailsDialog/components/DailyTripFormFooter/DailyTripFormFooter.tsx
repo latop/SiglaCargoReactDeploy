@@ -15,8 +15,8 @@ export function DailyTripFormFooter() {
   const [modalOpen, setModalOpen] = useState({
     justifyModal: false,
     scheduleModal: false,
-    logsModal: false
-  })
+    logsModal: false,
+  });
 
   return (
     <DialogActions>
@@ -52,7 +52,10 @@ export function DailyTripFormFooter() {
             )}
             Horários Planejados
           </Button>
-          <Button variant="outlined" onClick={() => setModalOpen({ ...modalOpen, justifyModal: true })}>
+          <Button
+            variant="outlined"
+            onClick={() => setModalOpen({ ...modalOpen, justifyModal: true })}
+          >
             {isSubmitting && (
               <CircularProgress
                 color="inherit"
@@ -74,7 +77,6 @@ export function DailyTripFormFooter() {
           </Button>
         </Box>
         <Box display="flex" gap="10px">
-
           <Button type="submit" variant="contained">
             {isSubmitting && (
               <CircularProgress
@@ -87,14 +89,14 @@ export function DailyTripFormFooter() {
           </Button>
         </Box>
       </Box>
-      {modalOpen.justifyModal &&
+      {modalOpen.justifyModal && (
         <ModalJustification
           isOpen={modalOpen.justifyModal}
           handleClose={() =>
             setModalOpen({ ...modalOpen, justifyModal: false })
           }
         />
-      }
+      )}
     </DialogActions>
   );
 }

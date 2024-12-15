@@ -7,7 +7,7 @@ import {
   MenuItem,
   styled,
   TextField,
-  Typography
+  Typography,
 } from "@mui/material";
 import { DateField } from "@mui/x-date-pickers/DateField";
 import { Controller, useFormContext } from "react-hook-form";
@@ -18,7 +18,6 @@ import { AutocompleteLine } from "@/components/AutocompleteLine";
 import { AutocompleteLocation } from "@/components/AutocompleteLocation";
 import { AutocompleteTripType } from "@/components/AutocompleteTripType";
 import { DailyTrip } from "@/interfaces/daily-trip";
-import { fetchDailyTripDetails } from "@/services/schedule";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import dayjs from "dayjs";
@@ -36,34 +35,32 @@ const TextArea = styled(TextField)`
   }
 `;
 
-
 dayjs.extend(customParseFormat);
 
 export const DailyTripForm = () => {
-
-  const { control, watch, getValues, setValue, reset } = useFormContext();
+  const { control, watch, setValue } = useFormContext();
   const dailyTripSections = watch("dailyTripSections");
 
   const countSections = dailyTripSections?.length;
 
-  const handleSearchInfos = async () => {
-    if (watch("lineId") && watch("startPlanned")) {
-      const line = watch("lineId");
-      const startPlanned = watch("startPlanned");
-      reset({ dailyTripSections: [] });
-      const data = await fetchDailyTripDetails({
-        args: {
-          lineId: line,
-          startTime: startPlanned,
-        },
-      });
-      reset({
-        ...getValues(),
-        ...data.dailyTrip,
-        dailyTripSections: data.dailyTripSections,
-      });
-    }
-  };
+  // const handleSearchInfos = async () => {
+  //   if (watch("lineId") && watch("startPlanned")) {
+  //     const line = watch("lineId");
+  //     const startPlanned = watch("startPlanned");
+  //     reset({ dailyTripSections: [] });
+  //     const data = await fetchDailyTripDetails({
+  //       args: {
+  //         lineId: line,
+  //         startTime: startPlanned,
+  //       },
+  //     });
+  //     reset({
+  //       ...getValues(),
+  //       ...data.dailyTrip,
+  //       dailyTripSections: data.dailyTripSections,
+  //     });
+  //   }
+  // };
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
@@ -152,6 +149,7 @@ export const DailyTripForm = () => {
                     disabled={false}
                     label="Observações"
                     variant="outlined"
+                    error={!!error?.message}
                     fullWidth
                     maxRows={3}
                   />
@@ -165,7 +163,6 @@ export const DailyTripForm = () => {
             <Grid item xs={2}>
               <AutocompleteLocation name="locationDest.code" label="Destino" />
             </Grid>
-
 
             <Grid item xs={2}>
               <Controller
@@ -265,7 +262,6 @@ export const DailyTripForm = () => {
           ))}
         </Box>
       </Box>
-
-    </LocalizationProvider >
+    </LocalizationProvider>
   );
 };

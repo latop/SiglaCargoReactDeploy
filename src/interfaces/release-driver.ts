@@ -10,6 +10,16 @@ export interface ReleaseDriverInterface {
   dtCheckList?: Date;
   dtLiberacao?: Date;
   dailyTripSectionId: string;
+  mdfe: string;
+  cte: string;
+  obs: string;
+  presentationDate: string;
+  issueDate: string;
+  issueResponsible: string;
+  palletInvoice: string;
+  productInvoice: string;
+  isReturnLoaded: boolean;
+  licensePlateTrailer: string;
 }
 
 export interface ReleaseDriverResponse {

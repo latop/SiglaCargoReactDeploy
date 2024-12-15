@@ -2,7 +2,7 @@
 import { AppBar } from "@/components/AppBar";
 import { HeaderTitle } from "@/components/HeaderTitle/HeaderTitle";
 import { MainContainer } from "@/components/MainContainer";
-import { useGetDashboardQuery } from "@/services/query/dashboard.query";
+import { useGetDashboardQuery } from "@/services/query/dashboard";
 import {
   Box,
   Card,
@@ -65,8 +65,10 @@ export function Home() {
     }
 
     const newGraphToShow: GraphToShow[] = [];
-    newGraphSelected?.forEach((graphName) => {
-      const graph = newGraphBaseList?.find((graph) => graph.name === graphName);
+    newGraphSelected.forEach((graphName) => {
+      const graph = newGraphBaseList?.find(
+        (graph) => graph?.name === graphName,
+      );
       if (graph) {
         newGraphToShow.push(graph);
       }
