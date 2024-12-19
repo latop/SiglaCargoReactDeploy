@@ -1,1 +1,1 @@
-# SiglaCargoReactCode - Aplicação em Produção SIGLA PepsiCo
+# SiglaCargoReactCode
