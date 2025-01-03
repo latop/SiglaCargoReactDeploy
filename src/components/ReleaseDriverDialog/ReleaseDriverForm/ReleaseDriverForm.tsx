@@ -14,7 +14,7 @@ dayjs.extend(customParseFormat);
 
 export const ReleaseDriverForm = () => {
   const methods = useFormContext();
-  const { control } = methods;
+  const { control, setError, clearErrors } = methods;
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
@@ -213,7 +213,7 @@ export const ReleaseDriverForm = () => {
               render={({ field }) => {
                 return (
                   <TextField
-                    label="Invoice do Pallet"
+                    label="Nota do Pallet"
                     {...field}
                     type="tel"
                     value={field.value}
@@ -232,7 +232,7 @@ export const ReleaseDriverForm = () => {
               render={({ field }) => {
                 return (
                   <TextField
-                    label="Invoice do produto"
+                    label="Nota do produto"
                     {...field}
                     type="tel"
                     value={field.value}
@@ -244,7 +244,7 @@ export const ReleaseDriverForm = () => {
               }}
             />
           </Box>
-          <Box sx={{ flexBasis: "135px" }}>
+          <Box sx={{ flexBasis: "165px" }}>
             <Controller
               name={"isReturnLoaded"}
               control={control}
@@ -268,9 +268,81 @@ export const ReleaseDriverForm = () => {
               )}
             />
           </Box>
-          <Box sx={{ flexBasis: "425px" }}>
+          <Box sx={{ flexBasis: "135px" }}>
             <Controller
-              name="obs"
+              name="licensePlateTrailer"
+              control={control}
+              rules={{
+                validate: (value) => {
+                  console.log(value);
+                  if (!RegExp(/[A-z]{3}-*\d[A-j0-9]\d{2}/).exec(value)) {
+                    return "Placa inválida";
+                  }
+                },
+              }}
+              render={({ field, fieldState }) => {
+                return (
+                  <TextField
+                    error={fieldState.error ? true : false}
+                    sx={{
+                      width: "100%",
+                      "& .MuiInputBase-input.Mui-disabled": {
+                        WebkitTextFillColor: "#000000",
+                        opacity: 1,
+                      },
+                    }}
+                    label="Placa da Carreta"
+                    {...field}
+                    value={field.value}
+                    inputProps={{ maxLength: 50 }}
+                    onInput={(e: React.ChangeEvent<HTMLInputElement>) => {
+                      e.target.value = e.target.value
+                        .replace(/[^A-Za-z0-9]/, "")
+                        .toUpperCase();
+                      const matchs = Array.from(
+                        e.target.value.matchAll(
+                          /([A-z]{3})(\d)([A-j0-9])(\d{2})/g,
+                        ),
+                      );
+                      const partials = [];
+                      if (matchs.length > 0) {
+                        partials.push(matchs[0][1]);
+                        if (!isNaN(Number.parseInt(matchs[0][3]))) {
+                          partials.push("-");
+                        }
+                        partials.push(matchs[0][2]);
+                        partials.push(matchs[0][3]);
+                        partials.push(matchs[0][4]);
+                        console.log(partials);
+                        e.target.value = partials.join("").toUpperCase();
+                      }
+
+                      console.log(
+                        !RegExp(/[A-z]{3}-*\d[A-j0-9]\d{2}/).exec(
+                          e.target.value,
+                        ),
+                      );
+                      if (
+                        !RegExp(/[A-z]{3}-*\d[A-j0-9]\d{2}/).exec(
+                          e.target.value,
+                        )
+                      ) {
+                        setError("licensePlateTrailer", {
+                          type: "manual",
+                          message: "Placa inválida",
+                        });
+                      } else {
+                        clearErrors("licensePlateTrailer");
+                      }
+                    }}
+                  />
+                );
+              }}
+            />
+          </Box>
+          <Box sx={{ flexBasis: "385px" }}>
+            <Controller
+              name="note"
               control={control}
               render={({ field }) => {
                 return (
@@ -282,7 +354,7 @@ export const ReleaseDriverForm = () => {
                         opacity: 1,
                       },
                     }}
-                    label="OBS"
+                    label="Observações"
                     {...field}
                     value={field.value}
                     inputProps={{ maxLength: 50 }}
@@ -310,14 +382,14 @@ export const ReleaseDriverForm = () => {
               }}
             />
           </Box>
-          <Box sx={{ flexBasis: "190px" }}>
+          <Box sx={{ flexBasis: "200px" }}>
             <Controller
               name="issueDate"
               control={control}
               render={({ field }) => {
                 return (
                   <DateTimePicker
-                    label="Data do Problema"
+                    label="Data da emissão da NF"
                     {...field}
                     value={field.value}
                   />
@@ -332,7 +404,7 @@ export const ReleaseDriverForm = () => {
               render={({ field }) => {
                 return (
                   <TextField
-                    label="Responsável pelo problema"
+                    label="Responsável pela emissão da NF"
                     {...field}
                     sx={{
                       width: "100%",

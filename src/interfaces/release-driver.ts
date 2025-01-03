@@ -19,6 +19,7 @@ export interface ReleaseDriverInterface {
   palletInvoice: string;
   productInvoice: string;
   isReturnLoaded: boolean;
+  licensePlateTrailer: string;
 }
 
 export interface ReleaseDriverResponse {

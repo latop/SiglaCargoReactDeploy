@@ -86,7 +86,11 @@ export const DriverForm = () => {
                       label="Apelido"
                       variant="outlined"
                       fullWidth
-                      sx={{ textTransform: "uppercase" }}
+                      sx={{
+                        textTransform: "uppercase",
+                        "& .MuiInputBase-input": { textTransform: "uppercase" },
+                        "&::placeholder": { textTransform: "unset" },
+                      }}
                       onChange={(e) => {
                         field.onChange(e.target.value.toUpperCase());
                       }}
