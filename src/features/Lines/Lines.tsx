@@ -23,7 +23,7 @@ const columns: GridColDef[] = [
     sortable: false,
     filterable: false,
     valueGetter: (_, data: DailyTrip) => {
-      return data.line ? data.line.code : "N/A";
+      return data.line ? data.line.code : "";
     },
   },
   {
@@ -33,7 +33,7 @@ const columns: GridColDef[] = [
     sortable: false,
     filterable: false,
     valueGetter: (_, data: DailyTrip) => {
-      return data.line ? data.line.description : "N/A";
+      return data.line ? data.line.description : "";
     },
   },
   {
@@ -45,7 +45,7 @@ const columns: GridColDef[] = [
     valueGetter: (_, data) => {
       return data.line.locationOrig && data.line.locationDest
         ? `${data.line.locationOrig.code} / ${data.line.locationDest.code}`
-        : "N/A";
+        : "";
     },
   },
   {

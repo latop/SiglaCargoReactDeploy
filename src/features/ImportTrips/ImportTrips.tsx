@@ -21,7 +21,7 @@ export function ImportTrips() {
       headerName: "Nome do Arquivo",
       width: 300,
       valueGetter: (_, data: ImportTripsResponseItem) => {
-        return data.FileName ? data.FileName.split(".xlsx")[0] : "N/A";
+        return data.FileName ? data.FileName.split(".xlsx")[0] : "";
       },
     },
     {

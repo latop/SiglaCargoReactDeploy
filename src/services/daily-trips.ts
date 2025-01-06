@@ -14,6 +14,7 @@ export type FetchDailyTripsParams = {
   flgStatus?: string;
   pageSize?: number;
   pageNumber?: number;
+  licensePlateTrailer?: string;
 };
 
 export async function fetchDailyTrips({
@@ -27,7 +28,7 @@ export async function fetchDailyTrips({
       filter2Id: args.locationOrigId,
       filter3Id: args.locationDestId,
       filter1String: args.sto,
-      filter2String: args.tripDate,
+      filter2String: args.startDate.toString(),
       filter3String: args.flgStatus,
       pageSize: args.pageSize,
       pageNumber: args.pageNumber,

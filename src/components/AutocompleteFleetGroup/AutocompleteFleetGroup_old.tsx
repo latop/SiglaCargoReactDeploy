@@ -1,25 +1,20 @@
-/* eslint-disable prettier/prettier */
-import { Location } from "@/interfaces/trip";
-import { useGetLocationQuery } from "@/services/query/trips";
+import React, { SyntheticEvent } from "react";
+import { Controller, useFormContext } from "react-hook-form";
 import { TextField } from "@mui/material";
 import Autocomplete from "@mui/material/Autocomplete";
+import { useFleetGroup } from "@/hooks/useFleetGroup";
 import debounce from "debounce";
-import { SyntheticEvent } from "react";
-import { Controller, useFormContext } from "react-hook-form";
+import { FleetGroup } from "@/interfaces/vehicle";
 
-export interface AutocompleteLocationProps {
-  name?: string;
-  label?: string;
-  keyCode?: keyof Location;
-  onChange?: (value: Location | null) => void;
-}
-
-export function AutocompleteLocation({
-  name = "locationCode",
-  label = "Cód. localização",
+export function AutocompleteFleetGroup({
+  name = "fleetGroupCode",
   keyCode = "code",
   onChange,
-}: AutocompleteLocationProps) {
+}: {
+  name?: string;
+  keyCode?: keyof FleetGroup;
+  onChange?: (value: FleetGroup | null) => void;
+}) {
   const {
     control,
     watch,
@@ -29,18 +24,21 @@ export function AutocompleteLocation({
 
   const isDirty = dirtyFields[name];
 
-  const { data: { data: locations = [] } = [], error } = useGetLocationQuery({
-    code: (isDirty && watch(name)) ?? watch(name) ?? "",
-  })
+  const { fleetGroups, error } = useFleetGroup({
+    pageSize: 10,
+    code: isDirty ? watch(name) : "",
+  });
 
   const handleChange = (
     _: SyntheticEvent<Element, Event>,
-    value: Location | null,
+    value: FleetGroup | null,
   ) => {
     if (onChange) {
       onChange(value);
     } else {
       setValue(name, value?.[keyCode] || "");
+      setValue("fleetGroupId", value?.id || "");
+      setValue("fleetGroupCode", value?.code || "");
     }
   };
 
@@ -50,31 +48,36 @@ export function AutocompleteLocation({
       control={control}
       render={({ field }) => (
         <Autocomplete
-          forcePopupIcon={false}
           clearOnEscape
-          options={locations}
+          forcePopupIcon={false}
+          options={fleetGroups || []}
           loadingText="Carregando..."
-          defaultValue={{ code: field.value || "" } as Location}
-          isOptionEqualToValue={(option: Location, value: Location) =>
+          defaultValue={{ [keyCode]: field.value ?? null } as FleetGroup}
+          isOptionEqualToValue={(option: FleetGroup, value: FleetGroup) =>
             option.id === value.id
           }
           onChange={handleChange}
           noOptionsText={
             !field.value
               ? "Digite o código"
-              : !locations && !error
-                ? "Carregando..."
-                : "Nenhum resultado encontrado"
+              : !fleetGroups && !error
+              ? "Carregando..."
+              : "Nenhum resultado encontrado"
           }
-          getOptionLabel={(option: Location) => option.code}
+          getOptionLabel={(option: FleetGroup) =>
+            option.description
+              ? `${option.code} - ${option.description}`
+              : option.code
+          }
           renderInput={(params) => (
             <TextField
               {...field}
               {...params}
+              autoComplete="off"
               onChange={debounce(field.onChange, 300)}
               variant="outlined"
               fullWidth
-              label={label}
+              label="Cód da frota"
               error={!!errors[field.name]}
               helperText={errors[field.name]?.message?.toString()}
             />

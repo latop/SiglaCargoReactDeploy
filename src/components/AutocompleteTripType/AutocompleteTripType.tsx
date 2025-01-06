@@ -3,9 +3,9 @@ import React, { SyntheticEvent } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import { TextField } from "@mui/material";
 import Autocomplete from "@mui/material/Autocomplete";
-import { useTripType } from "@/hooks/useTripType";
 import debounce from "debounce";
 import { TripType } from "@/interfaces/trip";
+import { useGetTripTypesQuery } from "@/services/query/trips";
 
 export function AutocompleteTripType({
   name = "tripTypeCode",
@@ -26,10 +26,10 @@ export function AutocompleteTripType({
   } = useFormContext();
 
   const isDirty = dirtyFields[name];
-  const { tripTypes, error } = useTripType({
-    pageSize: 10,
-    code: isDirty ? watch(name) : "",
-  });
+
+  const { data: { data: tripTypes = [] } = [], error } = useGetTripTypesQuery({
+    code: (isDirty && watch(name)) ?? watch(name) ?? ""
+  })
 
   const handleChange = (
     _: SyntheticEvent<Element, Event>,

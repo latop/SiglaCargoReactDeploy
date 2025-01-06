@@ -1,3 +1,4 @@
+import { useQuery } from "@tanstack/react-query";
 import api from "../configs/api";
 import { FetchBasicParams } from "./types";
 
@@ -5,7 +6,7 @@ const resource = "Location";
 
 export const useGetLocationGroupQuery = {
   queryKey: ["location_group"],
-  queryFn: async ({ pageSize = 20, code }: FetchBasicParams) => {
+  queryFn: async ({ pageSize = 15, code }: FetchBasicParams) => {
     try {
       const response = await api.get(`${resource}Group`, {
         params: {
@@ -21,27 +22,32 @@ export const useGetLocationGroupQuery = {
   },
 };
 
-export const useGetLocationQuery = {
-  queryKey: ["location"],
-  queryFn: async ({ pageSize = 20, code }: FetchBasicParams) => {
-    try {
-      const response = await api.get(`${resource}`, {
-        params: {
-          PageSize: pageSize,
-          filter1String: code?.toUpperCase(),
-        },
-      });
-      return response.data;
-    } catch (error) {
-      console.error(error);
-      return error;
-    }
-  },
+export const useGetLocationQuery = ({
+  pageSize = 15,
+  code,
+}: FetchBasicParams) => {
+  return useQuery({
+    queryKey: ["location"],
+    queryFn: async () => {
+      try {
+        const response = await api.get(`${resource}`, {
+          params: {
+            PageSize: pageSize,
+            filter1String: code?.toUpperCase(),
+          },
+        });
+        return response.data;
+      } catch (error) {
+        console.error(error);
+        return error;
+      }
+    },
+  });
 };
 
 export const useGetLocationReleaseQuery = {
   queryKey: ["location_release"],
-  queryFn: async ({ pageSize = 20, code }: FetchBasicParams) => {
+  queryFn: async ({ pageSize = 15, code }: FetchBasicParams) => {
     try {
       const response = await api.get(`${resource}/GetLocationRelease`, {
         params: {
@@ -58,22 +64,27 @@ export const useGetLocationReleaseQuery = {
 };
 
 // TODO: Implement the fetchLocations function to the right place
-export const useGetTripTypesQuery = {
-  queryKey: ["trip_types"],
-  queryFn: async ({ pageSize = 20, code }: FetchBasicParams) => {
-    try {
-      const response = await api.get("TripType", {
-        params: {
-          PageSize: pageSize,
-          filter1String: code?.toUpperCase(),
-        },
-      });
-      return response.data;
-    } catch (error) {
-      console.error(error);
-      return error;
-    }
-  },
+export const useGetTripTypesQuery = ({
+  pageSize = 15,
+  code,
+}: FetchBasicParams) => {
+  return useQuery({
+    queryKey: ["trip_types"],
+    queryFn: async () => {
+      try {
+        const response = await api.get("TripType", {
+          params: {
+            PageSize: pageSize,
+            filter1String: code?.toUpperCase(),
+          },
+        });
+        return response.data;
+      } catch (error) {
+        console.error(error);
+        return error;
+      }
+    },
+  });
 };
 
 export const useGetOptmizedTripsQuery = {

@@ -108,8 +108,7 @@ const columns: GridColDef[] = [
     width: 100,
     sortable: false,
     filterable: false,
-    valueFormatter: (value) =>
-      value ? dayjs(value).format("DD/MM/YYYY") : "N/A",
+    valueFormatter: (value) => (value ? dayjs(value).format("DD/MM/YYYY") : ""),
   },
   {
     field: "endDate",
@@ -117,8 +116,7 @@ const columns: GridColDef[] = [
     width: 100,
     sortable: false,
     filterable: false,
-    valueFormatter: (value) =>
-      value ? dayjs(value).format("DD/MM/YYYY") : "N/A",
+    valueFormatter: (value) => (value ? dayjs(value).format("DD/MM/YYYY") : ""),
   },
   {
     field: "startTime",
@@ -126,7 +124,7 @@ const columns: GridColDef[] = [
     width: 80,
     sortable: false,
     filterable: false,
-    valueFormatter: (value) => (value ? dayjs(value).format("HH:mm") : "N/A"),
+    valueFormatter: (value) => (value ? dayjs(value).format("HH:mm") : ""),
   },
   {
     field: "endTime",
@@ -134,7 +132,7 @@ const columns: GridColDef[] = [
     width: 120,
     sortable: false,
     filterable: false,
-    valueFormatter: (value) => (value ? dayjs(value).format("HH:mm") : "N/A"),
+    valueFormatter: (value) => (value ? dayjs(value).format("HH:mm") : ""),
   },
   ...generateDayColumns(daysOfWeek),
 ];

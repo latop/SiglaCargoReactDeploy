@@ -64,8 +64,7 @@ const columns: GridColDef[] = [
     width: 150,
     sortable: false,
     filterable: false,
-    valueFormatter: (value) =>
-      value ? dayjs(value).format("DD/MM/YYYY") : "N/A",
+    valueFormatter: (value) => (value ? dayjs(value).format("DD/MM/YYYY") : ""),
   },
   {
     field: "endDate",
@@ -73,8 +72,7 @@ const columns: GridColDef[] = [
     width: 150,
     sortable: false,
     filterable: false,
-    valueFormatter: (value) =>
-      value ? dayjs(value).format("DD/MM/YYYY") : "N/A",
+    valueFormatter: (value) => (value ? dayjs(value).format("DD/MM/YYYY") : ""),
   },
 ];
 

@@ -23,7 +23,7 @@ api.interceptors.response.use((response) => {
       hasPrevious: pagination.HasPrevious,
       pageSize: pagination.PageSize,
       totalPages: pagination.TotalPages,
-      dailyTrips: response.data,
+      data: response.data,
       totalCount: pagination.TotalCount,
     };
     response.data = normalizeData;

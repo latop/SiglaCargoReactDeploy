@@ -1,46 +1,45 @@
 /* eslint-disable prettier/prettier */
-import { Location } from "@/interfaces/trip";
-import { useGetLocationQuery } from "@/services/query/trips";
+import React, { SyntheticEvent } from "react";
+import { Controller, useFormContext } from "react-hook-form";
 import { TextField } from "@mui/material";
 import Autocomplete from "@mui/material/Autocomplete";
+import { useTripType } from "@/hooks/useTripType";
 import debounce from "debounce";
-import { SyntheticEvent } from "react";
-import { Controller, useFormContext } from "react-hook-form";
+import { TripType } from "@/interfaces/trip";
 
-export interface AutocompleteLocationProps {
-  name?: string;
-  label?: string;
-  keyCode?: keyof Location;
-  onChange?: (value: Location | null) => void;
-}
-
-export function AutocompleteLocation({
-  name = "locationCode",
-  label = "Cód. localização",
+export function AutocompleteTripType({
+  name = "tripTypeCode",
+  label = "Tipo de viagem",
   keyCode = "code",
   onChange,
-}: AutocompleteLocationProps) {
+}: {
+  name?: string;
+  label?: string;
+  keyCode?: keyof TripType;
+  onChange?: (value: TripType | null) => void;
+
+}) {
   const {
     control,
     watch,
-    setValue,
-    formState: { errors, dirtyFields },
+    setValue, formState: { errors, dirtyFields },
   } = useFormContext();
 
   const isDirty = dirtyFields[name];
-
-  const { data: { data: locations = [] } = [], error } = useGetLocationQuery({
-    code: (isDirty && watch(name)) ?? watch(name) ?? "",
-  })
+  const { tripTypes, error } = useTripType({
+    pageSize: 10,
+    code: isDirty ? watch(name) : "",
+  });
 
   const handleChange = (
     _: SyntheticEvent<Element, Event>,
-    value: Location | null,
+    value: TripType | null,
   ) => {
     if (onChange) {
       onChange(value);
     } else {
       setValue(name, value?.[keyCode] || "");
+
     }
   };
 
@@ -52,21 +51,21 @@ export function AutocompleteLocation({
         <Autocomplete
           forcePopupIcon={false}
           clearOnEscape
-          options={locations}
+          options={tripTypes || []}
           loadingText="Carregando..."
-          defaultValue={{ code: field.value || "" } as Location}
-          isOptionEqualToValue={(option: Location, value: Location) =>
-            option.id === value.id
+          defaultValue={{ code: field.value || "" } as TripType}
+          isOptionEqualToValue={(option: TripType, value: TripType) =>
+            option[keyCode] === value[keyCode]
           }
           onChange={handleChange}
           noOptionsText={
             !field.value
               ? "Digite o código"
-              : !locations && !error
+              : !tripTypes && !error
                 ? "Carregando..."
                 : "Nenhum resultado encontrado"
           }
-          getOptionLabel={(option: Location) => option.code}
+          getOptionLabel={(option: TripType) => option.code}
           renderInput={(params) => (
             <TextField
               {...field}
