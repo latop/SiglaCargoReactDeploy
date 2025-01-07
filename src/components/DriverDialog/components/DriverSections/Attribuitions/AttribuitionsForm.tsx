@@ -24,7 +24,7 @@ export function AttribuitionForm() {
           sx={{ opacity: 0.5 }}
         >
           <EmptyTruck width={70} height={70} />
-          <Typography>Adicione seções</Typography>
+          <Typography>Adicionar</Typography>
         </Box>
       )}
     </Box>

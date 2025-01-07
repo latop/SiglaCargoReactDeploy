@@ -63,7 +63,7 @@ export async function fetchDriversPaginated({
       PageNumber: args.pageNumber,
       filter1String: args.nickName?.toUpperCase(),
       filter2String: args.integrationCode?.toUpperCase(),
-      // test: args.admission,
+      filter4String: args.admission,
     };
 
     const response = await axios.get("/Drivers", { params });
