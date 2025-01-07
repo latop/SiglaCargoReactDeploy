@@ -75,7 +75,7 @@ export const DriverForm = () => {
                 }}
               />
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={1.5}>
               <Controller
                 control={methods.control}
                 name={"nickName"}
@@ -99,7 +99,7 @@ export const DriverForm = () => {
                 }}
               />
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={1.5}>
               <Controller
                 control={methods.control}
                 name={"registration"}
@@ -107,7 +107,7 @@ export const DriverForm = () => {
                   return (
                     <TextField
                       {...field}
-                      label="Matrícula"
+                      label="CPF"
                       variant="outlined"
                       fullWidth
                     />
@@ -115,25 +115,7 @@ export const DriverForm = () => {
                 }}
               />
             </Grid>
-          </Grid>
-          <Grid container spacing={1}>
-            <Grid item xs={3}>
-              <Controller
-                control={methods.control}
-                name={"seniority"}
-                render={({ field }) => {
-                  return (
-                    <TextField
-                      {...field}
-                      label="Serionidade"
-                      variant="outlined"
-                      fullWidth
-                    />
-                  );
-                }}
-              />
-            </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={1.1}>
               <Controller
                 control={methods.control}
                 name={"identification"}
@@ -149,7 +131,25 @@ export const DriverForm = () => {
                 }}
               />
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={1}>
+              <Controller
+                control={methods.control}
+                name={"seniority"}
+                render={({ field }) => {
+                  return (
+                    <TextField
+                      {...field}
+                      label="Serionidade"
+                      variant="outlined"
+                      fullWidth
+                    />
+                  );
+                }}
+              />
+            </Grid>
+          </Grid>
+          <Grid container spacing={1}>
+            <Grid item xs={1.5}>
               <Controller
                 control={methods.control}
                 name="genre"
@@ -188,7 +188,7 @@ export const DriverForm = () => {
                 )}
               />
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={1.5}>
               <Controller
                 control={methods.control}
                 name={"birthdate"}
@@ -204,9 +204,7 @@ export const DriverForm = () => {
                 }}
               />
             </Grid>
-          </Grid>
-          <Grid container spacing={1}>
-            <Grid item xs={3}>
+            <Grid item xs={1.5}>
               <Controller
                 control={methods.control}
                 name={"admission"}
@@ -222,7 +220,7 @@ export const DriverForm = () => {
                 }}
               />
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={1.5}>
               <Controller
                 control={methods.control}
                 name={"resign"}
@@ -238,6 +236,54 @@ export const DriverForm = () => {
                 }}
               />
             </Grid>
+            <Grid item xs={3}>
+              <Controller
+                control={methods.control}
+                name={"integrationCodeGPS"}
+                render={({ field }) => {
+                  return (
+                    <TextField
+                      {...field}
+                      label="Código de Integração GPS"
+                      variant="outlined"
+                      fullWidth
+                    />
+                  );
+                }}
+              />
+            </Grid>
+            <Grid item xs={1.5}>
+              <Controller
+                control={methods.control}
+                name={"integrationCode"}
+                render={({ field }) => {
+                  return (
+                    <TextField
+                      {...field}
+                      label="Código de Integração"
+                      variant="outlined"
+                      fullWidth
+                    />
+                  );
+                }}
+              />
+            </Grid>
+            <Grid item xs={1}>
+              <Controller
+                control={methods.control}
+                name={"isActive"}
+                render={({ field }) => {
+                  return (
+                    <FormControlLabel
+                      control={<Checkbox {...field} checked={field.value} />}
+                      label="Ativo"
+                    />
+                  );
+                }}
+              />
+            </Grid>
+          </Grid>
+          <Grid container spacing={1}>
             <Grid item xs={6}>
               <Controller
                 control={methods.control}
@@ -254,9 +300,7 @@ export const DriverForm = () => {
                 }}
               />
             </Grid>
-          </Grid>
-          <Grid container spacing={1}>
-            <Grid item xs={3}>
+            <Grid item xs={1.2}>
               <Controller
                 control={methods.control}
                 name={"zipCode"}
@@ -276,7 +320,7 @@ export const DriverForm = () => {
                 }}
               />
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={1.5}>
               <Controller
                 control={methods.control}
                 name={"cityId"}
@@ -292,7 +336,7 @@ export const DriverForm = () => {
                 }}
               />
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={1.5}>
               <AutocompleteStates
                 name={"stateId"}
                 label="Estado"
@@ -302,7 +346,7 @@ export const DriverForm = () => {
                 }}
               />
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={1.5}>
               <AutocompleteContries
                 label="País"
                 name="countryId"
@@ -338,7 +382,7 @@ export const DriverForm = () => {
                 }}
               />
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={1.5}>
               <Controller
                 control={methods.control}
                 name={"phone1"}
@@ -358,7 +402,7 @@ export const DriverForm = () => {
                 }}
               />
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={1.5}>
               <Controller
                 control={methods.control}
                 name="phone2"
@@ -376,23 +420,7 @@ export const DriverForm = () => {
                 )}
               />
             </Grid>
-            <Grid item xs={3}>
-              <Controller
-                control={methods.control}
-                name={"isActive"}
-                render={({ field }) => {
-                  return (
-                    <FormControlLabel
-                      control={<Checkbox {...field} checked={field.value} />}
-                      label="Ativo"
-                    />
-                  );
-                }}
-              />
-            </Grid>
-          </Grid>
-          <Grid container spacing={1}>
-            <Grid item xs={12}>
+            <Grid item xs={6}>
               <Controller
                 control={methods.control}
                 name={"note"}
@@ -401,40 +429,6 @@ export const DriverForm = () => {
                     <TextField
                       {...field}
                       label="Observações"
-                      variant="outlined"
-                      fullWidth
-                    />
-                  );
-                }}
-              />
-            </Grid>
-          </Grid>
-          <Grid container spacing={1}>
-            <Grid item xs={3}>
-              <Controller
-                control={methods.control}
-                name={"integrationCode"}
-                render={({ field }) => {
-                  return (
-                    <TextField
-                      {...field}
-                      label="Código de Integração"
-                      variant="outlined"
-                      fullWidth
-                    />
-                  );
-                }}
-              />
-            </Grid>
-            <Grid item xs={3}>
-              <Controller
-                control={methods.control}
-                name={"integrationCodeGPS"}
-                render={({ field }) => {
-                  return (
-                    <TextField
-                      {...field}
-                      label="Código de Integração GPS"
                       variant="outlined"
                       fullWidth
                     />
