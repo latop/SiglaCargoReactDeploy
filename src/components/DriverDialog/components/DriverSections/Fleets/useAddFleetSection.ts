@@ -5,12 +5,11 @@ export function useAddFleetSection() {
   const { watch, setValue } = useFormContext();
   const { driverId } = useDriverDialog();
   const driverFleets = watch("driverFleets") ?? [];
-
   const handleAddStep = () => {
     driverFleets.push({
       driverId: driverId ? driverId : "00000000-0000-0000-0000-000000000000",
       id: "00000000-0000-0000-0000-000000000000",
-      fleetGroupId: null,
+      fleetGroupId: driverFleets.fleetGroupId,
       startDate: null,
       endDate: null,
     });

@@ -65,20 +65,11 @@ export const DriverSectionAttribuitions = ({ seq }: { seq: number }) => {
           </Grid>
           <Grid item xs={1.7}>
             <AutocompleteAttribution
-              name={`driverAttributions.${seq}.attributionId`}
+              name={`driverAttributions.${seq}.attribution.code`}
+              onChange={(value) => {
+                setValue(`driverAttributions.${seq}.attributionId`, value?.id);
+              }}
             />
-            {/* <Controller
-              name={`driverAttributions.${seq}.attributionId`}
-              control={control}
-              render={({ field, fieldState: { error } }) => (
-                <TextField
-                  {...field}
-                  variant="outlined"
-                  label="Id de Atribuição"
-                  error={!!error?.message}
-                />
-              )}
-            /> */}
           </Grid>
         </Grid>
         <Tooltip title="Remover viagem" arrow>

@@ -66,7 +66,7 @@ export const DriverSectionFleets = ({ seq }: { seq: number }) => {
 
           <Grid item xs={1.7}>
             <AutocompleteFleetGroup
-              name={`driverFleets.${seq}.fleetGroupId`}
+              name={`driverFleets.${seq}.fleetGroup.code`}
               onChange={(value) => {
                 setValue(`driverFleets.${seq}.fleetGroupId`, value?.id);
               }}

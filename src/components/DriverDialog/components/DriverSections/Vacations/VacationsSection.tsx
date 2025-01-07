@@ -66,7 +66,7 @@ export const DriverSectionVacations = ({ seq }: { seq: number }) => {
 
           <Grid item xs={1.7}>
             <AutocompleteDriver
-              name={`driverVacations.${seq}.driverId`}
+              name={`driverVacations.${seq}.driverName`}
               onChange={(value) => {
                 setValue(`driverVacations.${seq}.driverId`, value?.id);
               }}

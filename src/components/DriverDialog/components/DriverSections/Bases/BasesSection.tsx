@@ -66,7 +66,7 @@ export const DriverSectionBases = ({ seq }: { seq: number }) => {
 
           <Grid item xs={1.7}>
             <AutocompleteLocationGroup
-              name={`driverBases.${seq}.locationGroupId`}
+              name={`driverBases.${seq}.locationGroup.code`}
               onChange={(value) => {
                 setValue(`driverBases.${seq}.locationGroupId`, value?.id);
               }}
