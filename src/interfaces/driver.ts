@@ -1,3 +1,5 @@
+import { City, Country, State } from "./parameters";
+
 type DriverAttribution = {
   id: string;
   driverId: string;
@@ -47,6 +49,9 @@ export interface Driver {
   identification: string;
   genre: string;
   birthdate: string;
+  city?: City;
+  state?: State;
+  country?: Country;
   driverBases: DriverBase[];
   driverVacations: DriverVacation[];
   driverFleets: DriverFleet[];
@@ -71,19 +76,6 @@ export interface Driver {
   urlPhoto: string | null;
   password: string | null;
 }
-
-export interface Position {
-  code: string;
-  description: string;
-  id: string;
-  priority: number;
-}
-
-export type Attribution = {
-  code: string;
-  description: string;
-  id: string;
-};
 
 export type DriversPaginated = {
   currentPage: number;

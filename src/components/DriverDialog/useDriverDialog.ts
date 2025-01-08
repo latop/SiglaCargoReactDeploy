@@ -51,9 +51,9 @@ export function useDriverDialog() {
   ) => {
     const mapWithDriverId = (items: object[] | undefined) =>
       items?.map((item) => ({ ...item, driverId }));
-
     return {
       ...data,
+      countryId: "BRASIL",
       driverAttributions: mapWithDriverId(data?.driverAttributions),
       driverBases: mapWithDriverId(data?.driverBases),
       driverFleets: mapWithDriverId(data?.driverFleets),
@@ -68,7 +68,13 @@ export function useDriverDialog() {
   const [handleFetch, { loading: loadingCreate }] = useFetch();
   const [, setHash] = useHash();
 
-  const handleUpdateDriver = async (body: FieldValues) => {
+  const handleUpdateDriver = async (data: FieldValues) => {
+    const body = {
+      ...data,
+      stateId: data.state.id,
+      cityId: data.city.id,
+      countryId: data.state.country.id,
+    };
     await handleFetch("/updatedriver", body, {
       onSuccess: () => {
         addToast("Motorista atualizado com sucesso!", { type: "success" });
@@ -77,9 +83,13 @@ export function useDriverDialog() {
     });
   };
 
-  const handleAddDriver = async (body: FieldValues) => {
-    console.log(body);
-
+  const handleAddDriver = async (data: FieldValues) => {
+    const body = {
+      ...data,
+      stateId: data.state.id,
+      cityId: data.city.id,
+      countryId: data.state.country.id,
+    };
     await handleFetch("/Drivers", body, {
       onSuccess: () => {
         addToast("Motorista adicionado com sucesso!", { type: "success" });

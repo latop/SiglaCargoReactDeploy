@@ -44,3 +44,24 @@ export interface State {
   country: Country;
   id: string;
 }
+export interface City {
+  id: string;
+  code: string;
+  name: string;
+  stateId: string;
+  countryId: string;
+  capital: boolean;
+}
+
+export interface Position {
+  code: string;
+  description: string;
+  id: string;
+  priority: number;
+}
+
+export type Attribution = {
+  code: string;
+  description: string;
+  id: string;
+};

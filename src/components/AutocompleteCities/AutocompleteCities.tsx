@@ -4,20 +4,20 @@ import { Controller, useFormContext } from "react-hook-form";
 import { TextField } from "@mui/material";
 import Autocomplete from "@mui/material/Autocomplete";
 import debounce from "debounce";
-import { useAttribution } from "@/hooks/useAttribution";
-import { Attribution } from "@/interfaces/parameters";
+import { City } from "@/interfaces/parameters";
+import { useCities } from "@/hooks/useCities";
 
-export function AutocompleteAttribution({
-  name = "attributionId",
-  label = "Cód. da Atribuicão",
-  keyCode = "id",
+export function AutocompleteCities({
+  name = "name",
+  label = "Cidades",
+  keyCode = "name",
   onChange,
+
 }: {
   name?: string;
   label?: string;
-  keyCode?: keyof Attribution;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  onChange?: (value: any) => void;
+  keyCode?: keyof City;
+  onChange?: (value: City | null) => void;
 }) {
   const {
     control,
@@ -27,10 +27,19 @@ export function AutocompleteAttribution({
   } = useFormContext();
 
   const isDirty = dirtyFields[name];
-  const { attribution, error } = useAttribution({
-    pageSize: 10,
-    code: isDirty ? watch(name) : "",
+  const { cities, error } = useCities({
+    cityName: isDirty ? watch(name) : "",
   });
+
+  const handleChange = (_: unknown, value: City | null) => {
+    if (onChange) {
+      onChange(value);
+    } else {
+      setValue("id", value?.id || "");
+      setValue("code", value?.code || "");
+
+    }
+  };
 
   return (
     <Controller
@@ -40,24 +49,21 @@ export function AutocompleteAttribution({
         <Autocomplete
           forcePopupIcon={false}
           clearOnEscape
-          options={(attribution as Attribution[]) || []}
+          options={cities || []}
           loadingText="Carregando..."
-          defaultValue={{ code: field.value || "" } as Attribution}
-          isOptionEqualToValue={(option: Attribution, value: Attribution) =>
+          defaultValue={{ name: field.value || "" } as City}
+          isOptionEqualToValue={(option: City, value: City) =>
             option[keyCode] === value[keyCode]
           }
-          onChange={(_, value) => {
-            setValue(name, value?.[keyCode] || "");
-            onChange?.(value);
-          }}
+          onChange={handleChange}
           noOptionsText={
             !field.value
               ? "Digite o código"
-              : !attribution && !error
+              : !cities && !error
                 ? "Carregando..."
                 : "Nenhum resultado encontrado"
           }
-          getOptionLabel={(option: Attribution) => option.code}
+          getOptionLabel={(option: City) => option?.name}
           renderInput={(params) => (
             <TextField
               {...field}

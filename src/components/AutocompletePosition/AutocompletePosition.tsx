@@ -4,8 +4,8 @@ import { Controller, useFormContext } from "react-hook-form";
 import { TextField } from "@mui/material";
 import Autocomplete from "@mui/material/Autocomplete";
 import debounce from "debounce";
-import { Position } from "@/interfaces/driver";
 import { usePosition } from "@/hooks/usePosition";
+import { Position } from "@/interfaces/parameters";
 
 export function AutocompletePosition({
   name = "positionCode",

@@ -1,8 +1,8 @@
-import useSWR, { SWRConfiguration } from "swr";
 import {
   FetchAttribuitionParams,
   fetchAttribuitions,
-} from "@/services/drivers";
+} from "@/services/parameters";
+import useSWR, { SWRConfiguration } from "swr";
 
 export const useAttribution = (
   params?: FetchAttribuitionParams,

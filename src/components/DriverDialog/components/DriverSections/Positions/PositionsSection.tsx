@@ -66,7 +66,7 @@ export const DriverSectionPositions = ({ seq }: { seq: number }) => {
 
           <Grid item xs={1.7}>
             <AutocompletePosition
-              name={`driverPositions.${seq}.positionId`}
+              name={`driverPositions.${seq}.position.code`}
               onChange={(value) => {
                 setValue(`driverPositions.${seq}.positionId`, value?.id);
               }}

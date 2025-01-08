@@ -24,6 +24,7 @@ import { DatePicker } from "@/components/DatePicker";
 import { formatCellphone, formatCep } from "@/utils";
 import { AutocompleteContries } from "@/components/AutocompleteCountries";
 import { AutocompleteStates } from "@/components/AutocompleteStates";
+import { AutocompleteCities } from "@/components/AutocompleteCities";
 
 dayjs.extend(customParseFormat);
 
@@ -115,7 +116,7 @@ export const DriverForm = () => {
                 }}
               />
             </Grid>
-            <Grid item xs={1.1}>
+            <Grid item xs={1.5}>
               <Controller
                 control={methods.control}
                 name={"identification"}
@@ -131,7 +132,7 @@ export const DriverForm = () => {
                 }}
               />
             </Grid>
-            <Grid item xs={1}>
+            <Grid item xs={1.5}>
               <Controller
                 control={methods.control}
                 name={"seniority"}
@@ -300,7 +301,7 @@ export const DriverForm = () => {
                 }}
               />
             </Grid>
-            <Grid item xs={1.2}>
+            <Grid item xs={1.5}>
               <Controller
                 control={methods.control}
                 name={"zipCode"}
@@ -321,28 +322,21 @@ export const DriverForm = () => {
               />
             </Grid>
             <Grid item xs={1.5}>
-              <Controller
-                control={methods.control}
-                name={"cityId"}
-                render={({ field }) => {
-                  return (
-                    <TextField
-                      {...field}
-                      label="Cidade"
-                      variant="outlined"
-                      fullWidth
-                    />
-                  );
+              <AutocompleteCities
+                name="city.name"
+                label="Cidade"
+                onChange={(value) => {
+                  methods.setValue("city", value || undefined);
                 }}
               />
             </Grid>
             <Grid item xs={1.5}>
               <AutocompleteStates
-                name={"stateId"}
+                name="state.name"
                 label="Estado"
-                keyCode="name"
                 onChange={(value) => {
-                  methods.setValue("stateId", value?.id || "");
+                  console.log(value);
+                  methods.setValue("state", value || undefined);
                 }}
               />
             </Grid>
@@ -350,7 +344,6 @@ export const DriverForm = () => {
               <AutocompleteContries
                 label="País"
                 name="countryId"
-                keyCode="name"
                 onChange={(value) => {
                   methods.setValue("countryId", value?.id || "");
                 }}
