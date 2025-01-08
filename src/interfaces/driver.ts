@@ -52,6 +52,7 @@ export interface Driver {
   city?: City;
   state?: State;
   country?: Country;
+  driverBase: string;
   driverBases: DriverBase[];
   driverVacations: DriverVacation[];
   driverFleets: DriverFleet[];
@@ -86,3 +87,10 @@ export type DriversPaginated = {
   drivers: Driver[];
   totalCount: number;
 };
+
+export interface Position {
+  code: string;
+  description: string;
+  id: string;
+  priority: number;
+}

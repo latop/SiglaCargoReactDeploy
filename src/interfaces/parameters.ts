@@ -53,13 +53,6 @@ export interface City {
   capital: boolean;
 }
 
-export interface Position {
-  code: string;
-  description: string;
-  id: string;
-  priority: number;
-}
-
 export type Attribution = {
   code: string;
   description: string;

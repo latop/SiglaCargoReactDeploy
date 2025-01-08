@@ -1,4 +1,4 @@
-import { Position } from "@/interfaces/parameters";
+import { Position } from "@/interfaces/driver";
 import { FetchPositionParams, fetchPositions } from "@/services/parameters";
 import useSWR from "swr";
 

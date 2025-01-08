@@ -5,7 +5,7 @@ import { TextField } from "@mui/material";
 import Autocomplete from "@mui/material/Autocomplete";
 import debounce from "debounce";
 import { usePosition } from "@/hooks/usePosition";
-import { Position } from "@/interfaces/parameters";
+import { Position } from "@/interfaces/driver";
 
 export function AutocompletePosition({
   name = "positionCode",
