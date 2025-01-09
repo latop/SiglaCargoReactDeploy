@@ -13,6 +13,7 @@ export type FetchDailyTripsParams = {
   tripDate?: string;
   sto?: string;
   flgStatus?: string;
+  licensePlate?: string;
   pageSize?: number;
   pageNumber?: number;
 };
@@ -37,6 +38,7 @@ export const useGetDailyTripsQuery = ({
   sto,
   tripDate,
   flgStatus,
+  licensePlate,
   pageNumber,
   pageSize = 15,
 }: FetchDailyTripsParams) => {
@@ -47,10 +49,11 @@ export const useGetDailyTripsQuery = ({
     filter1String: sto || undefined,
     filter2String: tripDate?.toString(),
     filter3String: flgStatus,
+    Filter4String: licensePlate,
     pageSize,
     pageNumber,
   };
-  console.log("params", params);
+
   const runQuery = !tripDate;
 
   return useQuery({
@@ -73,21 +76,27 @@ export const useGetDailyTripsQuery = ({
 
 export interface FetchDailyTripDetailsParams {
   dailyTripId?: string;
-  lineId: string;
-  startTime: string;
+  lineId?: string;
+  startTime?: string;
 }
-
-export const useGetDailyTripDetailQuery = {
-  queryKey: ["daily-trips"],
-  queryFn: async (params: FetchDailyTripsParams) => {
-    try {
-      const response = await api.get("/DailyTrip/getdailytripdetail", {
-        params,
-      });
-      return response.data;
-    } catch (error) {
-      console.error(error);
-      return error;
-    }
-  },
+export const useGetDailyTripDetailQuery = (
+  params: FetchDailyTripDetailsParams
+) => {
+  console.log("params", params, params?.dailyTripId ? true : false);
+  return useQuery({
+    queryKey: ["daily-trips", { params }],
+    queryFn: async () => {
+      try {
+        const response = await api.get("/DailyTrip/getdailytripdetail", {
+          params,
+        });
+        console.log("response", response);
+        return response.data;
+      } catch (error) {
+        console.error(error);
+        return error;
+      }
+    },
+    enabled: params?.dailyTripId ? true : false,
+  });
 };

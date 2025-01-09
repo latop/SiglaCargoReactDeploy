@@ -9,10 +9,12 @@ import { useGetFleetGroupQuery } from "@/services/query/vehicles";
 export function AutocompleteFleetGroup({
   name = "fleetGroupCode",
   keyCode = "code",
+  isRequired = false,
   onChange,
 }: {
   name?: string;
   keyCode?: keyof FleetGroup;
+  isRequired?: boolean;
   onChange?: (value: FleetGroup | null) => void;
 }) {
   const {
@@ -61,8 +63,8 @@ export function AutocompleteFleetGroup({
             !field.value
               ? "Digite o código"
               : !fleetGroups && !error
-              ? "Carregando..."
-              : "Nenhum resultado encontrado"
+                ? "Carregando..."
+                : "Nenhum resultado encontrado"
           }
           getOptionLabel={(option: FleetGroup) =>
             option.description
@@ -77,6 +79,7 @@ export function AutocompleteFleetGroup({
               onChange={debounce(field.onChange, 300)}
               variant="outlined"
               fullWidth
+              required={isRequired}
               label="Cód da frota"
               error={!!errors[field.name]}
               helperText={errors[field.name]?.message?.toString()}

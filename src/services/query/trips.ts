@@ -158,31 +158,65 @@ interface FetchLines {
   pageNumber?: number;
 }
 
-export const useGetLinesQuery = {
-  queryKey: ["lines"],
-  queryFn: async ({
-    fleetGroupId,
-    locationDestId,
-    locationOrigId,
-    code,
-    pageSize,
-    pageNumber,
-  }: FetchLines) => {
-    try {
-      const response = await api.get("/Line", {
-        params: {
-          filter1Id: locationOrigId,
-          filter2Id: locationDestId,
-          filter3Id: fleetGroupId,
-          filter1String: code,
-          PageSize: pageSize,
-          PageNumber: pageNumber,
-        },
-      });
-      return response.data;
-    } catch (error) {
-      console.error(error);
-      return error;
-    }
-  },
+export const useGetLinesQuery = ({
+  fleetGroupId,
+  locationDestId,
+  locationOrigId,
+  code,
+  pageSize,
+  pageNumber,
+}: FetchLines) => {
+  return useQuery({
+    queryKey: ["lines"],
+    queryFn: async () => {
+      try {
+        const response = await api.get("/Line", {
+          params: {
+            filter1Id: locationOrigId,
+            filter2Id: locationDestId,
+            filter3Id: fleetGroupId,
+            filter1String: code,
+            PageSize: pageSize,
+            PageNumber: pageNumber,
+          },
+        });
+        const { data } = response.data;
+        const parsedData = data.map((item) => item.line);
+        response.data.data = parsedData;
+        return response.data;
+      } catch (error) {
+        console.error(error);
+        return error;
+      }
+    },
+  });
+};
+
+interface FetchStopTypeParams {
+  pageSize?: number;
+  stopType: string;
+}
+
+export const useGetStopTypeQuery = ({
+  pageSize = 20,
+  stopType,
+}: FetchStopTypeParams) => {
+  return useQuery({
+    queryKey: ["lines"],
+    queryFn: async () => {
+      try {
+        const response = await api.get("/StopType", {
+          params: {
+            PageSize: pageSize,
+            filter1String: stopType?.toUpperCase(),
+          },
+        });
+        console.log(response.data);
+        return response.data;
+      } catch (error) {
+        console.error(error);
+        return error;
+      }
+    },
+  });
 };

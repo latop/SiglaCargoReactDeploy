@@ -33,9 +33,10 @@ const schema = z.object({
   tripDate: dateOrDayjsSchema,
   sto: z.string().optional(),
   flgStatus: z.string().optional(),
+  licensePlate: z.string().optional(),
 });
 
-interface FormFields extends FetchDailyTripsParams {}
+interface FormFields extends FetchDailyTripsParams { }
 
 interface Params {
   onChange: (value: FormFields) => void;
@@ -51,6 +52,7 @@ export function DailyTripsFilterBar({ onChange }: Params) {
       startDate: "",
       sto: "",
       flgStatus: "",
+      licensePlate: "",
     },
   });
 
@@ -75,10 +77,9 @@ export function DailyTripsFilterBar({ onChange }: Params) {
               <Controller
                 name="tripDate"
                 control={control}
-                rules={{ required: "Data é obrigatória" }}
                 render={({ field, fieldState: { error } }) => (
                   <DatePicker
-                    label="Data da viagem"
+                    label="Data da viagem *"
                     error={error?.message}
                     {...field}
                   />
@@ -89,12 +90,14 @@ export function DailyTripsFilterBar({ onChange }: Params) {
             <Grid item xs={2} paddingLeft="0">
               {/* <AutocompleteFleetGroup /> */}
               <Controller
-                name="licensePlateTrailer"
+                name="licensePlate"
                 control={control}
                 rules={{
                   validate: (value) => {
                     console.log(value);
-                    if (!RegExp(/[A-z]{3}-*\d[A-j0-9]\d{2}/).exec(value)) {
+                    if (
+                      !RegExp(/[A-z]{3}-*\d[A-j0-9]\d{2}/).exec(value as string)
+                    ) {
                       return "Placa inválida";
                     }
                   },

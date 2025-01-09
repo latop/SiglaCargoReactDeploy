@@ -10,6 +10,7 @@ import { Controller, useFormContext } from "react-hook-form";
 export interface AutocompleteLocationProps {
   name?: string;
   label?: string;
+  isRequired?: boolean;
   keyCode?: keyof Location;
   onChange?: (value: Location | null) => void;
 }
@@ -18,6 +19,7 @@ export function AutocompleteLocation({
   name = "locationCode",
   label = "Cód. localização",
   keyCode = "code",
+  isRequired = false,
   onChange,
 }: AutocompleteLocationProps) {
   const {
@@ -41,6 +43,7 @@ export function AutocompleteLocation({
       onChange(value);
     } else {
       setValue(name, value?.[keyCode] || "");
+      setValue(`${name.split(".")[0]}Id`, value?.id || "");
     }
   };
 
@@ -75,6 +78,7 @@ export function AutocompleteLocation({
               variant="outlined"
               fullWidth
               label={label}
+              required={isRequired}
               error={!!errors[field.name]}
               helperText={errors[field.name]?.message?.toString()}
             />

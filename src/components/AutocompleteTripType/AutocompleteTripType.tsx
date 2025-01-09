@@ -11,11 +11,13 @@ export function AutocompleteTripType({
   name = "tripTypeCode",
   label = "Tipo de viagem",
   keyCode = "code",
+  isRequired = false,
   onChange,
 }: {
   name?: string;
   label?: string;
   keyCode?: keyof TripType;
+  isRequired?: boolean;
   onChange?: (value: TripType | null) => void;
 
 }) {
@@ -39,7 +41,7 @@ export function AutocompleteTripType({
       onChange(value);
     } else {
       setValue(name, value?.[keyCode] || "");
-
+      setValue(`${name.split(".")[0]}Id`, value?.id || "");
     }
   };
 
@@ -73,6 +75,7 @@ export function AutocompleteTripType({
               onChange={debounce(field.onChange, 300)}
               variant="outlined"
               fullWidth
+              required={isRequired}
               label={label}
               error={!!errors[field.name]}
               helperText={errors[field.name]?.message?.toString()}
