@@ -45,10 +45,7 @@ export function useDriverDialog() {
     },
   );
 
-  const getDefaultValues = (
-    data: Driver | undefined,
-    driverId: string | undefined,
-  ) => {
+  const getDefaultValues = (data: Driver, driverId: string | undefined) => {
     const mapWithDriverId = (items: object[] | undefined) =>
       items?.map((item) => ({ ...item, driverId }));
     return {
@@ -101,7 +98,13 @@ export function useDriverDialog() {
   };
 
   const handleSubmit = async (data: FieldValues) => {
-    const body = { ...data, countryId: data.state.countryId };
+    const body = {
+      ...data,
+      countryId: data.state.countryId,
+      stateId: data.state.id,
+      cityId: data.city.id,
+    };
+    console.log({ data, body });
     if (!isToAddDriverToAdd && !!driverId) {
       await handleUpdateDriver(body);
       return;
