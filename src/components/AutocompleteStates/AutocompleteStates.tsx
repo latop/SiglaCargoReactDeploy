@@ -28,7 +28,7 @@ export function AutocompleteStates({
 
   const isDirty = dirtyFields[name];
   const { states, error } = useStates({
-    code: isDirty ? watch(name) : "",
+    stateName: isDirty ? watch(name) : "",
   });
 
   const handleChange = (_: unknown, value: State | null) => {
@@ -51,7 +51,7 @@ export function AutocompleteStates({
           clearOnEscape
           options={states || []}
           loadingText="Carregando..."
-          defaultValue={{ name: field.value || "" } as State}
+          defaultValue={{ [keyCode]: field.value?.[keyCode] || "" } as State}
           isOptionEqualToValue={(option: State, value: State) =>
             option[keyCode] === value[keyCode]
           }

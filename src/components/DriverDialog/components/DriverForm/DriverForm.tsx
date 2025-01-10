@@ -323,7 +323,7 @@ export const DriverForm = () => {
             </Grid>
             <Grid item xs={1.5}>
               <AutocompleteCities
-                name="city.name"
+                name="city"
                 label="Cidade"
                 onChange={(value) => {
                   methods.setValue("city", value || undefined);
@@ -332,10 +332,9 @@ export const DriverForm = () => {
             </Grid>
             <Grid item xs={1.5}>
               <AutocompleteStates
-                name="state.name"
+                name="state"
                 label="Estado"
                 onChange={(value) => {
-                  console.log(value);
                   methods.setValue("state", value || undefined);
                 }}
               />

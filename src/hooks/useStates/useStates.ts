@@ -1,9 +1,9 @@
 import { State } from "@/interfaces/parameters";
-import { FetchCompanyParams, fetchStates } from "@/services/parameters";
+import { fetchStates, FetchStatesParams } from "@/services/parameters";
 import useSWR, { SWRConfiguration } from "swr";
 
 export const useStates = (
-  params?: FetchCompanyParams,
+  params?: FetchStatesParams,
   options?: SWRConfiguration,
 ) => {
   const { data, error, isLoading } = useSWR<State[]>(

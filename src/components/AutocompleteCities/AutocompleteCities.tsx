@@ -51,7 +51,7 @@ export function AutocompleteCities({
           clearOnEscape
           options={cities || []}
           loadingText="Carregando..."
-          defaultValue={{ name: field.value || "" } as City}
+          defaultValue={{ [keyCode]: field.value?.[keyCode] || "" } as City}
           isOptionEqualToValue={(option: City, value: City) =>
             option[keyCode] === value[keyCode]
           }

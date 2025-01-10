@@ -79,13 +79,12 @@ export const fetchCountries = async () => {
 };
 
 export const fetchStates = async ({
-  args: { stateName, pageSize = 0 },
+  args: { pageSize = 0 },
 }: {
   args: FetchStatesParams;
 }) => {
   const statesParams = {
     pageSize,
-    filter1String: stateName?.toUpperCase(),
   };
 
   try {
