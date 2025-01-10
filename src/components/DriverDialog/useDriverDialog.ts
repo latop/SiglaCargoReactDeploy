@@ -73,7 +73,7 @@ export function useDriverDialog() {
       ...data,
       stateId: data.state.id,
       cityId: data.city.id,
-      countryId: data.state.country.id,
+      countryId: data.state.countryId,
     };
     await handleFetch("/updatedriver", body, {
       onSuccess: () => {
@@ -88,7 +88,7 @@ export function useDriverDialog() {
       ...data,
       stateId: data.state.id,
       cityId: data.city.id,
-      countryId: data.state.country.id,
+      countryId: data.state.countryId,
     };
     await handleFetch("/Drivers", body, {
       onSuccess: () => {
@@ -101,7 +101,7 @@ export function useDriverDialog() {
   };
 
   const handleSubmit = async (data: FieldValues) => {
-    const body = { ...data, stateId: data.stateId };
+    const body = { ...data, countryId: data.state.countryId };
     if (!isToAddDriverToAdd && !!driverId) {
       await handleUpdateDriver(body);
       return;
