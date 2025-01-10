@@ -21,6 +21,11 @@ export interface FetchCitiesParams {
   pageSize?: number;
 }
 
+export interface FetchStatesParams {
+  stateName?: string;
+  pageSize?: number;
+}
+
 export async function fetchAcitivities({
   args: params,
 }: {
@@ -73,9 +78,19 @@ export const fetchCountries = async () => {
   }
 };
 
-export const fetchStates = async () => {
+export const fetchStates = async ({
+  args: { stateName, pageSize = 0 },
+}: {
+  args: FetchStatesParams;
+}) => {
+  const statesParams = {
+    pageSize,
+    filter1String: stateName?.toUpperCase(),
+  };
+
   try {
-    const response = await axios.get("/States");
+    const response = await axios.get("/States", { params: statesParams });
+
     const data = response.data;
     return data;
   } catch (error) {
