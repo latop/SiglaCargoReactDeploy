@@ -1,14 +1,10 @@
-import React, { useLayoutEffect } from "react";
+import React from "react";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
-import {
-  Box,
-  CircularProgress,
-  //  CircularProgress
-} from "@mui/material";
+import { Box, CircularProgress } from "@mui/material";
 import { FormProvider } from "react-hook-form";
 import { useDriverDialog } from "./useDriverDialog";
 import { DriverForm } from "./components/DriverForm";
@@ -19,14 +15,9 @@ interface UpdateDriverDialogProps {
   onClose: () => void;
 }
 
-export function UpdateDriverDialog({ open, onClose }: UpdateDriverDialogProps) {
+export function DriverDialog({ open, onClose }: UpdateDriverDialogProps) {
   const { methods, handleSubmit, isToUpdateDriver, isLoadingDriver } =
     useDriverDialog();
-
-  useLayoutEffect(() => {
-    if (!open) methods.reset({});
-    return () => methods.reset({});
-  }, [open, methods.reset]);
 
   const handleClose = () => {
     methods.reset({});

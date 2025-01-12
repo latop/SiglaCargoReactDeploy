@@ -16,11 +16,13 @@ import { AddLineDialog } from "@/components/AddLineDialog";
 import { UpdateLineDialog } from "@/components/UpdateLineDialog";
 import { useLine } from "@/hooks/useLine";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import { useDialog } from "@/hooks/useDialog/useDialog";
 
 export function Lines() {
   const [hash, setHash] = useHash();
   const isOpen = hash.includes("add-line");
   const isLineOpen = hash.includes("#line-id-");
+  const { openDialog, closeDialog } = useDialog();
 
   const {
     lines,
@@ -95,9 +97,19 @@ export function Lines() {
                 cursor: "pointer",
                 color: "#e53935",
               }}
-              onClick={() =>
-                handleDeleteLine(params?.id as string, refetchLines)
-              }
+              onClick={() => {
+                openDialog({
+                  body: "Deseja deletar esta rota?",
+                  onConfirm: () => {
+                    handleDeleteLine(params?.id as string, refetchLines);
+
+                    closeDialog();
+                  },
+                  onCancel: () => {
+                    closeDialog();
+                  },
+                });
+              }}
             />
           </span>
         );
