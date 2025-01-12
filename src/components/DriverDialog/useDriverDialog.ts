@@ -22,12 +22,14 @@ export const tabState = atom<TabsType>({
 export function useDriverDialog() {
   const [hash] = useHash();
   const [selectedTab, setSelectedTab] = useRecoilState(tabState);
-  const isToAddDriverToAdd = !!(hash as string)?.match(/#add-driver/)?.[0];
+  const isToAddDriver = !!(hash as string)?.match(/#add-driver/)?.[0];
   const driverToUpdate = (hash as string)?.match(/#driver-id-(.+)/);
   const driverId = driverToUpdate?.[1];
 
+  const methods = useForm<Driver>();
+
   const getKey = () => {
-    if (!driverId || isToAddDriverToAdd) return null;
+    if (!driverId || isToAddDriver) return null;
     return {
       id: driverId,
       url: "/Drivers",
@@ -39,7 +41,7 @@ export function useDriverDialog() {
     fetchDriverById,
     {
       onSuccess: (data) => {
-        if (isToAddDriverToAdd) return;
+        if (isToAddDriver) return;
         methods.reset(getDefaultValues(data, driverId));
       },
     },
@@ -59,8 +61,6 @@ export function useDriverDialog() {
     };
   };
 
-  const methods = useForm<Driver>();
-
   const { addToast } = useToast();
   const [handleFetch, { loading: loadingCreate }] = useFetch();
   const [, setHash] = useHash();
@@ -75,6 +75,7 @@ export function useDriverDialog() {
     await handleFetch("/updatedriver", body, {
       onSuccess: () => {
         addToast("Motorista atualizado com sucesso!", { type: "success" });
+        setHash("");
       },
       onError: (error) => addToast(error.message, { type: "error" }),
     });
@@ -104,7 +105,7 @@ export function useDriverDialog() {
       stateId: data.state.id,
       cityId: data.city.id,
     };
-    if (!isToAddDriverToAdd && !!driverId) {
+    if (!isToAddDriver && !!driverId) {
       await handleUpdateDriver(body);
       return;
     }
@@ -117,7 +118,7 @@ export function useDriverDialog() {
     handleSubmit,
     loadingCreate,
     isLoadingDriver: isLoadingDriver && !driverData,
-    isToAddDriverToAdd,
+    isToAddDriverToAdd: isToAddDriver,
     isToUpdateDriver: !!driverId,
     driverData,
     driverId,

@@ -6,7 +6,7 @@ import { EmptyResult } from "@/components/EmptyResult";
 import { ErrorResult } from "@/components/ErrorResult";
 import { HeaderTitle } from "@/components/HeaderTitle/HeaderTitle";
 import { MainContainer } from "@/components/MainContainer";
-import { UpdateDriverDialog } from "@/components/DriverDialog";
+import { DriverDialog } from "@/components/DriverDialog";
 import { useDriversPaginated } from "@/hooks/useDrivers";
 import { useHash } from "@/hooks/useHash";
 import { Driver } from "@/interfaces/driver";
@@ -62,7 +62,6 @@ export function Drivers() {
   const [hash, setHash] = useHash();
   const driverId = (hash as string)?.match(/#driver-id-(.+)/)?.[1];
   const newDriver = (hash as string)?.match(/#add-driver/)?.[0];
-  const isDialogOpen = !!driverId || !!newDriver;
 
   return (
     <MainContainer>
@@ -139,7 +138,8 @@ export function Drivers() {
           )}
         </Card>
       </Box>
-      <UpdateDriverDialog open={isDialogOpen} onClose={() => setHash("")} />
+      <DriverDialog open={!!driverId} onClose={() => setHash("")} />
+      <DriverDialog open={!!newDriver} onClose={() => setHash("")} />
     </MainContainer>
   );
 }
