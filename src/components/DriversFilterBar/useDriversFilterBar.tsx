@@ -35,13 +35,15 @@ export function useDriversFilterBar() {
   const onSubmit = (data: FieldValues) => {
     const body = {
       ...data,
-      admission: dayjs(data.admission).format("YYYY-MM-DD"),
+      admission: data.admission
+        ? dayjs(data.admission).format("YYYY-MM-DD")
+        : "",
     };
+
     const params = new URLSearchParams();
     Object.entries(body).forEach(([key, value]) => {
-      if (dayjs.isDayjs(value)) {
-        params.append(key, value.format("YYYY-MM-DD"));
-      } else if (value) {
+      if (value === "Invalid Date") return;
+      if (value) {
         params.append(key, value);
       }
     });

@@ -67,7 +67,7 @@ export const DriverSectionAttribuitions = ({ seq }: { seq: number }) => {
             <AutocompleteAttribution
               name={`driverAttributions.${seq}.attribution.code`}
               onChange={(value) => {
-                setValue(`driverAttributions.${seq}.attributionId`, value?.id);
+                setValue(`driverAttributions.${seq}.attribution`, value);
               }}
             />
           </Grid>

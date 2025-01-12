@@ -56,14 +56,6 @@ export function DriversFilterBar() {
                 />
               </Grid>
               <Grid xs={1.5} item>
-                {/* <AutocompleteDriver
-                  label="Cód. Integração"
-                  keyCode="integrationCode"
-                  name={"integrationCode"}
-                  onChange={(value) => {
-                    methods.setValue("integrationCode", value?.integrationCode);
-                  }}
-                /> */}
                 <Controller
                   name="integrationCode"
                   control={methods.control}

@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { useFetch } from "@/hooks/useFetch";
 import { useHash } from "@/hooks/useHash";
 import { useLines } from "@/hooks/useLines";
@@ -5,7 +6,6 @@ import { useToast } from "@/hooks/useToast";
 import { Line } from "@/interfaces/lines";
 import { fetchLineById } from "@/services/trips";
 import dayjs from "dayjs";
-import { useEffect } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import useSWR from "swr";
 
@@ -13,19 +13,6 @@ export function useUpdateLineDialog() {
   const [hash] = useHash();
   const match = (hash as string)?.match(/#line-id-(.+)/);
   const lineId = match?.[1];
-
-  const { data: lineData, isLoading: isLoadingLine } = useSWR<Line>(
-    lineId
-      ? {
-          id: lineId,
-          url: "/returnline",
-        }
-      : null,
-    fetchLineById,
-  );
-  const { refetchLines } = useLines();
-
-  const methods = useForm();
 
   const normalizeData = (data: Line | undefined) => {
     const lineDefaultValues = {
@@ -59,11 +46,23 @@ export function useUpdateLineDialog() {
     return lineDefaultValues;
   };
 
-  useEffect(() => {
-    if (lineData) {
-      methods.reset(normalizeData(lineData));
-    }
-  }, [lineData]);
+  const { data: lineData, isLoading: isLoadingLine } = useSWR<Line>(
+    lineId
+      ? {
+        id: lineId,
+        url: "/returnline",
+      }
+      : null,
+    fetchLineById,
+    {
+      onSuccess: (data) => {
+        methods.reset(normalizeData(data));
+      },
+    },
+  );
+  const { refetchLines } = useLines();
+
+  const methods = useForm();
 
   const { addToast } = useToast();
   const [lineCreate, { loading: loadingCreate }] = useFetch();
