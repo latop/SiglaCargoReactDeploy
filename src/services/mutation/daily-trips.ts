@@ -10,34 +10,36 @@ export const useDailyTripMutation = () => {
     mutationFn: async (payload: DailyTrip) => {
       console.log(payload);
       const normalizedPayload = {
-        tripNumber: payload.tripNumber,
-        tripDate: payload.tripDate
-          ? dayjs(payload.tripDate).format("YYYY-MM-DD")
-          : "",
-        fleetGroupId: payload.fleetGroupId,
-        fleetGroup: payload.fleetGroup,
-        flgStatus: payload.flgStatus,
-        notes: payload.notes,
-        lineId: payload.lineId,
-        line: payload.line,
-        dt: payload.dt,
-        sto: payload.sto,
-        locationOrigId: payload.locationOrigId,
-        locationOrig: payload.locationOrig,
-        locationDestId: payload.locationDestId,
-        locationDest: payload.locationDest,
-        startPlanned: payload.startPlanned
-          ? dayjs(payload.startPlanned).format("YYYY-MM-DDTHH:mm")
-          : null,
-        endPlanned: payload.endPlanned
-          ? dayjs(payload.endPlanned).format("YYYY-MM-DDTHH:mm")
-          : null,
-        tripTypeId: payload.tripTypeId,
-        tripType: payload.tripType,
-        stopTypeId: payload.stopTypeId,
-        stopType: payload.stopType,
-        companyId: payload.companyId,
-        id: payload.id,
+        dailyTrip: {
+          tripNumber: payload.tripNumber || "0000",
+          tripDate: payload.tripDate
+            ? dayjs(payload.tripDate).format("YYYY-MM-DD")
+            : "",
+          fleetGroupId: payload.fleetGroupId,
+          fleetGroup: null,
+          flgStatus: payload.flgStatus || "N",
+          notes: payload.notes,
+          lineId: payload.lineId,
+          line: payload.line,
+          dt: payload.dt,
+          sto: payload.sto,
+          locationOrigId: payload.locationOrigId,
+          locationOrig: null,
+          locationDestId: payload.locationDestId,
+          locationDest: null,
+          startPlanned: payload.startPlanned
+            ? dayjs(payload.startPlanned).format("YYYY-MM-DDTHH:mm")
+            : null,
+          endPlanned: payload.endPlanned
+            ? dayjs(payload.endPlanned).format("YYYY-MM-DDTHH:mm")
+            : null,
+          tripTypeId: payload.tripTypeId,
+          tripType: null,
+          stopTypeId: payload.stopTypeId || null,
+          stopType: null,
+          companyId: payload.companyId || null,
+          id: payload.id || "00000000-0000-0000-0000-000000000000",
+        },
         dailyTripSections: payload.dailyTripSections.map((section) => ({
           ...section,
           startPlanned: section.startPlanned
@@ -58,7 +60,7 @@ export const useDailyTripMutation = () => {
       console.log(normalizedPayload);
       try {
         const response = await api.post("/DailyTrip/updatedailyTrip", {
-          dailyTrip: normalizedPayload,
+          ...normalizedPayload,
         });
         console.log("response", response);
         return response.data;

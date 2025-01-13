@@ -44,6 +44,8 @@ export function AutocompleteLocation({
     } else {
       setValue(name, value?.[keyCode] || "");
       setValue(`${name.split(".")[0]}Id`, value?.id || "");
+      setValue(`${name.split(".")[0]}Description`, value?.name || "");
+
     }
   };
 

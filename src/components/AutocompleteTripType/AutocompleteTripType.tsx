@@ -42,6 +42,7 @@ export function AutocompleteTripType({
     } else {
       setValue(name, value?.[keyCode] || "");
       setValue(`${name.split(".")[0]}Id`, value?.id || "");
+      setValue(`${name.split(".")[0]}Description`, value?.description || "");
     }
   };
 

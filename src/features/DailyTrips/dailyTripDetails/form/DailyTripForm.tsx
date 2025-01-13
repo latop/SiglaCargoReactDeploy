@@ -24,7 +24,6 @@ import dayjs from "dayjs";
 import "dayjs/locale/pt-br";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import { DailyTripSectionForm } from "./DailyTripSectionForm";
-import { AutocompleteStopType } from "@/components/AutocompleteStopType";
 const TextArea = styled(TextField)`
   && {
     height: 100%;
@@ -71,7 +70,6 @@ export const DailyTripForm = () => {
                 control={control}
                 render={({ field }) => (
                   <DateField
-                    disabled={false}
                     label="Data da viagem"
                     required
                     {...field}

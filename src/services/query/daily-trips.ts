@@ -71,6 +71,7 @@ export const useGetDailyTripsQuery = ({
       }
     },
     enabled: !runQuery,
+    staleTime: 1000,
   });
 };
 
@@ -84,7 +85,7 @@ export const useGetDailyTripDetailQuery = (
 ) => {
   console.log("params", params, params?.dailyTripId ? true : false);
   return useQuery({
-    queryKey: ["daily-trips", { params }],
+    queryKey: ["daily-trip_detail", { params }],
     queryFn: async () => {
       try {
         const response = await api.get("/DailyTrip/getdailytripdetail", {
@@ -98,5 +99,6 @@ export const useGetDailyTripDetailQuery = (
       }
     },
     enabled: params?.dailyTripId ? true : false,
+    staleTime: 1000,
   });
 };

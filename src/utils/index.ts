@@ -12,7 +12,7 @@ export const formatPlate = (plate: string) => {
   if (!plate) return "";
   let newPlate = plate.replace(/[^A-Za-z0-9]/, "").toUpperCase();
   const matchs = Array.from(
-    newPlate.matchAll(/([A-z]{3})(\d)([A-j0-9])(\d{2})/g),
+    newPlate.matchAll(/([A-z]{3})(\d)([A-j0-9])(\d{2})/g)
   );
   const partials = [];
   if (matchs.length > 0) {
@@ -23,7 +23,6 @@ export const formatPlate = (plate: string) => {
     partials.push(matchs[0][2]);
     partials.push(matchs[0][3]);
     partials.push(matchs[0][4]);
-    console.log(partials);
     newPlate = partials.join("").toUpperCase();
   }
 

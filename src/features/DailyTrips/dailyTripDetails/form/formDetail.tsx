@@ -18,6 +18,7 @@ import { DailyTrip } from "@/interfaces/daily-trip";
 dayjs.extend(customParseFormat);
 
 interface Params {
+  // @ts-ignore fix later
   initialValues: any;
   handleClose: () => void;
 }
@@ -31,11 +32,11 @@ export const DailyTripFormDetail = ({ initialValues, handleClose }: Params) => {
   const onSubmit = async (data: DailyTrip) => {
     console.log(data);
 
-    await mutateAsync(data);
-    console.log(error);
-    // if (isSuccess && !isError) {
-    //   handleClose();
-    // }
+    const response = await mutateAsync(data);
+    console.log("response", response);
+    if (isSuccess && !isError) {
+      handleClose();
+    }
   };
 
   return (

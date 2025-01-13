@@ -94,7 +94,6 @@ export function DailyTripsFilterBar({ onChange }: Params) {
                 control={control}
                 rules={{
                   validate: (value) => {
-                    console.log(value);
                     if (
                       !RegExp(/[A-z]{3}-*\d[A-j0-9]\d{2}/).exec(value as string)
                     ) {
