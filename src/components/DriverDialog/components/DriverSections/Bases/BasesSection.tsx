@@ -1,7 +1,7 @@
 import React from "react";
 import { useFormContext, Controller } from "react-hook-form";
 import { Box, Grid, colors, IconButton, Icon, Tooltip } from "@mui/material";
-import { DateTimePicker } from "@/components/DatePicker";
+import { DatePicker } from "@/components/DatePicker";
 
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -36,7 +36,7 @@ export const DriverSectionBases = ({ seq }: { seq: number }) => {
               name={`driverBases.${seq}.startDate`}
               control={control}
               render={({ field, fieldState: { error } }) => (
-                <DateTimePicker
+                <DatePicker
                   disabled={false}
                   label="Início"
                   error={error?.message}
@@ -52,7 +52,7 @@ export const DriverSectionBases = ({ seq }: { seq: number }) => {
               name={`driverBases.${seq}.endDate`}
               control={control}
               render={({ field, fieldState: { error } }) => (
-                <DateTimePicker
+                <DatePicker
                   disabled={false}
                   label="Fim"
                   error={error?.message}
@@ -68,6 +68,7 @@ export const DriverSectionBases = ({ seq }: { seq: number }) => {
             <AutocompleteLocationGroup
               name={`driverBases.${seq}.locationGroup.code`}
               onChange={(value) => {
+                setValue(`driverBases.${seq}.locationGroup`, value);
                 setValue(`driverBases.${seq}.locationGroupId`, value?.id);
               }}
             />
