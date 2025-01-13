@@ -107,7 +107,6 @@ export function useDriverDialog() {
       stateId: data.state.id,
       cityId: data.city.id,
     };
-    console.log(body);
 
     if (!isToAddDriver && !!driverId) {
       await handleUpdateDriver(body);
