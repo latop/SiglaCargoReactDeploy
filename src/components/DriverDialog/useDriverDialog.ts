@@ -40,6 +40,8 @@ export function useDriverDialog() {
     getKey,
     fetchDriverById,
     {
+      revalidateIfStale: false,
+      revalidateOnFocus: false,
       onSuccess: (data) => {
         if (isToAddDriver) return;
         methods.reset(getDefaultValues(data, driverId));
