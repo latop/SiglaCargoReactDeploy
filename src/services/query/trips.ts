@@ -20,6 +20,7 @@ export const useGetLocationGroupQuery = {
       return error;
     }
   },
+  staleTime: 86400,
 };
 
 export const useGetLocationQuery = ({
@@ -42,6 +43,7 @@ export const useGetLocationQuery = ({
         return error;
       }
     },
+    staleTime: 86400,
   });
 };
 
@@ -61,6 +63,7 @@ export const useGetLocationReleaseQuery = {
       return error;
     }
   },
+  staleTime: 86400,
 };
 
 // TODO: Implement the fetchLocations function to the right place
@@ -84,6 +87,7 @@ export const useGetTripTypesQuery = ({
         return error;
       }
     },
+    staleTime: 86400,
   });
 };
 
@@ -218,5 +222,6 @@ export const useGetStopTypeQuery = ({
         return error;
       }
     },
+    staleTime: 86400,
   });
 };

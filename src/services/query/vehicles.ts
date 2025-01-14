@@ -22,5 +22,6 @@ export const useGetFleetGroupQuery = ({
         return error;
       }
     },
+    staleTime: 86400,
   });
 };
