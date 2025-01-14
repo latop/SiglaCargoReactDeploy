@@ -81,7 +81,7 @@ export interface FetchDailyTripDetailsParams {
   startTime?: string;
 }
 export const useGetDailyTripDetailQuery = (
-  params: FetchDailyTripDetailsParams
+  params: FetchDailyTripDetailsParams,
 ) => {
   console.log("params", params, params?.dailyTripId ? true : false);
   return useQuery({

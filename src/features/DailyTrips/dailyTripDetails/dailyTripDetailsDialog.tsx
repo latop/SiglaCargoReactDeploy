@@ -44,9 +44,9 @@ export function DailyTripDetailsDialog({
   const initialValues =
     id && data
       ? {
-        ...data.dailyTrip,
-        dailyTripSections: data.dailyTripSections,
-      }
+          ...data.dailyTrip,
+          dailyTripSections: data.dailyTripSections,
+        }
       : defaultValues;
 
   return (

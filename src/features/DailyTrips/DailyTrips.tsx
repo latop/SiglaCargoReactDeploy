@@ -54,13 +54,13 @@ export function DailyTrips() {
           mb="10px"
           gap={1}
         >
+          <Button variant="outlined" size="small" onClick={() => setGenerateDailyTripModalIsOpen(true)} >
+            Gerar viagem diária
+          </Button>
           <Button variant="outlined" size="small" onClick={() => {
             setTripId(undefined)
             setDailyTripModalIsOpen(true)
           }}>
-            Gerar viagem diária
-          </Button>
-          <Button variant="outlined" size="small" onClick={() => setGenerateDailyTripModalIsOpen(true)}>
             Adicionar viagem
           </Button>
         </Box>

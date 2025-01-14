@@ -36,7 +36,7 @@ const schema = z.object({
   licensePlate: z.string().optional(),
 });
 
-interface FormFields extends FetchDailyTripsParams { }
+interface FormFields extends FetchDailyTripsParams {}
 
 interface Params {
   onChange: (value: FormFields) => void;

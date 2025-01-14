@@ -22,16 +22,16 @@ export const dashboardAgroupByFieldTransform = async ({
       };
     });
     const labels = Array.from(
-      new Set(parsedData.map((item) => item[groupFieldLabel]))
+      new Set(parsedData.map((item) => item[groupFieldLabel])),
     );
 
     const groups = Array.from(
-      new Set(parsedData.map((item) => item[groupFieldName]))
+      new Set(parsedData.map((item) => item[groupFieldName])),
     );
 
     const resume = labels.reduce((total, label) => {
       const records = parsedData.filter(
-        (data) => data[groupFieldLabel] === label
+        (data) => data[groupFieldLabel] === label,
       );
       groups.forEach((group) => {
         const exist = records.filter((data) => data[groupFieldName] === group);
@@ -63,11 +63,11 @@ export const dashboardAgroupByFieldTransform = async ({
 };
 
 export const dashboardTripsAttribTransform = async (
-  originalData: DashboardTripsAttrib[]
+  originalData: DashboardTripsAttrib[],
 ): Promise<CustomChartBarData> => {
   return new Promise((resolve) => {
     const labels = Array.from(
-      new Set(originalData.map((item) => dayjs(item.tripDate).format("DD/MM")))
+      new Set(originalData.map((item) => dayjs(item.tripDate).format("DD/MM"))),
     );
 
     const datasets: CustomChartDataSet[] = [];
@@ -78,7 +78,7 @@ export const dashboardTripsAttribTransform = async (
         total.attrib.push(item.qtyTripsAttrib);
         return total;
       },
-      { trips: [] as number[], attrib: [] as number[] }
+      { trips: [] as number[], attrib: [] as number[] },
     );
 
     datasets.push({
@@ -98,11 +98,11 @@ export const dashboardTripsAttribTransform = async (
 };
 
 export const dashboardTripsCompletedTransform = async (
-  originalData: DashboardTripsCompleted[]
+  originalData: DashboardTripsCompleted[],
 ): Promise<CustomChartBarData> => {
   return new Promise((resolve) => {
     const labels = Array.from(
-      new Set(originalData.map((item) => dayjs(item.tripDate).format("DD/MM")))
+      new Set(originalData.map((item) => dayjs(item.tripDate).format("DD/MM"))),
     );
 
     const datasets: CustomChartDataSet[] = [];
@@ -118,7 +118,7 @@ export const dashboardTripsCompletedTransform = async (
         trips: [] as number[],
         started: [] as number[],
         completed: [] as number[],
-      }
+      },
     );
 
     datasets.push({

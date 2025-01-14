@@ -63,8 +63,8 @@ export function AutocompleteFleetGroup({
             !field.value
               ? "Digite o código"
               : !fleetGroups && !error
-                ? "Carregando..."
-                : "Nenhum resultado encontrado"
+              ? "Carregando..."
+              : "Nenhum resultado encontrado"
           }
           getOptionLabel={(option: FleetGroup) =>
             option.description
