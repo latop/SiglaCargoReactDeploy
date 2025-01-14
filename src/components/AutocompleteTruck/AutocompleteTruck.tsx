@@ -48,7 +48,6 @@ export function AutocompleteTruck({
             option[keyCode] === value[keyCode]
           }
           onChange={(_, value: Truck | null) => {
-            console.log(value)
             onChange && onChange(value);
           }}
           noOptionsText={

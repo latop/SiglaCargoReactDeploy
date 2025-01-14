@@ -27,3 +27,34 @@ export interface Company {
   countryId: string;
   isSupplier: boolean;
 }
+
+export interface Country {
+  code: string;
+  name: string;
+  codeAlpha3: string;
+  codeNum: number;
+  id: string;
+}
+
+export interface State {
+  code: string;
+  name: string;
+  regionId: string | null;
+  countryId: string;
+  country: Country;
+  id: string;
+}
+export interface City {
+  id: string;
+  code: string;
+  name: string;
+  stateId: string;
+  countryId: string;
+  capital: boolean;
+}
+
+export type Attribution = {
+  code: string;
+  description: string;
+  id: string;
+};

@@ -1,7 +1,7 @@
 import { SWRConfiguration } from "swr";
 import useSWRInfinite from "swr/infinite";
 import { useSearchParams } from "next/navigation";
-import { LinesResponse } from "@/interfaces/lines";
+import { LinesPaginated } from "@/interfaces/lines";
 import { fetchLines } from "@/services/trips";
 
 export const useLines = (options?: SWRConfiguration) => {
@@ -13,7 +13,7 @@ export const useLines = (options?: SWRConfiguration) => {
     code: searchParams.get("code"),
   };
 
-  const getKey = (pageIndex: number, previousPageData: LinesResponse) => {
+  const getKey = (pageIndex: number, previousPageData: LinesPaginated) => {
     if (previousPageData && !previousPageData.hasNext) return null;
 
     return {
@@ -22,7 +22,7 @@ export const useLines = (options?: SWRConfiguration) => {
     };
   };
   const { data, error, isLoading, mutate, size, setSize, isValidating } =
-    useSWRInfinite<LinesResponse>(getKey, fetchLines, {
+    useSWRInfinite<LinesPaginated>(getKey, fetchLines, {
       revalidateFirstPage: false,
       revalidateIfStale: false,
       revalidateOnFocus: false,

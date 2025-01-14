@@ -124,7 +124,6 @@ export const ReleaseDriverForm = () => {
               name="veiculoPlan"
               disabled
               onChange={(value) => {
-                console.log(value?.licensePlate);
                 methods.setValue("veiculoPlan", value?.licensePlate);
               }}
             />
