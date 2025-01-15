@@ -14,9 +14,14 @@ export const useDriversPaginated = (options?: SWRConfiguration) => {
       : "",
     integrationCode: searchParams.get("integrationCode") || "",
     nickName: searchParams.get("nickName") || "",
+    registration: searchParams.get("registration") || "",
+    positionId: searchParams.get("positionId") || "",
+    fleetGroupId: searchParams.get("fleetGroupId") || "",
+    locationGroupId: searchParams.get("locationGroupId") || "",
   };
 
   const getKey = (pageIndex: number, previousPageData: DriversPaginated) => {
+    if (!Object.values(params).some(Boolean)) return null;
     if (previousPageData && !previousPageData.hasNext) return null;
 
     return {

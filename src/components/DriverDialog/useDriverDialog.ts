@@ -90,7 +90,7 @@ export function useDriverDialog() {
       cityId: data.city.id,
       countryId: data.state.countryId,
     };
-    await handleFetch("/Drivers", body, {
+    await handleFetch("/updatedriver", body, {
       onSuccess: () => {
         addToast("Motorista adicionado com sucesso!", { type: "success" });
         setHash("");

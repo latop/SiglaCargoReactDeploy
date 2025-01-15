@@ -17,6 +17,7 @@ export function AutocompleteLocationGroup({
   keyCode?: keyof LocationGroup;
   onChange?: (value: LocationGroup | null) => void;
   label?: string;
+
 }) {
   const {
     control,
@@ -78,6 +79,7 @@ export function AutocompleteLocationGroup({
               label={label}
               error={!!errors[field.name]}
               helperText={errors[field.name]?.message?.toString()}
+              value={field.value ?? ""}
             />
           )}
         />

@@ -9,6 +9,10 @@ export interface FetchDriversParams {
   nickName?: string;
   integrationCode?: string;
   admission?: string;
+  registration?: string;
+  positionId?: string;
+  fleetGroupId?: string;
+  locationGroupId?: string;
 }
 export async function fetchDriverById({ id }: { id: string }) {
   try {
@@ -41,19 +45,35 @@ export async function fetchDrivers({
   }
 }
 
+type Entries = {
+  PageSize?: number;
+  PageNumber?: number;
+  filter1Id?: string;
+  filter2Id?: string;
+  filter3Id?: string;
+  filter1String?: string;
+  filter2String?: string;
+  filter4String?: string;
+};
+
 export async function fetchDriversPaginated({
   args,
 }: {
   args: FetchDriversParams;
 }): Promise<DriversPaginated> {
   try {
-    const params = {
-      PageSize: args.pageSize,
-      PageNumber: args.pageNumber,
-      filter1String: args.nickName?.toUpperCase(),
-      filter2String: args.integrationCode?.toUpperCase(),
-      filter4String: args.admission,
-    };
+    const params: Entries = Object.fromEntries(
+      Object.entries({
+        PageSize: args.pageSize,
+        PageNumber: args.pageNumber,
+        filter1Id: args?.locationGroupId,
+        filter2Id: args?.positionId,
+        filter3Id: args?.fleetGroupId,
+        filter1String: args.nickName?.toUpperCase(),
+        filter2String: args.integrationCode?.toUpperCase(),
+        filter4String: args.admission,
+      }).filter(([, value]) => !!value),
+    );
 
     const response = await axios.get("/Drivers", { params });
 

@@ -47,7 +47,6 @@ export const DriverForm = () => {
                       label="Nome"
                       variant="outlined"
                       fullWidth
-                      sx={{ textTransform: "uppercase" }}
                       onChange={(e) => {
                         field.onChange(e.target.value.toUpperCase());
                       }}
@@ -64,10 +63,9 @@ export const DriverForm = () => {
                   return (
                     <TextField
                       {...field}
-                      label="Sobre nome"
+                      label="Sobrenome"
                       variant="outlined"
                       fullWidth
-                      sx={{ textTransform: "uppercase" }}
                       onChange={(e) => {
                         field.onChange(e.target.value.toUpperCase());
                       }}
@@ -87,11 +85,6 @@ export const DriverForm = () => {
                       label="Apelido"
                       variant="outlined"
                       fullWidth
-                      sx={{
-                        textTransform: "uppercase",
-                        "& .MuiInputBase-input": { textTransform: "uppercase" },
-                        "&::placeholder": { textTransform: "unset" },
-                      }}
                       onChange={(e) => {
                         field.onChange(e.target.value.toUpperCase());
                       }}
@@ -261,7 +254,7 @@ export const DriverForm = () => {
                   return (
                     <TextField
                       {...field}
-                      label="Código de Integração"
+                      label="GPID"
                       variant="outlined"
                       fullWidth
                     />

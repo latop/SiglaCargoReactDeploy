@@ -7,13 +7,21 @@ import dayjs, { Dayjs } from "dayjs";
 type FormFields = {
   nickName?: string;
   integrationCode?: string;
-  admission: Dayjs | null;
+  admission: Dayjs | null | string;
+  registration?: string;
+  positionId?: string;
+  fleetGroupId?: string;
+  locationGroupId?: string;
 };
 
 const schema = z.object({
   nickName: z.string().optional(),
   integrationCode: z.string().optional(),
   admission: z.coerce.string().optional(),
+  registration: z.string().optional(),
+  positionId: z.string().optional(),
+  fleetGroupId: z.string().optional(),
+  locationGroupId: z.string().optional(),
 });
 
 export function useDriversFilterBar() {
@@ -21,10 +29,14 @@ export function useDriversFilterBar() {
   const params = useSearchParams();
   const defaultValues: FormFields = {
     admission: params.get("admission")
-      ? dayjs(dayjs(params.get("admission")).format("YYYY-MM-DD"))
-      : null,
+      ? dayjs(params.get("admission"))
+      : dayjs(),
     integrationCode: params.get("integrationCode") || "",
     nickName: params.get("nickName") || "",
+    registration: params.get("registration") || undefined,
+    fleetGroupId: params.get("fleetGroupId") || undefined,
+    locationGroupId: params.get("locationGroupId") || undefined,
+    positionId: params.get("positionId") || undefined,
   };
 
   const methods = useForm<FormFields>({
@@ -33,16 +45,9 @@ export function useDriversFilterBar() {
   });
 
   const onSubmit = (data: FieldValues) => {
-    const body = {
-      ...data,
-      admission: data.admission
-        ? dayjs(data.admission).format("YYYY-MM-DD")
-        : "",
-    };
-
     const params = new URLSearchParams();
-    Object.entries(body).forEach(([key, value]) => {
-      if (value === "Invalid Date") return;
+    Object.entries(data).forEach(([key, value]) => {
+      if (value === "Invalid Date") return params.append("admission", "");
       if (value) {
         params.append(key, value);
       }
@@ -50,8 +55,22 @@ export function useDriversFilterBar() {
     router.push(`/drivers?${params.toString()}`);
   };
 
+  const onClearParams = () => {
+    methods.reset({
+      admission: dayjs(),
+      integrationCode: "",
+      nickName: "",
+      registration: "",
+      fleetGroupId: "",
+      locationGroupId: "",
+      positionId: "",
+    });
+    router.push(`/drivers`);
+  };
+
   return {
     methods,
     onSubmit: methods.handleSubmit(onSubmit),
+    onClearParams,
   };
 }
