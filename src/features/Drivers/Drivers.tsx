@@ -12,7 +12,6 @@ import { useHash } from "@/hooks/useHash";
 import { Driver } from "@/interfaces/driver";
 import { Box, Button, Card, CircularProgress } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import dayjs from "dayjs";
 
 const columns: GridColDef[] = [
   {
@@ -26,20 +25,18 @@ const columns: GridColDef[] = [
     },
   },
   {
-    field: "admission",
-    headerName: "Data de Admissão",
+    field: "registration",
+    headerName: "CPF",
     width: 200,
     sortable: false,
     filterable: false,
     valueGetter: (_, data: Driver) => {
-      return data.admission
-        ? dayjs(data.admission).format("DD/MM/YYYY")
-        : "N/A";
+      return data.registration ? data.registration : "N/A";
     },
   },
   {
     field: "integrationCode",
-    headerName: "Cód. Integração",
+    headerName: "GPID",
     width: 200,
     sortable: false,
     filterable: false,

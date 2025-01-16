@@ -117,7 +117,7 @@ export const DriverForm = () => {
                   return (
                     <TextField
                       {...field}
-                      label="Identificação"
+                      label="RG"
                       variant="outlined"
                       fullWidth
                     />
@@ -155,7 +155,7 @@ export const DriverForm = () => {
                         fontSize: "12px",
                       }}
                     >
-                      Sexo
+                      Gênero
                     </FormLabel>
                     <RadioGroup
                       {...field}

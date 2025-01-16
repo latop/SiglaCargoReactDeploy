@@ -26,13 +26,15 @@ export function useDriverDialog() {
   const driverToUpdate = (hash as string)?.match(/#driver-id-(.+)/);
   const driverId = driverToUpdate?.[1];
 
-  const methods = useForm<Driver>();
+  const methods = useForm<Driver>({
+    defaultValues: { isActive: !!isToAddDriver },
+  });
 
   const getKey = () => {
     if (!driverId || isToAddDriver) return null;
     return {
       id: driverId,
-      url: "/Drivers",
+      url: "/driver",
     };
   };
 
@@ -40,7 +42,7 @@ export function useDriverDialog() {
     getKey,
     fetchDriverById,
     {
-      revalidateIfStale: false,
+      revalidateOnMount: true,
       revalidateOnFocus: false,
       onSuccess: (data) => {
         if (isToAddDriver) return;

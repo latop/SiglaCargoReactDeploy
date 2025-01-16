@@ -71,6 +71,7 @@ export async function fetchDriversPaginated({
         filter3Id: args?.fleetGroupId,
         filter1String: args.nickName?.toUpperCase(),
         filter2String: args.integrationCode?.toUpperCase(),
+        filter3String: args.registration,
         filter4String: args.admission,
       }).filter(([, value]) => !!value),
     );

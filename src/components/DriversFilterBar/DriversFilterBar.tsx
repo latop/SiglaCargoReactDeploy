@@ -42,6 +42,7 @@ export function DriversFilterBar() {
                 </Grid>
                 <Grid xs={1.5}>
                   <AutocompleteLocationGroup
+                    name="locationGroupId"
                     onChange={(value) => {
                       methods.setValue("locationGroupId", value?.id || "");
                     }}
@@ -49,6 +50,7 @@ export function DriversFilterBar() {
                 </Grid>
                 <Grid xs={1.5}>
                   <AutocompleteFleetGroup
+                    name="fleetGroupId"
                     onChange={(value) => {
                       methods.setValue("fleetGroupId", value?.id || "");
                     }}
@@ -56,6 +58,7 @@ export function DriversFilterBar() {
                 </Grid>
                 <Grid xs={1.5}>
                   <AutocompletePosition
+                    name="positionId"
                     onChange={(value) => {
                       methods.setValue("positionId", value?.id || "");
                     }}
@@ -93,7 +96,7 @@ export function DriversFilterBar() {
                     control={methods.control}
                     render={({ field, fieldState: { error } }) => (
                       <DatePicker
-                        label="Data de Admissão"
+                        label="Data de Referência"
                         {...field}
                         error={error?.message}
                         value={dayjs(dayjs(field.value).format("YYYY-MM-DD"))}

@@ -66,6 +66,7 @@ export function useDriversFilterBar() {
       positionId: "",
     });
     router.push(`/drivers`);
+    setTimeout(() => window.location.reload(), 1000);
   };
 
   return {
