@@ -41,7 +41,7 @@ export function Lines() {
   const columns: GridColDef[] = [
     {
       field: "line.code",
-      headerName: "Cód. Linha",
+      headerName: "Cód. Linha ",
       width: 400,
       sortable: false,
       filterable: false,
