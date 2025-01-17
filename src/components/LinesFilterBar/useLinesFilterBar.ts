@@ -44,7 +44,6 @@ export function useLinesFilterBar() {
     Object.entries(data).forEach(([key, value]) => {
       if (value) {
         params.append(key, value);
-        if (key === "code") params.append(key, value.toLocaleUpperCase());
       }
     });
     router.push(`/lines?${params.toString()}`);
