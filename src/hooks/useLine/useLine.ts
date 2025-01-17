@@ -9,11 +9,13 @@ export const useLine = (
 ) => {
   const [deleteLine] = useFetch();
   const { addToast } = useToast();
-  const { data, error, isLoading } = useSWR(
-    { url: "/line", args: params },
-    fetchLines,
-    options,
-  );
+  const getKey = (params: FetchLineParams) => {
+    if (!params) return null;
+
+    return { url: "/line", args: params };
+  };
+
+  const { data, error, isLoading } = useSWR(getKey, fetchLines, options);
 
   const handleDeleteLine = (id: string, refreshLines?: () => void) => {
     return deleteLine(`/deleteline/${id}`, id, {

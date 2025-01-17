@@ -12,7 +12,7 @@ export interface AutocompleteLocationProps {
   label?: string;
   isRequired?: boolean;
   keyCode?: keyof Location;
-  onChange?: (value: Location | null) => void;
+  onChange?: (value?: Location | null) => void;
 }
 
 export function AutocompleteLocation({

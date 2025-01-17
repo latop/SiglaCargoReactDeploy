@@ -88,7 +88,7 @@ const routes: RouteItem[] = [
     path: "/trip-optimization",
   },
   {
-    text: "Cadastro de rotas",
+    text: "Rotas",
     icon: <RouteIcon />,
     path: "/lines",
   },

@@ -18,6 +18,7 @@ import customParseFormat from "dayjs/plugin/customParseFormat";
 import "dayjs/locale/pt-br";
 import { AutocompleteLocation } from "@/components/AutocompleteLocation";
 import { AutocompleteStopType } from "@/components/AutocompleteStopType";
+import { AutocompleteLocationGroup } from "@/components/AutocompleteLocationGroup";
 
 dayjs.extend(customParseFormat);
 
@@ -62,49 +63,53 @@ export const UpdateLineSectionForm = ({ seq }: { seq: number }) => {
               render={({ field }) => (
                 <TextField
                   {...field}
+                  inputProps={{ maxLength: 3, inputMode: "numeric" }}
                   variant="outlined"
                   fullWidth
                   label="Duração"
+                  onChange={(event) => {
+                    const inputValue = event.target.value;
+                    if (/^\d*$/.test(inputValue)) {
+                      setValue(`lineSections.${seq}.duration`, inputValue);
+                    }
+                  }}
                 />
               )}
             />
           </Grid>
-          <Grid item xs={1.5}>
+          <Grid item xs={3}>
             <AutocompleteLocation
               name={`lineSections.${seq}.locationOrig`}
               label="Origem"
               onChange={(value) => {
-                setValue(`lineSections.${seq}.locationOrig`, value);
+                setValue(
+                  `lineSections.${seq}.locationOrig`,
+                  String(value).toUpperCase(),
+                );
+              }}
+            />
+          </Grid>
+          <Grid item xs={3}>
+            <AutocompleteLocation
+              label="Destino"
+              name={`lineSections.${seq}.locationDest`}
+              onChange={(value) => {
+                setValue(
+                  `lineSections.${seq}.locationDest`,
+                  String(value).toUpperCase(),
+                );
               }}
             />
           </Grid>
           <Grid item xs={1.5}>
-            <AutocompleteLocation
-              name={`lineSections.${seq}.locationDest`}
-              label="Destino"
+            <AutocompleteLocationGroup
+              label="Base vinculada"
+              name={`lineSections.${seq}.locationGroup`}
               onChange={(value) => {
-                setValue(`lineSections.${seq}.locationDest`, value);
+                setValue(`lineSections.${seq}.locationGroup`, value);
               }}
             />
           </Grid>
-          {/* <Grid item xs={1.5}>
-            <AutocompleteLocation
-              name={`lineSections.${seq}.locationOrig`}
-              label="Origem"
-              onChange={(value) => {
-                setValue(`lineSections.${seq}.locationOrig`, value);
-              }}
-            />
-          </Grid>
-          <Grid item xs={1.5}>
-            <AutocompleteLocation
-              name={`lineSections.${seq}.locationDest`}
-              label="Destino"
-              onChange={(value) => {
-                setValue(`lineSections.${seq}.locationDest`, value);
-              }}
-            />
-          </Grid> */}
           <Grid item xs={1.5}>
             <AutocompleteStopType
               name={`lineSections.${seq}.stopType`}
