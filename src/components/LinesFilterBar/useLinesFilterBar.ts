@@ -44,8 +44,15 @@ export function useLinesFilterBar() {
     router.push(`/lines?${params.toString()}`);
   };
 
+  const onClearParams = () => {
+    methods.reset({});
+    router.push("/lines");
+    setTimeout(() => window.location.reload(), 500);
+  };
+
   return {
     methods,
     onSubmit,
+    onClearParams,
   };
 }

@@ -127,7 +127,7 @@ export function Lines() {
   return (
     <MainContainer>
       <AppBar>
-        <HeaderTitle>Cadastro de rotas</HeaderTitle>
+        <HeaderTitle>Rotas</HeaderTitle>
       </AppBar>
       <Box
         sx={{
@@ -141,7 +141,11 @@ export function Lines() {
       >
         <LinesFilterBar />
         <Box display="flex" justifyContent="flex-end" mt="25px" mb="10px">
-          <Button variant="outlined" size="small" onClick={handleAddLine}>
+          <Button
+            variant="outlined"
+            sx={{ maxWidth: "200px", alignSelf: "flex-end", width: "170px" }}
+            onClick={handleAddLine}
+          >
             Adicionar rotas
           </Button>
         </Box>

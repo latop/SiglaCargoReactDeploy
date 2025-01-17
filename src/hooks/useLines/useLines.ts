@@ -14,6 +14,7 @@ export const useLines = (options?: SWRConfiguration) => {
   };
 
   const getKey = (pageIndex: number, previousPageData: LinesPaginated) => {
+    if (!Object.values(params).some(Boolean)) return null;
     if (previousPageData && !previousPageData.hasNext) return null;
 
     return {
