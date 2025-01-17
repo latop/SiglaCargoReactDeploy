@@ -46,7 +46,7 @@ export const TruckAssignmentDialog = ({
       headerName: "Data de Referência",
       width: 150,
       valueGetter: (_, data) => {
-        return data.dtRef ? dayjs(data.dtRef).format("DD-MM-YY HH:mm") : "N/A";
+        return data.dtRef ? dayjs(data.dtRef).format("DD-MM-YY HH:mm") : "";
       },
     },
 
@@ -57,7 +57,7 @@ export const TruckAssignmentDialog = ({
       valueGetter: (_, data) => {
         return data.startTime
           ? dayjs(data.startTime).format("DD-MM-YY HH:mm")
-          : "N/A";
+          : "";
       },
     },
     {
@@ -65,9 +65,7 @@ export const TruckAssignmentDialog = ({
       headerName: "Fim",
       width: 150,
       valueGetter: (_, data) => {
-        return data.endTime
-          ? dayjs(data.endTime).format("DD-MM-YY HH:mm")
-          : "N/A";
+        return data.endTime ? dayjs(data.endTime).format("DD-MM-YY HH:mm") : "";
       },
     },
   ];

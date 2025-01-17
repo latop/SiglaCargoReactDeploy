@@ -2,7 +2,7 @@
 import { AppBar } from "@/components/AppBar";
 import { HeaderTitle } from "@/components/HeaderTitle/HeaderTitle";
 import { MainContainer } from "@/components/MainContainer";
-import { useGetDashboardQuery } from "@/services/query/dashboard.query";
+import { useGetDashboardQuery } from "@/services/query/dashboard";
 import {
   Box,
   Card,

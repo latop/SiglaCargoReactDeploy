@@ -138,7 +138,6 @@ export const dashboardTripsCompletedTransform = async (
       data: [...resume.completed],
       backgroundColor: generateRandomColor(),
     });
-    console.log("teste", { labels, datasets });
     resolve({ labels, datasets });
   });
 };

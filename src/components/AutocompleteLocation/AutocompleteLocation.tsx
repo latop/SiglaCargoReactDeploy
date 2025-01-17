@@ -1,15 +1,16 @@
 /* eslint-disable prettier/prettier */
-import React, { SyntheticEvent } from "react";
-import { Controller, useFormContext } from "react-hook-form";
+import { Location } from "@/interfaces/trip";
+import { useGetLocationQuery } from "@/services/query/trips";
 import { TextField } from "@mui/material";
 import Autocomplete from "@mui/material/Autocomplete";
-import { useLocation } from "@/hooks/useLocation";
 import debounce from "debounce";
-import { Location } from "@/interfaces/trip";
+import { SyntheticEvent } from "react";
+import { Controller, useFormContext } from "react-hook-form";
 
 export interface AutocompleteLocationProps {
   name?: string;
   label?: string;
+  isRequired?: boolean;
   keyCode?: keyof Location;
   onChange?: (value?: Location | null) => void;
 }
@@ -18,6 +19,7 @@ export function AutocompleteLocation({
   name = "locationCode",
   label = "Cód. localização",
   keyCode = "code",
+  isRequired = false,
   onChange,
 }: AutocompleteLocationProps) {
   const {
@@ -29,11 +31,9 @@ export function AutocompleteLocation({
 
   const isDirty = dirtyFields[name];
 
-
-  const { locations, error } = useLocation({
-    pageSize: 10,
+  const { data: { data: locations = [] } = [], error } = useGetLocationQuery({
     code: (isDirty && watch(name)) ?? watch(name) ?? "",
-  });
+  })
 
   const handleChange = (
     _: SyntheticEvent<Element, Event>,
@@ -43,6 +43,9 @@ export function AutocompleteLocation({
       onChange(value);
     } else {
       setValue(name, value?.[keyCode] || "");
+      setValue(`${name.split(".")[0]}Id`, value?.id || "");
+      setValue(`${name.split(".")[0]}Description`, value?.name || "");
+
     }
   };
 
@@ -54,7 +57,7 @@ export function AutocompleteLocation({
         <Autocomplete
           forcePopupIcon={false}
           clearOnEscape
-          options={locations || []}
+          options={locations}
           loadingText="Carregando..."
           defaultValue={{ code: field.value || "" } as Location}
           isOptionEqualToValue={(option: Location, value: Location) =>
@@ -77,6 +80,7 @@ export function AutocompleteLocation({
               variant="outlined"
               fullWidth
               label={label}
+              required={isRequired}
               error={!!errors[field.name]}
               helperText={errors[field.name]?.message?.toString()}
             />

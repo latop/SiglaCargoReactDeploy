@@ -58,6 +58,7 @@ export function AutocompleteDriver({
             option[keyCode] === value[keyCode]
           }
           onChange={handleChange}
+
           noOptionsText={
             !field.value
               ? "Digite o nome do motorista"

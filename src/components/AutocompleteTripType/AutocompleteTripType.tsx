@@ -3,19 +3,21 @@ import React, { SyntheticEvent } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import { TextField } from "@mui/material";
 import Autocomplete from "@mui/material/Autocomplete";
-import { useTripType } from "@/hooks/useTripType";
 import debounce from "debounce";
 import { TripType } from "@/interfaces/trip";
+import { useGetTripTypesQuery } from "@/services/query/trips";
 
 export function AutocompleteTripType({
   name = "tripTypeCode",
   label = "Tipo de viagem",
   keyCode = "code",
+  isRequired = false,
   onChange,
 }: {
   name?: string;
   label?: string;
   keyCode?: keyof TripType;
+  isRequired?: boolean;
   onChange?: (value: TripType | null) => void;
 
 }) {
@@ -26,10 +28,10 @@ export function AutocompleteTripType({
   } = useFormContext();
 
   const isDirty = dirtyFields[name];
-  const { tripTypes, error } = useTripType({
-    pageSize: 10,
-    code: isDirty ? watch(name) : "",
-  });
+
+  const { data: { data: tripTypes = [] } = [], error } = useGetTripTypesQuery({
+    code: (isDirty && watch(name)) ?? watch(name) ?? ""
+  })
 
   const handleChange = (
     _: SyntheticEvent<Element, Event>,
@@ -39,7 +41,8 @@ export function AutocompleteTripType({
       onChange(value);
     } else {
       setValue(name, value?.[keyCode] || "");
-
+      setValue(`${name.split(".")[0]}Id`, value?.id || "");
+      setValue(`${name.split(".")[0]}Description`, value?.description || "");
     }
   };
 
@@ -73,6 +76,7 @@ export function AutocompleteTripType({
               onChange={debounce(field.onChange, 300)}
               variant="outlined"
               fullWidth
+              required={isRequired}
               label={label}
               error={!!errors[field.name]}
               helperText={errors[field.name]?.message?.toString()}

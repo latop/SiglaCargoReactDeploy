@@ -14,6 +14,7 @@ import { useLines } from "@/hooks/useLines";
 import { LinesFilterBar } from "@/components/LinesFilterBar";
 import { AddLineDialog } from "@/components/AddLineDialog";
 import { UpdateLineDialog } from "@/components/UpdateLineDialog";
+
 import { useLine } from "@/hooks/useLine";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { useDialog } from "@/hooks/useDialog/useDialog";
@@ -45,7 +46,7 @@ export function Lines() {
       sortable: false,
       filterable: false,
       valueGetter: (_, data: DailyTrip) => {
-        return data.line ? data.line.code : "N/A";
+        return data.line ? data.line.code : "";
       },
     },
     {
@@ -57,7 +58,7 @@ export function Lines() {
       valueGetter: (_, data) => {
         return data.line.locationOrig && data.line.locationDest
           ? `${data.line.locationOrig.code} / ${data.line.locationDest.code}`
-          : "N/A";
+          : "";
       },
     },
     {
