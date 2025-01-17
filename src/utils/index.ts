@@ -12,7 +12,7 @@ export const formatPlate = (plate: string) => {
   if (!plate) return "";
   let newPlate = plate.replace(/[^A-Za-z0-9]/, "").toUpperCase();
   const matchs = Array.from(
-    newPlate.matchAll(/([A-z]{3})(\d)([A-j0-9])(\d{2})/g),
+    newPlate.matchAll(/([A-z]{3})(\d)([A-j0-9])(\d{2})/g)
   );
   const partials = [];
   if (matchs.length > 0) {
@@ -27,4 +27,17 @@ export const formatPlate = (plate: string) => {
   }
 
   return newPlate;
+};
+
+export const formatCellphone = (value: string) => {
+  return value
+    .replace(/\D/g, "")
+    .replace(/(\d{2})(\d{1})/, "($1) $2")
+    .replace(/(\d{1})(\d{4})(\d{1,4})/, "$1 $2-$3")
+    .slice(0, 16);
+};
+export const formatCep = (value: string) => {
+  if (!value) return "";
+  const rawValue = value.replace(/\D/g, "");
+  return rawValue.replace(/(\d{5})(\d)/, "$1-$2").slice(0, 9);
 };

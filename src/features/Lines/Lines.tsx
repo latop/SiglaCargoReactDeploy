@@ -15,52 +15,15 @@ import { LinesFilterBar } from "@/components/LinesFilterBar";
 import { AddLineDialog } from "@/components/AddLineDialog";
 import { UpdateLineDialog } from "@/components/UpdateLineDialog";
 
-const columns: GridColDef[] = [
-  {
-    field: "line.code",
-    headerName: "Cód. Linha",
-    width: 400,
-    sortable: false,
-    filterable: false,
-    valueGetter: (_, data: DailyTrip) => {
-      return data.line ? data.line.code : "";
-    },
-  },
-  {
-    field: "description",
-    headerName: "Descrição",
-    width: 500,
-    sortable: false,
-    filterable: false,
-    valueGetter: (_, data: DailyTrip) => {
-      return data.line ? data.line.description : "";
-    },
-  },
-  {
-    field: "locationOrig.code",
-    headerName: "Origem/Destino",
-    width: 300,
-    sortable: false,
-    filterable: false,
-    valueGetter: (_, data) => {
-      return data.line.locationOrig && data.line.locationDest
-        ? `${data.line.locationOrig.code} / ${data.line.locationDest.code}`
-        : "";
-    },
-  },
-  {
-    field: "qtdLineSections",
-    headerName: "Seções",
-    width: 100,
-    sortable: false,
-    filterable: false,
-  },
-];
+import { useLine } from "@/hooks/useLine";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import { useDialog } from "@/hooks/useDialog/useDialog";
 
 export function Lines() {
   const [hash, setHash] = useHash();
   const isOpen = hash.includes("add-line");
   const isLineOpen = hash.includes("#line-id-");
+  const { openDialog, closeDialog } = useDialog();
 
   const {
     lines,
@@ -71,12 +34,93 @@ export function Lines() {
     error,
     totalCount,
     hasData,
+    refetchLines,
   } = useLines();
+  const { handleDeleteLine } = useLine();
+
+  const columns: GridColDef[] = [
+    {
+      field: "line.code",
+      headerName: "Cód. Linha",
+      width: 400,
+      sortable: false,
+      filterable: false,
+      valueGetter: (_, data: DailyTrip) => {
+        return data.line ? data.line.code : "";
+      },
+    },
+    {
+      field: "description",
+      headerName: "Descrição",
+      width: 500,
+      sortable: false,
+      filterable: false,
+      valueGetter: (_, data: DailyTrip) => {
+        return data.line ? data.line.description : "";
+      },
+    },
+    {
+      field: "locationOrig.code",
+      headerName: "Origem/Destino",
+      width: 300,
+      sortable: false,
+      filterable: false,
+      valueGetter: (_, data) => {
+        return data.line.locationOrig && data.line.locationDest
+          ? `${data.line.locationOrig.code} / ${data.line.locationDest.code}`
+          : "";
+      },
+    },
+    {
+      field: "qtdLineSections",
+      headerName: "Seções",
+      width: 100,
+      sortable: false,
+      filterable: false,
+    },
+    {
+      field: "",
+      headerName: "",
+      width: 100,
+      sortable: false,
+      filterable: false,
+      renderCell: (params) => {
+        return (
+          <span
+            style={{
+              paddingTop: 12,
+              display: "flex",
+              gap: "8px",
+            }}
+          >
+            <DeleteForeverIcon
+              sx={{
+                cursor: "pointer",
+                color: "#e53935",
+              }}
+              onClick={() => {
+                openDialog({
+                  body: "Deseja deletar esta rota?",
+                  onConfirm: () => {
+                    handleDeleteLine(params?.id as string, refetchLines);
+
+                    closeDialog();
+                  },
+                  onCancel: () => {
+                    closeDialog();
+                  },
+                });
+              }}
+            />
+          </span>
+        );
+      },
+    },
+  ];
 
   const handleCloseDialog = () => {
     setHash("");
   };
-
   const handleAddLine = () => {
     setHash("add-line");
   };
