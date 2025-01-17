@@ -71,20 +71,10 @@ export const AddLineForm = () => {
                 render={({ field, fieldState: { error } }) => (
                   <TextField
                     {...field}
-                    onChange={(e) => {
-                      setValue(
-                        "line.description",
-                        e.target.value.toUpperCase(),
-                      );
-                    }}
-                    value={field?.value}
                     variant="outlined"
                     fullWidth
                     label="Descrição"
                     error={!!error?.message}
-                    sx={{
-                      textTransform: "uppercase",
-                    }}
                     helperText={error?.message?.toString()}
                   />
                 )}

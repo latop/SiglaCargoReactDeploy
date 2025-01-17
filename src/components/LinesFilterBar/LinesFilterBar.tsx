@@ -65,7 +65,10 @@ export function LinesFilterBar(props: React.HTMLProps<HTMLFormElement>) {
                 />
               </Grid>
               <Grid item xs={2} paddingLeft="0">
-                <AutocompleteFleetGroup onChange={handleChangeFleetGroup} />
+                <AutocompleteFleetGroup
+                  name="fleetGroupCode"
+                  key={"code"}
+                  onChange={handleChangeFleetGroup} />
               </Grid>
               <Grid item xs={1.7} paddingLeft="0">
                 <AutocompleteLocation

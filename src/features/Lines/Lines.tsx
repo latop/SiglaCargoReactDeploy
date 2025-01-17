@@ -46,7 +46,7 @@ export function Lines() {
       sortable: false,
       filterable: false,
       valueGetter: (_, data: DailyTrip) => {
-        return data.line ? data.line.code : "";
+        return !!data.line ? data?.line?.code : "";
       },
     },
     {
@@ -56,9 +56,9 @@ export function Lines() {
       sortable: false,
       filterable: false,
       valueGetter: (_, data) => {
-        return data.line.locationOrig && data.line.locationDest
-          ? `${data.line.locationOrig.code} / ${data.line.locationDest.code}`
-          : "";
+        return !!data?.line?.locationOrig
+          ? `${data?.line?.locationOrig?.code}`
+          : "N/A";
       },
     },
     {
@@ -68,8 +68,8 @@ export function Lines() {
       sortable: false,
       filterable: false,
       valueGetter: (_, data) => {
-        return data.line.tripType.code
-          ? `${data.line.tripType.code} / ${data.line.tripType.code}`
+        return !!data?.line?.tripType?.code
+          ? `${data?.line?.tripType?.code}`
           : "N/A";
       },
     },
@@ -80,8 +80,8 @@ export function Lines() {
       sortable: false,
       filterable: false,
       valueGetter: (_, data) => {
-        return data.line.fleetGroup.code
-          ? `${data.line.fleetGroup.code} / ${data.line.fleetGroup.code}`
+        return !!data?.line?.fleetGroup?.code
+          ? `${data?.line?.fleetGroup?.code}`
           : "N/A";
       },
     },

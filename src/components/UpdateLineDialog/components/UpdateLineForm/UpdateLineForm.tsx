@@ -74,9 +74,6 @@ export const UpdateLineForm = () => {
                     variant="outlined"
                     fullWidth
                     label="Descrição"
-                    sx={{
-                      textTransform: "uppercase",
-                    }}
                     error={!!error?.message}
                     helperText={error?.message?.toString()}
                   />

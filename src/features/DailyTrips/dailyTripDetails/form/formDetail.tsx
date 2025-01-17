@@ -18,7 +18,6 @@ import { DailyTrip } from "@/interfaces/daily-trip";
 dayjs.extend(customParseFormat);
 
 interface Params {
-  // @ts-ignore fix later
   initialValues: any;
   handleClose: () => void;
 }

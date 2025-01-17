@@ -76,6 +76,7 @@ export function AutocompleteLocation({
             <TextField
               {...field}
               {...params}
+
               onChange={debounce(field.onChange, 300)}
               variant="outlined"
               fullWidth
@@ -83,6 +84,13 @@ export function AutocompleteLocation({
               required={isRequired}
               error={!!errors[field.name]}
               helperText={errors[field.name]?.message?.toString()}
+              InputProps={{
+                ...params.InputProps,
+                inputProps: {
+                  ...params.inputProps,
+                  style: { textTransform: 'uppercase' }, // Apply uppercase style
+                },
+              }}
             />
           )}
         />
