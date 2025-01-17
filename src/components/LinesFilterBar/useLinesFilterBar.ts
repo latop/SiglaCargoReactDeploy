@@ -6,8 +6,10 @@ import { useRouter, useSearchParams } from "next/navigation";
 interface FormFields {
   fleetGroupCode: string;
   locationDestId: string;
+  locationDestCode: string;
   fleetGroupId: string;
   locationOrigId: string;
+  locationOrigCode: string;
   code: string;
 }
 
@@ -15,7 +17,9 @@ const schema = z.object({
   fleetGroupCode: z.string().optional(),
   fleetGroupId: z.string().optional(),
   locationOrigId: z.string().optional(),
+  locationOrigCode: z.string().optional(),
   locationDestId: z.string().optional(),
+  locationDestCode: z.string().optional(),
   code: z.string().optional(),
 });
 
@@ -29,6 +33,8 @@ export function useLinesFilterBar() {
       fleetGroupId: params.get("fleetGroupId") || "",
       locationDestId: params.get("locationDestId") || "",
       locationOrigId: params.get("locationOrigId") || "",
+      locationDestCode: params.get("locationDestCode") || "",
+      locationOrigCode: params.get("locationOrigCode") || "",
       code: params.get("code")?.toLocaleUpperCase() || "",
     },
   });

@@ -14,6 +14,7 @@ import "dayjs/locale/pt-br";
 import { AutocompleteFleetGroup } from "../AutocompleteFleetGroup";
 import { AutocompleteLocation } from "../AutocompleteLocation";
 import { FleetGroup } from "@/interfaces/vehicle";
+import { Location } from "@/interfaces/trip";
 
 dayjs.extend(customParseFormat);
 
@@ -25,16 +26,24 @@ export function LinesFilterBar(props: React.HTMLProps<HTMLFormElement>) {
     setValue("fleetGroupId", value?.id || "");
     setValue("fleetGroupCode", value?.code || "");
   };
+
+  const handleChangeLocationOrig = (value?: Location | null) => {
+    setValue("locationOrigId", value?.id || "");
+    setValue("locationOrigCode", value?.code || "");
+  };
+
+  const handleChangeLocationDest = (value?: Location | null) => {
+    setValue("locationDestId", value?.id || "");
+    setValue("locationDestCode", value?.code || "");
+  };
+
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
       <FormProvider {...methods}>
         <Box display={"flex"}>
           <form {...props} style={{ width: "100%" }}>
             <Grid container alignItems="flex-start" width="100%" gap="16px">
-              <Grid item xs={2} paddingLeft="0">
-                <AutocompleteFleetGroup onChange={handleChangeFleetGroup} />
-              </Grid>
-              <Grid item xs={1.6} paddingLeft="0">
+              <Grid item xs={3} paddingLeft="0">
                 <Controller
                   name="code"
                   control={control}
@@ -43,7 +52,7 @@ export function LinesFilterBar(props: React.HTMLProps<HTMLFormElement>) {
                       {...field}
                       variant="outlined"
                       fullWidth
-                      label="Código"
+                      label="Código da Rota"
                       error={!!error?.message}
                       helperText={error?.message?.toString()}
                       inputProps={{
@@ -55,18 +64,23 @@ export function LinesFilterBar(props: React.HTMLProps<HTMLFormElement>) {
                   )}
                 />
               </Grid>
+              <Grid item xs={2} paddingLeft="0">
+                <AutocompleteFleetGroup onChange={handleChangeFleetGroup} />
+              </Grid>
               <Grid item xs={1.7} paddingLeft="0">
                 <AutocompleteLocation
-                  name="locationOrigId"
+                  name="locationOrigCode"
                   label="Origem"
                   keyCode="id"
+                  onChange={handleChangeLocationOrig}
                 />
               </Grid>
               <Grid item xs={1.6} paddingLeft="0">
                 <AutocompleteLocation
-                  name="locationDestId"
+                  name="locationDestCode"
                   label="Destino"
                   keyCode="id"
+                  onChange={handleChangeLocationDest}
                 />
               </Grid>
             </Grid>

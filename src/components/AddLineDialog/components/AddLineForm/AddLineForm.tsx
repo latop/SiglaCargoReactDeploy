@@ -71,6 +71,13 @@ export const AddLineForm = () => {
                 render={({ field, fieldState: { error } }) => (
                   <TextField
                     {...field}
+                    onChange={(e) => {
+                      setValue(
+                        "line.description",
+                        e.target.value.toUpperCase(),
+                      );
+                    }}
+                    value={field?.value}
                     variant="outlined"
                     fullWidth
                     label="Descrição"
@@ -158,7 +165,7 @@ export const AddLineForm = () => {
                 />
               </Grid>
             ))}
-            <Grid item xs={2}>
+            <Grid item xs={1}>
               <Controller
                 name="line.overtimeAllowed"
                 control={control}
@@ -174,7 +181,7 @@ export const AddLineForm = () => {
                 )}
               />
             </Grid>
-            <Grid item xs={2}>
+            <Grid item xs={1}>
               <Controller
                 name="line.cost"
                 control={control}

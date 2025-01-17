@@ -40,7 +40,7 @@ export function Lines() {
   const columns: GridColDef[] = [
     {
       field: "line.code",
-      headerName: "Cód. Linha",
+      headerName: "Cód. da Rota",
       width: 400,
       sortable: false,
       filterable: false,
@@ -49,24 +49,38 @@ export function Lines() {
       },
     },
     {
-      field: "description",
-      headerName: "Descrição",
-      width: 500,
-      sortable: false,
-      filterable: false,
-      valueGetter: (_, data: DailyTrip) => {
-        return data.line ? data.line.description : "N/A";
-      },
-    },
-    {
       field: "locationOrig.code",
       headerName: "Origem/Destino",
-      width: 300,
+      width: 200,
       sortable: false,
       filterable: false,
       valueGetter: (_, data) => {
         return data.line.locationOrig && data.line.locationDest
           ? `${data.line.locationOrig.code} / ${data.line.locationDest.code}`
+          : "N/A";
+      },
+    },
+    {
+      field: "tripType.code",
+      headerName: "Tipo de Viagem",
+      width: 300,
+      sortable: false,
+      filterable: false,
+      valueGetter: (_, data) => {
+        return data.line.tripType.code
+          ? `${data.line.tripType.code} / ${data.line.tripType.code}`
+          : "N/A";
+      },
+    },
+    {
+      field: "fleetGroup.code",
+      headerName: "Cód. Da Frota",
+      width: 200,
+      sortable: false,
+      filterable: false,
+      valueGetter: (_, data) => {
+        return data.line.fleetGroup.code
+          ? `${data.line.fleetGroup.code} / ${data.line.fleetGroup.code}`
           : "N/A";
       },
     },
@@ -80,7 +94,6 @@ export function Lines() {
     {
       field: "",
       headerName: "",
-      width: 100,
       sortable: false,
       filterable: false,
       renderCell: (params) => {

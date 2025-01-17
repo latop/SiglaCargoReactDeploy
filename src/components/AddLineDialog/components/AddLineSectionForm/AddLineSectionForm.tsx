@@ -18,6 +18,7 @@ import customParseFormat from "dayjs/plugin/customParseFormat";
 import "dayjs/locale/pt-br";
 import { AutocompleteLocation } from "@/components/AutocompleteLocation";
 import { AutocompleteStopType } from "@/components/AutocompleteStopType";
+import { AutocompleteLocationGroup } from "@/components/AutocompleteLocationGroup";
 
 dayjs.extend(customParseFormat);
 
@@ -62,15 +63,22 @@ export const AddLineSectionForm = ({ seq }: { seq: number }) => {
               render={({ field }) => (
                 <TextField
                   {...field}
+                  inputProps={{ maxLength: 3, inputMode: "numeric" }}
                   variant="outlined"
                   fullWidth
                   label="Duração"
+                  onChange={(event) => {
+                    const inputValue = event.target.value;
+                    if (/^\d*$/.test(inputValue)) {
+                      setValue(`lineSections.${seq}.duration`, inputValue);
+                    }
+                  }}
                 />
               )}
             />
           </Grid>
 
-          <Grid item xs={1.5}>
+          <Grid item xs={3}>
             <AutocompleteLocation
               name={`lineSections.${seq}.locationOrig`}
               label="Origem"
@@ -79,7 +87,7 @@ export const AddLineSectionForm = ({ seq }: { seq: number }) => {
               }}
             />
           </Grid>
-          <Grid item xs={1.5}>
+          <Grid item xs={3}>
             <AutocompleteLocation
               label="Destino"
               name={`lineSections.${seq}.locationDest`}
@@ -93,6 +101,15 @@ export const AddLineSectionForm = ({ seq }: { seq: number }) => {
               name={`lineSections.${seq}.stopType`}
               onChange={(value) => {
                 setValue(`lineSections.${seq}.stopType`, value);
+              }}
+            />
+          </Grid>
+          <Grid item xs={1.5}>
+            <AutocompleteLocationGroup
+              label="Base vinculada"
+              name={`lineSections.${seq}.locationGroup`}
+              onChange={(value) => {
+                setValue(`lineSections.${seq}.locationGroup`, value);
               }}
             />
           </Grid>

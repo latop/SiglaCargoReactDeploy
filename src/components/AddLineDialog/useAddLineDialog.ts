@@ -2,7 +2,6 @@ import { useFetch } from "@/hooks/useFetch";
 import { useHash } from "@/hooks/useHash";
 import { useLines } from "@/hooks/useLines";
 import { useToast } from "@/hooks/useToast";
-import dayjs from "dayjs";
 import { FieldValues, useForm } from "react-hook-form";
 
 export function useAddLineDialog() {
@@ -13,15 +12,15 @@ export function useAddLineDialog() {
         id: "00000000-0000-0000-0000-000000000000",
         code: "",
         description: "",
-        startDate: dayjs().format("YYYY-MM-DD"),
-        endDate: dayjs().add(7, "day").format("YYYY-MM-DD"),
-        freqMon: 0,
-        freqTue: 0,
-        freqWed: 0,
-        freqThu: 0,
-        freqFri: 0,
-        freqSat: 0,
-        freqSun: 0,
+        startDate: "",
+        endDate: "",
+        freqMon: 1,
+        freqTue: 1,
+        freqWed: 1,
+        freqThu: 1,
+        freqFri: 1,
+        freqSat: 1,
+        freqSun: 1,
         overtimeAllowed: 0,
         locationOrigId: "",
         locationDestId: "",
