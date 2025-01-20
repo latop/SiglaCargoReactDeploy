@@ -28,7 +28,7 @@ export const useGetLocationQuery = ({
   code,
 }: FetchBasicParams) => {
   return useQuery({
-    queryKey: ["location"],
+    queryKey: ["location", code],
     queryFn: async () => {
       try {
         const response = await api.get(`${resource}`, {
