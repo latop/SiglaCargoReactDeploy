@@ -56,7 +56,7 @@ const columns: GridColDef[] = [
     width: 150,
     sortable: false,
     filterable: false,
-    valueGetter: (_, data: DailyTrip) => {
+    valueGetter: (_: unknown, data: DailyTrip) => {
       return data.locationOrig ? data.locationOrig.code : "";
     },
   },
@@ -66,7 +66,7 @@ const columns: GridColDef[] = [
     width: 150,
     sortable: false,
     filterable: false,
-    valueGetter: (_, data: DailyTrip) => {
+    valueGetter: (_: unknown, data: DailyTrip) => {
       return data.locationDest ? data.locationDest.code : "";
     },
   },
@@ -76,7 +76,7 @@ const columns: GridColDef[] = [
     width: 150,
     sortable: false,
     filterable: false,
-    valueGetter: (_, data: DailyTrip) => {
+    valueGetter: (_: unknown, data: DailyTrip) => {
       return data.tripType ? data.tripType.code : "";
     },
   },
@@ -87,7 +87,7 @@ const columns: GridColDef[] = [
     width: 220,
     sortable: false,
     filterable: false,
-    valueGetter: (_, data: DailyTrip) => {
+    valueGetter: (_: unknown, data: DailyTrip) => {
       return data.line ? data.line.code : "";
     },
   },

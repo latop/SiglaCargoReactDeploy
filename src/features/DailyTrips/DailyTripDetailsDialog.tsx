@@ -5,12 +5,12 @@ import DialogContent from "@mui/material/DialogContent";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import { useToast } from "@/hooks/useToast";
-import { DailyTripForm } from "./components/DailyTripForm";
 import { Box, CircularProgress } from "@mui/material";
 import { FieldValues, FormProvider } from "react-hook-form";
-import { useDailyTripDetailsDialog } from "./useDailyTripDetailsDialog";
-import { DailyTripFormFooter } from "./components/DailyTripFormFooter";
 import { useDailyTripDetails } from "@/hooks/useDailyTripDetails";
+import { useDailyTripDetailsDialog } from "@/components/DailyTripDetailsDialog/useDailyTripDetailsDialog";
+import { DailyTripForm } from "./dailyTripDetails/form/DailyTripForm";
+import { DailyTripFormFooter } from "@/components/DailyTripDetailsDialog/components/DailyTripFormFooter";
 
 interface DailyTripDetailsProps {
   open: boolean;

@@ -82,6 +82,7 @@ export function DailyTripsFilterBar({ onChange }: Params) {
                     label="Data da viagem *"
                     error={error?.message}
                     {...field}
+                    value={dayjs(field.value)}
                   />
                 )}
               />

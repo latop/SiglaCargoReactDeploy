@@ -1,6 +1,7 @@
 import axios from "axios";
 import api from "../configs/api";
 import { useQuery } from "@tanstack/react-query";
+import dayjs from "dayjs";
 
 axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -47,7 +48,8 @@ export const useGetDailyTripsQuery = ({
     filter2Id: locationOrigId || undefined,
     filter3Id: locationDestId || undefined,
     filter1String: sto || undefined,
-    filter2String: tripDate?.toString(),
+    filter2String:
+      dayjs(tripDate?.toString()).format("ddd, MMM D, YYYY") + " 03:00:00 GMT",
     filter3String: flgStatus,
     Filter4String: licensePlate,
     pageSize,
@@ -81,9 +83,8 @@ export interface FetchDailyTripDetailsParams {
   startTime?: string;
 }
 export const useGetDailyTripDetailQuery = (
-  params: FetchDailyTripDetailsParams
+  params: FetchDailyTripDetailsParams,
 ) => {
-  console.log("params", params, params?.dailyTripId ? true : false);
   return useQuery({
     queryKey: ["daily-trip_detail", { params }],
     queryFn: async () => {

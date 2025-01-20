@@ -56,7 +56,7 @@ export function AutocompleteTripType({
           clearOnEscape
           options={tripTypes || []}
           loadingText="Carregando..."
-          defaultValue={{ [keyCode]: field.value?.[keyCode] || "" } as TripType}
+          defaultValue={{ code: field.value || "" } as TripType}
           isOptionEqualToValue={(option: TripType, value: TripType) =>
             option[keyCode] === value[keyCode]
           }
@@ -81,7 +81,8 @@ export function AutocompleteTripType({
               error={!!errors[field.name]}
               helperText={errors[field.name]?.message?.toString()}
             />
-          )}
+          )
+          }
         />
       )}
     />
