@@ -164,7 +164,7 @@ export const AddLineForm = () => {
                     {...field}
                     variant="outlined"
                     fullWidth
-                    label="Hora extra permitida"
+                    label="Aprov Hr Extra"
                     error={!!error?.message}
                     helperText={error?.message?.toString()}
                   />
