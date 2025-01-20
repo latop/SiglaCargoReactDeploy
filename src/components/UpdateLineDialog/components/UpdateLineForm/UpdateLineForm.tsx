@@ -169,7 +169,7 @@ export const UpdateLineForm = () => {
                     {...field}
                     variant="outlined"
                     fullWidth
-                    label="Hora extra permitida"
+                    label="Aprov Hr Extra"
                     error={!!error?.message}
                     helperText={error?.message?.toString()}
                   />
@@ -231,7 +231,7 @@ export const UpdateLineForm = () => {
             </Grid>
             <Grid item xs={2}>
               <AutocompleteTripType
-                name="line.tripType"
+                name="line.tripType.code"
                 onChange={(value) => {
                   setValue("line.tripType", value);
                 }}

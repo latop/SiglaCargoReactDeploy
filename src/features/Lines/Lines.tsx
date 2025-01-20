@@ -21,7 +21,7 @@ import { useDialog } from "@/hooks/useDialog/useDialog";
 
 export function Lines() {
   const [hash, setHash] = useHash();
-  const isOpen = hash.includes("add-line");
+  const isToAddLine = hash.includes("add-line");
   const isLineOpen = hash.includes("#line-id-");
   const { openDialog, closeDialog } = useDialog();
 
@@ -214,7 +214,7 @@ export function Lines() {
           )}
         </Card>
       </Box>
-      <AddLineDialog open={!!isOpen} onClose={handleCloseDialog} />
+      <AddLineDialog open={!!isToAddLine} onClose={handleCloseDialog} />
       <UpdateLineDialog open={!!isLineOpen} onClose={handleCloseDialog} />
     </MainContainer>
   );
