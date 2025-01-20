@@ -9,8 +9,21 @@
   "plugins": ["prettier", "react", "@typescript-eslint"],
   "ignorePatterns": ["node_modules/*"],
   "rules": {
-    "prettier/prettier": ["error", {}, { "usePrettierrc": true }],
+    "prettier/prettier": [
+      "error",
+      {},
+      {
+        "usePrettierrc": true
+      }
+    ],
     "react-hooks/exhaustive-deps": "off",
-    "@next/next/no-img-element": "off"
+    "@next/next/no-img-element": "off",
+    "@typescript-eslint/no-unused-vars": [
+      "error",
+      {
+        "argsIgnorePattern": "^_",
+        "varsIgnorePattern": "^_"
+      }
+    ]
   }
 }

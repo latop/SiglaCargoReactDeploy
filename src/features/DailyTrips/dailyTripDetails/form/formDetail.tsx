@@ -18,7 +18,7 @@ import { DailyTrip } from "@/interfaces/daily-trip";
 dayjs.extend(customParseFormat);
 
 interface Params {
-  initialValues: any;
+  initialValues: DailyTrip;
   handleClose: () => void;
 }
 export const DailyTripFormDetail = ({ initialValues, handleClose }: Params) => {

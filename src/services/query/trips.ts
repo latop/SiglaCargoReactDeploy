@@ -185,7 +185,7 @@ export const useGetLinesQuery = ({
           },
         });
         const { data } = response.data;
-        const parsedData = data.map((item) => item.line);
+        const parsedData = data.map((item: { line: unknown }) => item.line);
         response.data.data = parsedData;
         return response.data;
       } catch (error) {
