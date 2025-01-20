@@ -38,7 +38,7 @@ export function TripOptimizationDialog({
       width: 150,
 
       valueGetter: (_, data) => {
-        return data.sto ? data.sto : "N/A";
+        return data.sto ? data.sto : "";
       },
     },
     {

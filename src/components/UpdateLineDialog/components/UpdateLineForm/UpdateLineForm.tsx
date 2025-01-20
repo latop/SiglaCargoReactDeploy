@@ -74,9 +74,6 @@ export const UpdateLineForm = () => {
                     variant="outlined"
                     fullWidth
                     label="Descrição"
-                    sx={{
-                      textTransform: "uppercase",
-                    }}
                     error={!!error?.message}
                     helperText={error?.message?.toString()}
                   />
@@ -163,7 +160,7 @@ export const UpdateLineForm = () => {
                 />
               </Grid>
             ))}
-            <Grid item xs={2}>
+            <Grid item xs={1}>
               <Controller
                 name="line.overtimeAllowed"
                 control={control}
@@ -179,7 +176,7 @@ export const UpdateLineForm = () => {
                 )}
               />
             </Grid>
-            <Grid item xs={2}>
+            <Grid item xs={1}>
               <Controller
                 name="line.cost"
                 control={control}
@@ -200,7 +197,7 @@ export const UpdateLineForm = () => {
 
         <Box display="flex" gap="20px">
           <Grid container spacing={1}>
-            <Grid item xs={2}>
+            <Grid item xs={4}>
               <Controller
                 name="line.locationOrig"
                 control={control}
@@ -213,7 +210,7 @@ export const UpdateLineForm = () => {
                 )}
               />
             </Grid>
-            <Grid item xs={2}>
+            <Grid item xs={4}>
               <Controller
                 name="line.locationDest"
                 control={control}

@@ -1,36 +1,32 @@
 /* eslint-disable prettier/prettier */
-import React from "react";
-import { Controller, useFormContext } from "react-hook-form";
+import { Line } from "@/interfaces/daily-trip";
+import { useGetLinesQuery } from "@/services/query/trips";
 import { TextField } from "@mui/material";
 import Autocomplete from "@mui/material/Autocomplete";
-import { useLine } from "@/hooks/useLine";
 import debounce from "debounce";
-import { Line } from "@/interfaces/daily-trip";
+import { Controller, useFormContext } from "react-hook-form";
 
 export function AutocompleteLine({
   name = "lineCode",
   label = "Cód. da rota",
+  isRequired = false,
   keyCode = "code",
   onChange,
 }: {
   name?: string;
   label?: string;
   keyCode?: keyof Line;
+  isRequired?: boolean;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onChange?: (value: any) => void;
 }) {
   const {
     control,
-    watch,
     setValue,
-    formState: { errors, dirtyFields },
+    formState: { errors },
   } = useFormContext();
 
-  const isDirty = dirtyFields[name];
-  const { lines, error } = useLine({
-    pageSize: 10,
-    code: isDirty ? watch(name) : "",
-  });
+  const { data: lines, error } = useGetLinesQuery({})
 
   return (
     <Controller
@@ -40,7 +36,7 @@ export function AutocompleteLine({
         <Autocomplete
           forcePopupIcon={false}
           clearOnEscape
-          options={(lines as Line[]) || []}
+          options={(lines?.data as Line[]) || []}
           loadingText="Carregando..."
           defaultValue={{ code: field.value || "" } as Line}
           isOptionEqualToValue={(option: Line, value: Line) =>
@@ -65,6 +61,7 @@ export function AutocompleteLine({
               onChange={debounce(field.onChange, 300)}
               variant="outlined"
               fullWidth
+              required={isRequired}
               label={label}
               error={!!errors[field.name]}
               helperText={errors[field.name]?.message?.toString()}

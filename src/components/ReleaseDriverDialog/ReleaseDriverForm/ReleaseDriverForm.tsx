@@ -124,7 +124,6 @@ export const ReleaseDriverForm = () => {
               name="veiculoPlan"
               disabled
               onChange={(value) => {
-                console.log(value?.licensePlate);
                 methods.setValue("veiculoPlan", value?.licensePlate);
               }}
             />
@@ -259,7 +258,6 @@ export const ReleaseDriverForm = () => {
                   defaultValue={"false"}
                   {...field}
                   onChange={(value) => {
-                    console.log(value?.target);
                     methods.setValue("isReturnLoaded", value?.target.value);
                   }}
                 >
@@ -275,7 +273,6 @@ export const ReleaseDriverForm = () => {
               control={control}
               rules={{
                 validate: (value) => {
-                  console.log(value);
                   if (!RegExp(/[A-z]{3}-*\d[A-j0-9]\d{2}/).exec(value)) {
                     return "Placa inválida";
                   }
@@ -314,7 +311,6 @@ export const ReleaseDriverForm = () => {
                         partials.push(matchs[0][2]);
                         partials.push(matchs[0][3]);
                         partials.push(matchs[0][4]);
-                        console.log(partials);
                         e.target.value = partials.join("").toUpperCase();
                       }
 

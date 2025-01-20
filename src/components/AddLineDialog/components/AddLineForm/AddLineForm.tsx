@@ -75,9 +75,6 @@ export const AddLineForm = () => {
                     fullWidth
                     label="Descrição"
                     error={!!error?.message}
-                    sx={{
-                      textTransform: "uppercase",
-                    }}
                     helperText={error?.message?.toString()}
                   />
                 )}
@@ -158,7 +155,7 @@ export const AddLineForm = () => {
                 />
               </Grid>
             ))}
-            <Grid item xs={2}>
+            <Grid item xs={1}>
               <Controller
                 name="line.overtimeAllowed"
                 control={control}
@@ -174,7 +171,7 @@ export const AddLineForm = () => {
                 )}
               />
             </Grid>
-            <Grid item xs={2}>
+            <Grid item xs={1}>
               <Controller
                 name="line.cost"
                 control={control}

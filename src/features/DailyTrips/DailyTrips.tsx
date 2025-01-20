@@ -1,156 +1,52 @@
 /* eslint-disable prettier/prettier */
 "use client";
 
-import React, { useEffect } from "react";
-import { MainContainer } from "@/components/MainContainer";
 import { AppBar } from "@/components/AppBar";
-import { HeaderTitle } from "@/components/HeaderTitle/HeaderTitle";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { Box, Button, Card, CircularProgress } from "@mui/material";
+import { DailyTripDetailsDialog } from "./dailyTripDetails/dailyTripDetailsDialog";
 import { EmptyResult } from "@/components/EmptyResult";
-import { useDailyTrips } from "@/hooks/useDailyTrips";
-import { DailyTripsFilterBar } from "@/components/DailyTripsFilterBar";
-import dayjs from "dayjs";
-import { useRouter, useSearchParams } from "next/navigation";
 import { ErrorResult } from "@/components/ErrorResult";
-import { DailyTrip } from "@/interfaces/daily-trip";
-import { DailyTripDetailsDialog } from "@/components/DailyTripDetailsDialog";
-import { useHash } from "@/hooks/useHash";
 import { GenerateDailyTripDialog } from "@/components/GenerateDailyTripDialog";
+import { HeaderTitle } from "@/components/HeaderTitle/HeaderTitle";
+import { MainContainer } from "@/components/MainContainer";
+import { FetchDailyTripsParams, initialDataDailyTripsParams, useGetDailyTripsQuery } from "@/services/query/daily-trips";
+import { Box, Button, Card } from "@mui/material";
+import { DataGrid } from "@mui/x-data-grid";
+import { useState } from "react";
+import { DailyTripsFilterBar } from "./DailyTripsFilterBar";
+import IsLoadingTable from "./isLoadindCard";
 
-const columns: GridColDef[] = [
-  {
-    field: "sto",
-    headerName: "Sto",
-    width: 200,
-    sortable: false,
-    filterable: false,
-  },
-  {
-    field: "lineCode",
-    headerName: "Cód. Linha",
-    width: 200,
-    sortable: false,
-    filterable: false,
-    valueGetter: (_, data: DailyTrip) => {
-      return data.line ? data.line.code : "N/A";
-    },
-  },
-  {
-    field: "flgStatus",
-    headerName: "Status",
-    width: 100,
-    sortable: false,
-    filterable: false,
-  },
-  {
-    field: "fleetGroup.code",
-    headerName: "Cód frota",
-    width: 200,
-    sortable: false,
-    filterable: false,
-    valueGetter: (_, data: DailyTrip) => {
-      return data.fleetGroup ? data.fleetGroup.code : "N/A";
-    },
-  },
-  {
-    field: "tripType.code",
-    headerName: "Tipo de viagem",
-    width: 200,
-    sortable: false,
-    filterable: false,
-    valueGetter: (_, data: DailyTrip) => {
-      return data.tripType ? data.tripType.description : "N/A";
-    },
-  },
-  {
-    field: "locationOrig.code",
-    headerName: "Origem",
-    width: 150,
-    sortable: false,
-    filterable: false,
-    valueGetter: (_, data: DailyTrip) => {
-      return data.locationOrig ? data.locationOrig.code : "N/A";
-    },
-  },
-  {
-    field: "locationDest.code",
-    headerName: "Destino",
-    width: 150,
-    sortable: false,
-    filterable: false,
-    valueGetter: (_, data: DailyTrip) => {
-      return data.locationDest ? data.locationDest.code : "N/A";
-    },
-  },
-  {
-    field: "tripDate",
-    headerName: "Data da viagem",
-    width: 150,
-    sortable: false,
-    filterable: false,
-    valueFormatter: (value) =>
-      value ? dayjs(value).format("DD/MM/YYYY") : "N/A",
-  },
-];
+import config from "./configs";
 
 export function DailyTrips() {
-  const [hash, setHash] = useHash();
-  const isOpen = hash.includes("dailyTrip");
-  const isGenerateDialogOpen = hash.includes("generateTrip")
-  const params = useSearchParams();
-  const router = useRouter();
-  const {
-    dailyTrips,
-    isLoading,
-    hasData,
-    isEmpty,
-    size,
-    error,
-    totalCount,
-    loadMoreDailyTrips,
-  } = useDailyTrips();
+  const [filters, setFilters] = useState<FetchDailyTripsParams>(initialDataDailyTripsParams)
+  const [dailyTripModalIsOpen, setDailyTripModalIsOpen] = useState(false)
+  const [tripId, setTripId] = useState()
+  const [generateDailyTripModalIsOpen, setGenerateDailyTripModalIsOpen] = useState(false)
 
-  const showContent = params.get("tripDate");
+  const [currentPage, setCurrentPage] = useState(0)
 
-  const handleCloseDialog = () => {
-    setHash("");
-  };
-
-  useEffect(() => {
-    if (!params.get("tripDate")) {
-      const newParams = new URLSearchParams();
-      newParams.append("tripDate", dayjs().format("YYYY-MM-DD"));
-      router.push(`/daily-trips?${newParams.toString()}`);
-    }
-  }, [params]);
-
-  const handleAddTravel = () => {
-    setHash("#dailyTrip");
-  };
+  const { data, isLoading, isError } = useGetDailyTripsQuery({ ...filters, pageNumber: currentPage + 1 });
 
 
-  const handleOpenGenerateTripDialog = () => {
-    setHash("#generateTrip");
+  const handleFilters = (filtersData: FetchDailyTripsParams) => {
+    setFilters(filtersData)
   }
-
-
   return (
     <MainContainer>
       <AppBar>
-        <HeaderTitle>Viagens diárias</HeaderTitle>
+        <HeaderTitle>{config.title}</HeaderTitle>
       </AppBar>
       <Box
         sx={{
           width: "1400px",
           height: "100%",
-          padding: "20px",
+          padding: "15px",
           margin: "auto",
           display: "flex",
           flexDirection: "column",
         }}
       >
-        <DailyTripsFilterBar />
+        <DailyTripsFilterBar onChange={handleFilters} />
         <Box
           display="flex"
           justifyContent="flex-end"
@@ -158,66 +54,81 @@ export function DailyTrips() {
           mb="10px"
           gap={1}
         >
-          <Button variant="outlined" size="small" onClick={handleOpenGenerateTripDialog}>
+          <Button variant="outlined" size="small" onClick={() => setGenerateDailyTripModalIsOpen(true)} >
             Gerar viagem diária
           </Button>
-          <Button variant="outlined" size="small" onClick={handleAddTravel}>
+          <Button variant="outlined" size="small" onClick={() => {
+            setTripId(undefined)
+            setDailyTripModalIsOpen(true)
+          }}>
             Adicionar viagem
           </Button>
         </Box>
-        {showContent && (
-          <Card
-            sx={{
-              width: "100%",
-              height: "635px",
-              position: "relative",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            {isLoading && <CircularProgress />}
-            {isEmpty && <EmptyResult />}
-            {error && <ErrorResult />}
-            {hasData && (
-              <div style={{ height: "100%", width: "100%" }}>
-                <DataGrid
-                  rows={dailyTrips}
-                  localeText={{
-                    noRowsLabel: "Nenhum registro encontrado",
-                    columnMenuHideColumn: "Ocultar coluna",
-                    columnsManagementShowHideAllText: "Mostrar/Ocultar todas",
-                    columnMenuManageColumns: "Gerenciar colunas",
-                    MuiTablePagination: {
-                      labelRowsPerPage: "Registros por página",
-                      labelDisplayedRows: ({ from, to, count }) =>
-                        `${from}-${to} de ${count !== -1 ? count : `mais de ${to}`
-                        }`,
-                    },
-                  }}
-                  columns={columns}
-                  onCellDoubleClick={(params) => {
-                    setHash(`#dailyTrip-${params.row.id}`);
-                  }}
-                  initialState={{
-                    pagination: {
-                      paginationModel: { page: size - 1, pageSize: 10 },
-                    },
-                  }}
-                  onPaginationModelChange={(params) => {
-                    loadMoreDailyTrips(params.page + 1);
-                  }}
-                  rowCount={totalCount}
-                  pageSizeOptions={[10]}
-                />
-              </div>
-            )}
-          </Card>
-        )}
+        <Card
+          sx={{
+            width: "100%",
+            height: "635px",
+            position: "relative",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+
+          {!data || data.data.length === 0 && <EmptyResult />}
+          {isError && <ErrorResult />}
+          {isLoading && <IsLoadingTable />}
+          {data && data.data.length > 0 &&
+            <div style={{ height: "100%", width: "100%" }}>
+              <DataGrid
+                sx={{
+                  width: '100%',
+                  '& .blueColumnHeaders ': {
+                    backgroundColor: '#24438F',
+                    color: 'white'
+                  },
+                }}
+                rows={data.data}
+                localeText={{
+                  noRowsLabel: "Nenhum registro encontrado",
+                  columnMenuHideColumn: "Ocultar coluna",
+                  columnsManagementShowHideAllText: "Mostrar/Ocultar todas",
+                  columnMenuManageColumns: "Gerenciar colunas",
+                  MuiTablePagination: {
+                    labelRowsPerPage: "Registros por página",
+                    labelDisplayedRows: ({ from, to, count }) =>
+                      `${from}-${to} de ${count !== -1 ? count : `mais de ${to}`
+                      }`,
+                  },
+                }}
+                columns={config.columns}
+                onCellDoubleClick={(params) => {
+                  setTripId(params.row.id);
+                  setDailyTripModalIsOpen(true);
+                }}
+                initialState={{
+                  pagination: {
+                    paginationModel: { page: data.currentPage - 1, pageSize: 10 },
+                  },
+                }}
+                onPaginationModelChange={(params) => {
+                  setCurrentPage(params.page);
+                }}
+                paginationMode="server"
+                rowCount={data.totalCount}
+                pageSizeOptions={[10]}
+                density="compact"
+              />
+            </div>}
+        </Card>
       </Box>
-      <DailyTripDetailsDialog open={!!isOpen} onClose={handleCloseDialog} />
-      <GenerateDailyTripDialog isOpen={isGenerateDialogOpen} onClose={handleCloseDialog} />
-    </MainContainer>
+      <DailyTripDetailsDialog
+        isOpen={dailyTripModalIsOpen}
+        onClose={() => setDailyTripModalIsOpen(false)}
+        id={tripId}
+      />
+      <GenerateDailyTripDialog isOpen={generateDailyTripModalIsOpen} onClose={() => setGenerateDailyTripModalIsOpen(false)} />
+    </MainContainer >
   );
 }

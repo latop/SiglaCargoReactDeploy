@@ -1,5 +1,5 @@
-import { fetchPositions, FetchPositionParams } from "@/services/drivers";
 import { Position } from "@/interfaces/driver";
+import { FetchPositionParams, fetchPositions } from "@/services/parameters";
 import useSWR from "swr";
 
 export const usePosition = (params: FetchPositionParams) => {

@@ -1,11 +1,11 @@
 import Error from "next/error";
-import api from "../configs/api";
 import { Dashboard, DashboardResponse } from "./dashboard.types";
 import {
   dashboardAgroupByFieldTransform,
   dashboardTripsAttribTransform,
   dashboardTripsCompletedTransform,
 } from "./dashboard.utils";
+import api from "@/services/configs/api";
 
 const getDashboard = async (): Promise<DashboardResponse> => {
   try {
