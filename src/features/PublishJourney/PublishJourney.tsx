@@ -5,6 +5,7 @@ import { MainContainer } from "@/components/MainContainer";
 import { AppBar } from "@/components/AppBar";
 import { HeaderTitle } from "@/components/HeaderTitle/HeaderTitle";
 import { Box, Card } from "@mui/material";
+import { PublishJourneyFilterBar } from "@/components/PublishJourneyFilterBar";
 
 export function PublishJourney() {
   return (
@@ -22,6 +23,7 @@ export function PublishJourney() {
           flexDirection: "column",
         }}
       >
+        <PublishJourneyFilterBar />
         <Card
           sx={{
             width: "100%",
