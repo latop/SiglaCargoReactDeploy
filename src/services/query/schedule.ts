@@ -1,14 +1,16 @@
-import { useQuery } from "@tanstack/react-query";
+import { QueryOptions, useQuery, QueryClient } from "@tanstack/react-query";
 import api from "../configs/api";
 
 type GetPublishJourneyParams = {
-  dtPublish?: string;
-  LocationGroupId?: string;
+  dtPublish: string;
+  LocationGroupId: string;
+  options?: QueryOptions & QueryClient;
 };
 
 export const useGetPublishJourneyQuery = ({
   dtPublish,
   LocationGroupId,
+  options,
 }: GetPublishJourneyParams) => {
   return useQuery({
     queryKey: ["publish_journey", dtPublish, LocationGroupId],
@@ -23,9 +25,10 @@ export const useGetPublishJourneyQuery = ({
         return response.data;
       } catch (error) {
         console.error(error);
-        return error;
+        throw error;
       }
     },
-    staleTime: 86400,
+    staleTime: 1000 * 60 * 5, // 5 minutes in milliseconds,
+    ...options,
   });
 };

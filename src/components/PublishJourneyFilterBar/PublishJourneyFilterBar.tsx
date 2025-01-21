@@ -17,7 +17,7 @@ dayjs.extend(customParseFormat);
 export function PublishJourneyFilterBar(
   props: React.HTMLProps<HTMLFormElement>,
 ) {
-  const { methods, onSubmit } = usePublishJourneyFilterBar();
+  const { methods, onSubmit, isLoading } = usePublishJourneyFilterBar();
   const { control, handleSubmit } = methods;
 
   return (
@@ -25,37 +25,35 @@ export function PublishJourneyFilterBar(
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(onSubmit)} {...props}>
           <Grid
+            display="flex"
             container
             alignItems="flex-start"
-            justifyContent="space-between"
+            gap="16px"
             padding="20px 0"
           >
-            <Grid display={"flex"} xs={10} gap="16px">
-              <Grid item xs={1.5}>
-                <Controller
-                  name="dtPublish"
-                  rules={{ required: true }}
-                  control={control}
-                  render={({ field, fieldState: { error } }) => (
-                    <DatePicker
-                      label="Data de início"
-                      error={error?.message}
-                      {...field}
-                    />
-                  )}
-                />
-              </Grid>
-              <Grid item xs={2}>
-                <AutocompleteLocationGroup
-                  name="locationGroup.code"
-                  label="Destino"
-                  onChange={(value) => {
-                    methods.setValue("locationGroupId", value?.id || "");
-                  }}
-                />
-              </Grid>
+            <Grid item xs={1.5}>
+              <Controller
+                name="dtPublish"
+                rules={{ required: true }}
+                control={control}
+                render={({ field, fieldState: { error } }) => (
+                  <DatePicker
+                    label="Data de início"
+                    error={error?.message}
+                    {...field}
+                  />
+                )}
+              />
             </Grid>
-
+            <Grid item xs={2}>
+              <AutocompleteLocationGroup
+                name="locationGroupId"
+                label="Base"
+                onChange={(value) => {
+                  methods.setValue("locationGroupId", value?.id || "");
+                }}
+              />
+            </Grid>
             <Grid item xs={1}>
               <Button
                 type="submit"
@@ -63,8 +61,14 @@ export function PublishJourneyFilterBar(
                 variant="contained"
                 color="primary"
                 fullWidth
+                disabled={isLoading}
               >
-                Publicar <PublishIcon />
+                {!isLoading && (
+                  <>
+                    Publicar <PublishIcon />
+                  </>
+                )}
+                {isLoading && "Publicando..."}
               </Button>
             </Grid>
           </Grid>
