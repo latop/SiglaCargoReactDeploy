@@ -25,7 +25,7 @@ export function DailyTrips() {
 
   const [currentPage, setCurrentPage] = useState(0)
 
-  const { data, isLoading, isError } = useGetDailyTripsQuery({ ...filters, pageNumber: currentPage + 1 });
+  const { data, isLoading } = useGetDailyTripsQuery({ ...filters, pageNumber: currentPage + 1 });
 
 
   const handleFilters = (filtersData: FetchDailyTripsParams) => {
@@ -75,11 +75,10 @@ export function DailyTrips() {
             justifyContent: "center",
           }}
         >
-
-          {!data || data.data.length === 0 && <EmptyResult />}
-          {isError && <ErrorResult />}
+          {(!data && !isLoading || data && data.data?.length === 0) && <EmptyResult />}
+          {data?.stack && <ErrorResult />}
           {isLoading && <IsLoadingTable />}
-          {data && data.data.length > 0 &&
+          {data && data.data?.length > 0 &&
             <div style={{ height: "100%", width: "100%" }}>
               <DataGrid
                 sx={{
