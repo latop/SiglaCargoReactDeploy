@@ -6,8 +6,11 @@ import { AppBar } from "@/components/AppBar";
 import { HeaderTitle } from "@/components/HeaderTitle/HeaderTitle";
 import { Box, Card } from "@mui/material";
 import { PublishJourneyFilterBar } from "@/components/PublishJourneyFilterBar";
+import { usePublishJourney } from "@/hooks/usePublishJourney";
 
 export function PublishJourney() {
+  const { data } = usePublishJourney();
+  console.log(data);
   return (
     <MainContainer>
       <AppBar>

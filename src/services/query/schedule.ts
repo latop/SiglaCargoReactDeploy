@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import api from "../configs/api";
 
 type GetPublishJourneyParams = {
-  dtPublish?: Date;
+  dtPublish?: string;
   LocationGroupId?: string;
 };
 

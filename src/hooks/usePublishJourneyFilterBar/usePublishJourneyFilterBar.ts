@@ -2,10 +2,9 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import dayjs from "dayjs";
-import { Dayjs } from "dayjs";
-import { useRouter, useSearchParams } from "next/navigation";
+import dayjs, { Dayjs } from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
+import { useRouter, useSearchParams } from "next/navigation";
 import "dayjs/locale/pt-br";
 
 dayjs.extend(customParseFormat);
@@ -15,26 +14,27 @@ type FormFields = {
   dtPublish?: Dayjs | null | undefined;
 };
 
-const dateOrDayjsSchema = z.custom(
-  (val) => val instanceof Date || dayjs.isDayjs(val),
-  {
-    message: "Data é obrigatório",
-  },
-);
+const dateOrDayjsSchema = z
+  .union([
+    z.instanceof(Date),
+    z.custom((val) => dayjs.isDayjs(val), { message: "Invalid date format" }),
+  ])
+  .or(z.string().optional());
 
 const schema = z.object({
-  dtPublish: dateOrDayjsSchema,
+  dtPublish: dateOrDayjsSchema.optional(),
   locationGroupId: z.string().optional(),
 });
 
 export function usePublishJourneyFilterBar() {
   const router = useRouter();
   const params = useSearchParams();
+
   const methods = useForm<FormFields>({
     resolver: zodResolver(schema),
     defaultValues: {
       dtPublish: params.get("dtPublish")
-        ? dayjs(params.get("dtPublish")).format("YYYY-MM-DD")
+        ? dayjs(params.get("dtPublish"))
         : dayjs(),
       locationGroupId: params.get("locationGroupId") || "",
     },
@@ -42,9 +42,15 @@ export function usePublishJourneyFilterBar() {
 
   const onSubmit = (data: FormFields) => {
     const params = new URLSearchParams();
+
     Object.entries(data).forEach(([key, value]) => {
       if (value) {
-        params.append(key, String(value));
+        params.append(
+          key,
+          key === "dtPublish" && dayjs.isDayjs(value)
+            ? value.format("YYYY-MM-DD")
+            : String(value),
+        );
       }
     });
 
