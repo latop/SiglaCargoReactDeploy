@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import { Location } from "@/interfaces/trip";
-import { useGetLocationQuery } from "@/services/query/trips";
+import { useGetLocationReleaseQuery } from "@/services/query/trips";
 import { TextField } from "@mui/material";
 import Autocomplete from "@mui/material/Autocomplete";
 import debounce from "debounce";
@@ -31,7 +31,7 @@ export function AutocompleteLocation({
 
   const isDirty = dirtyFields[name];
 
-  const { data: { data: locations = [] } = [], error } = useGetLocationQuery({
+  const { data: locations = [], error } = useGetLocationReleaseQuery({
     code: (isDirty && watch(name)) ?? watch(name) ?? "",
   })
 
