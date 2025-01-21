@@ -34,6 +34,7 @@ const schema = z.object({
   sto: z.string().optional(),
   flgStatus: z.string().optional(),
   licensePlate: z.string().optional(),
+  tripTypeCode: z.string().optional(),
 });
 
 interface FormFields extends FetchDailyTripsParams {}
@@ -42,18 +43,20 @@ interface Params {
   onChange: (value: FormFields) => void;
 }
 
+const initialValues = {
+  fleetGroupId: "",
+  locationDestId: "",
+  locationOrigId: "",
+  startDate: "",
+  sto: "",
+  flgStatus: "",
+  licensePlate: "",
+  tripTypeCode: "",
+};
 export function DailyTripsFilterBar({ onChange }: Params) {
   const methods = useForm<FormFields>({
     resolver: zodResolver(schema),
-    defaultValues: {
-      fleetGroupId: "",
-      locationDestId: "",
-      locationOrigId: "",
-      startDate: "",
-      sto: "",
-      flgStatus: "",
-      licensePlate: "",
-    },
+    defaultValues: initialValues,
   });
 
   const { control, handleSubmit } = methods;
@@ -117,8 +120,8 @@ export function DailyTripsFilterBar({ onChange }: Params) {
                     error={!!error?.message}
                     helperText={error?.message?.toString()}
                   >
-                    <MenuItem value="C">Cancelado</MenuItem>
                     <MenuItem value="N">Ativo</MenuItem>
+                    <MenuItem value="C">Cancelado</MenuItem>
                   </TextField>
                 )}
               />
@@ -132,13 +135,13 @@ export function DailyTripsFilterBar({ onChange }: Params) {
             </Grid>
             <Grid item xs={1.3} paddingLeft="0">
               <AutocompleteLocation
+                //       ref={locationOrigRef}
                 name="locationDestId"
                 label="Destino"
                 keyCode="id"
               />
             </Grid>
             <Grid item xs={1.3} paddingLeft="0">
-              {/* <AutocompleteFleetGroup /> */}
               <Controller
                 name="licensePlate"
                 control={control}
@@ -176,6 +179,7 @@ export function DailyTripsFilterBar({ onChange }: Params) {
             </Grid>
             <Grid item xs={1.2} paddingLeft="0">
               <AutocompleteTripType
+                // ref={locationOrigRef}
                 name="tripTypeCode"
                 label="Tipo da viagem"
                 keyCode="id"
@@ -188,6 +192,9 @@ export function DailyTripsFilterBar({ onChange }: Params) {
                 variant="outlined"
                 color="primary"
                 fullWidth
+                onClick={() => {
+                  methods.reset();
+                }}
               >
                 Limpar
               </Button>
