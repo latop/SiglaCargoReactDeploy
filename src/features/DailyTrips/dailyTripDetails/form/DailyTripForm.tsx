@@ -234,7 +234,7 @@ export const DailyTripForm = () => {
           </Grid>
         </Box>
       </Box>
-      <Box gap="10px" display="flex" flexDirection="column">
+      <Box gap="10px" display="flex" flexDirection="column" mt={3}>
         <Box display="flex" alignItems="center" gap="8px">
           <Typography variant="subtitle2">Seções da viagem</Typography>
           {countSections > 0 && (
