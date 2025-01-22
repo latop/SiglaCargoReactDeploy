@@ -21,6 +21,7 @@ import AssignmentIcon from "@mui/icons-material/Assignment";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 import SettingsSuggestIcon from "@mui/icons-material/SettingsSuggest";
 import RouteIcon from "@mui/icons-material/Route";
+import PublishIcon from "@mui/icons-material/Publish";
 
 interface BurgerMenuProps {
   isOpen: boolean;
@@ -96,6 +97,11 @@ const routes: RouteItem[] = [
     text: "Motoristas",
     icon: <PersonSearchIcon />,
     path: "/drivers",
+  },
+  {
+    text: "Publicação",
+    icon: <PublishIcon />,
+    path: "/publish-journey",
   },
 ];
 
