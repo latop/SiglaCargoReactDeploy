@@ -100,8 +100,8 @@ export const DailyTripForm = () => {
                     error={!!error?.message}
                     helperText={error?.message?.toString()}
                   >
-                    <MenuItem value="C">Cancelado</MenuItem>
                     <MenuItem value="N">Ativo</MenuItem>
+                    <MenuItem value="C">Cancelado</MenuItem>
                   </TextField>
                 )}
               />
