@@ -112,6 +112,7 @@ export const DailyTripForm = () => {
 
             <Grid item xs={4}>
               <AutocompleteLine
+                name="line.code"
                 isRequired
                 onChange={(value) => {
                   setValue("lineId", value?.id);
