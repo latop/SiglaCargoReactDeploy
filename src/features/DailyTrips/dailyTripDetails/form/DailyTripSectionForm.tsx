@@ -77,13 +77,13 @@ export const DailyTripSectionForm = ({ seq }: { seq: number }) => {
             />
           </Grid>
           <Grid item xs={2}>
-            <AutocompleteDriver />
-          </Grid>
-          <Grid item xs={4}>
             <AutocompleteStopType
               name={`dailyTripSections.${seq}.stopType.stopTypeCode`}
               label="Parada"
             />
+          </Grid>
+          <Grid item xs={4}>
+            <AutocompleteDriver />
           </Grid>
 
           <Grid item xs={2}>
