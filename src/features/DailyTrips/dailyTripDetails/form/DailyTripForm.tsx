@@ -1,4 +1,4 @@
-import { DateTimePicker } from "@/components/DatePicker";
+import { DatePicker, DateTimePicker } from "@/components/DatePicker";
 import {
   Box,
   Chip,
@@ -9,7 +9,6 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { DateField } from "@mui/x-date-pickers/DateField";
 import { Controller, useFormContext } from "react-hook-form";
 
 import { AutocompleteCompany } from "@/components/AutocompleteCompany";
@@ -69,10 +68,15 @@ export const DailyTripForm = () => {
                 name="tripDate"
                 control={control}
                 render={({ field }) => (
-                  <DateField
+                  <DatePicker
                     label="Data da viagem"
-                    required
+                    format="DD/MM/YYYY"
                     {...field}
+                    slotProps={{
+                      textField: {
+                        required: true,
+                      },
+                    }}
                     value={field.value ? dayjs(field.value) : null}
                     onChange={(date) => field.onChange(date?.format())}
                   />
