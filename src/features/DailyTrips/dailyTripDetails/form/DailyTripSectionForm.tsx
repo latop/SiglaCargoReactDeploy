@@ -22,9 +22,16 @@ import customParseFormat from "dayjs/plugin/customParseFormat";
 
 dayjs.extend(customParseFormat);
 
-export const DailyTripSectionForm = ({ seq }: { seq: number }) => {
+interface Params {
+  seq: number;
+  id: string;
+}
+export const DailyTripSectionForm = ({ seq, id }: Params) => {
   const { control, setValue, getValues } = useFormContext();
 
+  const insertMode =
+    !id || id === "00000000-0000-0000-0000-000000000000" ? true : false;
+  console.log(insertMode);
   const handleDeleteStep = () => {
     const steps = getValues("dailyTripSections");
     steps.splice(seq, 1);
@@ -52,6 +59,7 @@ export const DailyTripSectionForm = ({ seq }: { seq: number }) => {
             <Controller
               name={`dailyTripSections.${seq}.truck.licensePlate`}
               control={control}
+              disabled={!insertMode}
               render={({ field, fieldState: { error } }) => (
                 <TextField
                   {...field}
@@ -83,7 +91,7 @@ export const DailyTripSectionForm = ({ seq }: { seq: number }) => {
             />
           </Grid>
           <Grid item xs={4}>
-            <AutocompleteDriver />
+            <AutocompleteDriver disabled={!insertMode} />
           </Grid>
 
           <Grid item xs={2}>
@@ -122,6 +130,7 @@ export const DailyTripSectionForm = ({ seq }: { seq: number }) => {
             <Controller
               name={`dailyTripSections.${seq}.startEstimated`}
               control={control}
+              disabled={!insertMode}
               render={({ field, fieldState: { error } }) => (
                 <DateTimePicker
                   disabled={false}
@@ -138,6 +147,7 @@ export const DailyTripSectionForm = ({ seq }: { seq: number }) => {
             <Controller
               name={`dailyTripSections.${seq}.endEstimated`}
               control={control}
+              disabled={!insertMode}
               render={({ field, fieldState: { error } }) => (
                 <DateTimePicker
                   disabled={false}
@@ -154,6 +164,7 @@ export const DailyTripSectionForm = ({ seq }: { seq: number }) => {
             <Controller
               name={`dailyTripSections.${seq}.startActual`}
               control={control}
+              disabled={!insertMode}
               render={({ field, fieldState: { error } }) => (
                 <DateTimePicker
                   disabled={false}
@@ -170,6 +181,7 @@ export const DailyTripSectionForm = ({ seq }: { seq: number }) => {
             <Controller
               name={`dailyTripSections.${seq}.endActual`}
               control={control}
+              disabled={!insertMode}
               render={({ field, fieldState: { error } }) => (
                 <DateTimePicker
                   disabled={false}

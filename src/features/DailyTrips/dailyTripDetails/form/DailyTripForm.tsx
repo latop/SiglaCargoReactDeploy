@@ -246,8 +246,8 @@ export const DailyTripForm = () => {
         )}
 
         <Box gap="8px" display="flex" flexDirection="column">
-          {dailyTripSections?.map((_: DailyTrip, index: number) => (
-            <DailyTripSectionForm key={index} seq={index} />
+          {dailyTripSections?.map((dailytrip: DailyTrip, index: number) => (
+            <DailyTripSectionForm key={index} seq={index} id={dailytrip.id} />
           ))}
         </Box>
       </Box>
