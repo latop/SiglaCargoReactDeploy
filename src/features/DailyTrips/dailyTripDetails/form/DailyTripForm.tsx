@@ -84,7 +84,7 @@ export const DailyTripForm = () => {
               />
             </Grid>
             <Grid item xs={4}>
-              <AutocompleteCompany />
+              <AutocompleteCompany keyLabel="name" />
             </Grid>
             <Grid item xs={2}>
               <Controller
@@ -221,16 +221,6 @@ export const DailyTripForm = () => {
                 )}
               />
             </Grid>
-            {/* <Grid item xs={1.5} marginLeft="10px">
-              <IconButton
-                color="inherit"
-                aria-label="open drawer"
-                edge="start"
-                onClick={handleSearchInfos}
-              >
-                <IoIosSearch />
-              </IconButton>
-            </Grid> */}
           </Grid>
         </Box>
       </Box>
