@@ -21,14 +21,10 @@ export const useTripOptimization = () => {
       onError?: () => void;
     },
   ) => {
-    await create(
-      "/Optimizer/GenerateScheduleCircuit",
-      { params },
-      {
-        ...options,
-        method: "get",
-      },
-    );
+    await create("/Optimizer/GenerateScheduleCircuit", params, {
+      ...options,
+      method: "get",
+    });
   };
   const handleDeleteOptmitzationTrip = async (otmId: string) => {
     const body = { otmId };
