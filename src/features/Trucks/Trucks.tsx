@@ -6,6 +6,7 @@ import { AppBar } from "@/components/AppBar";
 import { HeaderTitle } from "@/components/HeaderTitle/HeaderTitle";
 import { Box } from "@mui/material";
 import { useTrucks } from "./useTrucks";
+import { TrucksFilterBar } from "@/components/TrucksFilterBar";
 
 export function Trucks() {
   const { data } = useTrucks();
@@ -24,7 +25,9 @@ export function Trucks() {
           display: "flex",
           flexDirection: "column",
         }}
-      ></Box>
+      >
+        <TrucksFilterBar />
+      </Box>
     </MainContainer>
   );
 }
