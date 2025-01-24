@@ -47,7 +47,7 @@ export function TrucksFilterBar() {
                     name="fleetCode"
                     control={methods.control}
                     render={({ field }) => (
-                      <TextField {...field} label="Tipo da frota" />
+                      <TextField {...field} label="Cód. Tipo de Frota" />
                     )}
                   />
                 </Grid>

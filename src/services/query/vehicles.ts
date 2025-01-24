@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import api from "../configs/api";
 import { FetchBasicParams } from "./types";
 import { Truck } from "@/interfaces/vehicle";
@@ -63,6 +63,7 @@ export interface FetchTrucksFilterParams {
 
 export interface FetchTrucksParams {
   pageSize?: number;
+  pageNumber?: number;
   fleetTypeId?: string;
   fleetGroupId?: string;
   locationGroupId?: string;
@@ -76,18 +77,20 @@ interface TruckPaginationResponse {
   hasPrevious: boolean;
   pageSize: number;
   totalPages: number;
-  trucks: Truck[];
+  data: Truck[];
   totalCount: number;
 }
 
-export const useGetTrucksQuery = (params?: FetchTrucksParams) => {
-  return useQuery({
+export const useGetTrucksQuery = (params: FetchTrucksParams) => {
+  const isEnabled = Object.values(params).some(Boolean);
+  return useInfiniteQuery<TruckPaginationResponse>({
     queryKey: ["trucks", params],
-    queryFn: async () => {
+    queryFn: async ({ pageParam = 0 }) => {
       try {
         const response = await api.get("/Truck", {
           params: {
-            PageSize: params?.pageSize || 20,
+            PageSize: params?.pageSize || 10,
+            PageNumber: pageParam || 0,
             filter1Id: params?.fleetTypeId,
             filter2Id: params?.fleetGroupId,
             filter3Id: params?.locationGroupId,
@@ -95,27 +98,27 @@ export const useGetTrucksQuery = (params?: FetchTrucksParams) => {
             filter2String: params?.fleetCode,
           },
         });
-        const pagination = response.headers["x-pagination"]
-          ? JSON.parse(response.headers["x-pagination"])
-          : {};
 
-        const normalizeData: TruckPaginationResponse = {
-          currentPage: pagination.CurrentPage || 1,
-          hasNext: pagination.HasNext,
-          hasPrevious: pagination.HasPrevious,
-          pageSize: pagination.PageSize,
-          totalPages: pagination.TotalPages,
-          trucks: response.data,
-          totalCount: pagination.TotalCount,
-        };
-
-        return normalizeData;
+        return response?.data;
       } catch (error) {
         console.error(error);
-        return error;
+        throw error;
       }
     },
-    staleTime: 86400,
-    enabled: params && Object.values(params).some(Boolean),
+    getNextPageParam: (lastPage) => {
+      if (lastPage.hasNext) {
+        return lastPage.currentPage + 1;
+      }
+      return undefined;
+    },
+    getPreviousPageParam: (firstPage) => {
+      if (firstPage.hasPrevious) {
+        return firstPage.currentPage - 1;
+      }
+      return undefined;
+    },
+    initialPageParam: 1,
+    staleTime: 60 * 1000 * 5,
+    enabled: isEnabled,
   });
 };

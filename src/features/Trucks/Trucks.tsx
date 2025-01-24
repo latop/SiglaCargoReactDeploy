@@ -4,13 +4,73 @@ import React from "react";
 import { MainContainer } from "@/components/MainContainer";
 import { AppBar } from "@/components/AppBar";
 import { HeaderTitle } from "@/components/HeaderTitle/HeaderTitle";
-import { Box } from "@mui/material";
+import { Box, Card, CircularProgress } from "@mui/material";
 import { useTrucks } from "./useTrucks";
 import { TrucksFilterBar } from "@/components/TrucksFilterBar";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { EmptyResult } from "@/components/EmptyResult";
+import { ErrorResult } from "@/components/ErrorResult";
+import { Truck } from "@/interfaces/vehicle";
 
 export function Trucks() {
-  const { data } = useTrucks();
-  console.log(data);
+  const {
+    trucks,
+    hasData,
+    isEmpty,
+    totalCount,
+    currentPage,
+    loadMoreLines,
+    isLoading,
+    isError,
+  } = useTrucks();
+  const columns: GridColDef[] = [
+    {
+      field: "licensePlate",
+      headerName: "Placa",
+      width: 200,
+      sortable: false,
+      filterable: false,
+    },
+    {
+      field: "fleetCode",
+      headerName: "Cód. Frota",
+      width: 200,
+      sortable: false,
+      filterable: false,
+    },
+    {
+      field: "fleetType.code",
+      headerName: "Tipo de frota",
+      width: 200,
+      sortable: false,
+      filterable: false,
+      valueGetter: (_, truck: Truck) => truck?.fleetType.code,
+    },
+    {
+      field: "manufactureYear",
+      headerName: "Ano Fabricação",
+      width: 150,
+      sortable: false,
+      filterable: false,
+    },
+    {
+      field: "fleetType.fleetGroup.code",
+      headerName: "Cód frota",
+      width: 200,
+      sortable: false,
+      filterable: false,
+      valueGetter: (_, truck: Truck) => truck?.fleetType.fleetGroup.code,
+    },
+    {
+      field: "locationGroup.code",
+      headerName: "Base Operacional",
+      width: 200,
+      sortable: false,
+      filterable: false,
+      valueGetter: (_, truck: Truck) => truck?.locationGroup.code,
+    },
+  ];
+
   return (
     <MainContainer>
       <AppBar>
@@ -24,9 +84,60 @@ export function Trucks() {
           margin: "auto",
           display: "flex",
           flexDirection: "column",
+          gap: "16px",
         }}
       >
         <TrucksFilterBar />
+        <Card
+          sx={{
+            width: "100%",
+            height: "635px",
+            position: "relative",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          {isLoading && <CircularProgress />}
+          {isEmpty && !hasData && !isLoading && <EmptyResult />}
+          {isError && !isLoading && <ErrorResult />}
+          {hasData && !isEmpty && !isLoading && (
+            <div style={{ height: "100%", width: "100%" }}>
+              <DataGrid
+                rows={trucks || []}
+                getRowId={(row) => row.id}
+                localeText={{
+                  noRowsLabel: "Nenhum registro encontrado",
+                  columnMenuHideColumn: "Ocultar coluna",
+                  columnsManagementShowHideAllText: "Mostrar/Ocultar todas",
+                  columnMenuManageColumns: "Gerenciar colunas",
+                  MuiTablePagination: {
+                    labelRowsPerPage: "Registros por página",
+                    labelDisplayedRows: ({ from, to, count }) =>
+                      // eslint-disable-next-line prettier/prettier
+                      `${from}-${to} de ${count !== -1 ? count : `mais de ${to}`
+                      }`,
+                  },
+                }}
+                rowCount={totalCount}
+                columns={columns}
+                // onCellDoubleClick={(params) => {
+                //   setHash(`#driver-id-${params.id}`);
+                // }}
+                initialState={{
+                  pagination: {
+                    paginationModel: { page: currentPage - 1, pageSize: 10 },
+                  },
+                }}
+                onPaginationModelChange={() => {
+                  loadMoreLines();
+                }}
+                pageSizeOptions={[10]}
+              />
+            </div>
+          )}
+        </Card>
       </Box>
     </MainContainer>
   );
