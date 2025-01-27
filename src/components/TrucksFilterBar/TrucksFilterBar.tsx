@@ -11,8 +11,9 @@ import "dayjs/locale/pt-br";
 import dayjs from "dayjs";
 import { useTrucksFilterBar } from "./useTrucksFilterBar";
 import { AutocompleteTruck } from "../AutocompleteTruck";
-import { AutocompleteFleetGroup } from "../AutocompleteFleetGroup/AutocompleteFleetGroup_old";
+// import { AutocompleteFleetGroup } from "../AutocompleteFleetGroup/AutocompleteFleetGroup_old";
 import { AutocompleteLocationGroup } from "../AutocompleteLocationGroup";
+import { AutocompleteFleetType } from "../AutocompleteFleetType";
 
 dayjs.extend(customParseFormat);
 
@@ -43,21 +44,27 @@ export function TrucksFilterBar() {
                   />
                 </Grid>
                 <Grid xs={1.5} item>
-                  <Controller
-                    name="fleetCode"
-                    control={methods.control}
-                    render={({ field }) => (
-                      <TextField {...field} label="Cód. Tipo de Frota" />
-                    )}
+                  <AutocompleteFleetType
+                    name="fleetType"
+                    label="Tipo de Frota"
                   />
                 </Grid>
-                <Grid xs={1.5} item>
+                {/* <Grid xs={1.5} item>
                   <AutocompleteFleetGroup name="fleetGroupCode" />
-                </Grid>
+                </Grid> */}
                 <Grid xs={1.5} item>
                   <AutocompleteLocationGroup
                     label="Grupo da Frota"
                     name="locationGroupCode"
+                  />
+                </Grid>
+                <Grid xs={1.5} item>
+                  <Controller
+                    name="fleetCode"
+                    control={methods.control}
+                    render={({ field }) => (
+                      <TextField {...field} label="Cód. Frota" />
+                    )}
                   />
                 </Grid>
               </Grid>

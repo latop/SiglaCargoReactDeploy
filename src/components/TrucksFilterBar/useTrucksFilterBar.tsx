@@ -6,6 +6,7 @@ import { z } from "zod";
 
 const schema = z.object({
   fleetTypeId: z.string().optional(),
+  fleetType: z.string().optional(),
   fleetGroupId: z.string().optional(),
   fleetGroupCode: z.string().optional(),
   locationGroupId: z.string().optional(),
@@ -23,6 +24,7 @@ export const useTrucksFilterBar = () => {
     resolver: zodResolver(schema),
     defaultValues: {
       fleetTypeId: params.get("fleetTypeId") || "",
+      fleetType: params.get("fleetType") || "",
       fleetGroupId: params.get("fleetGroupId") || "",
       fleetGroupCode: params.get("fleetGroupCode") || "",
       locationGroupId: params.get("locationGroupId") || "",

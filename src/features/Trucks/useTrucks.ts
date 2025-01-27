@@ -1,3 +1,6 @@
+import { useFetch } from "@/hooks/useFetch";
+import { useHash } from "@/hooks/useHash";
+import { useToast } from "@/hooks/useToast";
 import {
   FetchTrucksParams,
   useGetTrucksQuery,
@@ -13,6 +16,13 @@ export const useTrucks = () => {
     licensePlate: params.get("licensePlate") || "",
     locationGroupId: params.get("locationGroupId") || "",
   };
+  const [deleteTruck, { loading: loadingDeleteTruck }] = useFetch();
+  const { addToast } = useToast();
+  const [hash, setHash] = useHash();
+  const handleAddTruck = () => {
+    setHash("add-truck");
+  };
+  const addTruck = !!(hash as string)?.match(/#add-truck/)?.[1];
 
   const payload = () => {
     Object.entries(parameters).forEach(([key, value]) => {
@@ -32,6 +42,7 @@ export const useTrucks = () => {
     status,
     hasPreviousPage,
     isError,
+    refetch: refetchTrucks,
   } = useGetTrucksQuery(payload());
 
   const trucks = data?.pages.flatMap((page) => page.data) || [];
@@ -40,6 +51,23 @@ export const useTrucks = () => {
   const loadMoreLines = () => {
     if (!hasNextPage && isFetchingNextPage) return;
     fetchNextPage();
+  };
+
+  const handleDeleteTruck = async ({ truckId }: { truckId: string }) => {
+    return await deleteTruck(
+      `/Truck/${truckId}`,
+      { id: truckId },
+      {
+        method: "delete",
+        onSuccess: () => {
+          addToast("Caminhão deletado com sucesso!", { type: "success" });
+          refetchTrucks();
+        },
+        onError: () => {
+          addToast("Error ao deletar caminhão.", { type: "error" });
+        },
+      },
+    );
   };
 
   return {
@@ -55,5 +83,9 @@ export const useTrucks = () => {
     totalCount: data?.pages[0]?.totalCount || 0,
     hasPreviousPage,
     isError,
+    addTruck,
+    handleAddTruck,
+    handleDeleteTruck,
+    loadingDeleteTruck,
   };
 };

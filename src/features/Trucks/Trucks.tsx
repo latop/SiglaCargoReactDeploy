@@ -4,15 +4,18 @@ import React from "react";
 import { MainContainer } from "@/components/MainContainer";
 import { AppBar } from "@/components/AppBar";
 import { HeaderTitle } from "@/components/HeaderTitle/HeaderTitle";
-import { Box, Card, CircularProgress } from "@mui/material";
+import { Box, Button, Card, CircularProgress } from "@mui/material";
 import { useTrucks } from "./useTrucks";
 import { TrucksFilterBar } from "@/components/TrucksFilterBar";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { DataGrid, GridColDef, GridDeleteForeverIcon } from "@mui/x-data-grid";
 import { EmptyResult } from "@/components/EmptyResult";
 import { ErrorResult } from "@/components/ErrorResult";
 import { Truck } from "@/interfaces/vehicle";
+import { useDialog } from "@/hooks/useDialog/useDialog";
 
 export function Trucks() {
+  const { openDialog, closeDialog } = useDialog();
+
   const {
     trucks,
     hasData,
@@ -22,7 +25,11 @@ export function Trucks() {
     loadMoreLines,
     isLoading,
     isError,
+    handleAddTruck,
+    handleDeleteTruck,
+    loadingDeleteTruck,
   } = useTrucks();
+
   const columns: GridColDef[] = [
     {
       field: "licensePlate",
@@ -53,14 +60,14 @@ export function Trucks() {
       sortable: false,
       filterable: false,
     },
-    {
-      field: "fleetType.fleetGroup.code",
-      headerName: "Cód frota",
-      width: 200,
-      sortable: false,
-      filterable: false,
-      valueGetter: (_, truck: Truck) => truck?.fleetType.fleetGroup.code,
-    },
+    // {
+    //   field: "fleetType.fleetGroup.code",
+    //   headerName: "Cód frota",
+    //   width: 200,
+    //   sortable: false,
+    //   filterable: false,
+    //   valueGetter: (_, truck: Truck) => truck?.fleetType.fleetGroup.code,
+    // },
     {
       field: "locationGroup.code",
       headerName: "Base Operacional",
@@ -68,6 +75,47 @@ export function Trucks() {
       sortable: false,
       filterable: false,
       valueGetter: (_, truck: Truck) => truck?.locationGroup.code,
+    },
+    {
+      field: "",
+      headerName: "Ação",
+      sortable: false,
+      filterable: false,
+      width: 50,
+
+      renderCell: (params) => {
+        return (
+          <button
+            disabled={loadingDeleteTruck}
+            style={{
+              paddingTop: 12,
+              display: "flex",
+              gap: "8px",
+              border: "none",
+              background: "transparent",
+            }}
+          >
+            <GridDeleteForeverIcon
+              sx={{
+                cursor: "pointer",
+                color: "#e53935",
+              }}
+              onClick={() => {
+                openDialog({
+                  body: "Deseja deletar este caminhão?",
+                  onConfirm: () => {
+                    handleDeleteTruck({ truckId: params?.id as string });
+                    closeDialog();
+                  },
+                  onCancel: () => {
+                    closeDialog();
+                  },
+                });
+              }}
+            />
+          </button>
+        );
+      },
     },
   ];
 
@@ -88,6 +136,16 @@ export function Trucks() {
         }}
       >
         <TrucksFilterBar />
+        <Button
+          onClick={handleAddTruck}
+          variant="outlined"
+          sx={{
+            width: "170px",
+            alignSelf: "flex-end",
+          }}
+        >
+          Adicionar
+        </Button>
         <Card
           sx={{
             width: "100%",
