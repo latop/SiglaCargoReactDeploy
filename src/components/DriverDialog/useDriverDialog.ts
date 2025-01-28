@@ -27,7 +27,7 @@ export function useDriverDialog() {
   const driverId = driverToUpdate?.[1];
 
   const methods = useForm<Driver>({
-    defaultValues: { isActive: !!isToAddDriver },
+    defaultValues: { isActive: !!isToAddDriver, seniority: 0 },
   });
 
   const getKey = () => {
