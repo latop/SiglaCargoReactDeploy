@@ -15,10 +15,10 @@ import "dayjs/locale/pt-br";
 import { Controller, useFormContext } from "react-hook-form";
 import { AutocompleteStates } from "@/components/AutocompleteStates";
 import { AutocompleteTruck } from "@/components/AutocompleteTruck";
-import { AutocompleteFleetGroup } from "@/components/AutocompleteFleetGroup";
 import { AutocompleteLocationGroup } from "@/components/AutocompleteLocationGroup";
 import { TruckFormType } from "../../useTrucksDialog";
-import { DatePicker } from "@mui/x-date-pickers";
+import { DatePicker } from "@/components/DatePicker";
+import { AutocompleteFleetType } from "@/components/AutocompleteFleetType";
 
 dayjs.extend(customParseFormat);
 
@@ -30,17 +30,25 @@ export const TruckForm = () => {
       <Box display="flex" flexDirection="column" gap="16px" mt="5px">
         <Grid container spacing={1}>
           <Grid item xs={2}>
-            <AutocompleteTruck name="licensePlate" />
+            <AutocompleteTruck
+              name="licensePlate"
+              onChange={(value) => {
+                methods.setValue("licensePlate", value?.licensePlate || "");
+              }}
+            />
           </Grid>
           <Grid item xs={1.5}>
             <Controller
               control={methods.control}
               name={"fleetCode"}
-              render={({ field }) => {
+              render={({ field, fieldState: { error } }) => {
+                // console.log(error);
                 return (
                   <TextField
+                    error={!!error}
+                    helperText={error?.message}
                     {...field}
-                    label="Cod. da Frota"
+                    label="Cód. da Frota"
                     variant="outlined"
                     fullWidth
                     onChange={(e) => {
@@ -55,12 +63,15 @@ export const TruckForm = () => {
             <Controller
               control={methods.control}
               name={"manufactureYear"}
-              render={({ field }) => {
+              render={({ field, fieldState: { error } }) => {
                 return (
                   <DatePicker
                     views={["year"]}
                     label="Ano Fabricação"
                     {...field}
+                    error={error?.message}
+                    value={field.value ? dayjs(field.value) : null}
+                    onChange={(date) => field.onChange(date?.format())}
                   />
                 );
               }}
@@ -73,8 +84,16 @@ export const TruckForm = () => {
             <Controller
               control={methods.control}
               name={"startDate"}
-              render={({ field }) => {
-                return <DatePicker label="Data Inicio" {...field} />;
+              render={({ field, fieldState: { error } }) => {
+                return (
+                  <DatePicker
+                    label="Data Inicio"
+                    {...field}
+                    error={error?.message}
+                    value={field.value ? dayjs(field.value) : null}
+                    onChange={(date) => field.onChange(date?.format())}
+                  />
+                );
               }}
             />
           </Grid>
@@ -82,15 +101,30 @@ export const TruckForm = () => {
             <Controller
               control={methods.control}
               name={"endDate"}
-              render={({ field }) => {
-                return <DatePicker label="Data Fim" {...field} />;
+              render={({ field, fieldState: { error } }) => {
+                return (
+                  <DatePicker
+                    label="Data Fim"
+                    {...field}
+                    {...field}
+                    error={error?.message}
+                    value={field.value ? dayjs(field.value) : null}
+                    onChange={(date) => field.onChange(date?.format())}
+                  />
+                );
               }}
             />
           </Grid>
         </Grid>
         <Grid container spacing={1}>
           <Grid item xs={2}>
-            <AutocompleteFleetGroup name="fleetType" />
+            <AutocompleteFleetType
+              name="fleetType"
+              label="Tipo da frota"
+              onChange={(value) => {
+                methods.setValue("fleetTypeId", value?.id || "");
+              }}
+            />
           </Grid>
           <Grid item xs={1.5}>
             <AutocompleteLocationGroup />
@@ -99,9 +133,11 @@ export const TruckForm = () => {
             <Controller
               control={methods.control}
               name={"chassisNumber"}
-              render={({ field }) => {
+              render={({ field, fieldState: { error } }) => {
                 return (
                   <TextField
+                    error={!!error}
+                    helperText={error?.message}
                     {...field}
                     label="Chassi"
                     variant="outlined"
@@ -118,9 +154,11 @@ export const TruckForm = () => {
             <Controller
               control={methods.control}
               name={"regulatoryNumber"}
-              render={({ field }) => {
+              render={({ field, fieldState: { error } }) => {
                 return (
                   <TextField
+                    error={!!error}
+                    helperText={error?.message}
                     {...field}
                     label="Renavam"
                     variant="outlined"
@@ -137,9 +175,11 @@ export const TruckForm = () => {
             <Controller
               control={methods.control}
               name={"serialNumber"}
-              render={({ field }) => {
+              render={({ field, fieldState: { error } }) => {
                 return (
                   <TextField
+                    error={!!error}
+                    helperText={error?.message}
                     {...field}
                     label="Número de Série"
                     variant="outlined"
@@ -157,12 +197,32 @@ export const TruckForm = () => {
           <Grid item xs={2}>
             <Controller
               control={methods.control}
-              name={"integrationCodeGPS"}
-              render={({ field }) => {
+              name={"integrationCode"}
+              render={({ field, fieldState: { error } }) => {
                 return (
                   <TextField
+                    error={!!error}
+                    helperText={error?.message}
                     {...field}
-                    label="Cód Integração GPS"
+                    label="Cód. Integração"
+                    variant="outlined"
+                    fullWidth
+                  />
+                );
+              }}
+            />
+          </Grid>
+          <Grid item xs={2}>
+            <Controller
+              control={methods.control}
+              name={"integrationCodeGPS"}
+              render={({ field, fieldState: { error } }) => {
+                return (
+                  <TextField
+                    error={!!error}
+                    helperText={error?.message}
+                    {...field}
+                    label="Cód. Integração GPS"
                     variant="outlined"
                     fullWidth
                   />
@@ -174,9 +234,11 @@ export const TruckForm = () => {
             <Controller
               control={methods.control}
               name={"tare"}
-              render={({ field }) => {
+              render={({ field, fieldState: { error } }) => {
                 return (
                   <TextField
+                    error={!!error}
+                    helperText={error?.message}
                     {...field}
                     label="Tara"
                     variant="outlined"
@@ -190,9 +252,11 @@ export const TruckForm = () => {
             <Controller
               control={methods.control}
               name={"capacity"}
-              render={({ field }) => {
+              render={({ field, fieldState: { error } }) => {
                 return (
                   <TextField
+                    error={!!error}
+                    helperText={error?.message}
                     {...field}
                     label="Capacidade"
                     variant="outlined"
@@ -206,8 +270,16 @@ export const TruckForm = () => {
             <Controller
               control={methods.control}
               name={"regulatoryValidity"}
-              render={({ field }) => {
-                return <DatePicker label="Dt. Vencimento Revisão" {...field} />;
+              render={({ field, fieldState: { error } }) => {
+                return (
+                  <DatePicker
+                    label="Dt. Vencimento Revisão"
+                    {...field}
+                    error={error?.message}
+                    value={field.value ? dayjs(field.value) : null}
+                    onChange={(date) => field.onChange(date?.format())}
+                  />
+                );
               }}
             />
           </Grid>
@@ -249,9 +321,11 @@ export const TruckForm = () => {
             <Controller
               control={methods.control}
               name={"note"}
-              render={({ field }) => {
+              render={({ field, fieldState: { error } }) => {
                 return (
                   <TextField
+                    error={!!error}
+                    helperText={error?.message}
                     {...field}
                     label="Observações"
                     variant="outlined"
