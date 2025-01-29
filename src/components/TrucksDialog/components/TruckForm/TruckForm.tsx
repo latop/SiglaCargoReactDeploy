@@ -5,6 +5,7 @@ import {
   FormControlLabel,
   Grid,
   TextField,
+  Typography,
 } from "@mui/material";
 
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -19,6 +20,7 @@ import { AutocompleteLocationGroup } from "@/components/AutocompleteLocationGrou
 import { TruckFormType } from "../../useTrucksDialog";
 import { DatePicker } from "@/components/DatePicker";
 import { AutocompleteFleetType } from "@/components/AutocompleteFleetType";
+import { red } from "@mui/material/colors";
 
 dayjs.extend(customParseFormat);
 
@@ -42,7 +44,6 @@ export const TruckForm = () => {
               control={methods.control}
               name={"fleetCode"}
               render={({ field, fieldState: { error } }) => {
-                // console.log(error);
                 return (
                   <TextField
                     error={!!error}
@@ -212,24 +213,6 @@ export const TruckForm = () => {
               }}
             />
           </Grid>
-          <Grid item xs={2}>
-            <Controller
-              control={methods.control}
-              name={"integrationCodeGPS"}
-              render={({ field, fieldState: { error } }) => {
-                return (
-                  <TextField
-                    error={!!error}
-                    helperText={error?.message}
-                    {...field}
-                    label="Cód. Integração GPS"
-                    variant="outlined"
-                    fullWidth
-                  />
-                );
-              }}
-            />
-          </Grid>
           <Grid item xs={1.5}>
             <Controller
               control={methods.control}
@@ -287,7 +270,7 @@ export const TruckForm = () => {
             <Controller
               name={"isRefurbished"}
               control={methods.control}
-              render={({ field }) => (
+              render={({ field, fieldState: { error } }) => (
                 <FormControlLabel
                   componentsProps={{
                     typography: {
@@ -301,14 +284,21 @@ export const TruckForm = () => {
                     alignItems: "flex-start",
                   }}
                   control={
-                    <Checkbox
-                      size="small"
-                      sx={{
-                        padding: "0",
-                      }}
-                      {...field}
-                      checked={field.value}
-                    />
+                    <Box display={"flex"}>
+                      <Checkbox
+                        size="small"
+                        sx={{
+                          padding: "0",
+                        }}
+                        {...field}
+                        checked={field.value}
+                      />
+                      {error?.message && (
+                        <Typography fontSize="12px" color={red[700]}>
+                          {error.message}
+                        </Typography>
+                      )}
+                    </Box>
                   }
                   label={"Recondicionado"}
                 />

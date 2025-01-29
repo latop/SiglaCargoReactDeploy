@@ -31,6 +31,8 @@ export function Trucks() {
     loadingDeleteTruck,
     addTruck,
     handleCloseDialog,
+    handleEditTruck,
+    truckId,
   } = useTrucks();
 
   const columns: GridColDef[] = [
@@ -183,9 +185,9 @@ export function Trucks() {
                 }}
                 rowCount={totalCount}
                 columns={columns}
-                // onCellDoubleClick={(params) => {
-                //   setHash(`#driver-id-${params.id}`);
-                // }}
+                onCellDoubleClick={(params) => {
+                  handleEditTruck(params.id as string);
+                }}
                 initialState={{
                   pagination: {
                     paginationModel: { page: currentPage - 1, pageSize: 10 },
@@ -201,6 +203,7 @@ export function Trucks() {
         </Card>
       </Box>
       <TrucksDialog open={!!addTruck} onClose={handleCloseDialog} />
+      <TrucksDialog open={!!truckId} onClose={handleCloseDialog} />
     </MainContainer>
   );
 }

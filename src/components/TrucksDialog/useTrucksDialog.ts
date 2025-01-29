@@ -28,7 +28,6 @@ export const truckSchema = z.object({
   locationGroupId: z.string(),
   fleetTypeId: z.string(),
   integrationCode: z.string(),
-  integrationCodeGPS: z.string(),
   note: z.string().optional(),
 });
 
@@ -43,7 +42,6 @@ export const useTrucksDialog = () => {
   });
   const isAdd = !!(hash as string)?.match(/#add-truck/);
   const truckId = (hash as string)?.match(/#truck-id-(.+)/)?.[1];
-
   const loadingTruck = !isAdd && truckId && loadingFetch;
 
   const dialogTitle = isAdd ? "Adicionar Caminhão" : "Editar Caminhão";
@@ -67,7 +65,6 @@ export const useTrucksDialog = () => {
       ...data,
       manufactureYear: dayjs(data.manufactureYear).format("YYYY"),
     };
-    console.log(body);
     if (isAdd) {
       await handleFetch("/truck", body, {
         method: "post",
@@ -89,6 +86,7 @@ export const useTrucksDialog = () => {
     methods,
     loadingTruck,
     dialogTitle,
+    truckId,
     onSubmit: methods.handleSubmit(handleSubmit),
   };
 };
