@@ -22,7 +22,11 @@ export const useTrucks = () => {
   const handleAddTruck = () => {
     setHash("add-truck");
   };
-  const addTruck = !!(hash as string)?.match(/#add-truck/)?.[1];
+
+  const handleCloseDialog = () => {
+    setHash("");
+  };
+  const addTruck = (hash as string)?.match(/#add-truck/);
 
   const payload = () => {
     Object.entries(parameters).forEach(([key, value]) => {
@@ -87,5 +91,6 @@ export const useTrucks = () => {
     handleAddTruck,
     handleDeleteTruck,
     loadingDeleteTruck,
+    handleCloseDialog,
   };
 };

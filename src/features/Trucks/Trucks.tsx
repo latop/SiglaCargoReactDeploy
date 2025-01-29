@@ -12,6 +12,7 @@ import { EmptyResult } from "@/components/EmptyResult";
 import { ErrorResult } from "@/components/ErrorResult";
 import { Truck } from "@/interfaces/vehicle";
 import { useDialog } from "@/hooks/useDialog/useDialog";
+import { TrucksDialog } from "@/components/TrucksDialog";
 
 export function Trucks() {
   const { openDialog, closeDialog } = useDialog();
@@ -28,6 +29,8 @@ export function Trucks() {
     handleAddTruck,
     handleDeleteTruck,
     loadingDeleteTruck,
+    addTruck,
+    handleCloseDialog,
   } = useTrucks();
 
   const columns: GridColDef[] = [
@@ -197,6 +200,7 @@ export function Trucks() {
           )}
         </Card>
       </Box>
+      <TrucksDialog open={!!addTruck} onClose={handleCloseDialog} />
     </MainContainer>
   );
 }
