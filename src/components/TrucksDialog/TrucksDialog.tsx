@@ -16,10 +16,10 @@ interface TrucksDialogProps {
 }
 
 export function TrucksDialog({ open, onClose }: TrucksDialogProps) {
-  const { methods, loadingTruck, dialogTitle } = useTrucksDialog();
+  const { methods, loadingTruck, dialogTitle, onSubmit } = useTrucksDialog();
 
   const handleClose = () => {
-    // methods.reset();
+    methods.reset();
     onClose();
   };
 
@@ -32,9 +32,7 @@ export function TrucksDialog({ open, onClose }: TrucksDialogProps) {
     >
       <FormProvider {...methods}>
         <form
-          onSubmit={methods.handleSubmit((data) => {
-            console.log(data);
-          })}
+          onSubmit={onSubmit}
           style={{ display: "flex", flexDirection: "column", height: "100%" }}
         >
           <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
