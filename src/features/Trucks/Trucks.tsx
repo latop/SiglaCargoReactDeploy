@@ -185,7 +185,7 @@ export function Trucks() {
                 }}
                 rowCount={totalCount}
                 columns={columns}
-                onCellDoubleClick={(params) => {
+                onRowDoubleClick={(params) => {
                   handleEditTruck(params.id as string);
                 }}
                 initialState={{

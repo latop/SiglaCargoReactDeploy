@@ -26,7 +26,7 @@ dayjs.extend(customParseFormat);
 
 export const TruckForm = () => {
   const methods = useFormContext<TruckFormType>();
-
+  console.log(methods.getValues());
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <Box display="flex" flexDirection="column" gap="16px" mt="5px">
@@ -65,16 +65,15 @@ export const TruckForm = () => {
               control={methods.control}
               name={"manufactureYear"}
               render={({ field, fieldState: { error } }) => {
-                console.log(dayjs(field.value));
                 return (
                   <DatePicker
                     views={["year"]}
                     label="Ano Fabricação"
                     {...field}
                     error={error?.message}
-                    value={field.value ? dayjs(field.value) : null} // Ensure proper value
+                    value={field.value ? dayjs(field.value) : null}
                     onChange={(date) => {
-                      field.onChange(date ? date.format("YYYY") : ""); // Format properly before setting
+                      field.onChange(date ? date.format("YYYY") : "");
                     }}
                   />
                 );
@@ -82,7 +81,12 @@ export const TruckForm = () => {
             />
           </Grid>
           <Grid item xs={1.6}>
-            <AutocompleteStates label="Estado Emplacamento" />
+            <AutocompleteStates
+              label="Estado Emplacamento"
+              onChange={(value) => {
+                methods.setValue("stateId", value?.id || "");
+              }}
+            />
           </Grid>
           <Grid item xs={1.5}>
             <Controller

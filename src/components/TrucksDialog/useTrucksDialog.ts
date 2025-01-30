@@ -20,8 +20,7 @@ export const truckSchema = z.object({
   endDate: z.string(),
   id: z.string().optional(),
   isRefurbished: z.boolean(),
-  stateId: z.string().optional(),
-  state: z.string().optional(),
+  stateId: z.string(),
   chassisNumber: z.string().optional(),
   licensePlate: z.string(),
   regulatoryNumber: z.string().optional(),
@@ -65,16 +64,21 @@ export const useTrucksDialog = () => {
     [methods.formState.errors],
   );
 
-  const { data, isSuccess } = useGetTruckQuery(truckId);
+  const {
+    data,
+    isSuccess,
+    isLoading: isLoadingTruck,
+  } = useGetTruckQuery(truckId);
 
   const handleSubmit = async (data: TruckFormType) => {
-    console.log();
     const body: TruckFormType = {
       ...data,
-      manufactureYear: dayjs(`${data.manufactureYear}-01-01`).toDate(),
+      manufactureYear: dayjs(`${data.manufactureYear}-01-01`).format("YYYY"),
+      stateId: data.stateId,
     };
+
     if (isAdd) {
-      await handleFetch("/truck", body, {
+      return await handleFetch("/truck", body, {
         method: "post",
         onSuccess: () => {
           addToast("Caminhão adicionado com sucesso!", { type: "success" });
@@ -84,6 +88,15 @@ export const useTrucksDialog = () => {
         onError: (error) => addToast(error.message, { type: "error" }),
       });
     }
+
+    return await handleFetch(`/Truck`, body, {
+      method: "put",
+      onSuccess: () => {
+        addToast("Caminhão atualizado com sucesso!", { type: "success" });
+        setHash("");
+      },
+      onError: (error) => addToast(error.message, { type: "error" }),
+    });
   };
 
   useEffect(() => {
@@ -91,19 +104,20 @@ export const useTrucksDialog = () => {
   }, [handleErrors, methods.formState.errors]);
 
   useLayoutEffect(() => {
-    if (isSuccess) {
+    if (isSuccess && !isLoadingTruck) {
       methods.reset({
         ...data,
         manufactureYear: dayjs(`${data.manufactureYear}-01-01`).toDate(),
       });
     }
-  }, [data, isSuccess, methods]);
+  }, [data, isSuccess, methods, isLoadingTruck]);
 
   return {
     methods,
     loadingTruck,
     dialogTitle,
     truckId,
+    isLoadingTruck: true,
     onSubmit: methods.handleSubmit(handleSubmit),
   };
 };
