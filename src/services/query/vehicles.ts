@@ -122,3 +122,20 @@ export const useGetTrucksQuery = (params: FetchTrucksParams) => {
     enabled: isEnabled,
   });
 };
+
+export const useGetTruckQuery = (id?: string) => {
+  return useQuery({
+    queryKey: ["truck", id],
+    queryFn: async () => {
+      try {
+        const response = await api.get(`/Truck/${id}`);
+        return response.data;
+      } catch (error) {
+        console.error(error);
+        return error;
+      }
+    },
+    staleTime: 86400,
+    enabled: !!id,
+  });
+};

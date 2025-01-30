@@ -23,7 +23,6 @@ export function AutocompleteFleetType({
     setValue,
     formState: { errors, dirtyFields },
   } = useFormContext();
-
   const isDirty = dirtyFields[name];
 
   const { data: { data: fleetTypes = [] } = [], error } = useGetFleetTypeQuery({

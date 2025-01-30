@@ -3,11 +3,17 @@
 import { useFetch } from "@/hooks/useFetch";
 import { useHash } from "@/hooks/useHash";
 import { useToast } from "@/hooks/useToast";
+import { useGetTruckQuery } from "@/services/query/vehicles";
 import { zodResolver } from "@hookform/resolvers/zod";
 import dayjs from "dayjs";
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useLayoutEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+
+const dateOrDayjsSchema = z.union([
+  z.instanceof(Date),
+  z.custom((val) => dayjs.isDayjs(val), { message: "Invalid date format" }),
+]);
 
 export const truckSchema = z.object({
   startDate: z.string(),
@@ -20,11 +26,11 @@ export const truckSchema = z.object({
   licensePlate: z.string(),
   regulatoryNumber: z.string().optional(),
   regulatoryValidity: z.string().optional(),
-  manufactureYear: z.string(),
+  manufactureYear: dateOrDayjsSchema,
   serialNumber: z.string(),
-  tare: z.string(),
+  tare: z.number(),
   fleetCode: z.string().optional(),
-  capacity: z.string(),
+  capacity: z.coerce.number(),
   locationGroupId: z.string(),
   fleetTypeId: z.string(),
   integrationCode: z.string(),
@@ -59,11 +65,13 @@ export const useTrucksDialog = () => {
     [methods.formState.errors],
   );
 
+  const { data, isSuccess } = useGetTruckQuery(truckId);
+
   const handleSubmit = async (data: TruckFormType) => {
     console.log();
     const body: TruckFormType = {
       ...data,
-      manufactureYear: dayjs(data.manufactureYear).format("YYYY"),
+      manufactureYear: dayjs(`${data.manufactureYear}-01-01`).toDate(),
     };
     if (isAdd) {
       await handleFetch("/truck", body, {
@@ -81,6 +89,15 @@ export const useTrucksDialog = () => {
   useEffect(() => {
     handleErrors(methods.getValues());
   }, [handleErrors, methods.formState.errors]);
+
+  useLayoutEffect(() => {
+    if (isSuccess) {
+      methods.reset({
+        ...data,
+        manufactureYear: dayjs(`${data.manufactureYear}-01-01`).toDate(),
+      });
+    }
+  }, [data, isSuccess, methods]);
 
   return {
     methods,

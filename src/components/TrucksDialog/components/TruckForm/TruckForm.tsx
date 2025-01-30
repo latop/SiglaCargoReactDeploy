@@ -12,7 +12,6 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
-import "dayjs/locale/pt-br";
 import { Controller, useFormContext } from "react-hook-form";
 import { AutocompleteStates } from "@/components/AutocompleteStates";
 import { AutocompleteTruck } from "@/components/AutocompleteTruck";
@@ -21,6 +20,7 @@ import { TruckFormType } from "../../useTrucksDialog";
 import { DatePicker } from "@/components/DatePicker";
 import { AutocompleteFleetType } from "@/components/AutocompleteFleetType";
 import { red } from "@mui/material/colors";
+import "dayjs/locale/pt-br";
 
 dayjs.extend(customParseFormat);
 
@@ -65,14 +65,17 @@ export const TruckForm = () => {
               control={methods.control}
               name={"manufactureYear"}
               render={({ field, fieldState: { error } }) => {
+                console.log(dayjs(field.value));
                 return (
                   <DatePicker
                     views={["year"]}
                     label="Ano Fabricação"
                     {...field}
                     error={error?.message}
-                    value={field.value ? dayjs(field.value) : null}
-                    onChange={(date) => field.onChange(date?.format())}
+                    value={field.value ? dayjs(field.value) : null} // Ensure proper value
+                    onChange={(date) => {
+                      field.onChange(date ? date.format("YYYY") : ""); // Format properly before setting
+                    }}
                   />
                 );
               }}
@@ -120,7 +123,7 @@ export const TruckForm = () => {
         <Grid container spacing={1}>
           <Grid item xs={2}>
             <AutocompleteFleetType
-              name="fleetType"
+              name="fleetType.code"
               label="Tipo da frota"
               onChange={(value) => {
                 methods.setValue("fleetTypeId", value?.id || "");

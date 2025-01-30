@@ -19,7 +19,7 @@ export function TrucksDialog({ open, onClose }: TrucksDialogProps) {
   const { methods, loadingTruck, dialogTitle, onSubmit } = useTrucksDialog();
 
   const handleClose = () => {
-    methods.reset();
+    methods.reset({});
     onClose();
   };
 
