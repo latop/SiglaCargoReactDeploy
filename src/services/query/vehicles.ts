@@ -135,9 +135,9 @@ export const useGetTruckQuery = (id?: string) => {
         return error;
       }
     },
-    refetchOnMount: !!id,
+    refetchOnMount: true,
     placeholderData: {},
-    staleTime: 1000 * 60 * 5,
+    staleTime: 0,
     enabled: !!id,
   });
 };

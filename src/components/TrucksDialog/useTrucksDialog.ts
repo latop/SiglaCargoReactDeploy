@@ -6,7 +6,7 @@ import { useToast } from "@/hooks/useToast";
 import { useGetTruckQuery } from "@/services/query/vehicles";
 import { zodResolver } from "@hookform/resolvers/zod";
 import dayjs from "dayjs";
-import { useCallback, useEffect, useLayoutEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -21,6 +21,7 @@ export const truckSchema = z.object({
   id: z.string().optional(),
   isRefurbished: z.boolean(),
   stateId: z.string(),
+  state: z.any(),
   chassisNumber: z.string().optional(),
   licensePlate: z.string(),
   regulatoryNumber: z.string().optional(),
@@ -40,14 +41,13 @@ export type TruckFormType = z.infer<typeof truckSchema>;
 
 export const useTrucksDialog = () => {
   const [hash, setHash] = useHash();
-  const [handleFetch, { loading: loadingFetch }] = useFetch();
+  const [handleFetch, { loading: loadingTruckFetch }] = useFetch();
   const { addToast } = useToast();
   const methods = useForm<TruckFormType>({
     resolver: zodResolver(truckSchema),
   });
   const isAdd = !!(hash as string)?.match(/#add-truck/);
   const truckId = (hash as string)?.match(/#truck-id-(.+)/)?.[1];
-  const loadingTruck = !isAdd && truckId && loadingFetch;
 
   const dialogTitle = isAdd ? "Adicionar Caminhão" : "Editar Caminhão";
 
@@ -64,11 +64,7 @@ export const useTrucksDialog = () => {
     [methods.formState.errors],
   );
 
-  const {
-    data,
-    isSuccess,
-    isLoading: isLoadingTruck,
-  } = useGetTruckQuery(truckId);
+  const { data, isFetching: isLoadingTruck } = useGetTruckQuery(truckId);
 
   const handleSubmit = async (data: TruckFormType) => {
     const body: TruckFormType = {
@@ -103,21 +99,24 @@ export const useTrucksDialog = () => {
     handleErrors(methods.getValues());
   }, [handleErrors, methods.formState.errors]);
 
-  useLayoutEffect(() => {
-    if (isSuccess && !isLoadingTruck) {
-      methods.reset({
-        ...data,
-        manufactureYear: dayjs(`${data.manufactureYear}-01-01`).toDate(),
-      });
-    }
-  }, [data, isSuccess, methods, isLoadingTruck]);
+  const handleFormDefaults = useCallback(() => {
+    methods.reset({
+      ...data,
+      licensePlate: data?.licensePlate,
+      manufactureYear: dayjs(`${data.manufactureYear}-01-01`).toDate(),
+    });
+  }, [data, methods]);
+
+  useEffect(() => {
+    handleFormDefaults();
+  }, [handleFormDefaults]);
 
   return {
     methods,
-    loadingTruck,
+    loadingTruckFetch,
     dialogTitle,
     truckId,
-    isLoadingTruck: true,
+    isLoadingTruck,
     onSubmit: methods.handleSubmit(handleSubmit),
   };
 };

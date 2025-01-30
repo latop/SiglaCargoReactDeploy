@@ -37,6 +37,7 @@ export function AutocompleteStates({
     } else {
       setValue("id", value?.id || "");
       setValue("code", value?.code || "");
+      setValue("name", value?.name || "");
 
     }
   };
@@ -51,7 +52,7 @@ export function AutocompleteStates({
           clearOnEscape
           options={states || []}
           loadingText="Carregando..."
-          defaultValue={{ [keyCode]: field.value?.[keyCode] || "" } as State}
+          defaultValue={{ [keyCode]: field.value?.[keyCode] || field.value || "" } as State}
           isOptionEqualToValue={(option: State, value: State) =>
             option[keyCode] === value[keyCode]
           }
@@ -74,7 +75,7 @@ export function AutocompleteStates({
               label={label}
               error={!!errors[field.name]}
               helperText={errors[field.name]?.message?.toString()}
-            />
+              value={field.value ?? ""} />
           )}
         />
       )}

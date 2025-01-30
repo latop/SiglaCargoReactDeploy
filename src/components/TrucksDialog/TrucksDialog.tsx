@@ -16,7 +16,7 @@ interface TrucksDialogProps {
 }
 
 export function TrucksDialog({ open, onClose }: TrucksDialogProps) {
-  const { methods, loadingTruck, dialogTitle, onSubmit, isLoadingTruck } =
+  const { methods, loadingTruckFetch, dialogTitle, onSubmit, isLoadingTruck } =
     useTrucksDialog();
   const handleClose = () => {
     onClose();
@@ -51,11 +51,7 @@ export function TrucksDialog({ open, onClose }: TrucksDialogProps) {
           >
             <CloseIcon />
           </IconButton>
-          {!loadingTruck || isLoadingTruck ? (
-            <DialogContent dividers sx={{ padding: "16px" }}>
-              <TruckForm />
-            </DialogContent>
-          ) : (
+          {isLoadingTruck ? (
             <Box
               sx={{
                 display: "flex",
@@ -67,8 +63,12 @@ export function TrucksDialog({ open, onClose }: TrucksDialogProps) {
             >
               <CircularProgress />
             </Box>
+          ) : (
+            <DialogContent dividers sx={{ padding: "16px" }}>
+              <TruckForm />
+            </DialogContent>
           )}
-          {!loadingTruck && <TruckFormFooter onClose={handleClose} />}
+          {!loadingTruckFetch && <TruckFormFooter onClose={handleClose} />}
         </form>
       </FormProvider>
     </Dialog>

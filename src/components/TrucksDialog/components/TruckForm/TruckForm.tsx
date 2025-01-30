@@ -26,13 +26,14 @@ dayjs.extend(customParseFormat);
 
 export const TruckForm = () => {
   const methods = useFormContext<TruckFormType>();
-  console.log(methods.getValues());
+
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <Box display="flex" flexDirection="column" gap="16px" mt="5px">
         <Grid container spacing={1}>
           <Grid item xs={2}>
             <AutocompleteTruck
+              keyCode="licensePlate"
               name="licensePlate"
               onChange={(value) => {
                 methods.setValue("licensePlate", value?.licensePlate || "");
@@ -82,6 +83,7 @@ export const TruckForm = () => {
           </Grid>
           <Grid item xs={1.6}>
             <AutocompleteStates
+              name="state.name"
               label="Estado Emplacamento"
               onChange={(value) => {
                 methods.setValue("stateId", value?.id || "");
@@ -128,6 +130,7 @@ export const TruckForm = () => {
           <Grid item xs={2}>
             <AutocompleteFleetType
               name="fleetType.code"
+              keyCode="code"
               label="Tipo da frota"
               onChange={(value) => {
                 methods.setValue("fleetTypeId", value?.id || "");
