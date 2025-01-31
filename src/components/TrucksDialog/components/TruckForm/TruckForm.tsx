@@ -33,7 +33,6 @@ export const TruckForm = () => {
         <Grid container spacing={1}>
           <Grid item xs={2}>
             <AutocompleteTruck
-              keyCode="licensePlate"
               name="licensePlate"
               onChange={(value) => {
                 methods.setValue("licensePlate", value?.licensePlate || "");

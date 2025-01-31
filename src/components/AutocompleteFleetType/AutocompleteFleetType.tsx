@@ -54,6 +54,7 @@ export function AutocompleteFleetType({
           options={fleetTypes || []}
           loadingText="Carregando..."
           defaultValue={{ [keyCode]: field.value ?? "" } as FleetType}
+          value={{ [keyCode]: field.value ?? "" } as FleetType}
           isOptionEqualToValue={(option: FleetType, value: FleetType) =>
             option.id === value.id
           }

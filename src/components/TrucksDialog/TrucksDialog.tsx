@@ -59,6 +59,7 @@ export function TrucksDialog({ open, onClose }: TrucksDialogProps) {
                 alignItems: "center",
                 justifyContent: "center",
                 padding: "32px",
+                minHeight: "253px",
               }}
             >
               <CircularProgress />

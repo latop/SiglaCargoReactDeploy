@@ -53,6 +53,7 @@ export function AutocompleteStates({
           options={states || []}
           loadingText="Carregando..."
           defaultValue={{ [keyCode]: field.value?.[keyCode] || field.value || "" } as State}
+          value={{ [keyCode]: field.value?.[keyCode] || field.value || "" } as State}
           isOptionEqualToValue={(option: State, value: State) =>
             option[keyCode] === value[keyCode]
           }
