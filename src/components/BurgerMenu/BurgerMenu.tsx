@@ -103,6 +103,11 @@ const routes: RouteItem[] = [
     icon: <PublishIcon />,
     path: "/publish-journey",
   },
+  {
+    text: "Caminhão",
+    icon: <LocalShippingIcon />,
+    path: "/trucks",
+  },
 ];
 
 export function BurgerMenu({ isOpen, toggleDrawer }: BurgerMenuProps) {
