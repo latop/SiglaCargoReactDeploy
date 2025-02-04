@@ -1,5 +1,6 @@
 "use client";
 
+import { useTrucks } from "@/features/Trucks/useTrucks";
 import { useFetch } from "@/hooks/useFetch";
 import { useHash } from "@/hooks/useHash";
 import { useToast } from "@/hooks/useToast";
@@ -17,7 +18,7 @@ const dateOrDayjsSchema = z.union([
 
 export const truckSchema = z.object({
   startDate: z.string(),
-  endDate: z.string(),
+  endDate: z.string().optional(),
   id: z.string().optional(),
   isRefurbished: z.boolean(),
   stateId: z.string(),
@@ -30,7 +31,7 @@ export const truckSchema = z.object({
   serialNumber: z.string(),
   tare: z.number(),
   fleetCode: z.string().optional(),
-  capacity: z.coerce.number(),
+  capacity: z.number(),
   locationGroupId: z.string(),
   fleetTypeId: z.string(),
   integrationCode: z.string(),
@@ -46,6 +47,7 @@ export const useTrucksDialog = () => {
   const methods = useForm<TruckFormType>({
     resolver: zodResolver(truckSchema),
   });
+  const { refetchTrucks } = useTrucks();
   const isAdd = !!(hash as string)?.match(/#add-truck/);
   const truckId = (hash as string)?.match(/#truck-id-(.+)/)?.[1];
 
@@ -69,7 +71,7 @@ export const useTrucksDialog = () => {
   const handleSubmit = async (data: TruckFormType) => {
     const body: TruckFormType = {
       ...data,
-      manufactureYear: dayjs(`${data.manufactureYear}-01-01`).format("YYYY"),
+      manufactureYear: dayjs(`${data.manufactureYear}`).format("YYYY"),
       stateId: data.stateId,
     };
 
@@ -80,6 +82,7 @@ export const useTrucksDialog = () => {
           addToast("Caminhão adicionado com sucesso!", { type: "success" });
           setHash("");
           methods.reset({});
+          refetchTrucks();
         },
         onError: (error) => addToast(error.message, { type: "error" }),
       });
@@ -90,6 +93,7 @@ export const useTrucksDialog = () => {
       onSuccess: () => {
         addToast("Caminhão atualizado com sucesso!", { type: "success" });
         setHash("");
+        refetchTrucks();
       },
       onError: (error) => addToast(error.message, { type: "error" }),
     });
@@ -100,10 +104,15 @@ export const useTrucksDialog = () => {
   }, [handleErrors, methods.formState.errors]);
 
   const handleFormDefaults = useCallback(() => {
+    const manufactureYear =
+      truckId && !isAdd
+        ? dayjs(`${data.manufactureYear}-02-02`).toDate()
+        : null;
+
     methods.reset({
       ...data,
       licensePlate: data?.licensePlate,
-      manufactureYear: dayjs(`${data.manufactureYear}-01-01`).toDate(),
+      manufactureYear,
     });
   }, [data, methods]);
 

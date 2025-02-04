@@ -100,5 +100,6 @@ export const useTrucks = () => {
     handleCloseDialog,
     handleEditTruck,
     truckId,
+    refetchTrucks,
   };
 };
