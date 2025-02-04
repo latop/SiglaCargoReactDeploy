@@ -35,6 +35,9 @@ export const TruckForm = () => {
                   label="Placa"
                   variant="outlined"
                   fullWidth
+                  onChange={(e) => {
+                    field.onChange(e.target.value.toUpperCase());
+                  }}
                 />
               );
             }}
