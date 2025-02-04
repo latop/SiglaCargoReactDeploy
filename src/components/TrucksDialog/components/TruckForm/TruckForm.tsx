@@ -36,6 +36,7 @@ export const TruckForm = () => {
                   variant="outlined"
                   fullWidth
                   onChange={(e) => {
+                    if (e.target.value.length > 7) return;
                     field.onChange(e.target.value.toUpperCase());
                   }}
                 />
