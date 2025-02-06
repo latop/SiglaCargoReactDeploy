@@ -20,7 +20,7 @@ export const truckSchema = z.object({
   startDate: z.string(),
   endDate: z.string().optional(),
   id: z.string().optional(),
-  isRefurbished: z.boolean(),
+  isRefurbished: z.boolean().default(false),
   stateId: z.string(),
   state: z.any(),
   chassisNumber: z.string().optional(),
@@ -114,6 +114,7 @@ export const useTrucksDialog = () => {
       ...data,
       licensePlate: data?.licensePlate,
       manufactureYear,
+      isRefurbished: data?.isRefurbished ? true : false,
     });
   }, [data, methods]);
 

@@ -88,6 +88,7 @@ export const TruckForm = () => {
             label="Estado Emplacamento"
             onChange={(value) => {
               methods.setValue("stateId", value?.id || "");
+              methods.setValue("state", value || "");
             }}
           />
         </Grid>
@@ -261,6 +262,7 @@ export const TruckForm = () => {
                   fullWidth
                   onChange={(e) => {
                     if (isNaN(Number(e.target.value))) return;
+                    if (e.target.value.length > 6) return;
                     field.onChange(e.target.value);
                   }}
                 />

@@ -38,7 +38,6 @@ export function AutocompleteStates({
       setValue("id", value?.id || "");
       setValue("code", value?.code || "");
       setValue("name", value?.name || "");
-
     }
   };
 
