@@ -63,8 +63,8 @@ export function AutocompleteFleetType({
             !field.value
               ? "Digite o código"
               : !fleetTypes && !error
-                ? "Carregando..."
-                : "Nenhum resultado encontrado"
+              ? "Carregando..."
+              : "Nenhum resultado encontrado"
           }
           getOptionLabel={(option: FleetType) =>
             option.description ? `${option.code}` : option.code

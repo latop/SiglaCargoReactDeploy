@@ -26,7 +26,7 @@ export function AutocompleteLocationGroup({
     formState: { errors },
   } = useFormContext();
 
-  const { locationGroups, error, isLoading } = useLocationGroup({
+  const { locationGroups, error } = useLocationGroup({
     pageSize: 10,
     code: watch(name),
   });
