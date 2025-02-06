@@ -44,27 +44,24 @@ export function TrucksFilterBar() {
                   />
                 </Grid>
                 <Grid xs={1.5} item>
-                  <AutocompleteFleetType
-                    name="fleetType"
-                    label="Tipo de Frota"
-                  />
-                </Grid>
-                {/* <Grid xs={1.5} item>
-                  <AutocompleteFleetGroup name="fleetGroupCode" />
-                </Grid> */}
-                <Grid xs={1.5} item>
-                  <AutocompleteLocationGroup
-                    label="Grupo da Frota"
-                    name="locationGroupCode"
-                  />
-                </Grid>
-                <Grid xs={1.5} item>
                   <Controller
                     name="fleetCode"
                     control={methods.control}
                     render={({ field }) => (
                       <TextField {...field} label="Cód. Frota" />
                     )}
+                  />
+                </Grid>
+                <Grid xs={1.5} item>
+                  <AutocompleteFleetType
+                    name="fleetType"
+                    label="Tipo de Frota"
+                  />
+                </Grid>
+                <Grid xs={1.5} item>
+                  <AutocompleteLocationGroup
+                    label="Grupo da Frota"
+                    name="locationGroupCode"
                   />
                 </Grid>
               </Grid>

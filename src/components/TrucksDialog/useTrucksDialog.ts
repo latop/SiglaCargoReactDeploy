@@ -29,9 +29,9 @@ export const truckSchema = z.object({
   regulatoryValidity: z.string().optional(),
   manufactureYear: dateOrDayjsSchema,
   serialNumber: z.string(),
-  tare: z.number(),
+  tare: z.coerce.number().optional(),
+  capacity: z.coerce.number().optional(),
   fleetCode: z.string().optional(),
-  capacity: z.number(),
   locationGroupId: z.string(),
   fleetTypeId: z.string(),
   integrationCode: z.string(),
@@ -74,6 +74,7 @@ export const useTrucksDialog = () => {
       manufactureYear: dayjs(`${data.manufactureYear}`).format("YYYY"),
       stateId: data.stateId,
     };
+    console.log({ data });
 
     if (isAdd) {
       return await handleFetch("/truck", body, {

@@ -26,7 +26,7 @@ export function AutocompleteLocationGroup({
     formState: { errors },
   } = useFormContext();
 
-  const { locationGroups, error } = useLocationGroup({
+  const { locationGroups, error, isLoading } = useLocationGroup({
     pageSize: 10,
     code: watch(name),
   });
@@ -49,12 +49,12 @@ export function AutocompleteLocationGroup({
       control={control}
       render={({ field }) => (
         <Autocomplete
+          key={field.value}
           clearOnEscape
           forcePopupIcon={false}
           options={locationGroups || []}
           loadingText="Carregando..."
           defaultValue={{ [keyCode]: field.value ?? "" } as LocationGroup}
-          value={{ [keyCode]: field.value ?? "" } as LocationGroup}
           isOptionEqualToValue={(option: LocationGroup, value: LocationGroup) =>
             option[keyCode] === value[keyCode]
           }
@@ -75,13 +75,14 @@ export function AutocompleteLocationGroup({
             <TextField
               {...field}
               {...params}
+              key={field.value}
               onChange={debounce(field.onChange, 300)}
               variant="outlined"
               fullWidth
               label={label}
               error={!!errors[field.name]}
               helperText={errors[field.name]?.message?.toString()}
-              value={field.value ?? ""}
+              value={field.value || ""}
             />
           )}
         />

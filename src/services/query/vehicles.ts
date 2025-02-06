@@ -125,7 +125,7 @@ export const useGetTrucksQuery = (params: FetchTrucksParams) => {
 
 export const useGetTruckQuery = (id?: string) => {
   return useQuery({
-    queryKey: ["truck", id],
+    queryKey: ["truck", { id }],
     queryFn: async () => {
       try {
         const response = await api.get(`/Truck/${id}`);
@@ -136,7 +136,7 @@ export const useGetTruckQuery = (id?: string) => {
       }
     },
     refetchOnMount: true,
-    placeholderData: {},
+    placeholderData: !id && {},
     staleTime: 0,
     enabled: !!id,
   });

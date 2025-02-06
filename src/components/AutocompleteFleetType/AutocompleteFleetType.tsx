@@ -49,12 +49,12 @@ export function AutocompleteFleetType({
       control={control}
       render={({ field }) => (
         <Autocomplete
+          key={field.value}
           clearOnEscape
           forcePopupIcon={false}
           options={fleetTypes || []}
           loadingText="Carregando..."
           defaultValue={{ [keyCode]: field.value ?? "" } as FleetType}
-          value={{ [keyCode]: field.value ?? "" } as FleetType}
           isOptionEqualToValue={(option: FleetType, value: FleetType) =>
             option.id === value.id
           }
@@ -63,8 +63,8 @@ export function AutocompleteFleetType({
             !field.value
               ? "Digite o código"
               : !fleetTypes && !error
-              ? "Carregando..."
-              : "Nenhum resultado encontrado"
+                ? "Carregando..."
+                : "Nenhum resultado encontrado"
           }
           getOptionLabel={(option: FleetType) =>
             option.description ? `${option.code}` : option.code
@@ -73,6 +73,7 @@ export function AutocompleteFleetType({
             <TextField
               {...field}
               {...params}
+              key={field.value}
               autoComplete="off"
               onChange={debounce(field.onChange, 300)}
               variant="outlined"

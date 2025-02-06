@@ -39,12 +39,12 @@ export function AutocompleteTruck({
       render={({ field }) => {
         return (
           <Autocomplete
+            key={field.value}
             forcePopupIcon={false}
             disabled={disabled}
             clearOnEscape
             options={trucks || []}
             loadingText="Carregando..."
-            value={{ [keyCode]: field.value?.[keyCode] || field.value || "" } as Truck}
             defaultValue={{ [keyCode]: field.value?.[keyCode] || field.value || "" } as Truck}
             isOptionEqualToValue={(option: Truck, value: Truck) =>
               option[keyCode] === value[keyCode]
@@ -62,6 +62,7 @@ export function AutocompleteTruck({
             getOptionLabel={(option: Truck) => option[keyCode] as string}
             renderInput={(params) => (
               <TextField
+                key={field.value}
                 {...field}
                 {...params}
                 sx={{
