@@ -22,7 +22,6 @@ export const truckSchema = z.object({
   id: z.string().optional(),
   isRefurbished: z.boolean().default(false),
   stateId: z.string(),
-  state: z.any(),
   chassisNumber: z.string().optional(),
   licensePlate: z.string(),
   regulatoryNumber: z.string().optional(),

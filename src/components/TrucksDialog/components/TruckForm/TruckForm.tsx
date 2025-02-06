@@ -88,7 +88,6 @@ export const TruckForm = () => {
             label="Estado Emplacamento"
             onChange={(value) => {
               methods.setValue("stateId", value?.id || "");
-              methods.setValue("state", value || "");
             }}
           />
         </Grid>
