@@ -18,7 +18,7 @@ const dateOrDayjsSchema = z.union([
 
 export const truckSchema = z.object({
   startDate: z.string(),
-  endDate: z.string().optional(),
+  endDate: z.string(),
   id: z.string().optional(),
   isRefurbished: z.boolean().default(false),
   stateId: z.string(),
@@ -34,7 +34,7 @@ export const truckSchema = z.object({
   locationGroupId: z.string(),
   fleetTypeId: z.string(),
   integrationCode: z.string(),
-  note: z.string().optional(),
+  note: z.string().optional().default(""),
 });
 
 export type TruckFormType = z.infer<typeof truckSchema>;
@@ -114,6 +114,8 @@ export const useTrucksDialog = () => {
       licensePlate: data?.licensePlate,
       manufactureYear,
       isRefurbished: data?.isRefurbished ? true : false,
+      // endDate: dayjs().add(10, "year").format("YYYY-MM-DD"),
+      note: "",
     });
   }, [data, methods]);
 
