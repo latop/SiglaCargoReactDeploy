@@ -139,7 +139,12 @@ export const TruckForm = () => {
           />
         </Grid>
         <Grid item xs={1.5}>
-          <AutocompleteLocationGroup name="locationGroup.code" />
+          <AutocompleteLocationGroup
+            name="locationGroup.code"
+            onChange={(value) => {
+              methods.setValue("locationGroupId", value?.id || "");
+            }}
+          />
         </Grid>
         <Grid item xs={3.1}>
           <Controller
@@ -261,7 +266,6 @@ export const TruckForm = () => {
                   fullWidth
                   onChange={(e) => {
                     if (isNaN(Number(e.target.value))) return;
-                    if (e.target.value.length > 6) return;
                     field.onChange(e.target.value);
                   }}
                 />

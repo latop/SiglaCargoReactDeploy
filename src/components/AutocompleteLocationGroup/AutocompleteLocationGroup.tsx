@@ -38,7 +38,6 @@ export function AutocompleteLocationGroup({
     if (onChange) {
       onChange(value);
     } else {
-      setValue("locationGroupId", value?.id || "");
       setValue("locationGroupCode", value?.code || "");
     }
   };
@@ -82,7 +81,7 @@ export function AutocompleteLocationGroup({
               label={label}
               error={!!errors[field.name]}
               helperText={errors[field.name]?.message?.toString()}
-              value={field.value || ""}
+              value={field.value ?? ""}
             />
           )}
         />

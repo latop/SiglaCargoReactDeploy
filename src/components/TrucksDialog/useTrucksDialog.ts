@@ -64,7 +64,7 @@ export const useTrucksDialog = () => {
     },
     [methods.formState.errors],
   );
-
+  console.log(methods.formState.errors);
   const { data, isFetching: isLoadingTruck } = useGetTruckQuery(truckId);
 
   const handleSubmit = async (data: TruckFormType) => {
