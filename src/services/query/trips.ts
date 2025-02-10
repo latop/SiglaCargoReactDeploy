@@ -1,6 +1,10 @@
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import api from "../configs/api";
 import { FetchBasicParams } from "./types";
+import {
+  FetchLocationsParams,
+  LocationsPaginationResponse,
+} from "@/interfaces/trip";
 
 const resource = "Location";
 
@@ -223,5 +227,49 @@ export const useGetStopTypeQuery = ({
       }
     },
     staleTime: 86400,
+  });
+};
+
+export const useGetLocationsQuery = (params: FetchLocationsParams) => {
+  const isEnabled = Object.values(params).some(Boolean);
+  return useInfiniteQuery<LocationsPaginationResponse>({
+    queryKey: ["locations", params],
+    queryFn: async ({ pageParam = 0 }) => {
+      try {
+        const response = await api.get("/Location", {
+          params: {
+            PageSize: params?.pageSize || 10,
+            PageNumber: pageParam || 0,
+            filter1Id: params?.locationGroupId,
+            filter2Id: params?.locationTypeId,
+            filter3Id: params?.cityId,
+            filter1String: params?.code,
+            filter2String: params?.codeIntegration1,
+            filter3String: params?.codeIntegration2,
+            filter1Bool: params?.isOperation,
+          },
+        });
+
+        return response?.data;
+      } catch (error) {
+        console.error(error);
+        throw error;
+      }
+    },
+    getNextPageParam: (lastPage) => {
+      if (lastPage.hasNext) {
+        return lastPage.currentPage + 1;
+      }
+      return undefined;
+    },
+    getPreviousPageParam: (firstPage) => {
+      if (firstPage.hasPrevious) {
+        return firstPage.currentPage - 1;
+      }
+      return undefined;
+    },
+    initialPageParam: 1,
+    staleTime: 60 * 1000 * 5,
+    enabled: true,
   });
 };
