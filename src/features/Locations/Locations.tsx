@@ -5,17 +5,29 @@ import { MainContainer } from "@/components/MainContainer";
 import { AppBar } from "@/components/AppBar";
 import { HeaderTitle } from "@/components/HeaderTitle/HeaderTitle";
 import { Box, Button, Card, CircularProgress } from "@mui/material";
-import { DataGrid, GridColDef, GridDeleteForeverIcon } from "@mui/x-data-grid";
+import {
+  DataGrid,
+  GridColDef,
+  // GridDeleteForeverIcon
+} from "@mui/x-data-grid";
 import { EmptyResult } from "@/components/EmptyResult";
 import { ErrorResult } from "@/components/ErrorResult";
-import { useDialog } from "@/hooks/useDialog/useDialog";
 import { useLocations } from "./useLocations";
 import { Locations as LocationsType } from "@/interfaces/trip";
+import { LocationsFilterBar } from "@/components/LocationsFilterBar/LocaticationsFilterBar";
 
 export function Locations() {
-  // const { openDialog, closeDialog } = useDialog();
-  const { locations, currentPage, loadMoreLines, totalCount } = useLocations();
-  console.log(locations);
+  const {
+    locations,
+    currentPage,
+    loadMoreLines,
+    totalCount,
+    isLoading,
+    isEmpty,
+    hasData,
+    isError,
+  } = useLocations();
+
   const columns: GridColDef[] = [
     {
       field: "code",
@@ -107,6 +119,7 @@ export function Locations() {
           gap: "16px",
         }}
       >
+        <LocationsFilterBar />
         <Button
           // onClick={handleAddTruck}
           variant="outlined"
@@ -128,11 +141,10 @@ export function Locations() {
             justifyContent: "center",
           }}
         >
-          {/* {isLoading && <CircularProgress />}
+          {isLoading && <CircularProgress />}
           {isEmpty && !hasData && !isLoading && <EmptyResult />}
-          {isError && !isLoading && <ErrorResult />} */}
-          {
-            // hasData && !isEmpty && !isLoading &&
+          {isError && !isLoading && <ErrorResult />}
+          {hasData && !isEmpty && !isLoading && (
             <div style={{ height: "100%", width: "100%" }}>
               <DataGrid
                 rows={locations || []}
@@ -166,7 +178,7 @@ export function Locations() {
                 pageSizeOptions={[10]}
               />
             </div>
-          }
+          )}
         </Card>
       </Box>
     </MainContainer>

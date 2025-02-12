@@ -80,3 +80,10 @@ export interface LocationsPaginationResponse {
   data: Locations[];
   totalCount: number;
 }
+
+export interface LocationType {
+  code: string;
+  description: string;
+  isOperation: boolean;
+  id: string;
+}
