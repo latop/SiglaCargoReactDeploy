@@ -2,7 +2,7 @@ import dayjs from "dayjs";
 import { GridColDef } from "@mui/x-data-grid";
 import { DailyTrip } from "@/interfaces/daily-trip";
 
-const title = "Viagens diáriass";
+const title = "Viagens diárias";
 
 const headerClass = "blueColumnHeaders";
 
@@ -29,27 +29,8 @@ const columns: GridColDef[] = [
     width: 100,
     sortable: false,
     filterable: false,
-    valueFormatter: (value: string) => (value === "C" ? "CANCELADO" : "NORMAL"),
+    valueFormatter: (value: string) => (value === "C" ? "CANCELADO" : "ATIVO"),
   },
-  {
-    field: "endPlanned",
-    headerName: "Chegada Prevista",
-    width: 150,
-    sortable: false,
-    filterable: false,
-    valueFormatter: (value: string) =>
-      value ? dayjs(value).format("DD/MM/YYYY HH:mm") : "",
-  },
-  {
-    field: "startPlanned",
-    headerName: "Saída Prevista",
-    width: 150,
-    sortable: false,
-    filterable: false,
-    valueFormatter: (value: string) =>
-      value ? dayjs(value).format("DD/MM/YYYY HH:mm") : "",
-  },
-
   {
     field: "locationOrig.code",
     headerName: "Origem",
@@ -71,6 +52,24 @@ const columns: GridColDef[] = [
     },
   },
   {
+    field: "startPlanned",
+    headerName: "Saída Prevista",
+    width: 150,
+    sortable: false,
+    filterable: false,
+    valueFormatter: (value: string) =>
+      value ? dayjs(value).format("DD/MM/YYYY HH:mm") : "",
+  },
+  {
+    field: "endPlanned",
+    headerName: "Chegada Prevista",
+    width: 150,
+    sortable: false,
+    filterable: false,
+    valueFormatter: (value: string) =>
+      value ? dayjs(value).format("DD/MM/YYYY HH:mm") : "",
+  },
+  {
     field: "tripType.code",
     headerName: "Tipo de viagem",
     width: 150,
@@ -80,10 +79,9 @@ const columns: GridColDef[] = [
       return data.tripType ? data.tripType.code : "";
     },
   },
-
   {
     field: "lineCode",
-    headerName: "Cód. Linha",
+    headerName: "Cód. Rota",
     width: 220,
     sortable: false,
     filterable: false,
