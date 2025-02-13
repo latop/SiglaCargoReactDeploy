@@ -235,7 +235,6 @@ export const useGetLocationsQuery = (params: Partial<FetchLocationsParams>) => {
   return useInfiniteQuery<LocationsPaginationResponse>({
     queryKey: ["locations", params],
     queryFn: async ({ pageParam = 0 }) => {
-      console.log("params", params);
       try {
         const response = await api.get("/Location", {
           params: {
@@ -270,7 +269,7 @@ export const useGetLocationsQuery = (params: Partial<FetchLocationsParams>) => {
       return undefined;
     },
     initialPageParam: 1,
-    staleTime: 60 * 1000 * 5,
+    staleTime: 86400,
     enabled: isEnabled,
   });
 };
@@ -296,5 +295,23 @@ export const useGetLocationTypeQuery = ({
       }
     },
     staleTime: 86400,
+  });
+};
+
+export const useGetLocationByIdQuery = (id?: string) => {
+  return useQuery({
+    queryKey: ["location", { id }],
+    queryFn: async () => {
+      try {
+        const response = await api.get(`/Location/${id}`);
+        return response.data;
+      } catch (error) {
+        console.error(error);
+        return error;
+      }
+    },
+    placeholderData: !id && {},
+    staleTime: 86400,
+    enabled: !!id,
   });
 };

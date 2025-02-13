@@ -30,7 +30,7 @@ export function LocationsFilterBar() {
               <Grid container alignItems="flex-start" width="100%" gap="16px">
                 <Grid xs={1.5} item>
                   <Controller
-                    name="locationTypeCode"
+                    name="locationCode"
                     control={methods.control}
                     render={({ field }) => (
                       <TextField {...field} label="Código da Localidade" />
@@ -57,6 +57,7 @@ export function LocationsFilterBar() {
                 </Grid>
                 <Grid xs={1.5} item>
                   <AutocompleteLocationType
+                    name="locationTypeCode"
                     onChange={(value) => {
                       methods.setValue("locationTypeCode", value?.code || "");
                       methods.setValue("locationTypeId", value?.id || "");

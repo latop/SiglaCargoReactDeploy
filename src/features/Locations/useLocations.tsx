@@ -1,3 +1,4 @@
+import { useHash } from "@/hooks/useHash";
 import { FetchLocationsParams } from "@/interfaces/trip";
 import { useGetLocationsQuery } from "@/services/query/trips";
 import { useSearchParams } from "next/navigation";
@@ -8,8 +9,16 @@ export const useLocations = () => {
     codeIntegration2: params.get("integrationCode2") || "",
     codeIntegration1: params.get("integrationCode") || "",
     locationTypeId: params.get("locationTypeId") || "",
-    code: params.get("locationTypeCode") || "",
+    code: params.get("locationCode") || "",
   };
+  const [hash, setHash] = useHash();
+
+  const handleAddLocation = () => {
+    setHash("add-location");
+  };
+
+  const isToAddLocation = (hash as string)?.match(/#add-location/);
+  const locationId = (hash as string)?.match(/#location-id-(.+)/)?.[1];
 
   const payload = () => {
     Object.entries(parameters).forEach(([key, value]) => {
@@ -40,6 +49,14 @@ export const useLocations = () => {
     fetchNextPage();
   };
 
+  const handleEditLocation = (id: string) => {
+    setHash(`location-id-${id}`);
+  };
+
+  const handleCloseDialog = () => {
+    setHash("");
+  };
+
   return {
     locations,
     currentPage,
@@ -50,5 +67,10 @@ export const useLocations = () => {
     isLoading: isLoading,
     isError,
     refetchLocations,
+    handleEditLocation,
+    handleAddLocation,
+    locationId,
+    isToAddLocation,
+    handleCloseDialog,
   };
 };

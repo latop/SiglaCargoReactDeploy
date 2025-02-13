@@ -15,6 +15,7 @@ import { ErrorResult } from "@/components/ErrorResult";
 import { useLocations } from "./useLocations";
 import { Locations as LocationsType } from "@/interfaces/trip";
 import { LocationsFilterBar } from "@/components/LocationsFilterBar/LocaticationsFilterBar";
+import { LocationsDialog } from "@/components/LocationsDialog";
 
 export function Locations() {
   const {
@@ -26,6 +27,11 @@ export function Locations() {
     isEmpty,
     hasData,
     isError,
+    handleEditLocation,
+    handleAddLocation,
+    isToAddLocation,
+    locationId,
+    handleCloseDialog,
   } = useLocations();
 
   const columns: GridColDef[] = [
@@ -106,7 +112,7 @@ export function Locations() {
   return (
     <MainContainer>
       <AppBar>
-        <HeaderTitle>Caminhão</HeaderTitle>
+        <HeaderTitle>Localização</HeaderTitle>
       </AppBar>
       <Box
         sx={{
@@ -121,7 +127,7 @@ export function Locations() {
       >
         <LocationsFilterBar />
         <Button
-          // onClick={handleAddTruck}
+          onClick={handleAddLocation}
           variant="outlined"
           sx={{
             width: "170px",
@@ -164,9 +170,9 @@ export function Locations() {
                 }}
                 rowCount={totalCount}
                 columns={columns}
-                // onRowDoubleClick={(params) => {
-                //   handleEditTruck(params.id as string);
-                // }}
+                onRowDoubleClick={(params) => {
+                  handleEditLocation(params.id as string);
+                }}
                 initialState={{
                   pagination: {
                     paginationModel: { page: currentPage - 1, pageSize: 10 },
@@ -181,6 +187,8 @@ export function Locations() {
           )}
         </Card>
       </Box>
+      <LocationsDialog open={!!locationId} onClose={handleCloseDialog} />
+      <LocationsDialog open={!!isToAddLocation} onClose={handleCloseDialog} />
     </MainContainer>
   );
 }

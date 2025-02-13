@@ -24,7 +24,6 @@ export function AutocompleteLocationType({
     formState: { errors, dirtyFields },
   } = useFormContext();
   const isDirty = dirtyFields[name];
-
   const { data: { data: fleetTypes = [] } = [], error } =
     useGetLocationTypeQuery({
       pageSize: 20,
@@ -79,7 +78,6 @@ export function AutocompleteLocationType({
               fullWidth
               label={label}
               error={!!errors[field.name]}
-              key={field.value}
               helperText={errors[field.name]?.message?.toString()}
             />
           )}

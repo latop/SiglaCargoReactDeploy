@@ -41,6 +41,7 @@ export function AutocompleteStates({
     }
   };
 
+
   return (
     <Controller
       name={name}
@@ -51,7 +52,6 @@ export function AutocompleteStates({
           clearOnEscape
           options={states || []}
           loadingText="Carregando..."
-          key={field.value}
           defaultValue={{ [keyCode]: field.value?.[keyCode] || field.value || "" } as State}
           isOptionEqualToValue={(option: State, value: State) =>
             option[keyCode] === value[keyCode]
@@ -73,7 +73,6 @@ export function AutocompleteStates({
               variant="outlined"
               fullWidth
               label={label}
-              key={field.value}
               error={!!errors[field.name]}
               helperText={errors[field.name]?.message?.toString()}
               value={field.value ?? ""} />

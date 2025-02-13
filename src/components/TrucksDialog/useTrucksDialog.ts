@@ -73,7 +73,6 @@ export const useTrucksDialog = () => {
       manufactureYear: dayjs(`${data.manufactureYear}`).format("YYYY"),
       stateId: data.stateId,
     };
-    console.log({ data });
 
     if (isAdd) {
       return await handleFetch("/truck", body, {

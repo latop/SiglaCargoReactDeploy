@@ -1,3 +1,4 @@
+import { useLocations } from "@/features/Locations/useLocations";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
@@ -28,10 +29,15 @@ export const useLocationsFilterBar = () => {
     },
   });
 
+  const { refetchLocations } = useLocations();
+
   const onSubmit = (data: FormFields) => {
-    console.log(data);
     const params = new URLSearchParams();
     Object.entries(data).forEach(([key, value]) => {
+      if (!value) {
+        refetchLocations();
+        return;
+      }
       if (value) {
         params.append(key, value);
       }

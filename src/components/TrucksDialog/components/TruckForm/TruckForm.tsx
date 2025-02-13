@@ -86,6 +86,7 @@ export const TruckForm = () => {
           <AutocompleteStates
             name="state.name"
             label="Estado Emplacamento"
+            key={methods.watch("stateId")}
             onChange={(value) => {
               methods.setValue("stateId", value?.id || "");
             }}
