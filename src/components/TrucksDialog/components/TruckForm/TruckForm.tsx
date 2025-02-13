@@ -84,6 +84,7 @@ export const TruckForm = () => {
         </Grid>
         <Grid item xs={1.6}>
           <AutocompleteStates
+            key={methods.getValues("stateId")}
             name="state.name"
             label="Estado Emplacamento"
             onChange={(value) => {
@@ -130,6 +131,7 @@ export const TruckForm = () => {
       <Grid container spacing={1}>
         <Grid item xs={2}>
           <AutocompleteFleetType
+            key={methods.watch("fleetTypeId")}
             name="fleetType.code"
             keyCode="code"
             label="Tipo da frota"
@@ -140,6 +142,7 @@ export const TruckForm = () => {
         </Grid>
         <Grid item xs={1.5}>
           <AutocompleteLocationGroup
+            key={methods.watch("locationGroupId")}
             name="locationGroup.code"
             onChange={(value) => {
               methods.setValue("locationGroupId", value?.id || "");

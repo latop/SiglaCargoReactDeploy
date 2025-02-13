@@ -39,7 +39,6 @@ export function AutocompleteTruck({
       render={({ field }) => {
         return (
           <Autocomplete
-            key={field.value}
             forcePopupIcon={false}
             disabled={disabled}
             clearOnEscape
@@ -62,7 +61,7 @@ export function AutocompleteTruck({
             getOptionLabel={(option: Truck) => option[keyCode] as string}
             renderInput={(params) => (
               <TextField
-                key={field.value}
+
                 {...field}
                 {...params}
                 sx={{

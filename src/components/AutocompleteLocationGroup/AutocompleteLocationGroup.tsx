@@ -48,7 +48,6 @@ export function AutocompleteLocationGroup({
       control={control}
       render={({ field }) => (
         <Autocomplete
-          key={field.value}
           clearOnEscape
           forcePopupIcon={false}
           options={locationGroups || []}
@@ -74,7 +73,7 @@ export function AutocompleteLocationGroup({
             <TextField
               {...field}
               {...params}
-              key={field.value}
+
               onChange={debounce(field.onChange, 300)}
               variant="outlined"
               fullWidth

@@ -49,7 +49,6 @@ export function AutocompleteFleetType({
       control={control}
       render={({ field }) => (
         <Autocomplete
-          key={field.value}
           clearOnEscape
           forcePopupIcon={false}
           options={fleetTypes || []}
@@ -73,7 +72,6 @@ export function AutocompleteFleetType({
             <TextField
               {...field}
               {...params}
-              key={field.value}
               autoComplete="off"
               onChange={debounce(field.onChange, 300)}
               variant="outlined"
