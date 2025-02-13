@@ -84,6 +84,7 @@ export const TruckForm = () => {
         </Grid>
         <Grid item xs={1.6}>
           <AutocompleteStates
+            key={methods.getValues("stateId")}
             name="state.name"
             label="Estado Emplacamento"
             key={methods.watch("stateId")}
@@ -131,6 +132,7 @@ export const TruckForm = () => {
       <Grid container spacing={1}>
         <Grid item xs={2}>
           <AutocompleteFleetType
+            key={methods.watch("fleetTypeId")}
             name="fleetType.code"
             keyCode="code"
             label="Tipo da frota"
@@ -140,7 +142,13 @@ export const TruckForm = () => {
           />
         </Grid>
         <Grid item xs={1.5}>
-          <AutocompleteLocationGroup name="locationGroup.code" />
+          <AutocompleteLocationGroup
+            key={methods.watch("locationGroupId")}
+            name="locationGroup.code"
+            onChange={(value) => {
+              methods.setValue("locationGroupId", value?.id || "");
+            }}
+          />
         </Grid>
         <Grid item xs={3.1}>
           <Controller
@@ -262,7 +270,6 @@ export const TruckForm = () => {
                   fullWidth
                   onChange={(e) => {
                     if (isNaN(Number(e.target.value))) return;
-                    if (e.target.value.length > 6) return;
                     field.onChange(e.target.value);
                   }}
                 />

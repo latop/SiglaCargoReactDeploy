@@ -60,8 +60,12 @@ export function TrucksFilterBar() {
                 </Grid>
                 <Grid xs={1.5} item>
                   <AutocompleteLocationGroup
-                    label="Grupo da Frota"
+                    label=" Grupo de Localidade"
                     name="locationGroupCode"
+                    onChange={(value) => {
+                      methods.setValue("locationGroupCode", value?.code || "");
+                      methods.setValue("locationGroupId", value?.id || "");
+                    }}
                   />
                 </Grid>
               </Grid>
