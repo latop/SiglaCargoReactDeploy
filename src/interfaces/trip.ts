@@ -68,7 +68,7 @@ export interface FetchLocationsParams {
   code?: string | null; // Code // filter1String
   codeIntegration1?: string | null; // CodeIntegration1 //filter2String
   codeIntegration2: string | null; // CodeIntegration2 // filter3String
-  isOperation: boolean | null; // IsOperation // filter1Bool
+  isOperation?: boolean | null; // IsOperation // filter1Bool
 }
 
 export interface LocationsPaginationResponse {

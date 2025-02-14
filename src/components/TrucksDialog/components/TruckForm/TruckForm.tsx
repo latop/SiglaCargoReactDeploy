@@ -87,7 +87,6 @@ export const TruckForm = () => {
             key={methods.getValues("stateId")}
             name="state.name"
             label="Estado Emplacamento"
-            key={methods.watch("stateId")}
             onChange={(value) => {
               methods.setValue("stateId", value?.id || "");
             }}

@@ -57,13 +57,23 @@ export function Locations() {
       filterable: false,
     },
     {
-      field: "locationType.code",
-      headerName: "Tipo de Locatidade",
-      width: 150,
+      field: "locationGroup.code",
+      headerName: "Grupo de Localização",
+      width: 200,
       sortable: false,
       filterable: false,
       valueGetter: (_, data: LocationsType) => {
-        return data.locationType.code;
+        return data.locationGroup?.code;
+      },
+    },
+    {
+      field: "locationType.code",
+      headerName: "Tipo de Localização",
+      width: 200,
+      sortable: false,
+      filterable: false,
+      valueGetter: (_, data: LocationsType) => {
+        return data.locationType.description;
       },
     },
     {

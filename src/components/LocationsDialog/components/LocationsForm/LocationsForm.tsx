@@ -1,13 +1,26 @@
 import React from "react";
-import { Box, Grid, TextField } from "@mui/material";
+import { Box, Button, Grid, TextField } from "@mui/material";
 import { Controller, useFormContext } from "react-hook-form";
 import { AutocompleteLocationGroup } from "@/components/AutocompleteLocationGroup";
 import { LocationFormType } from "../../useLocationsDialog";
 import { AutocompleteCities } from "@/components/AutocompleteCities";
 import { AutocompleteLocationType } from "@/components/AutocompleteLocationType";
+import MapIcon from "@mui/icons-material/Map";
+import { DatePicker } from "@/components/DatePicker";
+import dayjs from "dayjs";
 
 export const LocationsForm = () => {
   const methods = useFormContext<LocationFormType>();
+
+  const getCoordinates = () => {
+    return `https://www.google.com/maps?q=${methods.watch(
+      "latitude",
+    )},${methods.watch("longitude")}`;
+  };
+
+  const handleOpenWindow = () => {
+    window.open(getCoordinates(), "_blank");
+  };
 
   return (
     <Box display="flex" flexDirection="column" gap="16px" mt="5px">
@@ -33,7 +46,7 @@ export const LocationsForm = () => {
             }}
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={10}>
           <Controller
             control={methods.control}
             name={"name"}
@@ -56,6 +69,42 @@ export const LocationsForm = () => {
         </Grid>
       </Grid>
       <Grid container spacing={1}>
+        <Grid item xs={2}>
+          <Controller
+            control={methods.control}
+            name={"codeIntegration1"}
+            render={({ field, fieldState: { error } }) => {
+              return (
+                <TextField
+                  error={!!error}
+                  helperText={error?.message}
+                  {...field}
+                  label="Cód. GPS"
+                  variant="outlined"
+                  fullWidth
+                />
+              );
+            }}
+          />
+        </Grid>
+        <Grid item xs={2}>
+          <Controller
+            control={methods.control}
+            name={"codeIntegration2"}
+            render={({ field, fieldState: { error } }) => {
+              return (
+                <TextField
+                  error={!!error}
+                  helperText={error?.message}
+                  {...field}
+                  label="Cód. TMS"
+                  variant="outlined"
+                  fullWidth
+                />
+              );
+            }}
+          />
+        </Grid>
         <Grid item xs={2}>
           <Controller
             control={methods.control}
@@ -106,20 +155,20 @@ export const LocationsForm = () => {
           />
         </Grid>
       </Grid>
+      {/* TODO Criar componente de Data Inicio e Data Fim */}
       <Grid container spacing={1}>
         <Grid item xs={2}>
           <Controller
             control={methods.control}
-            name={"codeIntegration1"}
+            name={"startDate"}
             render={({ field, fieldState: { error } }) => {
               return (
-                <TextField
-                  error={!!error}
-                  helperText={error?.message}
+                <DatePicker
+                  label="Data Inicio"
                   {...field}
-                  label="Cód. GPS"
-                  variant="outlined"
-                  fullWidth
+                  error={error?.message}
+                  value={field.value ? dayjs(field.value) : null}
+                  onChange={(date) => field.onChange(date?.format())}
                 />
               );
             }}
@@ -128,16 +177,16 @@ export const LocationsForm = () => {
         <Grid item xs={2}>
           <Controller
             control={methods.control}
-            name={"codeIntegration2"}
+            name={"endDate"}
             render={({ field, fieldState: { error } }) => {
               return (
-                <TextField
-                  error={!!error}
-                  helperText={error?.message}
+                <DatePicker
+                  label="Data Fim"
                   {...field}
-                  label="Cód. TMS"
-                  variant="outlined"
-                  fullWidth
+                  {...field}
+                  error={error?.message}
+                  value={field.value ? dayjs(field.value) : null}
+                  onChange={(date) => field.onChange(date?.format())}
                 />
               );
             }}
@@ -164,7 +213,7 @@ export const LocationsForm = () => {
         <Grid item xs={2}>
           <Controller
             control={methods.control}
-            name={"latitude"}
+            name={"longitude"}
             render={({ field, fieldState: { error } }) => {
               return (
                 <TextField
@@ -178,6 +227,18 @@ export const LocationsForm = () => {
               );
             }}
           />
+        </Grid>
+        <Grid alignSelf={"center"}>
+          <Button
+            onClick={handleOpenWindow}
+            size="small"
+            variant="text"
+            sx={{
+              padding: "0px",
+            }}
+          >
+            <MapIcon />
+          </Button>
         </Grid>
       </Grid>
     </Box>

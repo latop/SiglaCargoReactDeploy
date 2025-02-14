@@ -10,6 +10,7 @@ export const useLocations = () => {
     codeIntegration1: params.get("integrationCode") || "",
     locationTypeId: params.get("locationTypeId") || "",
     code: params.get("locationCode") || "",
+    isOperation: Boolean(params.get("isOperation")) || false,
   };
   const [hash, setHash] = useHash();
 

@@ -2,7 +2,7 @@
 
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { Controller, FormProvider } from "react-hook-form";
-import { Box, Button, Grid, TextField } from "@mui/material";
+import { Box, Button, Grid, Switch, TextField } from "@mui/material";
 import { GridSearchIcon } from "@mui/x-data-grid";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
@@ -33,16 +33,7 @@ export function LocationsFilterBar() {
                     name="locationCode"
                     control={methods.control}
                     render={({ field }) => (
-                      <TextField {...field} label="Código da Localidade" />
-                    )}
-                  />
-                </Grid>
-                <Grid xs={1.5} item>
-                  <Controller
-                    name="integrationCode" //gps
-                    control={methods.control}
-                    render={({ field }) => (
-                      <TextField {...field} label="Código GPS" />
+                      <TextField {...field} label="Cód. da Localidade" />
                     )}
                   />
                 </Grid>
@@ -56,12 +47,50 @@ export function LocationsFilterBar() {
                   />
                 </Grid>
                 <Grid xs={1.5} item>
+                  <Controller
+                    name="integrationCode" //gps
+                    control={methods.control}
+                    render={({ field }) => (
+                      <TextField {...field} label="Código GPS" />
+                    )}
+                  />
+                </Grid>
+                <Grid xs={1.5} item>
                   <AutocompleteLocationType
                     name="locationTypeCode"
                     onChange={(value) => {
                       methods.setValue("locationTypeCode", value?.code || "");
                       methods.setValue("locationTypeId", value?.id || "");
                     }}
+                  />
+                </Grid>
+                <Grid item xs={0.9}>
+                  <Controller
+                    name="isOperation"
+                    control={methods.control}
+                    rules={{ required: true }}
+                    render={({ field }) => (
+                      <TextField
+                        label="Operacional"
+                        id="showTruckAssignment"
+                        variant="outlined"
+                        fullWidth
+                        InputProps={{
+                          startAdornment: (
+                            <Switch
+                              size="medium"
+                              id="showTruckAssignment"
+                              {...field}
+                              name="showTruckAssignment"
+                              checked={field.value}
+                              onChange={(value) => {
+                                field.onChange(value.currentTarget.checked);
+                              }}
+                            />
+                          ),
+                        }}
+                      />
+                    )}
                   />
                 </Grid>
               </Grid>

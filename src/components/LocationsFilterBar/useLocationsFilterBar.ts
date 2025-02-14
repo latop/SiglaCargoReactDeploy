@@ -1,4 +1,3 @@
-import { useLocations } from "@/features/Locations/useLocations";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
@@ -11,6 +10,7 @@ const schema = z.object({
   locationCode: z.string().optional(),
   integrationCode: z.string().optional(),
   integrationCode2: z.string().optional(),
+  isOperation: z.coerce.boolean().optional(),
 });
 
 export type FormFields = z.infer<typeof schema>;
@@ -26,20 +26,18 @@ export const useLocationsFilterBar = () => {
       locationCode: params.get("locationCode") || "",
       integrationCode: params.get("integrationCode") || "",
       integrationCode2: params.get("integrationCode2") || "",
+      isOperation: Boolean(params.get("isOperation")) || false,
     },
   });
-
-  const { refetchLocations } = useLocations();
 
   const onSubmit = (data: FormFields) => {
     const params = new URLSearchParams();
     Object.entries(data).forEach(([key, value]) => {
-      if (!value) {
-        refetchLocations();
-        return;
+      if (value && typeof value !== "boolean") {
+        params.append(key, value);
       }
       if (value) {
-        params.append(key, value);
+        params.append(key, (value as boolean).toString());
       }
     });
     router.push(`/locations?${params.toString()}`);
