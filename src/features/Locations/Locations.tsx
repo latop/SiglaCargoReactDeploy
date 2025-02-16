@@ -95,7 +95,7 @@ export function Locations() {
       sortable: false,
       filterable: false,
       valueGetter: (_, data: LocationsType) => {
-        return data.locationType.isOperation ? "Sim" : "Nao";
+        return data.locationType.isOperation ? "Sim" : "Não";
       },
     },
     {
