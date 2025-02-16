@@ -8,9 +8,11 @@ const schema = z.object({
   locationTypeId: z.string().optional(),
   locationTypeCode: z.string().optional(),
   locationCode: z.string().optional(),
+  locationGroupId: z.string().optional(),
+  locationGroupCode: z.string().optional(),
   integrationCode: z.string().optional(),
   integrationCode2: z.string().optional(),
-  isOperation: z.coerce.boolean().optional(),
+  isOperation: z.coerce.boolean(),
 });
 
 export type FormFields = z.infer<typeof schema>;
@@ -24,9 +26,11 @@ export const useLocationsFilterBar = () => {
       locationTypeId: params.get("locationTypeId") || "",
       locationTypeCode: params.get("locationTypeCode") || "",
       locationCode: params.get("locationCode") || "",
+      locationGroupId: params.get("locationGroupId") || "",
+      locationGroupCode: params.get("locationGroupCode") || "",
       integrationCode: params.get("integrationCode") || "",
       integrationCode2: params.get("integrationCode2") || "",
-      isOperation: Boolean(params.get("isOperation")) || false,
+      isOperation: Boolean(params.get("isOperation")) || undefined,
     },
   });
 

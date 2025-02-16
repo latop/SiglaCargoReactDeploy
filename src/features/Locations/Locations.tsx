@@ -8,6 +8,7 @@ import { Box, Button, Card, CircularProgress } from "@mui/material";
 import {
   DataGrid,
   GridColDef,
+  GridDeleteForeverIcon,
   // GridDeleteForeverIcon
 } from "@mui/x-data-grid";
 import { EmptyResult } from "@/components/EmptyResult";
@@ -16,8 +17,10 @@ import { useLocations } from "./useLocations";
 import { Locations as LocationsType } from "@/interfaces/trip";
 import { LocationsFilterBar } from "@/components/LocationsFilterBar/LocaticationsFilterBar";
 import { LocationsDialog } from "@/components/LocationsDialog";
+import { useDialog } from "@/hooks/useDialog/useDialog";
 
 export function Locations() {
+  const { openDialog, closeDialog } = useDialog();
   const {
     locations,
     currentPage,
@@ -32,6 +35,8 @@ export function Locations() {
     isToAddLocation,
     locationId,
     handleCloseDialog,
+    handleDeleteLocation,
+    isLoadingDelete,
   } = useLocations();
 
   const columns: GridColDef[] = [
@@ -45,7 +50,14 @@ export function Locations() {
     {
       field: "codeIntegration2",
       headerName: "Cód. TMS",
-      width: 200,
+      width: 150,
+      sortable: false,
+      filterable: false,
+    },
+    {
+      field: "codeIntegration1",
+      headerName: "Cód. do GPS",
+      width: 150,
       sortable: false,
       filterable: false,
     },
@@ -77,45 +89,58 @@ export function Locations() {
       },
     },
     {
+      field: "locationType.isOperation",
+      headerName: "Local Operacional",
+      width: 150,
+      sortable: false,
+      filterable: false,
+      valueGetter: (_, data: LocationsType) => {
+        return data.locationType.isOperation ? "Sim" : "Nao";
+      },
+    },
+    {
       field: "",
       headerName: "Ação",
       sortable: false,
       filterable: false,
-      width: 50,
+      width: 110,
 
-      // renderCell: (params) => {
-      //   return (
-      //     <button
-      //       disabled={loadingDeleteTruck}
-      //       style={{
-      //         paddingTop: 12,
-      //         display: "flex",
-      //         gap: "8px",
-      //         border: "none",
-      //         background: "transparent",
-      //       }}
-      //     >
-      //       <GridDeleteForeverIcon
-      //         sx={{
-      //           cursor: "pointer",
-      //           color: "#e53935",
-      //         }}
-      //         onClick={() => {
-      //           openDialog({
-      //             body: "Deseja deletar este caminhão?",
-      //             onConfirm: () => {
-      //               handleDeleteTruck({ truckId: params?.id as string });
-      //               closeDialog();
-      //             },
-      //             onCancel: () => {
-      //               closeDialog();
-      //             },
-      //           });
-      //         }}
-      //       />
-      //     </button>
-      //   );
-      // },
+      renderCell: (params) => {
+        return (
+          <button
+            disabled={isLoadingDelete}
+            style={{
+              paddingTop: 12,
+              display: "flex",
+              gap: "8px",
+              border: "none",
+              background: "transparent",
+            }}
+          >
+            <GridDeleteForeverIcon
+              sx={{
+                cursor: "pointer",
+                color: "#e53935",
+              }}
+              onClick={() => {
+                openDialog({
+                  body: "Deseja deletar este caminhão?",
+                  onConfirm: async () => {
+                    await handleDeleteLocation(params?.id as string).then(
+                      () => {
+                        closeDialog();
+                      },
+                    );
+                  },
+                  onCancel: () => {
+                    closeDialog();
+                  },
+                });
+              }}
+            />
+          </button>
+        );
+      },
     },
   ];
 

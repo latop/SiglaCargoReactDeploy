@@ -11,6 +11,7 @@ import "dayjs/locale/pt-br";
 import dayjs from "dayjs";
 import { useLocationsFilterBar } from "./useLocationsFilterBar";
 import { AutocompleteLocationType } from "../AutocompleteLocationType";
+import { AutocompleteLocationGroup } from "../AutocompleteLocationGroup";
 
 dayjs.extend(customParseFormat);
 
@@ -33,7 +34,7 @@ export function LocationsFilterBar() {
                     name="locationCode"
                     control={methods.control}
                     render={({ field }) => (
-                      <TextField {...field} label="Cód. da Localidade" />
+                      <TextField {...field} label="Cód. do Local" />
                     )}
                   />
                 </Grid>
@@ -42,7 +43,7 @@ export function LocationsFilterBar() {
                     name="integrationCode2" //tms
                     control={methods.control}
                     render={({ field }) => (
-                      <TextField {...field} label="Código TMS" />
+                      <TextField {...field} label="Cód. TMS" />
                     )}
                   />
                 </Grid>
@@ -51,8 +52,17 @@ export function LocationsFilterBar() {
                     name="integrationCode" //gps
                     control={methods.control}
                     render={({ field }) => (
-                      <TextField {...field} label="Código GPS" />
+                      <TextField {...field} label="Cód. GPS" />
                     )}
+                  />
+                </Grid>
+                <Grid xs={1.5} item>
+                  <AutocompleteLocationGroup
+                    name="locationGroupCode"
+                    onChange={(value) => {
+                      methods.setValue("locationGroupCode", value?.code || "");
+                      methods.setValue("locationGroupId", value?.id || "");
+                    }}
                   />
                 </Grid>
                 <Grid xs={1.5} item>

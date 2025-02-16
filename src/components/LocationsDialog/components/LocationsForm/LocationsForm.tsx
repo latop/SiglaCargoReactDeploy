@@ -56,7 +56,7 @@ export const LocationsForm = () => {
                   error={!!error}
                   helperText={error?.message}
                   {...field}
-                  label="Nome Da Localização"
+                  label="Descrição" // Nome da localização
                   variant="outlined"
                   fullWidth
                   onChange={(e) => {
@@ -130,7 +130,6 @@ export const LocationsForm = () => {
             name="locationGroup.code"
             onChange={(value) => {
               methods.setValue("loctionGroupId", value?.id || "");
-              methods.setValue("locationGroup", value?.id || "");
             }}
           />
         </Grid>

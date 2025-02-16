@@ -294,7 +294,7 @@ export const useGetLocationTypeQuery = ({
         return error;
       }
     },
-    staleTime: 86400,
+    staleTime: 0,
   });
 };
 

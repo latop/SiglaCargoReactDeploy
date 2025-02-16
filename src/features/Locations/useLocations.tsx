@@ -1,5 +1,9 @@
+"use client";
+
 import { useHash } from "@/hooks/useHash";
+import { useToast } from "@/hooks/useToast";
 import { FetchLocationsParams } from "@/interfaces/trip";
+import { useDeleteLocationMution } from "@/services/mutation/trips";
 import { useGetLocationsQuery } from "@/services/query/trips";
 import { useSearchParams } from "next/navigation";
 
@@ -9,11 +13,12 @@ export const useLocations = () => {
     codeIntegration2: params.get("integrationCode2") || "",
     codeIntegration1: params.get("integrationCode") || "",
     locationTypeId: params.get("locationTypeId") || "",
+    locationGroupId: params.get("locationGroupId") || "",
     code: params.get("locationCode") || "",
     isOperation: Boolean(params.get("isOperation")) || false,
   };
   const [hash, setHash] = useHash();
-
+  const { addToast } = useToast();
   const handleAddLocation = () => {
     setHash("add-location");
   };
@@ -34,13 +39,13 @@ export const useLocations = () => {
     data,
     fetchNextPage,
     hasNextPage,
-    // isFetching,
     isFetchingNextPage,
-    // hasPreviousPage,
     isLoading,
     refetch: refetchLocations,
     isError,
   } = useGetLocationsQuery(payload());
+  const { mutateAsync: mutationDeleteLocation, isPending: isLoadingDelete } =
+    useDeleteLocationMution();
 
   const locations = data?.pages.flatMap((page) => page.data) || [];
   const currentPage = data?.pages[data.pages.length - 1]?.currentPage || 1;
@@ -58,6 +63,17 @@ export const useLocations = () => {
     setHash("");
   };
 
+  const handleDeleteLocation = async (id: string) => {
+    await mutationDeleteLocation(id, {
+      onSuccess: () => {
+        addToast("Localização excluída com sucesso!", { type: "success" });
+      },
+      onError: () => {
+        addToast("Erro ao excluir localização...", { type: "error" });
+      },
+    });
+  };
+
   return {
     locations,
     currentPage,
@@ -73,5 +89,7 @@ export const useLocations = () => {
     locationId,
     isToAddLocation,
     handleCloseDialog,
+    handleDeleteLocation,
+    isLoadingDelete,
   };
 };

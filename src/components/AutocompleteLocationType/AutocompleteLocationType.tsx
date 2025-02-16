@@ -11,11 +11,13 @@ export function AutocompleteLocationType({
   keyCode = "code",
   onChange,
   label = "Tipo da Localização",
+  optionKey = "code",
 }: {
   name?: string;
   keyCode?: keyof LocationType;
   onChange?: (value: LocationType | null) => void;
   label?: string;
+  optionKey?: keyof LocationType;
 }) {
   const {
     control,
@@ -66,7 +68,7 @@ export function AutocompleteLocationType({
               : "Nenhum resultado encontrado"
           }
           getOptionLabel={(option: LocationType) =>
-            option.description ? `${option.code}` : option.code
+            optionKey ? `${option[optionKey]}` : option.code
           }
           renderInput={(params) => (
             <TextField
