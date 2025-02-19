@@ -13,12 +13,14 @@ export function AutocompleteTruck({
   keyCode = "licensePlate",
   disabled = false,
   onChange,
+  isUpperCase = false
 }: {
   name?: string;
   label?: string;
   keyCode?: keyof Truck;
   disabled?: boolean;
   onChange?: (value: Truck | null) => void;
+  isUpperCase?: boolean
 }) {
   const {
     control,
@@ -61,7 +63,6 @@ export function AutocompleteTruck({
             getOptionLabel={(option: Truck) => option[keyCode] as string}
             renderInput={(params) => (
               <TextField
-
                 {...field}
                 {...params}
                 sx={{
@@ -69,6 +70,11 @@ export function AutocompleteTruck({
                     WebkitTextFillColor: "#000000",
                     opacity: 1,
                   },
+                  ... (isUpperCase && {
+                    "& .MuiInputBase-input": {
+                      textTransform: "uppercase",
+                    },
+                  })
                 }}
                 onChange={debounce((event) => {
                   setLocalValue(event.target.value);
