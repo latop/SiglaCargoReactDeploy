@@ -128,6 +128,7 @@ export const LocationsForm = () => {
           <AutocompleteLocationGroup
             label="Grupo de Localização"
             name="locationGroup.code"
+            hasSkeleton
             onChange={(value) => {
               methods.setValue("loctionGroupId", value?.id || "");
             }}
@@ -140,16 +141,17 @@ export const LocationsForm = () => {
             label="Tipo de Localização"
             onChange={(value) => {
               methods.setValue("locationTypeId", value?.id || "");
-              methods.setValue("locationTypeCode", value?.code || "");
+              methods.setValue("locationType", value || {});
             }}
           />
         </Grid>
         <Grid item xs={2}>
           <AutocompleteCities
+            hasSkeleton
             label="Cidade"
-            name="cityId"
+            name="city"
             onChange={(value) => {
-              methods.setValue("cityId", value?.id || "");
+              methods.setValue("city", value || {});
             }}
           />
         </Grid>

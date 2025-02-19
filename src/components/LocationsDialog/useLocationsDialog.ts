@@ -9,7 +9,6 @@ import {
 } from "@/services/mutation/trips";
 import { useGetLocationByIdQuery } from "@/services/query/trips";
 import { zodResolver } from "@hookform/resolvers/zod";
-import dayjs from "dayjs";
 import { useCallback, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -20,11 +19,13 @@ const schema = z.object({
   codeIntegration2: z.string().optional(), // TMS
   name: z.string(),
   cityId: z.string().optional(),
+  city: z.record(z.any()).optional(),
   latitude: z.coerce.number(),
   longitude: z.coerce.number(),
+  locationGroup: z.record(z.any()).optional(),
   loctionGroupId: z.string().optional(),
   locationTypeId: z.string(),
-  locationTypeCode: z.string().optional(),
+  locationType: z.record(z.any()).optional(),
   timezoneId: z.string().optional(),
   startDate: z.string().optional(),
   endDate: z.string().optional(),
@@ -52,9 +53,8 @@ export const useLocationsDialog = () => {
 
   const handleFormDefaults = useCallback(() => {
     methods.reset({
+      city: location?.city?.name,
       ...location,
-      startDate: dayjs().format("YYYY-MM-DD"),
-      endDate: dayjs().add(20, "year").format("YYYY-MM-DD"),
     });
   }, [location, methods]);
 
@@ -75,6 +75,17 @@ export const useLocationsDialog = () => {
     const body: Locations = {
       ...location,
       locationGroupId: data.loctionGroupId,
+      locationTypeId: data.locationTypeId,
+      name: data.name,
+      code: data.code,
+      codeIntegration1: data.codeIntegration1,
+      codeIntegration2: data.codeIntegration2,
+      latitude: data.latitude,
+      longitude: data.longitude,
+      cityId: data?.city?.id,
+      timezoneId: data.timezoneId,
+      startDate: data.startDate,
+      endDate: data.endDate,
     };
 
     return await editLocation(body, {
@@ -103,7 +114,6 @@ export const useLocationsDialog = () => {
     handleErrors(methods.getValues());
   }, [handleErrors, methods.formState.errors]);
 
-  console.log(methods.formState.errors);
   return {
     methods,
     onSubmit: methods.handleSubmit(handleSubmit),

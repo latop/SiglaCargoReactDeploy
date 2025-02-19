@@ -43,21 +43,21 @@ export function Locations() {
     {
       field: "code",
       headerName: "Cód. Localidade",
-      width: 200,
+      width: 150,
       sortable: false,
       filterable: false,
     },
     {
       field: "codeIntegration2",
       headerName: "Cód. TMS",
-      width: 150,
+      width: 100,
       sortable: false,
       filterable: false,
     },
     {
       field: "codeIntegration1",
       headerName: "Cód. do GPS",
-      width: 150,
+      width: 100,
       sortable: false,
       filterable: false,
     },
@@ -81,11 +81,11 @@ export function Locations() {
     {
       field: "locationType.code",
       headerName: "Tipo de Localização",
-      width: 200,
+      width: 150,
       sortable: false,
       filterable: false,
       valueGetter: (_, data: LocationsType) => {
-        return data.locationType.description;
+        return data.locationType.code;
       },
     },
     {
@@ -124,7 +124,7 @@ export function Locations() {
               }}
               onClick={() => {
                 openDialog({
-                  body: "Deseja deletar este caminhão?",
+                  body: "Deseja deletar este registro?",
                   onConfirm: async () => {
                     await handleDeleteLocation(params?.id as string).then(
                       () => {

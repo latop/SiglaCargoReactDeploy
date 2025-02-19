@@ -1,23 +1,24 @@
 /* eslint-disable prettier/prettier */
 import React from "react";
 import { Controller, useFormContext } from "react-hook-form";
-import { TextField } from "@mui/material";
+import { Skeleton, TextField } from "@mui/material";
 import Autocomplete from "@mui/material/Autocomplete";
 import debounce from "debounce";
 import { City } from "@/interfaces/parameters";
-import { useCities } from "@/hooks/useCities";
+import { useCitiesQuery } from "@/hooks/useCities/useCitiesQuery";
 
 export function AutocompleteCities({
   name = "name",
   label = "Cidades",
   keyCode = "name",
   onChange,
-
+  hasSkeleton = false,
 }: {
   name?: string;
   label?: string;
   keyCode?: keyof City;
   onChange?: (value: City | null) => void;
+  hasSkeleton?: boolean;
 }) {
   const {
     control,
@@ -27,8 +28,11 @@ export function AutocompleteCities({
   } = useFormContext();
 
   const isDirty = dirtyFields[name];
-  const { cities, error } = useCities({
+  const { data: cities = [], error, isFetching } = useCitiesQuery({
     cityName: isDirty ? watch(name) : "",
+  }, {
+    queryKey: ["cities", { cityName: isDirty ? watch(name) : "" }],
+    staleTime: 0
   });
 
   const handleChange = (_: unknown, value: City | null) => {
@@ -37,9 +41,11 @@ export function AutocompleteCities({
     } else {
       setValue("id", value?.id || "");
       setValue("code", value?.code || "");
-
     }
   };
+
+
+  if (hasSkeleton && isFetching) return <Skeleton width={"100%"} height={"100%"} />;
 
   return (
     <Controller

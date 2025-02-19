@@ -34,7 +34,13 @@ export function LocationsFilterBar() {
                     name="locationCode"
                     control={methods.control}
                     render={({ field }) => (
-                      <TextField {...field} label="Cód. do Local" />
+                      <TextField
+                        {...field}
+                        label="Cód. do Local"
+                        onChange={(e) => {
+                          field.onChange(e.target.value.toUpperCase());
+                        }}
+                      />
                     )}
                   />
                 </Grid>
