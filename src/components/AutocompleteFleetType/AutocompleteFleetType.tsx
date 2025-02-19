@@ -1,6 +1,6 @@
 import React, { SyntheticEvent } from "react";
 import { Controller, useFormContext } from "react-hook-form";
-import { TextField } from "@mui/material";
+import { Skeleton, TextField } from "@mui/material";
 import Autocomplete from "@mui/material/Autocomplete";
 import debounce from "debounce";
 import { FleetType } from "@/interfaces/vehicle";
@@ -11,11 +11,13 @@ export function AutocompleteFleetType({
   keyCode = "code",
   onChange,
   label = "Cód da frota",
+  hasSkeleton = false,
 }: {
   name?: string;
   keyCode?: keyof FleetType;
   onChange?: (value: FleetType | null) => void;
   label?: string;
+  hasSkeleton?: boolean;
 }) {
   const {
     control,
@@ -25,7 +27,11 @@ export function AutocompleteFleetType({
   } = useFormContext();
   const isDirty = dirtyFields[name];
 
-  const { data: { data: fleetTypes = [] } = [], error } = useGetFleetTypeQuery({
+  const {
+    data: { data: fleetTypes = [] } = [],
+    error,
+    isFetching,
+  } = useGetFleetTypeQuery({
     pageSize: 20,
     code: isDirty ? watch(name) : "",
   });
@@ -42,6 +48,9 @@ export function AutocompleteFleetType({
       setValue("fleetTypeCode", value?.code || "");
     }
   };
+
+  if (isFetching && hasSkeleton)
+    return <Skeleton width={"100%"} height={"100%"} />;
 
   return (
     <Controller
