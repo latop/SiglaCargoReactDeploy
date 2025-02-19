@@ -46,7 +46,8 @@ export const useGetFleetTypeQuery = ({
         return error;
       }
     },
-    staleTime: 86400,
+    staleTime: 0,
+    placeholderData: !code && {},
   });
 };
 

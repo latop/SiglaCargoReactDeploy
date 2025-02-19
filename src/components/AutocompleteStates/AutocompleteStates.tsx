@@ -1,23 +1,27 @@
 /* eslint-disable prettier/prettier */
 import React from "react";
 import { Controller, useFormContext } from "react-hook-form";
-import { TextField } from "@mui/material";
+import { Skeleton, TextField } from "@mui/material";
 import Autocomplete from "@mui/material/Autocomplete";
 import debounce from "debounce";
 import { State } from "@/interfaces/parameters";
-import { useStates } from "@/hooks/useStates";
+import { useStatesQuery } from "@/hooks/useStates/useStatesQuery";
+
+
 
 export function AutocompleteStates({
   name = "name",
   label = "Estados",
   keyCode = "name",
   onChange,
+  hasSkeleton = false
 
 }: {
   name?: string;
   label?: string;
   keyCode?: keyof State;
   onChange?: (value: State | null) => void;
+  hasSkeleton?: boolean;
 }) {
   const {
     control,
@@ -27,8 +31,11 @@ export function AutocompleteStates({
   } = useFormContext();
 
   const isDirty = dirtyFields[name];
-  const { states, error } = useStates({
+  const { data: states = [], error, isFetching } = useStatesQuery({
     stateName: isDirty ? watch(name) : "",
+  }, {
+    queryKey: ["states", { stateName: isDirty ? watch(name) : "" }],
+    staleTime: 0
   });
 
   const handleChange = (_: unknown, value: State | null) => {
@@ -41,6 +48,8 @@ export function AutocompleteStates({
     }
   };
 
+  if (hasSkeleton && isFetching) return <Skeleton width={"100%"} height={"100%"} />;
+
 
   return (
     <Controller
@@ -50,7 +59,7 @@ export function AutocompleteStates({
         <Autocomplete
           forcePopupIcon={false}
           clearOnEscape
-          options={states || []}
+          options={states as State[] || []}
           loadingText="Carregando..."
           defaultValue={{ [keyCode]: field.value?.[keyCode] || field.value || "" } as State}
           isOptionEqualToValue={(option: State, value: State) =>

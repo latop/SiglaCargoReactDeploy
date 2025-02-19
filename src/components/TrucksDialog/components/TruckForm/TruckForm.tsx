@@ -84,7 +84,7 @@ export const TruckForm = () => {
         </Grid>
         <Grid item xs={1.6}>
           <AutocompleteStates
-            key={methods.getValues("stateId")}
+            hasSkeleton
             name="state.name"
             label="Estado Emplacamento"
             onChange={(value) => {
@@ -131,9 +131,8 @@ export const TruckForm = () => {
       <Grid container spacing={1}>
         <Grid item xs={2}>
           <AutocompleteFleetType
-            key={methods.watch("fleetTypeId")}
+            hasSkeleton
             name="fleetType.code"
-            keyCode="code"
             label="Tipo da frota"
             onChange={(value) => {
               methods.setValue("fleetTypeId", value?.id || "");
@@ -142,7 +141,7 @@ export const TruckForm = () => {
         </Grid>
         <Grid item xs={1.5}>
           <AutocompleteLocationGroup
-            key={methods.watch("locationGroupId")}
+            hasSkeleton
             name="locationGroup.code"
             onChange={(value) => {
               methods.setValue("locationGroupId", value?.id || "");
