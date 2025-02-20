@@ -22,6 +22,12 @@ export const LocationsForm = () => {
     window.open(getCoordinates(), "_blank");
   };
 
+  const hasCoordinates = () => {
+    const latitude = methods.watch("latitude");
+    const longitude = methods.watch("longitude");
+    return Boolean(latitude && longitude);
+  };
+
   return (
     <Box display="flex" flexDirection="column" gap="16px" mt="5px">
       <Grid container spacing={1}>
@@ -231,6 +237,7 @@ export const LocationsForm = () => {
         </Grid>
         <Grid alignSelf={"center"}>
           <Button
+            disabled={!hasCoordinates()}
             onClick={handleOpenWindow}
             size="small"
             variant="text"

@@ -5,6 +5,7 @@ import { useToast } from "@/hooks/useToast";
 import { FetchLocationsParams } from "@/interfaces/trip";
 import { useDeleteLocationMution } from "@/services/mutation/trips";
 import { useGetLocationsQuery } from "@/services/query/trips";
+import { getOperationValue } from "@/utils";
 import { useSearchParams } from "next/navigation";
 
 export const useLocations = () => {
@@ -15,7 +16,8 @@ export const useLocations = () => {
     locationTypeId: params.get("locationTypeId") || "",
     locationGroupId: params.get("locationGroupId") || "",
     code: params.get("locationCode") || "",
-    isOperation: Boolean(params.get("isOperation")) || false,
+    isOperation: getOperationValue(params.get("isOperation")),
+    isEnabled: params.has("submitted"),
   };
   const [hash, setHash] = useHash();
   const { addToast } = useToast();
@@ -28,7 +30,7 @@ export const useLocations = () => {
 
   const payload = () => {
     Object.entries(parameters).forEach(([key, value]) => {
-      if (!value) {
+      if (value === "" || value === null || value === undefined) {
         delete parameters[key as keyof FetchLocationsParams];
       }
     });

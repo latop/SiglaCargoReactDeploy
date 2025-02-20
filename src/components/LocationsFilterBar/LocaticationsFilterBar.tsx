@@ -2,7 +2,14 @@
 
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { Controller, FormProvider } from "react-hook-form";
-import { Box, Button, Grid, Switch, TextField } from "@mui/material";
+import {
+  Box,
+  Button,
+  FormControl,
+  Grid,
+  TextField,
+  MenuItem,
+} from "@mui/material";
 import { GridSearchIcon } from "@mui/x-data-grid";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
@@ -80,32 +87,36 @@ export function LocationsFilterBar() {
                     }}
                   />
                 </Grid>
-                <Grid item xs={0.9}>
+                <Grid item>
                   <Controller
                     name="isOperation"
                     control={methods.control}
-                    rules={{ required: true }}
                     render={({ field }) => (
-                      <TextField
-                        label="Operacional"
-                        id="showTruckAssignment"
-                        variant="outlined"
-                        fullWidth
-                        InputProps={{
-                          startAdornment: (
-                            <Switch
-                              size="medium"
-                              id="showTruckAssignment"
-                              {...field}
-                              name="showTruckAssignment"
-                              checked={field.value}
-                              onChange={(value) => {
-                                field.onChange(value.currentTarget.checked);
-                              }}
-                            />
-                          ),
-                        }}
-                      />
+                      <FormControl>
+                        <TextField
+                          select
+                          label="Operacional"
+                          size="small"
+                          {...field}
+                          value={
+                            field.value === null || field.value === undefined
+                              ? "null"
+                              : field.value.toString()
+                          }
+                          onChange={(e) => {
+                            const value =
+                              e.target.value === "null"
+                                ? null
+                                : e.target.value === "true";
+                            field.onChange(value);
+                          }}
+                          sx={{ minWidth: 120 }}
+                        >
+                          <MenuItem value="true">Sim</MenuItem>
+                          <MenuItem value="false">Não</MenuItem>
+                          <MenuItem value="null">Todos</MenuItem>
+                        </TextField>
+                      </FormControl>
                     )}
                   />
                 </Grid>

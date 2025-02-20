@@ -28,6 +28,7 @@ export function LocationsDialog({ open, onClose }: LocationsDialogProps) {
 
   const handleClose = () => {
     onClose();
+    methods.reset({});
   };
 
   return (

@@ -231,7 +231,6 @@ export const useGetStopTypeQuery = ({
 };
 
 export const useGetLocationsQuery = (params: Partial<FetchLocationsParams>) => {
-  const isEnabled = Object.values(params).some(Boolean);
   return useInfiniteQuery<LocationsPaginationResponse>({
     queryKey: ["locations", params],
     queryFn: async ({ pageParam = 0 }) => {
@@ -270,7 +269,7 @@ export const useGetLocationsQuery = (params: Partial<FetchLocationsParams>) => {
     },
     initialPageParam: 1,
     staleTime: 86400,
-    enabled: isEnabled,
+    enabled: !!params.isEnabled,
   });
 };
 
