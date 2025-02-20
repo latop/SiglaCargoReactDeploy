@@ -15,6 +15,7 @@ export const useTrucks = () => {
     fleetTypeId: params.get("fleetTypeId") || "",
     licensePlate: params.get("licensePlate") || "",
     locationGroupId: params.get("locationGroupId") || "",
+    isEnabled: params.has("submitted"),
   };
   const [deleteTruck, { loading: loadingDeleteTruck }] = useFetch();
   const { addToast } = useToast();
@@ -36,7 +37,7 @@ export const useTrucks = () => {
 
   const payload = () => {
     Object.entries(parameters).forEach(([key, value]) => {
-      if (!value) {
+      if (value === "" || value === null || value === undefined) {
         delete parameters[key as keyof FetchTrucksParams];
       }
     });
