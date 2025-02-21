@@ -70,6 +70,7 @@ export interface FetchTrucksParams {
   locationGroupId?: string;
   licensePlate?: string;
   fleetCode?: string;
+  isEnabled?: boolean;
 }
 
 interface TruckPaginationResponse {
@@ -83,7 +84,6 @@ interface TruckPaginationResponse {
 }
 
 export const useGetTrucksQuery = (params: FetchTrucksParams) => {
-  const isEnabled = Object.values(params).some(Boolean);
   return useInfiniteQuery<TruckPaginationResponse>({
     queryKey: ["trucks", params],
     queryFn: async ({ pageParam = 0 }) => {
@@ -120,7 +120,7 @@ export const useGetTrucksQuery = (params: FetchTrucksParams) => {
     },
     initialPageParam: 1,
     staleTime: 60 * 1000 * 5,
-    enabled: isEnabled,
+    enabled: !!params.isEnabled,
   });
 };
 
