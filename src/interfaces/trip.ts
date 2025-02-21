@@ -1,3 +1,6 @@
+import { Timezone } from "@/services/query/parameters";
+import { City } from "./parameters";
+
 export interface LocationGroup {
   code: string;
   description: string;
@@ -16,11 +19,13 @@ export interface Locations {
   codeIntegration2: string;
   name: string;
   cityId: string;
+  city: City;
   latitude: number;
   longitude: number;
   locationTypeId: string;
   locationType: LocationType;
   timezoneId: string;
+  timezone: Timezone;
   locationGroupId: string;
   locationGroup: LocationGroup;
   delayGPS: number;

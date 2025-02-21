@@ -6,8 +6,7 @@ import { LocationFormType } from "../../useLocationsDialog";
 import { AutocompleteCities } from "@/components/AutocompleteCities";
 import { AutocompleteLocationType } from "@/components/AutocompleteLocationType";
 import MapIcon from "@mui/icons-material/Map";
-import { DatePicker } from "@/components/DatePicker";
-import dayjs from "dayjs";
+import { AutocompleteTimezone } from "@/components/AutocompleteTimzone/AutocompleteTimezone";
 
 export const LocationsForm = () => {
   const methods = useFormContext<LocationFormType>();
@@ -31,7 +30,7 @@ export const LocationsForm = () => {
   return (
     <Box display="flex" flexDirection="column" gap="16px" mt="5px">
       <Grid container spacing={1}>
-        <Grid item xs={2}>
+        <Grid item xs={3}>
           <Controller
             control={methods.control}
             name={"code"}
@@ -52,7 +51,7 @@ export const LocationsForm = () => {
             }}
           />
         </Grid>
-        <Grid item xs={10}>
+        <Grid item xs={9}>
           <Controller
             control={methods.control}
             name={"name"}
@@ -75,7 +74,7 @@ export const LocationsForm = () => {
         </Grid>
       </Grid>
       <Grid container spacing={1}>
-        <Grid item xs={2}>
+        <Grid item xs={3}>
           <Controller
             control={methods.control}
             name={"codeIntegration1"}
@@ -93,7 +92,7 @@ export const LocationsForm = () => {
             }}
           />
         </Grid>
-        <Grid item xs={2}>
+        <Grid item xs={3}>
           <Controller
             control={methods.control}
             name={"codeIntegration2"}
@@ -111,26 +110,18 @@ export const LocationsForm = () => {
             }}
           />
         </Grid>
-        <Grid item xs={2}>
-          <Controller
-            control={methods.control}
-            name={"timezoneId"}
-            render={({ field, fieldState: { error } }) => {
-              return (
-                <TextField
-                  error={!!error}
-                  helperText={error?.message}
-                  {...field}
-                  label="Fuso Horário"
-                  variant="outlined"
-                  fullWidth
-                  value={"TIME ZONE UTC -3:00"}
-                />
-              );
+        <Grid item xs={3}>
+          <AutocompleteTimezone
+            hasSkeleton
+            hasMock
+            label="Fuso Horário"
+            name="timezone.code"
+            onChange={(value) => {
+              methods.setValue("timezoneId", value?.id || "");
             }}
           />
         </Grid>
-        <Grid item xs={2}>
+        <Grid item xs={3}>
           <AutocompleteLocationGroup
             label="Grupo de Localização"
             name="locationGroup.code"
@@ -140,7 +131,9 @@ export const LocationsForm = () => {
             }}
           />
         </Grid>
-        <Grid item xs={2}>
+      </Grid>
+      <Grid container spacing={1}>
+        <Grid item xs={3}>
           <AutocompleteLocationType
             key={methods.watch("locationTypeId")}
             name="locationType.code"
@@ -151,7 +144,7 @@ export const LocationsForm = () => {
             }}
           />
         </Grid>
-        <Grid item xs={2}>
+        <Grid item xs={3}>
           <AutocompleteCities
             hasSkeleton
             label="Cidade"
@@ -161,45 +154,7 @@ export const LocationsForm = () => {
             }}
           />
         </Grid>
-      </Grid>
-      {/* TODO Criar componente de Data Inicio e Data Fim */}
-      <Grid container spacing={1}>
-        <Grid item xs={2}>
-          <Controller
-            control={methods.control}
-            name={"startDate"}
-            render={({ field, fieldState: { error } }) => {
-              return (
-                <DatePicker
-                  label="Data Inicio"
-                  {...field}
-                  error={error?.message}
-                  value={field.value ? dayjs(field.value) : null}
-                  onChange={(date) => field.onChange(date?.format())}
-                />
-              );
-            }}
-          />
-        </Grid>
-        <Grid item xs={2}>
-          <Controller
-            control={methods.control}
-            name={"endDate"}
-            render={({ field, fieldState: { error } }) => {
-              return (
-                <DatePicker
-                  label="Data Fim"
-                  {...field}
-                  {...field}
-                  error={error?.message}
-                  value={field.value ? dayjs(field.value) : null}
-                  onChange={(date) => field.onChange(date?.format())}
-                />
-              );
-            }}
-          />
-        </Grid>
-        <Grid item xs={2}>
+        <Grid item xs={1.5}>
           <Controller
             control={methods.control}
             name={"latitude"}
@@ -217,7 +172,7 @@ export const LocationsForm = () => {
             }}
           />
         </Grid>
-        <Grid item xs={2}>
+        <Grid item xs={1.5}>
           <Controller
             control={methods.control}
             name={"longitude"}
@@ -235,7 +190,7 @@ export const LocationsForm = () => {
             }}
           />
         </Grid>
-        <Grid alignSelf={"center"}>
+        <Grid item xs={1} alignSelf={"center"}>
           <Button
             disabled={!hasCoordinates()}
             onClick={handleOpenWindow}

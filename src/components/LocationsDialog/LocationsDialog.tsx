@@ -37,7 +37,7 @@ export function LocationsDialog({ open, onClose }: LocationsDialogProps) {
         onClose={handleClose}
         open={open}
         fullWidth
-        PaperProps={{ sx: { height: "auto", maxWidth: "1300px" } }}
+        PaperProps={{ sx: { height: "auto", maxWidth: "1000px" } }}
       >
         <FormProvider {...methods}>
           <form

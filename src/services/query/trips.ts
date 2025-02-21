@@ -3,6 +3,7 @@ import api from "../configs/api";
 import { FetchBasicParams } from "./types";
 import {
   FetchLocationsParams,
+  Locations,
   LocationsPaginationResponse,
 } from "@/interfaces/trip";
 
@@ -231,6 +232,7 @@ export const useGetStopTypeQuery = ({
 };
 
 export const useGetLocationsQuery = (params: Partial<FetchLocationsParams>) => {
+  const hasAdditionalParameters = Object.keys(params).length > 0;
   return useInfiniteQuery<LocationsPaginationResponse>({
     queryKey: ["locations", params],
     queryFn: async ({ pageParam = 0 }) => {
@@ -269,7 +271,7 @@ export const useGetLocationsQuery = (params: Partial<FetchLocationsParams>) => {
     },
     initialPageParam: 1,
     staleTime: 86400,
-    enabled: !!params.isEnabled,
+    enabled: !!params.isEnabled || hasAdditionalParameters || false,
   });
 };
 
@@ -298,7 +300,7 @@ export const useGetLocationTypeQuery = ({
 };
 
 export const useGetLocationByIdQuery = (id?: string) => {
-  return useQuery({
+  return useQuery<Locations>({
     queryKey: ["location", { id }],
     queryFn: async () => {
       try {
@@ -309,7 +311,7 @@ export const useGetLocationByIdQuery = (id?: string) => {
         return error;
       }
     },
-    placeholderData: !id && {},
+    placeholderData: id ? undefined : ({} as Locations),
     staleTime: 86400,
     enabled: !!id,
   });

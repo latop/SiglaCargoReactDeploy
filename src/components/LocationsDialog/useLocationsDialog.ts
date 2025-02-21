@@ -2,7 +2,6 @@
 
 import { useHash } from "@/hooks/useHash";
 import { useToast } from "@/hooks/useToast";
-import { Locations } from "@/interfaces/trip";
 import {
   useCreateLocationMution,
   useEditLocationMution,
@@ -53,7 +52,8 @@ export const useLocationsDialog = () => {
 
   const handleFormDefaults = useCallback(() => {
     methods.reset({
-      city: location?.city?.name,
+      cityId: location?.city?.id,
+      timezoneId: location?.timezone?.id,
       ...location,
     });
   }, [location, methods]);
@@ -72,7 +72,7 @@ export const useLocationsDialog = () => {
         },
       });
     }
-    const body: Locations = {
+    const body = {
       ...location,
       locationGroupId: data.loctionGroupId,
       locationTypeId: data.locationTypeId,
@@ -83,7 +83,7 @@ export const useLocationsDialog = () => {
       latitude: data.latitude,
       longitude: data.longitude,
       cityId: data?.city?.id,
-      timezoneId: data.timezoneId,
+      timezoneId: data?.timezoneId,
       startDate: data.startDate,
       endDate: data.endDate,
     };
