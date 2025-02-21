@@ -62,14 +62,14 @@ export function Lines() {
       },
     },
     {
-      field: "tripType.code",
+      field: "tripType.description",
       headerName: "Tipo de Viagem",
       width: 300,
       sortable: false,
       filterable: false,
       valueGetter: (_, data) => {
-        return data?.line?.tripType?.code
-          ? `${data?.line?.tripType?.code}`
+        return data?.line?.tripType?.description
+          ? `${data?.line?.tripType?.description}`
           : "N/A";
       },
     },
