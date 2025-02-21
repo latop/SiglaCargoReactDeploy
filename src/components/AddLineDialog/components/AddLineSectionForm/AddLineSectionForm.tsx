@@ -28,7 +28,12 @@ export const AddLineSectionForm = ({ seq }: { seq: number }) => {
   const handleDeleteStep = () => {
     const steps = getValues("lineSections");
     steps.splice(seq, 1);
-    setValue("lineSections", steps);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const updatedSteps = steps.map((step: any, index: number) => ({
+      ...step,
+      section: { ...step.section, seq: index },
+    }));
+    setValue("lineSections", updatedSteps);
   };
 
   return (
