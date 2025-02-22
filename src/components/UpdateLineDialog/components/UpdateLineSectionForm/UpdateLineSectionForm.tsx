@@ -113,7 +113,7 @@ export const UpdateLineSectionForm = ({ seq }: { seq: number }) => {
             <AutocompleteStopType
               name={`lineSections.${seq}.stopType.stopTypeCode`}
               onChange={(value) => {
-                setValue(`lineSections.${seq}.stopType`, value);
+                setValue(`lineSections.${seq}.stopTypeId`, value?.id);
               }}
             />
           </Grid>

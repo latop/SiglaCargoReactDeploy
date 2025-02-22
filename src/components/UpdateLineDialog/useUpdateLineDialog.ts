@@ -96,12 +96,13 @@ export function useUpdateLineDialog() {
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       lineSections: data?.lineSections?.map((section: any) => {
+        console.log(section);
         return {
           id: section?.id,
           lineId: section?.lineId,
           locationOrigId: section?.locationOrigId,
           locationDestId: section?.locationDestId,
-          stopTypeId: section?.stopTypeId || section?.stopType?.id,
+          stopTypeId: section?.stopTypeId,
           duration: Number(section?.duration),
         };
       }),
