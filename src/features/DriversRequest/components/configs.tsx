@@ -1,13 +1,20 @@
 import { DriverRequestResponse } from "@/services/query/drivers";
-import { Button } from "@mui/material";
+import { Box } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import dayjs from "dayjs";
+import { CiCircleCheck, CiCircleRemove } from "react-icons/ci";
 
 const headerClass = "blueColumnHeaders";
 
 interface ColumnBuilder {
   handleChangeStatus: (id: string, status: string) => void;
 }
+
+export const status = {
+  A: "Aprovado",
+  D: "Negado",
+  P: "Pendente",
+} as { [key: string]: string };
 
 const columns = ({ handleChangeStatus }: ColumnBuilder): GridColDef[] => {
   return [
@@ -72,45 +79,51 @@ const columns = ({ handleChangeStatus }: ColumnBuilder): GridColDef[] => {
       valueFormatter: (value: string) =>
         value ? dayjs(value).format("DD/MM/YYYY HH:mm") : "",
     },
+    {
+      field: "flgStatus",
+      headerName: "Status",
+      width: 150,
+      sortable: false,
+      filterable: false,
+      valueFormatter: (value: string) => status[value],
+    },
 
     {
       field: "action",
       headerName: "Ações",
-      width: 200,
+      width: 100,
       type: "singleSelect" as const,
-      renderCell: (row) => {
+      renderCell: (row: { row: { flgStatus: string }; id: string }) => {
         const flgStatus = row.row.flgStatus;
 
         return (
           <div>
-            {flgStatus}
-            {!flgStatus && (
-              <>
-                <Button
+            {flgStatus && (
+              <Box display={"flex"} gap={1}>
+                <CiCircleCheck
+                  color="green"
+                  size={25}
+                  title="Aprovar"
+                  cursor={"pointer"}
                   onClick={() => handleChangeStatus(row.id, "A")}
-                  variant="contained"
-                  color="success"
-                >
-                  Aprovar
-                </Button>
-                <Button
+                />
+                <CiCircleRemove
+                  color="red"
+                  size={25}
+                  title="Negar"
+                  cursor={"pointer"}
                   onClick={() => handleChangeStatus(row.id, "D")}
-                  variant="contained"
-                  color="error"
-                >
-                  Negar
-                </Button>
-              </>
+                />
+              </Box>
             )}
-
-            <Button variant="contained" color="info">
-              Sem envio de atualização{" "}
-            </Button>
           </div>
         );
       },
     },
-  ].map((column) => ({ ...column, headerClassName: headerClass }));
+  ].map((column) => ({
+    ...column,
+    headerClassName: headerClass,
+  })) as GridColDef[];
 };
 
 export default {

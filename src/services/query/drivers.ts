@@ -92,14 +92,19 @@ export const useDriverRequestQuery = (props?: DriverReleaseFilterPayload) => {
   const enabledFlag =
     !!props &&
     (props.startDate ? true : false) &&
-    (props.endDate ? true : false) &&
-    (props.flgStatus ? true : false);
+    (props.endDate ? true : false);
 
   return useQuery({
     queryKey: ["driver-request", props],
     queryFn: async (): Promise<DriverRequestResponse[] | Error> => {
       try {
-        const { pageSize = 15, startDate, endDate, ...rest } = props || {};
+        const {
+          pageSize = 15,
+          startDate,
+          endDate,
+          flgStatus,
+          ...rest
+        } = props || {};
         const params = {
           PageSize: pageSize,
           startDate:
@@ -108,6 +113,7 @@ export const useDriverRequestQuery = (props?: DriverReleaseFilterPayload) => {
           endDate:
             dayjs(endDate?.toString()).format("ddd, MMM D, YYYY") +
             " 03:00:00 GMT",
+          flgStatus: flgStatus?.trim(),
           ...rest,
         };
         console.log("params", params);
@@ -120,6 +126,6 @@ export const useDriverRequestQuery = (props?: DriverReleaseFilterPayload) => {
         return error as Error;
       }
     },
-    // enabled: enabledFlag,
+    enabled: enabledFlag,
   });
 };

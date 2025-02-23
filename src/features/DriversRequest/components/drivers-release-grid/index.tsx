@@ -1,25 +1,12 @@
 import { DriverRequestResponse } from "@/services/query/drivers";
 import { DataGrid } from "@mui/x-data-grid";
-import React from "react";
 import config from "../configs";
-import { useDriverReleaseMutation } from "@/services/mutation/drivers";
 interface Params {
   data?: DriverRequestResponse[];
+  handleChangeStatus: (id: string, status: string) => void;
 }
 
-const DriverReleaseGrid = ({ data }: Params) => {
-  const { mutateAsync, isPending } = useDriverReleaseMutation();
-
-  const handleChangeStatus = async (id: string, status: string) => {
-    console.log("id", id);
-    console.log("status", status);
-    const response = await mutateAsync({
-      driverRequestId: id,
-      flgStatus: status,
-    });
-    console.log("response", response);
-  };
-
+const DriverReleaseGrid = ({ data, handleChangeStatus }: Params) => {
   const columns = config.columns({ handleChangeStatus });
 
   return (

@@ -3,7 +3,7 @@ import { AutocompleteDriver } from "@/components/AutocompleteDriver";
 import { AutocompleteFleetGroup } from "@/components/AutocompleteFleetGroup";
 import { AutocompleteLocationGroup } from "@/components/AutocompleteLocationGroup";
 import { Button, Grid, MenuItem, TextField } from "@mui/material";
-import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import React from "react";
@@ -11,6 +11,7 @@ import { Controller, FormProvider, useForm } from "react-hook-form";
 
 import SearchIcon from "@mui/icons-material/Search";
 import { DriverReleaseFilterPayload } from "@/services/query/drivers";
+import { DatePicker } from "@/components/DatePicker";
 
 interface Params extends React.HTMLProps<HTMLFormElement> {
   onApplySearch: (data: DriverReleaseFilterPayload) => void;
@@ -20,9 +21,9 @@ const DriverReleaseFilters = ({ onApplySearch, ...props }: Params) => {
   const methods = useForm();
   const { control, handleSubmit, watch } = methods;
 
-  const onSubmit = (values: any) => {
+  const onSubmit = (values: object) => {
     console.log("values", values);
-    onApplySearch(values);
+    onApplySearch(values as DriverReleaseFilterPayload);
   };
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
@@ -41,7 +42,7 @@ const DriverReleaseFilters = ({ onApplySearch, ...props }: Params) => {
                 render={({ field, fieldState: { error } }) => (
                   <DatePicker
                     label="Início da Jornada"
-                    // error={error?.message}
+                    error={error?.message}
                     {...field}
                   />
                 )}
@@ -55,7 +56,7 @@ const DriverReleaseFilters = ({ onApplySearch, ...props }: Params) => {
                 render={({ field, fieldState: { error } }) => (
                   <DatePicker
                     label="Fim da Jornada"
-                    // error?={error?.message}
+                    error={error?.message}
                     minDate={dayjs(watch("startDate"))}
                     {...field}
                   />
@@ -93,7 +94,7 @@ const DriverReleaseFilters = ({ onApplySearch, ...props }: Params) => {
                     error={!!error?.message}
                     helperText={error?.message?.toString()}
                   >
-                    <MenuItem value="">Pendente de Análise</MenuItem>
+                    <MenuItem value=" ">Pendente de Análise</MenuItem>
                     <MenuItem value="A">Aprovado</MenuItem>
                     <MenuItem value="D">Negado</MenuItem>
                     <MenuItem value="T">Todos</MenuItem>

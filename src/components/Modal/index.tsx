@@ -6,6 +6,7 @@ interface Params {
   children?: React.ReactNode;
   handleSave?: () => void;
   handleClose?: () => void;
+  isLoading?: boolean;
 }
 
 const style = {
