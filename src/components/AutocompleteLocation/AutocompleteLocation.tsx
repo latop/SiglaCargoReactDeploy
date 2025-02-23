@@ -31,10 +31,13 @@ export function AutocompleteLocation({
 
   const isDirty = dirtyFields[name];
 
-  const { data: locations = [], error } = useGetLocationReleaseQuery({
+  const { data = [], error } = useGetLocationReleaseQuery({
     code: (isDirty && watch(name)) ?? watch(name) ?? "",
   })
 
+  const locations = data?.data || [];
+
+  console.log(locations)
   const handleChange = (
     _: SyntheticEvent<Element, Event>,
     value: Location | null,

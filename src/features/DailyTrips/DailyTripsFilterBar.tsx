@@ -193,7 +193,7 @@ export function DailyTripsFilterBar({ onChange }: Params) {
                 color="primary"
                 fullWidth
                 onClick={() => {
-                  methods.reset();
+                  window.location.reload();
                 }}
               >
                 Limpar

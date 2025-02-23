@@ -55,10 +55,11 @@ export const useGetLocationReleaseQuery = ({
     queryKey: ["location_release"],
     queryFn: async () => {
       try {
-        const response = await api.get(`${resource}/GetLocationRelease`, {
+        const response = await api.get(`${resource}`, {
           params: {
             PageSize: pageSize,
             filter1String: code?.toUpperCase(),
+            filter1Bool: true,
           },
         });
         return response.data;

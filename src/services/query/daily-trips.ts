@@ -73,7 +73,7 @@ export const useGetDailyTripsQuery = ({
       }
     },
     enabled: !runQuery,
-    staleTime: 200,
+    staleTime: 5000,
   });
 };
 
@@ -100,6 +100,6 @@ export const useGetDailyTripDetailQuery = (
       }
     },
     enabled: params?.dailyTripId ? true : false,
-    staleTime: 1000,
+    staleTime: 1,
   });
 };
