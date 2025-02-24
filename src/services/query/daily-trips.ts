@@ -15,6 +15,7 @@ export type FetchDailyTripsParams = {
   sto?: string;
   flgStatus?: string;
   licensePlate?: string;
+  tripTypeId?: string;
   pageSize?: number;
   pageNumber?: number;
 };
@@ -40,6 +41,7 @@ export const useGetDailyTripsQuery = ({
   tripDate,
   flgStatus,
   licensePlate,
+  tripTypeId,
   pageNumber,
   pageSize = 15,
 }: FetchDailyTripsParams) => {
@@ -47,6 +49,7 @@ export const useGetDailyTripsQuery = ({
     filter1Id: fleetGroupId || undefined,
     filter2Id: locationOrigId || undefined,
     filter3Id: locationDestId || undefined,
+    Filter4Id: tripTypeId || undefined,
     filter1String: sto || undefined,
     filter2String:
       dayjs(tripDate?.toString()).format("ddd, MMM D, YYYY") + " 03:00:00 GMT",
@@ -56,6 +59,7 @@ export const useGetDailyTripsQuery = ({
     pageNumber,
   };
 
+  console.log(tripTypeId, params);
   const runQuery = !tripDate;
 
   return useQuery({

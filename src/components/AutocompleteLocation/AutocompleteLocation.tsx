@@ -32,12 +32,11 @@ export function AutocompleteLocation({
   const isDirty = dirtyFields[name];
 
   const { data = [], error } = useGetLocationReleaseQuery({
-    code: (isDirty && watch(name)) ?? watch(name) ?? "",
+    code: (isDirty && watch(name)) ?? watch(name) ?? "", pageSize: 5000
   })
 
   const locations = data?.data || [];
 
-  console.log(locations)
   const handleChange = (
     _: SyntheticEvent<Element, Event>,
     value: Location | null,
@@ -47,6 +46,7 @@ export function AutocompleteLocation({
     } else {
       setValue(name, value?.[keyCode] || "");
       setValue(`${name.split(".")[0]}Id`, value?.id || "");
+      setValue(name, value?.id || "");
       setValue(`${name.split(".")[0]}Description`, value?.name || "");
 
     }

@@ -31,7 +31,7 @@ export const DailyTripSectionForm = ({ seq, id }: Params) => {
 
   const insertMode =
     !id || id === "00000000-0000-0000-0000-000000000000" ? true : false;
-  console.log(insertMode);
+
   const handleDeleteStep = () => {
     const steps = getValues("dailyTripSections");
     steps.splice(seq, 1);
@@ -74,24 +74,27 @@ export const DailyTripSectionForm = ({ seq, id }: Params) => {
           </Grid>
           <Grid item xs={2}>
             <AutocompleteLocation
-              name={`dailyTripSections.${seq}.locationOrig.code`}
+              name={`dailyTripSections.${seq}.locationOrigId`}
               label="Origem"
             />
           </Grid>
           <Grid item xs={2}>
             <AutocompleteLocation
-              name={`dailyTripSections.${seq}.locationDest.code`}
+              name={`dailyTripSections.${seq}.locationDestId`}
               label="Destino"
             />
           </Grid>
           <Grid item xs={2}>
             <AutocompleteStopType
-              name={`dailyTripSections.${seq}.stopType.stopTypeCode`}
+              name={`dailyTripSections.${seq}.stopTypeCode`}
               label="Parada"
             />
           </Grid>
           <Grid item xs={4}>
-            <AutocompleteDriver disabled={!insertMode} />
+            <AutocompleteDriver
+              name={`dailyTripSections.${seq}.driverId`}
+              disabled={!insertMode}
+            />
           </Grid>
 
           <Grid item xs={2}>
@@ -138,7 +141,11 @@ export const DailyTripSectionForm = ({ seq, id }: Params) => {
                   error={error?.message}
                   {...field}
                   value={field.value ? dayjs(field.value) : null}
-                  onChange={(date) => field.onChange(date?.format())}
+                  onChange={(date) => {
+                    console.log("estimatedDate", date);
+                    field.onChange(date?.format());
+                    console.log("estimatedDate1", field.value);
+                  }}
                 />
               )}
             />

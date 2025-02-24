@@ -34,7 +34,7 @@ const schema = z.object({
   sto: z.string().optional(),
   flgStatus: z.string().optional(),
   licensePlate: z.string().optional(),
-  tripTypeCode: z.string().optional(),
+  tripTypeId: z.string().optional(),
 });
 
 interface FormFields extends FetchDailyTripsParams {}
@@ -51,7 +51,8 @@ const initialValues = {
   sto: "",
   flgStatus: "",
   licensePlate: "",
-  tripTypeCode: "",
+  tripTypeId: "",
+  tripTypeId: "",
 };
 export function DailyTripsFilterBar({ onChange }: Params) {
   const methods = useForm<FormFields>({
@@ -62,6 +63,7 @@ export function DailyTripsFilterBar({ onChange }: Params) {
   const { control, handleSubmit } = methods;
 
   const onSubmit = (data: FormFields) => {
+    console.log("formData", data);
     onChange(data);
   };
 
@@ -180,7 +182,7 @@ export function DailyTripsFilterBar({ onChange }: Params) {
             <Grid item xs={1.2} paddingLeft="0">
               <AutocompleteTripType
                 // ref={locationOrigRef}
-                name="tripTypeCode"
+                name="tripTypeId"
                 label="Tipo da viagem"
                 keyCode="id"
               />
