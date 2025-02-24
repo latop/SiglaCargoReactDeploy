@@ -159,6 +159,7 @@ export function Lines() {
             variant="outlined"
             sx={{ maxWidth: "200px", alignSelf: "flex-end", width: "170px" }}
             onClick={handleAddLine}
+            disabled={isLoading}
           >
             Adicionar rotas
           </Button>
