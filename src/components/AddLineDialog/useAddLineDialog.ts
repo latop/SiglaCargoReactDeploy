@@ -29,10 +29,14 @@ export function useAddLineDialog() {
         fleetGroup: "",
         tripTypeId: "",
         tripType: "",
+        locationDest: "",
+        locationOrig: "",
       },
       lineSections: [],
     },
   });
+
+  console.log("default", methods.getValues());
 
   const { addToast } = useToast();
   const [lineCreate, { loading }] = useFetch();
@@ -56,8 +60,13 @@ export function useAddLineDialog() {
         locationDestId: data?.line?.locationDest?.id,
         fleetGroupId: data?.line?.fleetGroup?.id,
       },
-      lineSections: data.lineSections,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      lineSections: data.lineSections.map((section: any) => ({
+        ...section,
+        duration: Number(section.duration),
+      })),
     };
+
     return await lineCreate("/updateline", body, {
       onSuccess: () => {
         addToast("Rota criada com sucesso!", { type: "success" });
