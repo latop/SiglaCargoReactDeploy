@@ -232,7 +232,10 @@ export const useGetStopTypeQuery = ({
 };
 
 export const useGetLocationsQuery = (params: Partial<FetchLocationsParams>) => {
-  const hasAdditionalParameters = Object.keys(params).length > 0;
+  const hasAdditionalParameters = !!Object.keys(params).filter(
+    (key) => key !== "isEnabled",
+  ).length;
+
   return useInfiniteQuery<LocationsPaginationResponse>({
     queryKey: ["locations", params],
     queryFn: async ({ pageParam = 0 }) => {
