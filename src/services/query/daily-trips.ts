@@ -54,7 +54,7 @@ export const useGetDailyTripsQuery = ({
     filter2String:
       dayjs(tripDate?.toString()).format("ddd, MMM D, YYYY") + " 03:00:00 GMT",
     filter3String: flgStatus,
-    Filter4String: licensePlate,
+    Filter4String: licensePlate?.replace(/-/gm, ""),
     pageSize,
     pageNumber,
   };
