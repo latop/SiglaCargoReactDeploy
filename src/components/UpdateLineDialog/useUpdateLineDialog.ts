@@ -41,6 +41,7 @@ export function useUpdateLineDialog() {
           ...section,
           locationOrig: section.locationOrig.code,
           locationDest: section.locationDest.code,
+          locationGroupId: section.locationGroupId,
         }
       }),
     };
@@ -92,6 +93,8 @@ export function useUpdateLineDialog() {
         locationOrigId: data.line.locationOrigId,
         locationDestId: data.line.locationDestId,
         fleetGroupId: data.line.fleetGroupId,
+        overtimeAllowed: data?.line.overtimeAllowed,
+        cost: data?.line.cost,
       },
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -104,6 +107,7 @@ export function useUpdateLineDialog() {
           locationDestId: section?.locationDestId,
           stopTypeId: section?.stopTypeId,
           duration: Number(section?.duration),
+          locationGroupId: section?.locationGroupId,
         };
       }),
     };

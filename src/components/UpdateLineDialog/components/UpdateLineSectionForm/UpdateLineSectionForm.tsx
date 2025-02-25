@@ -105,7 +105,11 @@ export const UpdateLineSectionForm = ({ seq }: { seq: number }) => {
               label="Base vinculada"
               name={`lineSections.${seq}.locationGroup.code`}
               onChange={(value) => {
-                setValue(`lineSections.${seq}.locationGroup`, value);
+                setValue(
+                  `lineSections.${seq}.locationGroupId`,
+                  value?.id || "",
+                );
+                setValue(`lineSections.${seq}.locationGroup`, value || "");
               }}
             />
           </Grid>

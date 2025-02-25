@@ -69,9 +69,9 @@ export function useAddLineDialog() {
     return await lineCreate("/updateline", body, {
       onSuccess: () => {
         addToast("Rota criada com sucesso!", { type: "success" });
-        window.location.reload();
         setHash("");
         methods.reset({});
+        window.location.reload();
       },
       onError: (error) => addToast(error.message, { type: "error" }),
     });

@@ -113,7 +113,7 @@ export function Lines() {
               }}
               onClick={() => {
                 openDialog({
-                  body: "Deseja deletar esta rota?",
+                  body: "Deseja apagar esta rota?",
                   onConfirm: () => {
                     handleDeleteLine(params?.id as string, refetchLines);
 

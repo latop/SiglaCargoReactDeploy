@@ -43,7 +43,6 @@ export const useLines = (options?: SWRConfiguration) => {
       setSize(page);
     }
   };
-
   const hasData = !isEmpty && !isLoading && !error && !isLoadingMore;
   return {
     lines,

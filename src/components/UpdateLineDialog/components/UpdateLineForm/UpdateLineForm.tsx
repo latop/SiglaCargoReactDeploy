@@ -173,6 +173,7 @@ export const UpdateLineForm = () => {
                     label="Aprov Hr Extra"
                     error={!!error?.message}
                     helperText={error?.message?.toString()}
+                    value={Number(field.value) || ""}
                   />
                 )}
               />
@@ -189,6 +190,7 @@ export const UpdateLineForm = () => {
                     label="Custo"
                     error={!!error?.message}
                     helperText={error?.message?.toString()}
+                    value={Number(field.value) || ""}
                   />
                 )}
               />
