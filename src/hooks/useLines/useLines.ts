@@ -11,6 +11,7 @@ export const useLines = (options?: SWRConfiguration) => {
     locationDestId: searchParams.get("locationDestId"),
     locationOrigId: searchParams.get("locationOrigId"),
     code: searchParams.get("code"),
+    submitted: searchParams.get("submitted"),
   };
 
   const getKey = (pageIndex: number, previousPageData: LinesPaginated) => {
