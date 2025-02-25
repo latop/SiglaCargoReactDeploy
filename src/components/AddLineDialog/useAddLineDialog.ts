@@ -1,11 +1,9 @@
 import { useFetch } from "@/hooks/useFetch";
 import { useHash } from "@/hooks/useHash";
-import { useLines } from "@/hooks/useLines";
 import { useToast } from "@/hooks/useToast";
 import { FieldValues, useForm } from "react-hook-form";
 
 export function useAddLineDialog() {
-  const { refetchLines } = useLines();
   const methods = useForm({
     defaultValues: {
       line: {
@@ -29,6 +27,8 @@ export function useAddLineDialog() {
         fleetGroup: "",
         tripTypeId: "",
         tripType: "",
+        locationDest: "",
+        locationOrig: "",
       },
       lineSections: [],
     },
@@ -37,6 +37,7 @@ export function useAddLineDialog() {
   const { addToast } = useToast();
   const [lineCreate, { loading }] = useFetch();
   const [, setHash] = useHash();
+
   const handleSubmit = async (data: FieldValues) => {
     const body = {
       line: {
@@ -56,14 +57,21 @@ export function useAddLineDialog() {
         locationDestId: data?.line?.locationDest?.id,
         fleetGroupId: data?.line?.fleetGroup?.id,
       },
-      lineSections: data.lineSections,
+      lineSections:
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        data?.lineSections?.map((section: any) => ({
+          ...section,
+          duration: Number(section.duration),
+        })) || [],
     };
+    console.log("body", body);
+
     return await lineCreate("/updateline", body, {
       onSuccess: () => {
         addToast("Rota criada com sucesso!", { type: "success" });
-        refetchLines();
         setHash("");
         methods.reset({});
+        window.location.reload();
       },
       onError: (error) => addToast(error.message, { type: "error" }),
     });
