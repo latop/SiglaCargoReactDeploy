@@ -79,7 +79,7 @@ export function Trucks() {
       width: 200,
       sortable: false,
       filterable: false,
-      valueGetter: (_, truck: Truck) => truck?.locationGroup.code,
+      valueGetter: (_, truck: Truck) => truck?.locationGroup?.code,
     },
     {
       field: "",
@@ -107,7 +107,7 @@ export function Trucks() {
               }}
               onClick={() => {
                 openDialog({
-                  body: "Deseja deletar este caminhão?",
+                  body: "Deseja apagar este caminhão?",
                   onConfirm: () => {
                     handleDeleteTruck({ truckId: params?.id as string });
                     closeDialog();

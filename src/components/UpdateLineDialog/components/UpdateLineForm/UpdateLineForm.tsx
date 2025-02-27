@@ -173,7 +173,9 @@ export const UpdateLineForm = () => {
                     label="Aprov Hr Extra"
                     error={!!error?.message}
                     helperText={error?.message?.toString()}
-                    value={Number(field.value) || ""}
+                    onChange={(e) => {
+                      field.onChange(Number(e.target.value));
+                    }}
                   />
                 )}
               />
@@ -190,7 +192,9 @@ export const UpdateLineForm = () => {
                     label="Custo"
                     error={!!error?.message}
                     helperText={error?.message?.toString()}
-                    value={Number(field.value) || ""}
+                    onChange={(e) => {
+                      field.onChange(Number(e.target.value));
+                    }}
                   />
                 )}
               />

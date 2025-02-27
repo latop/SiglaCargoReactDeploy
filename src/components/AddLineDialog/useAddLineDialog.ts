@@ -1,42 +1,49 @@
 import { useFetch } from "@/hooks/useFetch";
 import { useHash } from "@/hooks/useHash";
+import { useLines } from "@/hooks/useLines";
 import { useToast } from "@/hooks/useToast";
+import { useEffect } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 
 export function useAddLineDialog() {
-  const methods = useForm({
-    defaultValues: {
-      line: {
-        id: "00000000-0000-0000-0000-000000000000",
-        code: "",
-        description: "",
-        startDate: "",
-        endDate: "",
-        freqMon: 1,
-        freqTue: 1,
-        freqWed: 1,
-        freqThu: 1,
-        freqFri: 1,
-        freqSat: 1,
-        freqSun: 1,
-        overtimeAllowed: 0,
-        locationOrigId: "",
-        locationDestId: "",
-        cost: 0,
-        fleetGroupId: "",
-        fleetGroup: "",
-        tripTypeId: "",
-        tripType: "",
-        locationDest: "",
-        locationOrig: "",
-      },
-      lineSections: [],
-    },
-  });
+  const methods = useForm();
 
   const { addToast } = useToast();
   const [lineCreate, { loading }] = useFetch();
-  const [, setHash] = useHash();
+  const [hash, setHash] = useHash();
+  const isAdd = !!(hash as string)?.match(/#add-line/);
+  const { refetchLines } = useLines();
+  useEffect(() => {
+    if (isAdd) {
+      methods.reset({
+        line: {
+          id: "00000000-0000-0000-0000-000000000000",
+          code: "",
+          description: "",
+          startDate: "",
+          endDate: "",
+          freqMon: 1,
+          freqTue: 1,
+          freqWed: 1,
+          freqThu: 1,
+          freqFri: 1,
+          freqSat: 1,
+          freqSun: 1,
+          overtimeAllowed: 0,
+          locationOrigId: "",
+          locationDestId: "",
+          cost: 0,
+          fleetGroupId: "",
+          fleetGroup: "",
+          tripTypeId: "",
+          tripType: "",
+          locationDest: "",
+          locationOrig: "",
+        },
+        lineSections: [],
+      });
+    }
+  }, [isAdd]);
 
   const handleSubmit = async (data: FieldValues) => {
     const body = {
@@ -70,8 +77,7 @@ export function useAddLineDialog() {
       onSuccess: () => {
         addToast("Rota criada com sucesso!", { type: "success" });
         setHash("");
-        methods.reset({});
-        window.location.reload();
+        refetchLines();
       },
       onError: (error) => addToast(error.message, { type: "error" }),
     });

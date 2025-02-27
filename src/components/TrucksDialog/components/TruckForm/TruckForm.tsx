@@ -15,9 +15,12 @@ import { DatePicker } from "@/components/DatePicker";
 import { AutocompleteFleetType } from "@/components/AutocompleteFleetType";
 import { grey, red } from "@mui/material/colors";
 import dayjs from "dayjs";
+import { useHash } from "@/hooks/useHash";
 
 export const TruckForm = () => {
   const methods = useFormContext<TruckFormType>();
+  const [hash] = useHash();
+  const isAdd = !!(hash as string)?.match(/#add-truck/);
 
   return (
     <Box display="flex" flexDirection="column" gap="16px" mt="5px">
@@ -348,9 +351,10 @@ export const TruckForm = () => {
                   {...field}
                   label="Observações"
                   variant="outlined"
+                  disabled={!isAdd}
                   fullWidth
-                  onChange={() => {
-                    methods.setValue("note", field.value || "");
+                  onChange={(e) => {
+                    methods.setValue("note", e.target.value || "");
                   }}
                 />
               );

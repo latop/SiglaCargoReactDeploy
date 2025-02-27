@@ -75,12 +75,11 @@ export const useTrucksDialog = () => {
     console.log({ data });
 
     if (isAdd) {
-      return await handleFetch("/truck", body, {
+      return await handleFetch("/Truck", body, {
         method: "post",
         onSuccess: () => {
           addToast("Caminhão adicionado com sucesso!", { type: "success" });
           setHash("");
-          methods.reset({});
           refetchTrucks();
         },
         onError: (error) => addToast(error.message, { type: "error" }),
@@ -113,10 +112,15 @@ export const useTrucksDialog = () => {
       licensePlate: data?.licensePlate,
       manufactureYear,
       isRefurbished: data?.isRefurbished ? true : false,
-      // endDate: dayjs().add(10, "year").format("YYYY-MM-DD"),
       note: "",
     });
   }, [data, methods]);
+
+  useEffect(() => {
+    if (isAdd) {
+      methods.reset({});
+    }
+  }, [isAdd]);
 
   useEffect(() => {
     handleFormDefaults();
@@ -129,5 +133,6 @@ export const useTrucksDialog = () => {
     truckId,
     isLoadingTruck,
     onSubmit: methods.handleSubmit(handleSubmit),
+    isAdd,
   };
 };

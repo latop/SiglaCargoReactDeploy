@@ -49,7 +49,13 @@ export function TrucksFilterBar() {
                     name="fleetCode"
                     control={methods.control}
                     render={({ field }) => (
-                      <TextField {...field} label="Cód. Frota" />
+                      <TextField
+                        {...field}
+                        label="Cód. Frota"
+                        onChange={(e) => {
+                          field.onChange(e.target.value.toUpperCase());
+                        }}
+                      />
                     )}
                   />
                 </Grid>
