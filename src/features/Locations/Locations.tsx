@@ -124,7 +124,7 @@ export function Locations() {
               }}
               onClick={() => {
                 openDialog({
-                  body: "Deseja deletar este registro?",
+                  body: "Deseja apagar esta localização?",
                   onConfirm: async () => {
                     await handleDeleteLocation(params?.id as string).then(
                       () => {

@@ -13,32 +13,6 @@ interface AutocompleteTimezoneProps {
   hasMock?: boolean;
 }
 
-const mockDataTimeZone = [
-  {
-    code: "UTC -03:00",
-    description: "TIME ZONE UTC -03:00",
-    id: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-  },
-];
-
-function getDefaultTimezone(
-  hasMock: boolean,
-  timezones: Timezone[] | undefined,
-  fieldValue: string,
-  keyCode: keyof Timezone,
-): Timezone | null {
-  if (hasMock) {
-    return mockDataTimeZone[0];
-  }
-
-  if (!timezones) {
-    return null;
-  }
-  const matchingTimezone = timezones.find((tz) => tz[keyCode] === fieldValue);
-
-  return matchingTimezone || null;
-}
-
 export function AutocompleteTimezone({
   name = "code",
   label = "Fuso Horário",
@@ -67,12 +41,6 @@ export function AutocompleteTimezone({
     isFirstRender.current = false;
   }, []);
 
-  let timezones = mockDataTimeZone;
-
-  if (!hasMock && Array.isArray(timezonesData)) {
-    timezones = timezonesData;
-  }
-
   const handleChange = useCallback(
     (_: unknown, value: Timezone | null) => {
       if (onChange) {
@@ -85,7 +53,7 @@ export function AutocompleteTimezone({
     [onChange, setValue],
   );
 
-  const isLoadingCondition = (!timezones && !error) || isFetching;
+  const isLoadingCondition = (!timezonesData && !error) || isFetching;
   const showSkeleton = hasSkeleton && isFetching && isFirstRender.current;
 
   if (showSkeleton) return <Skeleton width="100%" height="100%" />;
@@ -98,14 +66,13 @@ export function AutocompleteTimezone({
         <Autocomplete
           forcePopupIcon={false}
           clearOnEscape
-          options={timezones ?? []}
+          options={timezonesData ?? []}
           loadingText="Carregando..."
-          defaultValue={getDefaultTimezone(
-            hasMock,
-            timezones,
-            field.value,
-            keyCode,
-          )}
+          defaultValue={
+            {
+              [keyCode]: field.value?.[keyCode] || field.value || "",
+            } as Timezone
+          }
           isOptionEqualToValue={(option: Timezone, value: Timezone) =>
             option[keyCode] === value[keyCode]
           }

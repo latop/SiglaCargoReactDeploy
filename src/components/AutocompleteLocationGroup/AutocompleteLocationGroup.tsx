@@ -6,6 +6,14 @@ import Autocomplete from "@mui/material/Autocomplete";
 import debounce from "debounce";
 import { LocationGroup } from "@/interfaces/trip";
 import { useLocationGroupQuery } from "@/hooks/useLocationGroup/useLocationGroupQuery";
+import { makeStyles } from '@mui/styles';
+
+const useStyles = makeStyles({
+  uppercaseInput: {
+    textTransform: 'uppercase',
+    padding: '5px',
+  },
+});
 
 export function AutocompleteLocationGroup({
   name = "locationGroupCode",
@@ -47,6 +55,7 @@ export function AutocompleteLocationGroup({
     }
   };
 
+  const classes = useStyles();
 
   if (isFetching && hasSkeleton) {
     return <Skeleton width={"100%"} height={"100%"} />;
@@ -83,7 +92,10 @@ export function AutocompleteLocationGroup({
             <TextField
               {...field}
               {...params}
-
+              inputProps={{
+                ...params.inputProps,
+                className: classes.uppercaseInput,
+              }}
               onChange={debounce(field.onChange, 300)}
               variant="outlined"
               fullWidth

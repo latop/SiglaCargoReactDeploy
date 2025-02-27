@@ -27,6 +27,7 @@ export const LocationsForm = () => {
     return Boolean(latitude && longitude);
   };
 
+  console.log(methods.getValues());
   return (
     <Box display="flex" flexDirection="column" gap="16px" mt="5px">
       <Grid container spacing={1}>
@@ -113,9 +114,8 @@ export const LocationsForm = () => {
         <Grid item xs={3}>
           <AutocompleteTimezone
             hasSkeleton
-            hasMock
             label="Fuso Horário"
-            name="timezone.code"
+            name="timezone.description"
             onChange={(value) => {
               methods.setValue("timezoneId", value?.id || "");
             }}
@@ -127,7 +127,7 @@ export const LocationsForm = () => {
             name="locationGroup.code"
             hasSkeleton
             onChange={(value) => {
-              methods.setValue("loctionGroupId", value?.id || "");
+              methods.setValue("locationGroupId", value?.id || "");
             }}
           />
         </Grid>
@@ -151,6 +151,7 @@ export const LocationsForm = () => {
             name="city"
             onChange={(value) => {
               methods.setValue("city", value || {});
+              methods.setValue("cityId", value?.id || "");
             }}
           />
         </Grid>

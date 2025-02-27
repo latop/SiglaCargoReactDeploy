@@ -34,6 +34,7 @@ export const useEditLocationMution = () => {
   return useMutation({
     mutationKey: ["locations"],
     mutationFn: async (data: unknown) => {
+      console.log({ data });
       await api.put(`/Location`, data);
     },
     onSuccess: async () => {

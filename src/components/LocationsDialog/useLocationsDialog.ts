@@ -22,7 +22,7 @@ const schema = z.object({
   latitude: z.coerce.number(),
   longitude: z.coerce.number(),
   locationGroup: z.record(z.any()).optional(),
-  loctionGroupId: z.string().optional(),
+  locationGroupId: z.string().optional(),
   locationTypeId: z.string(),
   locationType: z.record(z.any()).optional(),
   timezoneId: z.string().optional(),
@@ -52,9 +52,9 @@ export const useLocationsDialog = () => {
 
   const handleFormDefaults = useCallback(() => {
     methods.reset({
-      cityId: location?.city?.id,
-      timezoneId: location?.timezone?.id,
       ...location,
+      cityId: location?.city?.id,
+      timezoneId: location?.timezoneId,
     });
   }, [location, methods]);
 
@@ -63,18 +63,8 @@ export const useLocationsDialog = () => {
   }, [handleFormDefaults]);
 
   const handleSubmit = async (data: LocationFormType) => {
-    if (isToAddLocation && !locationId) {
-      return await createLocation(data, {
-        onSuccess: () => {
-          addToast("Localizada cadastrada com sucesso!", { type: "success" });
-          setHash("");
-          methods.reset({});
-        },
-      });
-    }
     const body = {
-      ...location,
-      locationGroupId: data.loctionGroupId,
+      locationGroupId: data.locationGroupId,
       locationTypeId: data.locationTypeId,
       name: data.name,
       code: data.code,
@@ -82,13 +72,24 @@ export const useLocationsDialog = () => {
       codeIntegration2: data.codeIntegration2,
       latitude: data.latitude,
       longitude: data.longitude,
-      cityId: data?.city?.id,
-      timezoneId: data?.timezoneId,
-      startDate: data.startDate,
-      endDate: data.endDate,
+      cityId: data.cityId,
+      timezoneId: data.timezoneId,
     };
 
-    return await editLocation(body, {
+    if (isToAddLocation && !locationId) {
+      return await createLocation(body, {
+        onSuccess: () => {
+          addToast("Localizada cadastrada com sucesso!", { type: "success" });
+          setHash("");
+          methods.reset({});
+        },
+      });
+    }
+    const bodyToEdit = {
+      ...body,
+      id: location?.id,
+    };
+    return await editLocation(bodyToEdit, {
       onSuccess: () => {
         addToast("Localizada alterada com sucesso!", { type: "success" });
         setHash("");

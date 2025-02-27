@@ -68,10 +68,10 @@ export const useLocations = () => {
   const handleDeleteLocation = async (id: string) => {
     await mutationDeleteLocation(id, {
       onSuccess: () => {
-        addToast("Localização excluída com sucesso!", { type: "success" });
+        addToast("Localização apagada com sucesso!", { type: "success" });
       },
       onError: () => {
-        addToast("Erro ao excluir localização...", { type: "error" });
+        addToast("Erro ao apagar localização...", { type: "error" });
       },
     });
   };
