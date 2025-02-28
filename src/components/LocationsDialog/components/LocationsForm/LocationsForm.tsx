@@ -114,7 +114,7 @@ export const LocationsForm = () => {
           <AutocompleteTimezone
             hasSkeleton
             label="Fuso Horário"
-            name="timezone.description"
+            name="timezone.code"
             onChange={(value) => {
               methods.setValue("timezoneId", value?.id || "");
             }}
@@ -126,7 +126,8 @@ export const LocationsForm = () => {
             name="locationGroup.code"
             hasSkeleton
             onChange={(value) => {
-              methods.setValue("locationGroupId", value?.id || "");
+              console.log(value);
+              methods.setValue("locationGroupId", value?.id || null);
               methods.setValue("locationGroup", value || {});
             }}
           />

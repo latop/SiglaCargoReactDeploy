@@ -22,7 +22,7 @@ const schema = z.object({
   latitude: z.coerce.number(),
   longitude: z.coerce.number(),
   locationGroup: z.record(z.any()).optional(),
-  locationGroupId: z.string().optional(),
+  locationGroupId: z.string().optional().nullable(),
   locationTypeId: z.string(),
   locationType: z.record(z.any()).optional(),
   timezoneId: z.string().optional(),

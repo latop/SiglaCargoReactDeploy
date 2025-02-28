@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import React, { SyntheticEvent } from "react";
+import React, { SyntheticEvent, useLayoutEffect, useRef } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import { Skeleton, TextField } from "@mui/material";
 import Autocomplete from "@mui/material/Autocomplete";
@@ -35,7 +35,7 @@ export function AutocompleteLocationGroup({
     setValue,
     formState: { errors },
   } = useFormContext();
-
+  const isFirstRender = useRef(true);
   const { data: locationGroups = [], error, isFetching } = useLocationGroupQuery({
     pageSize: 10,
     code: watch(name),
@@ -57,7 +57,13 @@ export function AutocompleteLocationGroup({
 
   const classes = useStyles();
 
-  if (isFetching && hasSkeleton) {
+  useLayoutEffect(() => {
+    isFirstRender.current = false;
+  }, []);
+
+  const showSkeleton = hasSkeleton && isFetching && isFirstRender.current;
+  
+  if (showSkeleton) {
     return <Skeleton width={"100%"} height={"100%"} />;
   }
 
