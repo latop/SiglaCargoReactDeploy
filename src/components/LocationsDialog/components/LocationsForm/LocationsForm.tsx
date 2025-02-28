@@ -27,7 +27,6 @@ export const LocationsForm = () => {
     return Boolean(latitude && longitude);
   };
 
-  console.log(methods.getValues());
   return (
     <Box display="flex" flexDirection="column" gap="16px" mt="5px">
       <Grid container spacing={1}>
@@ -128,6 +127,7 @@ export const LocationsForm = () => {
             hasSkeleton
             onChange={(value) => {
               methods.setValue("locationGroupId", value?.id || "");
+              methods.setValue("locationGroup", value || {});
             }}
           />
         </Grid>

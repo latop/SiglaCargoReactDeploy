@@ -48,7 +48,7 @@ export const useLocationsDialog = () => {
     resolver: zodResolver(schema),
   });
   const { mutateAsync: createLocation } = useCreateLocationMution();
-  const { mutateAsync: editLocation } = useEditLocationMution();
+  const { mutate: editLocation } = useEditLocationMution();
 
   const handleFormDefaults = useCallback(() => {
     methods.reset({
@@ -87,9 +87,9 @@ export const useLocationsDialog = () => {
     }
     const bodyToEdit = {
       ...body,
-      id: location?.id,
+      id: locationId,
     };
-    return await editLocation(bodyToEdit, {
+    return editLocation(bodyToEdit, {
       onSuccess: () => {
         addToast("Localizada alterada com sucesso!", { type: "success" });
         setHash("");
@@ -101,7 +101,11 @@ export const useLocationsDialog = () => {
   const handleErrors = useCallback(
     (data: LocationFormType) => {
       Object.keys(data).forEach((key) => {
-        if (methods.formState.errors[key as keyof LocationFormType]) {
+        if (
+          methods.formState.errors[key as keyof LocationFormType] &&
+          key !== "locationGroupId" &&
+          key !== "locationGroup"
+        ) {
           methods.setError(key as keyof LocationFormType, {
             message: "*Obrigatório",
           });

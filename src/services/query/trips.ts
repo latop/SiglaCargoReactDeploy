@@ -315,7 +315,7 @@ export const useGetLocationByIdQuery = (id?: string) => {
       }
     },
     placeholderData: id ? undefined : ({} as Locations),
-    staleTime: 86400,
+    staleTime: 0,
     enabled: !!id,
   });
 };
