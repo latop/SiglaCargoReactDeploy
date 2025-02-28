@@ -68,7 +68,7 @@ export function AutocompleteLocationType({
               : "Nenhum resultado encontrado"
           }
           getOptionLabel={(option: LocationType) =>
-            optionKey ? `${option[optionKey]}` : option.code
+            optionKey ? `${option[optionKey]}` : option.description
           }
           renderInput={(params) => (
             <TextField
