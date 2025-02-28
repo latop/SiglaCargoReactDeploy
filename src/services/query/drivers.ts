@@ -13,6 +13,8 @@ export interface DriverReleaseFilterPayload extends FetchBasicParams {
   fleetGroupId?: string;
   locationGroupId?: string;
   flgStatus: string;
+  page: number;
+  pageSize: number;
 }
 
 export interface Driver {
@@ -98,14 +100,17 @@ export const useDriverRequestQuery = (props?: DriverReleaseFilterPayload) => {
     queryKey: ["driver-request", props],
     queryFn: async (): Promise<DriverRequestResponse[] | Error> => {
       try {
+        console.log("props", props);
         const {
           pageSize = 15,
           startDate,
           endDate,
           flgStatus,
+          page,
           ...rest
         } = props || {};
         const params = {
+          page: page,
           PageSize: pageSize,
           startDate:
             dayjs(startDate?.toString()).format("ddd, MMM D, YYYY") +

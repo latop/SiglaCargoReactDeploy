@@ -18,6 +18,7 @@ import DriverReleaseGrid from "./components/drivers-release-grid";
 const DriversRequestTemplate = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [modalData, setModalData] = useState({ id: "", status: "" });
+  const [page, setPage] = useState(1);
   const [filters, setFilters] = useState<
     DriverReleaseFilterPayload | undefined
   >();
@@ -41,13 +42,22 @@ const DriversRequestTemplate = () => {
     setIsOpen(false);
     handleApplyFilter(filters as DriverReleaseFilterPayload);
   };
-
+  const handlePageChange = (page: number) => {
+    setPage(page);
+    setFilters({
+      ...filters,
+      page,
+    } as DriverReleaseFilterPayload);
+  };
   const isLoading = isPending || isLoadingQuery;
 
   console.log(data);
   console.log(isLoading);
   const handleApplyFilter = (values: DriverReleaseFilterPayload) => {
-    setFilters(values);
+    setFilters({
+      ...values,
+      page,
+    });
     console.log("handleApplyFilter", values);
   };
 
@@ -56,12 +66,14 @@ const DriversRequestTemplate = () => {
       <AppBar>
         <HeaderTitle>Solicitação de Motoristas</HeaderTitle>
       </AppBar>
-      {JSON.stringify(filters)}
-      <Box padding={"20px"}>
+      <Box padding={"20px"} maxWidth={"1440px"} justifyContent={"center"}>
         <DriverReleaseFilters onApplySearch={handleApplyFilter} />
         <DriverReleaseGrid
           data={(data || []) as DriverRequestResponse[]}
           handleChangeStatus={openModal}
+          page={page}
+          totalRecords={10}
+          handlePageChange={handlePageChange}
         />
       </Box>
       <Modal

@@ -20,7 +20,7 @@ const columns = ({ handleChangeStatus }: ColumnBuilder): GridColDef[] => {
   return [
     {
       field: "requestDate",
-      headerName: "Data da Jornada Solicitada",
+      headerName: "Data da Solicitação",
       width: 150,
       sortable: false,
       filterable: false,
@@ -31,18 +31,18 @@ const columns = ({ handleChangeStatus }: ColumnBuilder): GridColDef[] => {
     {
       field: "",
       headerName: "Motorista",
-      width: 150,
+      width: 200,
       sortable: false,
       filterable: false,
       type: "singleSelect" as const,
       valueGetter: (_: unknown, data: DriverRequestResponse) => {
-        return data.driver.name ?? "";
+        return data.driver.nickName ?? "";
       },
     },
     {
       field: "activityCode",
       headerName: "Atividade",
-      width: 150,
+      width: 250,
       sortable: false,
       filterable: false,
       type: "singleSelect" as const,
@@ -52,26 +52,28 @@ const columns = ({ handleChangeStatus }: ColumnBuilder): GridColDef[] => {
     },
     {
       field: "activityTime",
-      headerName: "Horário da Programação",
+      headerName: "Programação",
       width: 150,
       sortable: false,
       filterable: false,
       type: "singleSelect" as const,
       valueGetter: (_: unknown, data: DriverRequestResponse) => {
-        return `${data.activity.start} - ${data.activity.end}`;
+        return `${dayjs(data.activity.start).format("HH:mm")} - ${dayjs(
+          data.activity.end,
+        ).format("HH:mm")}`;
       },
     },
     {
       field: "notes",
-      headerName: "Obs. do Motorista",
-      width: 150,
+      headerName: "Obs.",
+      width: 250,
       sortable: false,
       filterable: false,
       type: "singleSelect" as const,
     },
     {
       field: "createAt",
-      headerName: "Data do pedido do Motorista",
+      headerName: "Data do pedido",
       width: 150,
       sortable: false,
       filterable: false,
@@ -98,7 +100,7 @@ const columns = ({ handleChangeStatus }: ColumnBuilder): GridColDef[] => {
 
         return (
           <div>
-            {flgStatus && (
+            {!flgStatus && (
               <Box display={"flex"} gap={1}>
                 <CiCircleCheck
                   color="green"

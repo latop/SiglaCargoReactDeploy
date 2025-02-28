@@ -2,16 +2,26 @@ import { DriverRequestResponse } from "@/services/query/drivers";
 import { DataGrid } from "@mui/x-data-grid";
 import config from "../configs";
 interface Params {
+  page: number;
+  totalRecords: number;
   data?: DriverRequestResponse[];
   handleChangeStatus: (id: string, status: string) => void;
+  handlePageChange: (page: number) => void;
 }
 
-const DriverReleaseGrid = ({ data, handleChangeStatus }: Params) => {
+const DriverReleaseGrid = ({
+  data,
+  page,
+  totalRecords,
+  handleChangeStatus,
+  handlePageChange,
+}: Params) => {
   const columns = config.columns({ handleChangeStatus });
-
+  console.log("data", data);
   return (
     <DataGrid
       sx={{
+        marginTop: "20px",
         width: "100%",
         "& .blueColumnHeaders ": {
           backgroundColor: "#24438F",
@@ -31,11 +41,16 @@ const DriverReleaseGrid = ({ data, handleChangeStatus }: Params) => {
         },
       }}
       columns={columns}
-      // onPaginationModelChange={(params) => {
-      //   setCurrentPage(params.page);
-      // }}
+      initialState={{
+        pagination: {
+          paginationModel: { page: page - 1, pageSize: 10 },
+        },
+      }}
+      onPaginationModelChange={(params) => {
+        handlePageChange(params.page);
+      }}
       paginationMode="server"
-      rowCount={data?.length || 0}
+      rowCount={totalRecords}
       pageSizeOptions={[10]}
       density="compact"
     />

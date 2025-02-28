@@ -25,6 +25,7 @@ const DriverReleaseFilters = ({ onApplySearch, ...props }: Params) => {
     console.log("values", values);
     onApplySearch(values as DriverReleaseFilterPayload);
   };
+
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
       <FormProvider {...methods}>
@@ -34,7 +35,7 @@ const DriverReleaseFilters = ({ onApplySearch, ...props }: Params) => {
             alignItems="flex-start"
             justifyContent="space-between"
           >
-            <Grid item xs={1.2}>
+            <Grid item xs={1.4}>
               <Controller
                 name="startDate"
                 rules={{ required: true }}
@@ -43,12 +44,13 @@ const DriverReleaseFilters = ({ onApplySearch, ...props }: Params) => {
                   <DatePicker
                     label="Início da Jornada"
                     error={error?.message}
+                    format="DD/MM/YYYY"
                     {...field}
                   />
                 )}
               />
             </Grid>
-            <Grid item xs={1.2}>
+            <Grid item xs={1.4}>
               <Controller
                 name="endDate"
                 control={control}
@@ -58,25 +60,26 @@ const DriverReleaseFilters = ({ onApplySearch, ...props }: Params) => {
                     label="Fim da Jornada"
                     error={error?.message}
                     minDate={dayjs(watch("startDate"))}
+                    format="DD/MM/YYYY"
                     {...field}
                   />
                 )}
               />
             </Grid>
 
-            <Grid item xs={1.1}>
+            <Grid item xs={1.5}>
               <AutocompleteDriver />
             </Grid>
 
-            <Grid item xs={1.1}>
+            <Grid item xs={1.5}>
               <AutocompleteActivity />
             </Grid>
 
-            <Grid item xs={1.1}>
+            <Grid item xs={1.5}>
               <AutocompleteFleetGroup />
             </Grid>
 
-            <Grid item xs={1.1}>
+            <Grid item xs={1.5}>
               <AutocompleteLocationGroup />
             </Grid>
 
