@@ -71,11 +71,11 @@ export const useTrucks = () => {
       {
         method: "delete",
         onSuccess: () => {
-          addToast("Caminhão deletado com sucesso!", { type: "success" });
+          addToast("Caminhão apagado com sucesso!", { type: "success" });
           refetchTrucks();
         },
         onError: () => {
-          addToast("Error ao deletar caminhão.", { type: "error" });
+          addToast("Error ao apagar caminhão.", { type: "error" });
         },
       },
     );

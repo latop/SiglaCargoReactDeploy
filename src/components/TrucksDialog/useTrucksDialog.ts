@@ -98,6 +98,12 @@ export const useTrucksDialog = () => {
   };
 
   useEffect(() => {
+    if (isAdd) {
+      methods.reset({});
+    }
+  }, [isAdd]);
+
+  useEffect(() => {
     handleErrors(methods.getValues());
   }, [handleErrors, methods.formState.errors]);
 

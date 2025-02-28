@@ -107,7 +107,7 @@ export function Trucks() {
               }}
               onClick={() => {
                 openDialog({
-                  body: "Deseja deletar este caminhão?",
+                  body: "Deseja apagar este caminhão?",
                   onConfirm: () => {
                     handleDeleteTruck({ truckId: params?.id as string });
                     closeDialog();
