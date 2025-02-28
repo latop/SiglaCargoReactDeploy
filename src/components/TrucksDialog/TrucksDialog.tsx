@@ -25,7 +25,9 @@ interface TrucksDialogProps {
 export function TrucksDialog({ open, onClose }: TrucksDialogProps) {
   const { methods, loadingTruckFetch, dialogTitle, onSubmit, isLoadingTruck } =
     useTrucksDialog();
+
   const handleClose = () => {
+    methods.reset({});
     onClose();
   };
 

@@ -349,8 +349,8 @@ export const TruckForm = () => {
                   label="Observações"
                   variant="outlined"
                   fullWidth
-                  onChange={() => {
-                    methods.setValue("note", field.value || "");
+                  onChange={(e) => {
+                    methods.setValue("note", e.target.value || "");
                   }}
                 />
               );

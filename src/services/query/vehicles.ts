@@ -84,6 +84,14 @@ interface TruckPaginationResponse {
 }
 
 export const useGetTrucksQuery = (params: FetchTrucksParams) => {
+  const hasAdditionalParameters = Object.entries(params).some(
+    ([key, value]) =>
+      key !== "isEnabled" &&
+      value !== undefined &&
+      value !== null &&
+      value !== "",
+  );
+
   return useInfiniteQuery<TruckPaginationResponse>({
     queryKey: ["trucks", params],
     queryFn: async ({ pageParam = 0 }) => {
@@ -120,7 +128,7 @@ export const useGetTrucksQuery = (params: FetchTrucksParams) => {
     },
     initialPageParam: 1,
     staleTime: 60 * 1000 * 5,
-    enabled: !!params.isEnabled,
+    enabled: !!params.isEnabled || hasAdditionalParameters,
   });
 };
 

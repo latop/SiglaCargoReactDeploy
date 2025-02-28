@@ -79,7 +79,7 @@ export function Trucks() {
       width: 200,
       sortable: false,
       filterable: false,
-      valueGetter: (_, truck: Truck) => truck?.locationGroup.code,
+      valueGetter: (_, truck: Truck) => truck?.locationGroup?.code,
     },
     {
       field: "",
