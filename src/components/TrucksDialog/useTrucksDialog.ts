@@ -25,7 +25,7 @@ export const truckSchema = z.object({
   chassisNumber: z.string().optional(),
   licensePlate: z.string(),
   regulatoryNumber: z.string().optional(),
-  regulatoryValidity: z.string().optional(),
+  regulatoryValidity: z.string().optional().nullable(),
   manufactureYear: dateOrDayjsSchema,
   serialNumber: z.string(),
   tare: z.coerce.number().optional(),
@@ -52,10 +52,14 @@ export const useTrucksDialog = () => {
 
   const dialogTitle = isAdd ? "Adicionar Caminhão" : "Editar Caminhão";
 
+  console.log(methods.formState.errors);
   const handleErrors = useCallback(
     (data: TruckFormType) => {
       Object.keys(data).forEach((key) => {
-        if (methods.formState.errors[key as keyof TruckFormType]) {
+        if (
+          methods.formState.errors[key as keyof TruckFormType] &&
+          key !== "regulatoryValidity"
+        ) {
           methods.setError(key as keyof TruckFormType, {
             message: "*Obrigatório",
           });
@@ -118,7 +122,6 @@ export const useTrucksDialog = () => {
       licensePlate: data?.licensePlate,
       manufactureYear,
       isRefurbished: data?.isRefurbished ? true : false,
-      note: "",
     });
   }, [data, methods]);
 
