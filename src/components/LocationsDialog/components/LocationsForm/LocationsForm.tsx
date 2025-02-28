@@ -137,9 +137,12 @@ export const LocationsForm = () => {
         <Grid item xs={3}>
           <AutocompleteLocationType
             key={methods.watch("locationTypeId")}
-            name="locationType.code"
+            name="locationType.description"
+            keyCode="description"
             label="Tipo de Localização"
+            optionKey="description"
             onChange={(value) => {
+              console.log(value);
               methods.setValue("locationTypeId", value?.id || "");
               methods.setValue("locationType", value || {});
             }}
