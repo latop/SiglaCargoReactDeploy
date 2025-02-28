@@ -51,10 +51,10 @@ export function TrucksFilterBar() {
                     render={({ field }) => (
                       <TextField
                         {...field}
-                        label="Cód. Frota"
                         onChange={(e) => {
                           field.onChange(e.target.value.toUpperCase());
                         }}
+                        label="Cód. Frota"
                       />
                     )}
                   />

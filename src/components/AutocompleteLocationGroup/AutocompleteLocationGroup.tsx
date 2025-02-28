@@ -1,11 +1,19 @@
 /* eslint-disable prettier/prettier */
-import React, { SyntheticEvent } from "react";
+import React, { SyntheticEvent, useLayoutEffect, useRef } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import { Skeleton, TextField } from "@mui/material";
 import Autocomplete from "@mui/material/Autocomplete";
 import debounce from "debounce";
 import { LocationGroup } from "@/interfaces/trip";
 import { useLocationGroupQuery } from "@/hooks/useLocationGroup/useLocationGroupQuery";
+import { makeStyles } from '@mui/styles';
+
+const useStyles = makeStyles({
+  uppercaseInput: {
+    textTransform: 'uppercase',
+    padding: '5px',
+  },
+});
 
 export function AutocompleteLocationGroup({
   name = "locationGroupCode",
@@ -27,7 +35,7 @@ export function AutocompleteLocationGroup({
     setValue,
     formState: { errors },
   } = useFormContext();
-
+  const isFirstRender = useRef(true);
   const { data: locationGroups = [], error, isFetching } = useLocationGroupQuery({
     pageSize: 10,
     code: watch(name),
@@ -47,8 +55,15 @@ export function AutocompleteLocationGroup({
     }
   };
 
+  const classes = useStyles();
 
-  if (isFetching && hasSkeleton) {
+  useLayoutEffect(() => {
+    isFirstRender.current = false;
+  }, []);
+
+  const showSkeleton = hasSkeleton && isFetching && isFirstRender.current;
+  
+  if (showSkeleton) {
     return <Skeleton width={"100%"} height={"100%"} />;
   }
 
@@ -83,7 +98,10 @@ export function AutocompleteLocationGroup({
             <TextField
               {...field}
               {...params}
-
+              inputProps={{
+                ...params.inputProps,
+                className: classes.uppercaseInput,
+              }}
               onChange={debounce(field.onChange, 300)}
               variant="outlined"
               fullWidth

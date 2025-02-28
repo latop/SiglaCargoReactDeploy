@@ -3,7 +3,7 @@ import DialogActions from "@mui/material/DialogActions";
 import { Box, CircularProgress, Button } from "@mui/material";
 import { useFormContext } from "react-hook-form";
 
-export function TruckFormFooter({ onClose }: { onClose: () => void }) {
+export function LocationsFormFooter({ onClose }: { onClose: () => void }) {
   const {
     formState: { isSubmitting },
   } = useFormContext();
