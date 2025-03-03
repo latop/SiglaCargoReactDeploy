@@ -15,6 +15,7 @@ export const useTrucks = () => {
     fleetTypeId: params.get("fleetTypeId") || "",
     licensePlate: params.get("licensePlate") || "",
     locationGroupId: params.get("locationGroupId") || "",
+    isEnabled: params.has("submitted"),
   };
   const [deleteTruck, { loading: loadingDeleteTruck }] = useFetch();
   const { addToast } = useToast();
@@ -36,7 +37,7 @@ export const useTrucks = () => {
 
   const payload = () => {
     Object.entries(parameters).forEach(([key, value]) => {
-      if (!value) {
+      if (value === "" || value === null || value === undefined) {
         delete parameters[key as keyof FetchTrucksParams];
       }
     });
@@ -70,11 +71,11 @@ export const useTrucks = () => {
       {
         method: "delete",
         onSuccess: () => {
-          addToast("Caminhão deletado com sucesso!", { type: "success" });
+          addToast("Caminhão apagado com sucesso!", { type: "success" });
           refetchTrucks();
         },
         onError: () => {
-          addToast("Error ao deletar caminhão.", { type: "error" });
+          addToast("Error ao apagar caminhão.", { type: "error" });
         },
       },
     );

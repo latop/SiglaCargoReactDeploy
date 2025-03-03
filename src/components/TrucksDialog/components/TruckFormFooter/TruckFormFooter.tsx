@@ -8,20 +8,6 @@ export function TruckFormFooter({ onClose }: { onClose: () => void }) {
     formState: { isSubmitting },
   } = useFormContext();
 
-  // const { openDialog } = useDialog();
-  // const { addToast } = useToast();
-
-  // const handleDelete = () => {
-  //   openDialog({
-  //     title: "Deletar atividade",
-  //     message: "Deseja realmente deletar essa atividade?",
-  //     onConfirm: () => {
-  //       addToast("Atividade deletada com sucesso", { type: "success" });
-  //       onClose();
-  //     },
-  //   });
-  // };
-
   return (
     <DialogActions>
       <Box display="flex" justifyContent="flex-end" padding="10px" width="100%">

@@ -1,5 +1,4 @@
 "use client";
-import { useTrucks } from "@/features/Trucks/useTrucks";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
@@ -35,20 +34,19 @@ export const useTrucksFilterBar = () => {
     },
   });
 
-  const { refetchTrucks } = useTrucks();
-
   const onSubmit = (data: FormFields) => {
     const params = new URLSearchParams();
+    let hasValues = false;
     Object.entries(data).forEach(([key, value]) => {
-      if (!value) {
-        refetchTrucks();
-        return;
-      }
-
       if (value) {
         params.append(key, value);
+        hasValues = true;
       }
     });
+
+    if (!hasValues) {
+      params.append("submitted", "true");
+    }
 
     router.push(`/trucks?${params.toString()}`);
   };

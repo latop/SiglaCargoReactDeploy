@@ -35,6 +35,7 @@ export function TrucksFilterBar() {
                 <Grid xs={1.5} item>
                   <AutocompleteTruck
                     name="licensePlate"
+                    isUpperCase
                     onChange={(value) => {
                       methods.setValue(
                         "licensePlate",
@@ -48,7 +49,13 @@ export function TrucksFilterBar() {
                     name="fleetCode"
                     control={methods.control}
                     render={({ field }) => (
-                      <TextField {...field} label="Cód. Frota" />
+                      <TextField
+                        {...field}
+                        onChange={(e) => {
+                          field.onChange(e.target.value.toUpperCase());
+                        }}
+                        label="Cód. Frota"
+                      />
                     )}
                   />
                 </Grid>
