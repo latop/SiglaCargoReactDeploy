@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import api from "../configs/api";
 import { FetchBasicParams } from "./types";
 import dayjs from "dayjs";
+import { PaginationResponse } from "@/interfaces/pagination";
 
 const resource = "/Drivers";
 
@@ -90,6 +91,10 @@ export interface DriverRequestResponse {
   userIdCreate: string;
   userIdUpdate: string;
 }
+export interface PaginationDriverRequestResponse extends PaginationResponse {
+  data: DriverRequestResponse[];
+}
+
 export const useDriverRequestQuery = (props?: DriverReleaseFilterPayload) => {
   const enabledFlag =
     !!props &&
@@ -98,7 +103,7 @@ export const useDriverRequestQuery = (props?: DriverReleaseFilterPayload) => {
 
   return useQuery({
     queryKey: ["driver-request", props],
-    queryFn: async (): Promise<DriverRequestResponse[] | Error> => {
+    queryFn: async (): Promise<PaginationDriverRequestResponse | Error> => {
       try {
         console.log("props", props);
         const {
@@ -107,24 +112,28 @@ export const useDriverRequestQuery = (props?: DriverReleaseFilterPayload) => {
           endDate,
           flgStatus,
           page,
-          ...rest
+          driverId,
+          activityId,
+          fleetGroupId,
+          locationGroupId,
         } = props || {};
+
         const params = {
-          page: page,
+          DriverId: driverId,
+          ActivityId: activityId,
+          FleetGroupId: fleetGroupId,
+          LocationGroupId: locationGroupId,
+          StartDate: dayjs(startDate?.toString()).format("YYYY-MM-DD"),
+          EndDate: dayjs(endDate?.toString()).format("YYYY-MM-DD"),
+          FlgStatus: flgStatus?.trim() || undefined,
+          Page: (page || 0) + 1,
           PageSize: pageSize,
-          startDate:
-            dayjs(startDate?.toString()).format("ddd, MMM D, YYYY") +
-            " 03:00:00 GMT",
-          endDate:
-            dayjs(endDate?.toString()).format("ddd, MMM D, YYYY") +
-            " 03:00:00 GMT",
-          flgStatus: flgStatus?.trim(),
-          ...rest,
         };
         console.log("params", params);
         const response = await api.get(`${resource}/driverrequest`, {
           params,
         });
+        console.log("response", response);
         return response.data;
       } catch (error) {
         console.error(error);

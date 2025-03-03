@@ -7,6 +7,7 @@ import { useDriverReleaseMutation } from "@/services/mutation/drivers";
 import {
   DriverReleaseFilterPayload,
   DriverRequestResponse,
+  PaginationDriverRequestResponse,
   useDriverRequestQuery,
 } from "@/services/query/drivers";
 import { Box } from "@mui/material";
@@ -18,13 +19,19 @@ import DriverReleaseGrid from "./components/drivers-release-grid";
 const DriversRequestTemplate = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [modalData, setModalData] = useState({ id: "", status: "" });
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(0);
   const [filters, setFilters] = useState<
     DriverReleaseFilterPayload | undefined
   >();
 
   const { mutateAsync, isPending } = useDriverReleaseMutation();
   const { data, isLoading: isLoadingQuery } = useDriverRequestQuery(filters);
+
+  const response = data ? (data as PaginationDriverRequestResponse) : undefined;
+  const drivers = data
+    ? ((data as PaginationDriverRequestResponse)
+        .data as DriverRequestResponse[])
+    : ([] as DriverRequestResponse[]);
 
   const openModal = async (id: string, status: string) => {
     console.log("id", id);
@@ -51,14 +58,14 @@ const DriversRequestTemplate = () => {
   };
   const isLoading = isPending || isLoadingQuery;
 
-  console.log(data);
-  console.log(isLoading);
+  // console.log(data);
+  // console.log(isLoading);
   const handleApplyFilter = (values: DriverReleaseFilterPayload) => {
     setFilters({
       ...values,
       page,
     });
-    console.log("handleApplyFilter", values);
+    // console.log("handleApplyFilter", values);
   };
 
   return (
@@ -69,11 +76,13 @@ const DriversRequestTemplate = () => {
       <Box padding={"20px"} maxWidth={"1440px"} justifyContent={"center"}>
         <DriverReleaseFilters onApplySearch={handleApplyFilter} />
         <DriverReleaseGrid
-          data={(data || []) as DriverRequestResponse[]}
+          data={drivers}
           handleChangeStatus={openModal}
-          page={page}
-          totalRecords={10}
+          page={response?.currentPage || 1}
+          size={response?.pageSize || 0}
+          totalRecords={response?.totalCount || 0}
           handlePageChange={handlePageChange}
+          isLoading={isLoading}
         />
       </Box>
       <Modal
