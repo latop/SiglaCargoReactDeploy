@@ -105,13 +105,12 @@ export const useDriverRequestQuery = (props?: DriverReleaseFilterPayload) => {
     queryKey: ["driver-request", props],
     queryFn: async (): Promise<PaginationDriverRequestResponse | Error> => {
       try {
-        console.log("props", props);
         const {
-          pageSize = 15,
+          // pageSize = 15,
           startDate,
           endDate,
           flgStatus,
-          page,
+          // page,
           driverId,
           activityId,
           fleetGroupId,
@@ -126,8 +125,10 @@ export const useDriverRequestQuery = (props?: DriverReleaseFilterPayload) => {
           StartDate: dayjs(startDate?.toString()).format("YYYY-MM-DD"),
           EndDate: dayjs(endDate?.toString()).format("YYYY-MM-DD"),
           FlgStatus: flgStatus?.trim() || undefined,
-          Page: (page || 0) + 1,
-          PageSize: pageSize,
+          // Page: (page || 0) + 1,
+          // PageSize: pageSize,
+          Page: 1,
+          PageSize: 3000,
         };
         console.log("params", params);
         const response = await api.get(`${resource}/driverrequest`, {

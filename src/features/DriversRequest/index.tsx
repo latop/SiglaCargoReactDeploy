@@ -90,6 +90,7 @@ const DriversRequestTemplate = () => {
         handleClose={() => setIsOpen(false)}
         handleSave={handleModalSave}
         isLoading={isLoading}
+        confirmText="Confirmar"
       >
         <Box
           display={"flex"}

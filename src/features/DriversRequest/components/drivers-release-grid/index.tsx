@@ -14,22 +14,16 @@ interface Params {
 const DriverReleaseGrid = ({
   data,
   page,
-  size,
-  totalRecords,
+  // size,
+  // totalRecords,
   handleChangeStatus,
-  handlePageChange,
+  // handlePageChange,
   isLoading,
 }: Params) => {
   const columns = config.columns({ handleChangeStatus });
   console.log("data", data);
   return (
     <>
-      {page}
-      <br />
-      {size}
-      <br />
-      {totalRecords}
-      <br />
       <DataGrid
         sx={{
           marginTop: "20px",
@@ -61,10 +55,10 @@ const DriverReleaseGrid = ({
         }}
         onPaginationModelChange={(params) => {
           console.log("params", params);
-          handlePageChange(params.page);
+          // handlePageChange(params.page);
         }}
-        paginationMode="server"
-        rowCount={totalRecords}
+        paginationMode="client"
+        // rowCount={2000}
         pageSizeOptions={[15]}
         density="compact"
       />
