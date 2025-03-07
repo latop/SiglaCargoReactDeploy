@@ -26,7 +26,7 @@ const columns: GridColDef[] = [
   {
     field: "flgStatus",
     headerName: "Status",
-    width: 100,
+    width: 80,
     sortable: false,
     filterable: false,
     valueFormatter: (value: string) => (value === "C" ? "CANCELADO" : "ATIVO"),
@@ -34,7 +34,7 @@ const columns: GridColDef[] = [
   {
     field: "locationOrig.code",
     headerName: "Origem",
-    width: 150,
+    width: 140,
     sortable: false,
     filterable: false,
     valueGetter: (_: unknown, data: DailyTrip) => {
@@ -44,7 +44,7 @@ const columns: GridColDef[] = [
   {
     field: "locationDest.code",
     headerName: "Destino",
-    width: 150,
+    width: 140,
     sortable: false,
     filterable: false,
     valueGetter: (_: unknown, data: DailyTrip) => {
@@ -82,7 +82,7 @@ const columns: GridColDef[] = [
   {
     field: "lineCode",
     headerName: "Cód. Rota",
-    width: 220,
+    width: 208,
     sortable: false,
     filterable: false,
     valueGetter: (_: unknown, data: DailyTrip) => {

@@ -164,6 +164,7 @@ export function DailyTrips() {
               <DataGrid
                 sx={{
                   width: '100%',
+                  height: '650px',
                   '& .blueColumnHeaders ': {
                     backgroundColor: '#24438F',
                     color: 'white'
@@ -190,7 +191,7 @@ export function DailyTrips() {
 
                 initialState={{
                   pagination: {
-                    paginationModel: { page: data.currentPage - 1, pageSize: 10 },
+                    paginationModel: { page: data.currentPage - 1, pageSize: 15 },
                   },
                 }}
                 onPaginationModelChange={(params) => {
@@ -198,7 +199,7 @@ export function DailyTrips() {
                 }}
                 paginationMode="server"
                 rowCount={data.totalCount}
-                pageSizeOptions={[10]}
+                pageSizeOptions={[15]}
                 density="compact"
                 checkboxSelection
                 onRowSelectionModelChange={(newRowSelectionModel: GridRowSelectionModel) => {
