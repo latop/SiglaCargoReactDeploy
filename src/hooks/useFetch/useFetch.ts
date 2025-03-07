@@ -35,7 +35,11 @@ export function useFetch<T>() {
       if (method === "post") {
         response = await axios.post<T>(url, body, { headers, responseType });
       } else if (method === "get") {
-        response = await axios.get<T>(url, body);
+        response = await axios.get<T>(url, {
+          headers,
+          params: body,
+          responseType,
+        });
       } else if (method === "put") {
         response = await axios.put<T>(url, body, { headers });
       } else if (method === "delete") {

@@ -21,6 +21,8 @@ import AssignmentIcon from "@mui/icons-material/Assignment";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 import SettingsSuggestIcon from "@mui/icons-material/SettingsSuggest";
 import RouteIcon from "@mui/icons-material/Route";
+import PublishIcon from "@mui/icons-material/Publish";
+import AddLocationAltIcon from "@mui/icons-material/AddLocationAlt";
 
 interface BurgerMenuProps {
   isOpen: boolean;
@@ -37,6 +39,11 @@ interface RouteItem {
 
 const routes: RouteItem[] = [
   { text: "Home", icon: <HomeIcon />, path: "/home" },
+  {
+    text: "Solicitação de Motoristas",
+    icon: <LocalShippingIcon />,
+    path: "/drivers-request",
+  },
   {
     text: "Escala de Motoristas",
     icon: <LocalShippingIcon />,
@@ -96,6 +103,21 @@ const routes: RouteItem[] = [
     text: "Motoristas",
     icon: <PersonSearchIcon />,
     path: "/drivers",
+  },
+  {
+    text: "Publicação",
+    icon: <PublishIcon />,
+    path: "/publish-journey",
+  },
+  {
+    text: "Caminhão",
+    icon: <LocalShippingIcon />,
+    path: "/trucks",
+  },
+  {
+    text: "Localização",
+    icon: <AddLocationAltIcon />,
+    path: "/locations",
   },
 ];
 
