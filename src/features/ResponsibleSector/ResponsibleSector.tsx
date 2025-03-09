@@ -9,6 +9,8 @@ import { DataGrid, GridColDef, GridDeleteForeverIcon } from "@mui/x-data-grid";
 import { useResponsibleSector } from "./useResponsibleSector";
 import { ErrorResult } from "@/components/ErrorResult";
 import { useDialog } from "@/hooks/useDialog/useDialog";
+import { EmptyResult } from "@/components/EmptyResult";
+import { ResponsibleSectorDialog } from "@/components/ResponsibleSectorDialog";
 
 export function ResponsibleSector() {
   const {
@@ -20,6 +22,13 @@ export function ResponsibleSector() {
     currentPage,
     handleDeleteResponsibleSector,
     isLoadingDelete,
+    isEmpty,
+    totalCount,
+    handleAddResponsibleSector,
+    handleEditResponsibleSector,
+    isToAddResponsibleSector,
+    responsibleSectorId,
+    handleClose,
   } = useResponsibleSector();
   const { openDialog, closeDialog } = useDialog();
 
@@ -35,7 +44,7 @@ export function ResponsibleSector() {
       width: 400,
     },
     {
-      field: "",
+      field: " ",
       headerName: "",
       width: 100,
       renderCell: (params) => {
@@ -94,7 +103,7 @@ export function ResponsibleSector() {
         }}
       >
         <Button
-          // onClick={handleAddLocation}
+          onClick={handleAddResponsibleSector}
           variant="outlined"
           sx={{
             width: "170px",
@@ -125,9 +134,7 @@ export function ResponsibleSector() {
               <CircularProgress />
             </Box>
           )}
-          {/*
           {isEmpty && !hasData && !isLoading && <EmptyResult />}
-          */}
           {isError && !isLoading && <ErrorResult />}
           {hasData && !isLoading && (
             <div style={{ height: "100%", width: "100%" }}>
@@ -147,11 +154,11 @@ export function ResponsibleSector() {
                       }`,
                   },
                 }}
-                // rowCount={totalCount}
+                rowCount={totalCount}
                 columns={columns}
-                // onRowDoubleClick={(params) => {
-                //   // handleEditLocation(params.id as string);
-                // }}
+                onRowDoubleClick={(params) => {
+                  handleEditResponsibleSector(params.id as string);
+                }}
                 initialState={{
                   pagination: {
                     paginationModel: { page: currentPage - 1, pageSize: 10 },
@@ -166,6 +173,14 @@ export function ResponsibleSector() {
           )}
         </Card>
       </Box>
+      <ResponsibleSectorDialog
+        open={!!responsibleSectorId}
+        onClose={handleClose}
+      />
+      <ResponsibleSectorDialog
+        open={!!isToAddResponsibleSector}
+        onClose={handleClose}
+      />
     </MainContainer>
   );
 }

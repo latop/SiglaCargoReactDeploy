@@ -82,7 +82,7 @@ export function Trucks() {
       valueGetter: (_, truck: Truck) => truck?.locationGroup?.code,
     },
     {
-      field: "",
+      field: " ",
       headerName: "Ação",
       sortable: false,
       filterable: false,

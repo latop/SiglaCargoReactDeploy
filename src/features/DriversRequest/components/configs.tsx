@@ -29,7 +29,7 @@ const columns = ({ handleChangeStatus }: ColumnBuilder): GridColDef[] => {
         value ? dayjs(value).format("DD/MM/YYYY") : "",
     },
     {
-      field: "",
+      field: " ",
       headerName: "Motorista",
       width: 200,
       sortable: false,

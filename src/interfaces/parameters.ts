@@ -59,8 +59,8 @@ export type Attribution = {
   id: string;
 };
 
-export type ResponsibleSectorType = {
+export interface ResponsibleSectorType {
   code: string;
   description: string;
   id: string;
-};
+}

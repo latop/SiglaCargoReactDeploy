@@ -164,7 +164,7 @@ export async function fetchCities({
   }
 }
 
-export async function fetchResponsibleSections({
+export async function fetchResponsibleSectors({
   args: params,
 }: {
   args: FetchResponsibleSectionsParams;
@@ -177,6 +177,17 @@ export async function fetchResponsibleSections({
     const response = await api.get("/ResponsibleSector", {
       params: responsibleSections,
     });
+    const data = response.data;
+    return data;
+  } catch (error) {
+    console.error(error);
+    return error;
+  }
+}
+
+export async function fetchResponsibleSectorsById({ id }: { id: string }) {
+  try {
+    const response = await api.get(`/ResponsibleSector/${id}`);
     const data = response.data;
     return data;
   } catch (error) {

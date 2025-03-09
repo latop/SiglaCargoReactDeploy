@@ -1,7 +1,8 @@
 import { useFetch } from "@/hooks/useFetch";
+import { useHash } from "@/hooks/useHash";
 import { useToast } from "@/hooks/useToast";
 import { ResponsibleSectorType } from "@/interfaces/parameters";
-import { fetchResponsibleSections } from "@/services/parameters";
+import { fetchResponsibleSectors } from "@/services/parameters";
 import useSWRInfinite from "swr/infinite";
 
 type ResponsibleSectorResponse = {
@@ -20,6 +21,22 @@ export const useResponsibleSector = () => {
     deleteResponsibleSector,
     { loading: isLoadingDelete, error: deleteError },
   ] = useFetch();
+  const [hash, setHash] = useHash();
+  const isToAddResponsibleSector = (hash as string)?.match(
+    /#add-responsible-sector/,
+  );
+
+  const handleAddResponsibleSector = () => {
+    setHash("#add-responsible-sector");
+  };
+  const handleEditResponsibleSector = (id: string) => {
+    setHash(`#responsible-sector-id-${id}`);
+  };
+  const handleClose = () => setHash("");
+
+  const responsibleSectorId = (hash as string)?.match(
+    /#responsible-sector-id-(.+)/,
+  )?.[1];
 
   const getKey = (pageIndex: number, params: ResponsibleSectorResponse) => {
     return {
@@ -37,7 +54,7 @@ export const useResponsibleSector = () => {
     mutate: refreshList,
   } = useSWRInfinite<ResponsibleSectorResponse>(
     getKey,
-    fetchResponsibleSections,
+    fetchResponsibleSectors,
     {
       revalidateFirstPage: false,
       revalidateIfStale: false,
@@ -47,7 +64,10 @@ export const useResponsibleSector = () => {
 
   const responsibleSection = data?.[0].data || [];
   const hasNext = data?.[0].hasNext;
-  const hasData = !!data?.[0].data;
+  const hasData = !!data?.[0].data.length;
+  const isEmpty = data?.[0].data.length === 0 || !data?.[0].data.length;
+  const totalCount = data?.[0].totalCount;
+
   const loadMore = () => {
     if (hasNext && !isValidating) {
       setSize((prevSize) => prevSize + 1);
@@ -79,5 +99,13 @@ export const useResponsibleSector = () => {
     currentPage,
     handleDeleteResponsibleSector,
     isLoadingDelete,
+    isEmpty,
+    isToAddResponsibleSector,
+    responsibleSectorId,
+    handleAddResponsibleSector,
+    handleEditResponsibleSector,
+    totalCount,
+    handleClose,
+    refreshList,
   };
 };
