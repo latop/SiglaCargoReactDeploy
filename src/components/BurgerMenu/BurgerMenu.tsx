@@ -7,6 +7,10 @@ import {
   ListItemIcon,
   ListItemText,
   ListItemButton,
+  Accordion,
+  AccordionSummary,
+  Typography,
+  AccordionDetails,
 } from "@mui/material";
 import Link from "next/link";
 import PersonSearchIcon from "@mui/icons-material/PersonSearch";
@@ -23,6 +27,8 @@ import SettingsSuggestIcon from "@mui/icons-material/SettingsSuggest";
 import RouteIcon from "@mui/icons-material/Route";
 import PublishIcon from "@mui/icons-material/Publish";
 import AddLocationAltIcon from "@mui/icons-material/AddLocationAlt";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
 
 interface BurgerMenuProps {
   isOpen: boolean;
@@ -35,6 +41,7 @@ interface RouteItem {
   text: string;
   icon: React.ReactElement;
   path: string;
+  group?: "register" | undefined;
 }
 
 const routes: RouteItem[] = [
@@ -98,11 +105,13 @@ const routes: RouteItem[] = [
     text: "Rotas",
     icon: <RouteIcon />,
     path: "/lines",
+    group: "register",
   },
   {
     text: "Motoristas",
     icon: <PersonSearchIcon />,
     path: "/drivers",
+    group: "register",
   },
   {
     text: "Publicação",
@@ -113,13 +122,42 @@ const routes: RouteItem[] = [
     text: "Caminhão",
     icon: <LocalShippingIcon />,
     path: "/trucks",
+    group: "register",
   },
   {
     text: "Localização",
     icon: <AddLocationAltIcon />,
     path: "/locations",
+    group: "register",
   },
 ];
+
+const RegisterList = () => {
+  return (
+    <Accordion>
+      <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+        <ListItemIcon>
+          <AddCircleIcon />
+        </ListItemIcon>
+        <Typography fontWeight={500}>Cadastro</Typography>
+      </AccordionSummary>
+      <AccordionDetails>
+        {routes
+          .filter(({ group }) => group === "register")
+          .map(({ text, icon, path }) => (
+            <ListItem key={text} disablePadding>
+              <Link href={path} passHref style={{ width: "100%" }}>
+                <ListItemButton>
+                  <ListItemIcon>{icon}</ListItemIcon>
+                  <ListItemText primary={text} />
+                </ListItemButton>
+              </Link>
+            </ListItem>
+          ))}
+      </AccordionDetails>
+    </Accordion>
+  );
+};
 
 export function BurgerMenu({ isOpen, toggleDrawer }: BurgerMenuProps) {
   return (
@@ -133,16 +171,19 @@ export function BurgerMenu({ isOpen, toggleDrawer }: BurgerMenuProps) {
         <img src="/pepsico-logo.png" width={144} height={40} alt="PepsiCo" />
       </Box>
       <List sx={{ display: "flex", flexDirection: "column" }}>
-        {routes.map(({ text, icon, path }) => (
-          <ListItem key={text} disablePadding>
-            <Link href={path} passHref style={{ width: "100%" }}>
-              <ListItemButton>
-                <ListItemIcon>{icon}</ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItemButton>
-            </Link>
-          </ListItem>
-        ))}
+        {routes
+          .filter(({ group }) => group === undefined)
+          .map(({ text, icon, path }) => (
+            <ListItem key={text} disablePadding>
+              <Link href={path} passHref style={{ width: "100%" }}>
+                <ListItemButton>
+                  <ListItemIcon>{icon}</ListItemIcon>
+                  <ListItemText primary={text} />
+                </ListItemButton>
+              </Link>
+            </ListItem>
+          ))}
+        <RegisterList />
       </List>
     </Drawer>
   );
