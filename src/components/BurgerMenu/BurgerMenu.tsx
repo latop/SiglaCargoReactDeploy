@@ -29,6 +29,9 @@ import PublishIcon from "@mui/icons-material/Publish";
 import AddLocationAltIcon from "@mui/icons-material/AddLocationAlt";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
+import { useRouter } from "next/navigation";
+import debounce from "debounce";
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context";
 
 interface BurgerMenuProps {
   isOpen: boolean;
@@ -109,7 +112,7 @@ const routes: RouteItem[] = [
   },
   {
     text: "Motoristas",
-    icon: <PersonSearchIcon />,
+    icon: <TbSteeringWheel />,
     path: "/drivers",
     group: "register",
   },
@@ -130,9 +133,14 @@ const routes: RouteItem[] = [
     path: "/locations",
     group: "register",
   },
+  {
+    text: "Setor Responsável",
+    icon: <PersonSearchIcon />,
+    path: "/responsible-sector",
+  },
 ];
 
-const RegisterList = () => {
+const RegisterList = ({ router }: { router: AppRouterInstance }) => {
   return (
     <Accordion>
       <AccordionSummary expandIcon={<ExpandMoreIcon />}>
@@ -146,7 +154,14 @@ const RegisterList = () => {
           .filter(({ group }) => group === "register")
           .map(({ text, icon, path }) => (
             <ListItem key={text} disablePadding>
-              <Link href={path} passHref style={{ width: "100%" }}>
+              <Link
+                href={path}
+                passHref
+                style={{ width: "100%" }}
+                onMouseEnter={() => {
+                  debounce(() => router.prefetch(path), 300);
+                }}
+              >
                 <ListItemButton>
                   <ListItemIcon>{icon}</ListItemIcon>
                   <ListItemText primary={text} />
@@ -160,6 +175,8 @@ const RegisterList = () => {
 };
 
 export function BurgerMenu({ isOpen, toggleDrawer }: BurgerMenuProps) {
+  const router = useRouter();
+
   return (
     <Drawer anchor="left" open={isOpen} onClose={toggleDrawer(false)}>
       <Box
@@ -175,7 +192,14 @@ export function BurgerMenu({ isOpen, toggleDrawer }: BurgerMenuProps) {
           .filter(({ group }) => group === undefined)
           .map(({ text, icon, path }) => (
             <ListItem key={text} disablePadding>
-              <Link href={path} passHref style={{ width: "100%" }}>
+              <Link
+                href={path}
+                passHref
+                style={{ width: "100%" }}
+                onMouseEnter={() => {
+                  void router.prefetch(path);
+                }}
+              >
                 <ListItemButton>
                   <ListItemIcon>{icon}</ListItemIcon>
                   <ListItemText primary={text} />
@@ -183,7 +207,7 @@ export function BurgerMenu({ isOpen, toggleDrawer }: BurgerMenuProps) {
               </Link>
             </ListItem>
           ))}
-        <RegisterList />
+        <RegisterList router={router} />
       </List>
     </Drawer>
   );
