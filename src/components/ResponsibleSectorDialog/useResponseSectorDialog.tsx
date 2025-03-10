@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 "use client";
 
 import { useResponsibleSector } from "@/features/ResponsibleSector/useResponsibleSector";
@@ -7,14 +8,23 @@ import { useToast } from "@/hooks/useToast";
 import { ResponsibleSectorType } from "@/interfaces/parameters";
 import { fetchResponsibleSectorsById } from "@/services/parameters";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useCallback, useEffect } from "react";
+import { useLayoutEffect } from "react";
 import { useForm } from "react-hook-form";
 import useSWR from "swr";
 import { z } from "zod";
 
 const schema = z.object({
-  code: z.string().min(1),
-  description: z.string().min(1),
+  code: z
+    .string()
+    .min(1, {
+      message: "Obrigatório",
+    })
+    .max(10, {
+      message: "Máximo 10 caracteres.",
+    }),
+  description: z.string().min(1, {
+    message: "Obrigatório",
+  }),
 });
 
 type ResponsibleSectorFormType = z.infer<typeof schema>;
@@ -48,9 +58,9 @@ export const useResponsibleSectorDialog = () => {
   } = useSWR<ResponsibleSectorType>(
     responsibleSectorId
       ? {
-          url: `responsible-sector-${responsibleSectorId}`,
-          id: responsibleSectorId,
-        }
+        url: `responsible-sector-${responsibleSectorId}`,
+        id: responsibleSectorId,
+      }
       : null,
     fetchResponsibleSectorsById,
     {
@@ -72,23 +82,6 @@ export const useResponsibleSectorDialog = () => {
     },
   );
 
-  const handleErrors = useCallback(
-    (data: ResponsibleSectorFormType) => {
-      Object.keys(data).forEach((key) => {
-        if (methods.formState.errors[key as keyof ResponsibleSectorFormType]) {
-          methods.setError(key as keyof ResponsibleSectorFormType, {
-            message: "*Obrigatório",
-          });
-        }
-      });
-    },
-    [methods.formState.errors],
-  );
-
-  useEffect(() => {
-    handleErrors(methods.getValues());
-  }, [handleErrors, methods.formState.errors]);
-
   const handleSubmit = async (data: ResponsibleSectorFormType) => {
     if (isToAddResponsibleSector) {
       const body = {
@@ -102,7 +95,7 @@ export const useResponsibleSectorDialog = () => {
           setHash("");
         },
         onError: () => {
-          addToast("Erro ao adicionar setor responsável.");
+          addToast("Erro ao adicionar setor responsável.", { type: "error" });
           console.error(errorResponsibleSector);
         },
       });
@@ -111,7 +104,7 @@ export const useResponsibleSectorDialog = () => {
     if (responsibleSectorId) {
       const body = {
         ...data,
-        id: responsibleSectorId,
+        id: responsibleSector?.id,
       };
 
       await handleResponsibleSector("/ResponsibleSector", body, {
@@ -122,13 +115,19 @@ export const useResponsibleSectorDialog = () => {
           setHash("");
         },
         onError: () => {
-          addToast("Erro ao atualizado setor responsável.");
+          addToast("Erro ao atualizado setor responsável.", { type: "error" });
           console.error(errorResponsibleSector);
         },
       });
       return;
     }
   };
+
+  useLayoutEffect(() => {
+    if (isToAddResponsibleSector) {
+      methods.reset();
+    }
+  }, [methods.reset, isToAddResponsibleSector]);
 
   return {
     isToAddResponsibleSector,

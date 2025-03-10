@@ -59,6 +59,9 @@ export const useResponsibleSector = () => {
       revalidateFirstPage: false,
       revalidateIfStale: false,
       revalidateOnFocus: false,
+      onError: () => {
+        addToast("Erro ao carregar registros.", { type: "error" });
+      },
     },
   );
 
@@ -83,7 +86,7 @@ export const useResponsibleSector = () => {
         addToast("Registro apagado com sucesso!");
       },
       onError: () => {
-        addToast("Erro ao apagar registro.");
+        addToast("Erro ao apagar registro.", { type: "error" });
         console.error(deleteError);
       },
     });

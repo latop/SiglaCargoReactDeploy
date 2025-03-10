@@ -137,6 +137,7 @@ const routes: RouteItem[] = [
     text: "Setor Responsável",
     icon: <PersonSearchIcon />,
     path: "/responsible-sector",
+    group: "register",
   },
 ];
 
@@ -152,6 +153,7 @@ const RegisterList = ({ router }: { router: AppRouterInstance }) => {
       <AccordionDetails>
         {routes
           .filter(({ group }) => group === "register")
+          .sort((a: RouteItem, b: RouteItem) => a.text.localeCompare(b.text))
           .map(({ text, icon, path }) => (
             <ListItem key={text} disablePadding>
               <Link

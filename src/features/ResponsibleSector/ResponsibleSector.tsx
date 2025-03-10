@@ -4,13 +4,14 @@ import React from "react";
 import { MainContainer } from "@/components/MainContainer";
 import { AppBar } from "@/components/AppBar";
 import { HeaderTitle } from "@/components/HeaderTitle/HeaderTitle";
-import { Box, Button, Card, CircularProgress } from "@mui/material";
+import { Box, Button, Card } from "@mui/material";
 import { DataGrid, GridColDef, GridDeleteForeverIcon } from "@mui/x-data-grid";
 import { useResponsibleSector } from "./useResponsibleSector";
 import { ErrorResult } from "@/components/ErrorResult";
 import { useDialog } from "@/hooks/useDialog/useDialog";
 import { EmptyResult } from "@/components/EmptyResult";
 import { ResponsibleSectorDialog } from "@/components/ResponsibleSectorDialog";
+import IsLoadingTable from "./isLoadindCard";
 
 export function ResponsibleSector() {
   const {
@@ -123,22 +124,23 @@ export function ResponsibleSector() {
             justifyContent: "center",
           }}
         >
-          {isLoading && (
-            <Box
-              display="flex"
-              alignItems="center"
-              justifyContent="center"
-              padding="10px"
-              height="100%"
-            >
-              <CircularProgress />
-            </Box>
-          )}
+          {isLoading && <IsLoadingTable />}
           {isEmpty && !hasData && !isLoading && <EmptyResult />}
           {isError && !isLoading && <ErrorResult />}
           {hasData && !isLoading && (
             <div style={{ height: "100%", width: "100%" }}>
               <DataGrid
+                sx={{
+                  width: "100%",
+                  "& .blueColumnHeaders ": {
+                    backgroundColor: "#24438F",
+                    color: "white",
+                  },
+                }}
+                slots={{
+                  noRowsOverlay: EmptyResult,
+                }}
+                loading={isLoading}
                 rows={responsibleSection || []}
                 getRowId={(row) => row.id}
                 localeText={{
@@ -154,6 +156,7 @@ export function ResponsibleSector() {
                       }`,
                   },
                 }}
+                disableRowSelectionOnClick
                 rowCount={totalCount}
                 columns={columns}
                 onRowDoubleClick={(params) => {
