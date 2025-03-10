@@ -52,7 +52,6 @@ const initialValues = {
   flgStatus: "",
   licensePlate: "",
   tripTypeId: "",
-  tripTypeId: "",
 };
 export function DailyTripsFilterBar({ onChange }: Params) {
   const methods = useForm<FormFields>({
