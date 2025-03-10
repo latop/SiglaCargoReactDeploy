@@ -62,8 +62,12 @@ const ModalBatchAlterDatesTrip = ({
   const handleSubmitAndClose = (data: FieldValues) => {
     const newData = {
       ...data,
-      deliveryDate: dayjs(data.deliveryDate).format("YYYY-MM-DD"),
-      deliveryTime: dayjs(data.deliveryDate).format("HH:mm A"),
+      deliveryDate: `${dayjs(data.deliveryDate).format(
+        "YYYY-MM-DD",
+      )}T00:00:00.000Z`,
+      deliveryTime: `1970-01-01T${dayjs(data.deliveryDate).format(
+        "HH:mm:ss.sss",
+      )}Z`,
       requestDate: dayjs(data.requestDate).format("YYYY-MM-DD"),
     };
 

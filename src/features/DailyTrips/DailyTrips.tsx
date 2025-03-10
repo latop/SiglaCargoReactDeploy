@@ -21,7 +21,7 @@ import { FieldValues } from "react-hook-form";
 import ModalBatchAlterCompanyTrip from "./batch/change-company";
 import ModalBatchAlterFleetTrip from "./batch/change-fleet";
 import ModalBatchAlterDatesTrip from "./batch/change-dates";
-import { useDailyTripBatchChange } from "@/services/mutation/daily-trips";
+import { DailyTripBatchChangePayload, useDailyTripBatchChange } from "@/services/mutation/daily-trips";
 import { useToast } from "@/hooks/useToast";
 
 export function DailyTrips() {
@@ -66,7 +66,7 @@ export function DailyTrips() {
     }
     console.log("Bulk viagens", payload)
 
-    const response = await mutateAsync(payload)
+    const response = await mutateAsync(payload as DailyTripBatchChangePayload)
     console.log(response)
     if (response === 'Ok') {
       addToast("Alteração salva com sucesso");
@@ -186,13 +186,18 @@ export function DailyTrips() {
           {data && data.data?.length > 0 &&
             <div style={{ height: "100%", width: "100%" }}>
               <DataGrid
+                className="blueColumnGrid"
                 sx={{
                   width: '100%',
                   height: '650px',
-                  '& .blueColumnHeaders ': {
+                  '& .blueColumnHeaders, .MuiDataGrid-columnHeaderCheckbox ': {
                     backgroundColor: '#24438F',
-                    color: 'white'
+                    color: 'white',
                   },
+                  '& .MuiDataGrid-columnHeaderTitleContainerContent svg[data-testid="IndeterminateCheckBoxIcon"], .MuiDataGrid-columnHeaderTitleContainerContent svg[data-testid="CheckBoxOutlineBlankIcon"], .MuiDataGrid-columnHeaderTitleContainerContent svg[data-testid="CheckBoxIcon"]': {
+                    fill: 'white'
+                  }
+
                 }}
                 rows={data.data}
                 localeText={{
