@@ -1,7 +1,6 @@
 import { AutocompleteFleetGroup } from "@/components/AutocompleteFleetGroup";
 import { AutocompleteJustification } from "@/components/AutocompleteJustification";
 import { Box, Button, Modal, TextField, Typography } from "@mui/material";
-import { useEffect } from "react";
 import {
   Controller,
   FieldValues,
@@ -34,16 +33,12 @@ const ModalBatchAlterFleetTrip = ({
 }: Params) => {
   const methods = useForm({
     defaultValues: {
-      justificationId: "",
-      justificationMessage: "",
+      justificationId: undefined,
+      justificationMessage: undefined,
+      fleetGroupId: undefined,
+      actionType: "3",
     },
   });
-  useEffect(() => {
-    return () => {
-      methods.reset();
-      methods.setValue("justificationMessage", "");
-    };
-  }, []);
 
   const handleModalClose = () => {
     methods.reset(); // Reseta os valores do form

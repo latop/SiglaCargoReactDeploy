@@ -1,6 +1,5 @@
 import { AutocompleteJustification } from "@/components/AutocompleteJustification";
 import { Box, Button, Modal, TextField, Typography } from "@mui/material";
-import { useEffect } from "react";
 import {
   Controller,
   FieldValues,
@@ -33,16 +32,11 @@ const ModalBatchCancelTrip = ({
 }: Params) => {
   const methods = useForm({
     defaultValues: {
-      justificationId: "",
-      justificationMessage: "",
+      justificationId: undefined,
+      justificationMessage: undefined,
+      actionType: "1",
     },
   });
-  useEffect(() => {
-    return () => {
-      methods.reset();
-      methods.setValue("justificationMessage", "");
-    };
-  }, []);
 
   const handleModalClose = () => {
     methods.reset(); // Reseta os valores do form

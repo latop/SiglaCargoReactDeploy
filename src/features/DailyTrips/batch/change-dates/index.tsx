@@ -46,12 +46,11 @@ const ModalBatchAlterDatesTrip = ({
     defaultValues: {
       justificationId: undefined,
       justificationMessage: undefined,
-      companyId: undefined,
-      fleetGroupId: undefined,
       deliveryDate: undefined,
       deliveryTime: undefined,
       requestDate: undefined,
       keepDriver: false,
+      actionType: "4",
     },
   });
 
@@ -64,7 +63,7 @@ const ModalBatchAlterDatesTrip = ({
     const newData = {
       ...data,
       deliveryDate: dayjs(data.deliveryDate).format("YYYY-MM-DD"),
-      deliveryTime: dayjs(data.deliveryDate).format("HH:mm"),
+      deliveryTime: dayjs(data.deliveryDate).format("HH:mm A"),
       requestDate: dayjs(data.requestDate).format("YYYY-MM-DD"),
     };
 

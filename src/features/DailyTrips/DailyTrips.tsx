@@ -22,6 +22,7 @@ import ModalBatchAlterCompanyTrip from "./batch/change-company";
 import ModalBatchAlterFleetTrip from "./batch/change-fleet";
 import ModalBatchAlterDatesTrip from "./batch/change-dates";
 import { useDailyTripBatchChange } from "@/services/mutation/daily-trips";
+import { useToast } from "@/hooks/useToast";
 
 export function DailyTrips() {
   const [filters, setFilters] = useState<FetchDailyTripsParams>(initialDataDailyTripsParams)
@@ -33,6 +34,8 @@ export function DailyTrips() {
   const [tripId, setTripId] = useState()
   const [generateDailyTripModalIsOpen, setGenerateDailyTripModalIsOpen] = useState(false)
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const { addToast } = useToast();
+
   const open = Boolean(anchorEl);
 
   const [currentPage, setCurrentPage] = useState(0)
@@ -65,6 +68,11 @@ export function DailyTrips() {
 
     const response = await mutateAsync(payload)
     console.log(response)
+    if (response === 'Ok') {
+      addToast("Alteração salva com sucesso");
+    } else {
+      addToast("Erro ao salvar alteração", { type: "error" });
+    }
   }
 
   return (

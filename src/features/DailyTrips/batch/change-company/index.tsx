@@ -1,7 +1,6 @@
 import { AutocompleteCompany } from "@/components/AutocompleteCompany";
 import { AutocompleteJustification } from "@/components/AutocompleteJustification";
 import { Box, Button, Modal, TextField, Typography } from "@mui/material";
-import { useEffect } from "react";
 import {
   Controller,
   FieldValues,
@@ -34,16 +33,12 @@ const ModalBatchAlterCompanyTrip = ({
 }: Params) => {
   const methods = useForm({
     defaultValues: {
-      justificationId: "",
-      justificationMessage: "",
+      justificationId: undefined,
+      justificationMessage: undefined,
+      companyId: undefined,
+      actionType: "2",
     },
   });
-  useEffect(() => {
-    return () => {
-      methods.reset();
-      methods.setValue("justificationMessage", "");
-    };
-  }, []);
 
   const handleModalClose = () => {
     methods.reset(); // Reseta os valores do form
