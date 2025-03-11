@@ -18,6 +18,7 @@ import {
 
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AutocompleteJustification } from "@/components/AutocompleteJustification";
 
 interface Params {
   isOpen: boolean;
@@ -103,32 +104,34 @@ const ModalBatchAlterDatesTrip = ({
           <FormProvider {...methods}>
             <form onSubmit={methods.handleSubmit(handleSubmitAndClose)}>
               <Box display="flex" flexDirection={"column"} gap="10px">
-                <Controller
-                  name="deliveryDate"
-                  control={methods.control}
-                  render={({ field, fieldState: { error } }) => (
-                    <DateTimePicker
-                      format="DD/MM/YYYY HH:mm"
-                      label="Nova Data/Hora de Entrega"
-                      error={error?.message}
-                      {...field}
-                      value={field.value ? dayjs(field.value) : null}
-                    />
-                  )}
-                />
-                <Controller
-                  name="requestDate"
-                  control={methods.control}
-                  render={({ field, fieldState: { error } }) => (
-                    <DatePicker
-                      format="DD/MM/YYYY"
-                      label="Nova Data de Solicitação"
-                      error={error?.message}
-                      {...field}
-                      value={field.value ? dayjs(field.value) : null}
-                    />
-                  )}
-                />
+                <Box display="flex" flexDirection={"row"} gap="10px">
+                  <Controller
+                    name="deliveryDate"
+                    control={methods.control}
+                    render={({ field, fieldState: { error } }) => (
+                      <DateTimePicker
+                        format="DD/MM/YYYY HH:mm"
+                        label="Nova Data/Hora de Entrega"
+                        error={error?.message}
+                        {...field}
+                        value={field.value ? dayjs(field.value) : null}
+                      />
+                    )}
+                  />
+                  <Controller
+                    name="requestDate"
+                    control={methods.control}
+                    render={({ field, fieldState: { error } }) => (
+                      <DatePicker
+                        format="DD/MM/YYYY"
+                        label="Nova Data de Solicitação"
+                        error={error?.message}
+                        {...field}
+                        value={field.value ? dayjs(field.value) : null}
+                      />
+                    )}
+                  />
+                </Box>
                 <Controller
                   name={"keepDriver"}
                   control={methods.control}
@@ -150,6 +153,7 @@ const ModalBatchAlterDatesTrip = ({
                     />
                   )}
                 />
+                <AutocompleteJustification name="justificationId" />
                 <Controller
                   name={"justificationMessage"}
                   control={methods.control}
