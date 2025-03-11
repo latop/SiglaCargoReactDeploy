@@ -16,7 +16,6 @@ import {
 } from "@mui/material";
 import { Controller, FormProvider } from "react-hook-form";
 import { useResponsibleSectorDialog } from "./useResponseSectorDialog";
-import { useDialog } from "@/hooks/useDialog/useDialog";
 
 interface ResponsibleSectorDialogProps {
   open: boolean;
@@ -29,7 +28,6 @@ export function ResponsibleSectorDialog({
 }: ResponsibleSectorDialogProps) {
   const { responsibleSectorId, methods, isLoading, handleSubmit } =
     useResponsibleSectorDialog();
-  const { openDialog } = useDialog();
 
   const handleClose = () => {
     methods.reset({});
@@ -53,6 +51,7 @@ export function ResponsibleSectorDialog({
       <FormProvider {...methods}>
         <form
           style={{ display: "flex", flexDirection: "column", height: "100%" }}
+          onSubmit={handleSubmit}
         >
           <DialogTitle
             sx={{ m: 0, p: "1rem 1rem" }}
@@ -135,17 +134,7 @@ export function ResponsibleSectorDialog({
               padding="10px"
               width="100%"
             >
-              <Button
-                variant="contained"
-                onClick={() => {
-                  openDialog({
-                    title: "Desejar salvar?",
-                    onConfirm: async () => {
-                      await handleSubmit();
-                    },
-                  });
-                }}
-              >
+              <Button variant="contained" type="submit">
                 {methods.formState.isSubmitting && (
                   <CircularProgress
                     color="inherit"
