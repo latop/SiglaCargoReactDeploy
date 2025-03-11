@@ -93,7 +93,7 @@ export function Lines() {
       filterable: false,
     },
     {
-      field: "",
+      field: " ",
       headerName: "",
       sortable: false,
       filterable: false,

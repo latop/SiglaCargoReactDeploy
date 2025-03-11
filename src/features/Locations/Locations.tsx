@@ -99,7 +99,7 @@ export function Locations() {
       },
     },
     {
-      field: "",
+      field: " ",
       headerName: "Ação",
       sortable: false,
       filterable: false,
