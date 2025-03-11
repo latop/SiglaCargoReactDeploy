@@ -148,7 +148,7 @@ const RegisterList = ({ router }: { router: AppRouterInstance }) => {
         <ListItemIcon>
           <AddCircleIcon />
         </ListItemIcon>
-        <Typography fontWeight={500}>Cadastro</Typography>
+        <Typography fontWeight={500}>Cadastros</Typography>
       </AccordionSummary>
       <AccordionDetails>
         {routes
