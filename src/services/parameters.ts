@@ -31,6 +31,11 @@ export interface FetchResponsibleSectionsParams {
   pageNumber?: number;
 }
 
+export interface FetchJustificationsParams {
+  pageSize?: number;
+  pageNumber?: number;
+}
+
 export async function fetchAcitivities({
   args: params,
 }: {
@@ -169,13 +174,13 @@ export async function fetchResponsibleSectors({
 }: {
   args: FetchResponsibleSectionsParams;
 }) {
-  const responsibleSections = {
+  const responsibleSectionsParams = {
     PageSize: params.pageSize,
     PageNumber: params.pageNumber,
   };
   try {
     const response = await api.get("/ResponsibleSector", {
-      params: responsibleSections,
+      params: responsibleSectionsParams,
     });
     const data = response.data;
     return data;
@@ -185,9 +190,42 @@ export async function fetchResponsibleSectors({
   }
 }
 
-export async function fetchResponsibleSectorsById({ id }: { id: string }) {
+export async function fetchResponsibleSectorById({ id }: { id: string }) {
   try {
     const response = await api.get(`/ResponsibleSector/${id}`);
+    const data = response.data;
+    return data;
+  } catch (error) {
+    console.error(error);
+    return error;
+  }
+}
+
+export async function fetchJustifications({
+  args: params,
+}: {
+  args: FetchJustificationsParams;
+}) {
+  const justificationsParams = {
+    PageSize: params.pageSize,
+    PageNumber: params.pageNumber,
+  };
+
+  try {
+    const response = await api.get("/Justification", {
+      params: justificationsParams,
+    });
+    const data = response.data;
+    return data;
+  } catch (error) {
+    console.error(error);
+    return error;
+  }
+}
+
+export async function fetchJustificationById({ id }: { id: string }) {
+  try {
+    const response = await api.get(`/Justification/${id}`);
     const data = response.data;
     return data;
   } catch (error) {

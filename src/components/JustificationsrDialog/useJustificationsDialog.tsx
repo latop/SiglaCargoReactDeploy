@@ -6,14 +6,14 @@ import { useFetch } from "@/hooks/useFetch";
 import { useHash } from "@/hooks/useHash";
 import { useToast } from "@/hooks/useToast";
 import { ResponsibleSectorType } from "@/interfaces/parameters";
-import { fetchResponsibleSectorById } from "@/services/parameters";
+import { fetchJustificationById } from "@/services/parameters";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useLayoutEffect } from "react";
 import { useForm } from "react-hook-form";
 import useSWR from "swr";
 import { z } from "zod";
 
-export const resposibleSectorSchema = z.object({
+const schema = z.object({
   code: z
     .string()
     .min(1, {
@@ -24,50 +24,58 @@ export const resposibleSectorSchema = z.object({
     }),
   description: z.string().min(1, {
     message: "Obrigatório",
+  }).max(100, {
+    message: "Máximo 100 caracteres.",
   }),
+  responsibleSectorId: z.string().optional(),
+  responsibleSector: z.record(z.any()).optional(),
+  type: z.string().optional(),
 });
 
-export type ResponsibleSectorFormType = z.infer<typeof resposibleSectorSchema>;
+type JustificationsFormType = z.infer<typeof schema>;
 
-export const useResponsibleSectorDialog = () => {
+export const useJustificationsDialog = () => {
   const { refreshList } = useResponsibleSector();
-  const methods = useForm<ResponsibleSectorFormType>({
-    resolver: zodResolver(resposibleSectorSchema),
+  const methods = useForm<JustificationsFormType>({
+    resolver: zodResolver(schema),
     defaultValues: {
       code: "",
       description: "",
+      responsibleSectorId: "",
+      type: "",
     },
   });
   const { addToast } = useToast();
-  const [handleResponsibleSector, { error: errorResponsibleSector }] =
+  const [handleJustification, { error: errorResponsibleSector }] =
     useFetch();
 
   const [hash, setHash] = useHash();
 
-  const isToAddResponsibleSector = !!(hash as string)?.match(
-    /#add-responsible-sector/,
+  const isToAddJustification = !!(hash as string)?.match(
+    /#add-justifications/,
   )?.[0];
-  const responsibleSectorId = (hash as string)?.match(
-    /#responsible-sector-id-(.+)/,
+  const justificationId = (hash as string)?.match(
+    /#justification-id-(.+)/,
   )?.[1];
 
   const {
-    data: responsibleSector,
+    data: justification,
     error,
     isLoading,
   } = useSWR<ResponsibleSectorType>(
-    responsibleSectorId
+    justificationId
       ? {
-        url: `responsible-sector-${responsibleSectorId}`,
-        id: responsibleSectorId,
+        url: `justification-${justificationId}`,
+        id: justificationId,
       }
       : null,
-    fetchResponsibleSectorById,
+    fetchJustificationById,
     {
       revalidateOnFocus: false,
       revalidateOnReconnect: false,
       onSuccess: (data) => {
-        if (responsibleSectorId) {
+        if (justificationId) {
+          console.log('Acessei')
           methods.reset({
             code: data.code,
             description: data.description,
@@ -82,40 +90,41 @@ export const useResponsibleSectorDialog = () => {
     },
   );
 
-  const handleSubmit = async (data: ResponsibleSectorFormType) => {
-    if (isToAddResponsibleSector) {
+  console.log(justification);
+  const handleSubmit = async (data: JustificationsFormType) => {
+    if (isToAddJustification) {
       const body = {
         ...data,
       };
-      await handleResponsibleSector("/ResponsibleSector", body, {
+      await handleJustification("/Justification", body, {
         method: "post",
         onSuccess: () => {
-          addToast("Setor responsável adicionado com sucesso!");
+          addToast("Justificativa adicionada com sucesso!");
           refreshList();
           setHash("");
         },
         onError: () => {
-          addToast("Erro ao adicionar setor responsável.", { type: "error" });
+          addToast("Erro ao adicionar justificativa.", { type: "error" });
           console.error(errorResponsibleSector);
         },
       });
       return;
     }
-    if (responsibleSectorId) {
+    if (justificationId) {
       const body = {
         ...data,
-        id: responsibleSector?.id,
+        id: justification?.id,
       };
 
-      await handleResponsibleSector("/ResponsibleSector", body, {
+      await handleJustification("/Justification", body, {
         method: "put",
         onSuccess: () => {
-          addToast("Setor responsável atualizado com sucesso!");
+          addToast("Justificativa atualizada com sucesso!");
           refreshList();
           setHash("");
         },
         onError: () => {
-          addToast("Erro ao atualizar setor responsável.", { type: "error" });
+          addToast("Erro ao atualizar Justificativa.", { type: "error" });
           console.error(errorResponsibleSector);
         },
       });
@@ -124,16 +133,16 @@ export const useResponsibleSectorDialog = () => {
   };
 
   useLayoutEffect(() => {
-    if (isToAddResponsibleSector) {
+    if (isToAddJustification) {
       methods.reset();
     }
-  }, [methods.reset, isToAddResponsibleSector]);
+  }, [methods.reset, isToAddJustification]);
 
   return {
-    isToAddResponsibleSector,
-    responsibleSectorId,
+    isToAddJustification,
+    justificationId,
     methods,
-    responsibleSector,
+    justification,
     isLoading,
     handleSubmit: methods.handleSubmit(handleSubmit),
   };

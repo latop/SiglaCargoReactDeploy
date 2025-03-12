@@ -64,3 +64,12 @@ export interface ResponsibleSectorType {
   description: string;
   id: string;
 }
+
+export interface JustificationType {
+  code: string;
+  description: string;
+  responsibleSectorId: string;
+  responsibleSector?: ResponsibleSectorType;
+  type: string | null;
+  id: string;
+}
