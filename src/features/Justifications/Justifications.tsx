@@ -139,7 +139,7 @@ export function Justifications() {
             justifyContent: "center",
           }}
         >
-          {isLoading && <IsLoadingTable />}
+          {isLoading && <IsLoadingTable length={10} />}
           {isEmpty && !hasData && !isLoading && <EmptyResult />}
           {isError && !isLoading && <ErrorResult />}
           {hasData && !isLoading && (

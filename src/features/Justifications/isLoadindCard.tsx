@@ -1,7 +1,13 @@
 import { Skeleton, Box } from "@mui/material";
 import React from "react";
 
-const IsLoadingTable = () => {
+const IsLoadingTable = ({
+  length,
+  height = 36,
+}: {
+  length: number;
+  height?: number;
+}) => {
   return (
     <Box
       sx={{
@@ -14,20 +20,14 @@ const IsLoadingTable = () => {
         gap: 1,
       }}
     >
-      <Skeleton variant="rectangular" width={"100%"} height={40} />
-      <Skeleton variant="rectangular" width={"100%"} height={40} />
-      <Skeleton variant="rectangular" width={"100%"} height={40} />
-      <Skeleton variant="rectangular" width={"100%"} height={40} />
-      <Skeleton variant="rectangular" width={"100%"} height={40} />
-      <Skeleton variant="rectangular" width={"100%"} height={40} />
-      <Skeleton variant="rectangular" width={"100%"} height={40} />
-      <Skeleton variant="rectangular" width={"100%"} height={40} />
-      <Skeleton variant="rectangular" width={"100%"} height={40} />
-      <Skeleton variant="rectangular" width={"100%"} height={40} />
-      <Skeleton variant="rectangular" width={"100%"} height={40} />
-      <Skeleton variant="rectangular" width={"100%"} height={40} />
-      <Skeleton variant="rectangular" width={"100%"} height={40} />
-      <Skeleton variant="rectangular" width={"100%"} height={40} />
+      {Array.from({ length }, (_, index) => (
+        <Skeleton
+          key={index}
+          variant="rectangular"
+          width={"100%"}
+          height={height}
+        />
+      ))}
     </Box>
   );
 };

@@ -177,7 +177,7 @@ export function BurgerMenu({ isOpen, toggleDrawer }: BurgerMenuProps) {
         <BurgerMenuGroup
           routes={routes}
           groupment="register"
-          name="Cadastro"
+          name="Cadastros"
           router={router}
         />
       </List>
