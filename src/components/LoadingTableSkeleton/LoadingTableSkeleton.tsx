@@ -1,7 +1,7 @@
 import { Skeleton, Box } from "@mui/material";
 import React from "react";
 
-const IsLoadingTable = ({
+const LoadingTableSkeleton = ({
   length,
   height = 36,
 }: {
@@ -32,4 +32,4 @@ const IsLoadingTable = ({
   );
 };
 
-export default IsLoadingTable;
+export default LoadingTableSkeleton;

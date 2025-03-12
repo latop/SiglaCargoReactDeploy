@@ -11,7 +11,7 @@ import { ErrorResult } from "@/components/ErrorResult";
 import { useDialog } from "@/hooks/useDialog/useDialog";
 import { EmptyResult } from "@/components/EmptyResult";
 import { ResponsibleSectorDialog } from "@/components/ResponsibleSectorDialog";
-import IsLoadingTable from "./isLoadindCard";
+import LoadingTableSkeleton from "@/components/LoadingTableSkeleton/LoadingTableSkeleton";
 
 export function ResponsibleSector() {
   const {
@@ -124,7 +124,7 @@ export function ResponsibleSector() {
             justifyContent: "center",
           }}
         >
-          {isLoading && <IsLoadingTable />}
+          {isLoading && <LoadingTableSkeleton length={10} />}
           {isEmpty && !hasData && !isLoading && <EmptyResult />}
           {isError && !isLoading && <ErrorResult />}
           {hasData && !isLoading && (

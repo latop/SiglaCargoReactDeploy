@@ -3,9 +3,10 @@ import { useHash } from "@/hooks/useHash";
 import { useToast } from "@/hooks/useToast";
 import { JustificationType } from "@/interfaces/parameters";
 import { fetchJustifications } from "@/services/parameters";
+import { useSearchParams } from "next/navigation";
 import useSWRInfinite from "swr/infinite";
 
-type JustificationResponse = {
+interface JustificationResponse {
   currentPage?: number;
   hasNext?: boolean;
   hasPrevious?: boolean;
@@ -13,7 +14,14 @@ type JustificationResponse = {
   totalPages?: number;
   data: JustificationType[];
   totalCount?: number;
-};
+}
+
+interface JustificationFiltersParams {
+  code?: string;
+  type?: string;
+  responsibleSectorDescription?: string;
+  submitted?: true | false;
+}
 
 export const useJustifications = () => {
   const { addToast } = useToast();
@@ -25,10 +33,12 @@ export const useJustifications = () => {
   const isToAddJustification = (hash as string)?.match(
     /#add-justifications/,
   )?.[0];
-  console.log(isToAddJustification);
-  const handleAddJustification = () => {
-    setHash("#add-justifications");
+  const params = useSearchParams();
+
+  const filterParams: JustificationFiltersParams = {
+    submitted: Boolean(params.get("submitted")) || undefined,
   };
+
   const handleEditJustification = (id: string) => {
     setHash(`#justification-id-${id}`);
   };
@@ -39,6 +49,7 @@ export const useJustifications = () => {
   )?.[1];
 
   const getKey = (pageIndex: number, params: JustificationResponse) => {
+    if (!filterParams.submitted) return null;
     return {
       url: "/justifications",
       args: { ...params, pageSize: 10, pageNumber: pageIndex + 1 },
@@ -102,7 +113,6 @@ export const useJustifications = () => {
     isEmpty,
     isToAddJustification,
     justificationId,
-    handleAddJustification,
     handleEditJustification,
     totalCount,
     handleClose,

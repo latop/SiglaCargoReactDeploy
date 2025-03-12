@@ -4,15 +4,16 @@ import React from "react";
 import { MainContainer } from "@/components/MainContainer";
 import { AppBar } from "@/components/AppBar";
 import { HeaderTitle } from "@/components/HeaderTitle/HeaderTitle";
-import { Box, Button, Card } from "@mui/material";
+import { Box, Card } from "@mui/material";
 import { DataGrid, GridColDef, GridDeleteForeverIcon } from "@mui/x-data-grid";
 import { ErrorResult } from "@/components/ErrorResult";
 import { useDialog } from "@/hooks/useDialog/useDialog";
 import { EmptyResult } from "@/components/EmptyResult";
-import IsLoadingTable from "./isLoadindCard";
 import { useJustifications } from "./useJustifications";
 import { JustificationsDialog } from "@/components/JustificationsrDialog";
 import { JustificationType } from "@/interfaces/parameters";
+import LoadingTableSkeleton from "../../components/LoadingTableSkeleton/LoadingTableSkeleton";
+import { JustificationFilterBar } from "@/components/JustificationFIlterBar/JustificationFIlterBar";
 
 export function Justifications() {
   const {
@@ -25,7 +26,6 @@ export function Justifications() {
     isLoadingDelete,
     isEmpty,
     totalCount,
-    handleAddJustification,
     handleDeleteJustification,
     handleEditJustification,
     isToAddJustification,
@@ -118,16 +118,7 @@ export function Justifications() {
           gap: "16px",
         }}
       >
-        <Button
-          onClick={handleAddJustification}
-          variant="outlined"
-          sx={{
-            width: "170px",
-            alignSelf: "flex-end",
-          }}
-        >
-          Adicionar
-        </Button>
+        <JustificationFilterBar />
         <Card
           sx={{
             width: "100%",
@@ -139,7 +130,7 @@ export function Justifications() {
             justifyContent: "center",
           }}
         >
-          {isLoading && <IsLoadingTable length={10} />}
+          {isLoading && <LoadingTableSkeleton length={10} />}
           {isEmpty && !hasData && !isLoading && <EmptyResult />}
           {isError && !isLoading && <ErrorResult />}
           {hasData && !isLoading && (
