@@ -116,7 +116,7 @@ export function ResponsibleSector() {
         <Card
           sx={{
             width: "100%",
-            height: "635px",
+            height: "454px",
             position: "relative",
             display: "flex",
             flexDirection: "column",
@@ -167,10 +167,11 @@ export function ResponsibleSector() {
                     paginationModel: { page: currentPage - 1, pageSize: 10 },
                   },
                 }}
-                onPaginationModelChange={() => {
-                  loadMore();
+                onPaginationModelChange={(params) => {
+                  loadMore(params.page + 1);
                 }}
                 pageSizeOptions={[10]}
+                density="compact"
               />
             </div>
           )}
