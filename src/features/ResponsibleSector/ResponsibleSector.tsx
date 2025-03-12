@@ -4,94 +4,54 @@ import React from "react";
 import { MainContainer } from "@/components/MainContainer";
 import { AppBar } from "@/components/AppBar";
 import { HeaderTitle } from "@/components/HeaderTitle/HeaderTitle";
-import { Box, Button, Card, CircularProgress } from "@mui/material";
-import { useTrucks } from "./useTrucks";
-import { TrucksFilterBar } from "@/components/TrucksFilterBar";
+import { Box, Button, Card } from "@mui/material";
 import { DataGrid, GridColDef, GridDeleteForeverIcon } from "@mui/x-data-grid";
-import { EmptyResult } from "@/components/EmptyResult";
+import { useResponsibleSector } from "./useResponsibleSector";
 import { ErrorResult } from "@/components/ErrorResult";
-import { Truck } from "@/interfaces/vehicle";
 import { useDialog } from "@/hooks/useDialog/useDialog";
-import { TrucksDialog } from "@/components/TrucksDialog";
+import { EmptyResult } from "@/components/EmptyResult";
+import { ResponsibleSectorDialog } from "@/components/ResponsibleSectorDialog";
+import IsLoadingTable from "./isLoadindCard";
 
-export function Trucks() {
-  const { openDialog, closeDialog } = useDialog();
-
+export function ResponsibleSector() {
   const {
-    trucks,
+    responsibleSection,
+    loadMore,
+    isLoading,
+    error: isError,
     hasData,
+    currentPage,
+    handleDeleteResponsibleSector,
+    isLoadingDelete,
     isEmpty,
     totalCount,
-    currentPage,
-    loadMoreLines,
-    isLoading,
-    isError,
-    handleAddTruck,
-    handleDeleteTruck,
-    loadingDeleteTruck,
-    addTruck,
-    handleCloseDialog,
-    handleEditTruck,
-    truckId,
-  } = useTrucks();
+    handleAddResponsibleSector,
+    handleEditResponsibleSector,
+    isToAddResponsibleSector,
+    responsibleSectorId,
+    handleClose,
+  } = useResponsibleSector();
+  const { openDialog, closeDialog } = useDialog();
 
   const columns: GridColDef[] = [
     {
-      field: "licensePlate",
-      headerName: "Placa",
+      field: "code",
+      headerName: "Código",
       width: 200,
-      sortable: false,
-      filterable: false,
     },
     {
-      field: "fleetCode",
-      headerName: "Cód. Frota",
-      width: 200,
-      sortable: false,
-      filterable: false,
-    },
-    {
-      field: "fleetType.code",
-      headerName: "Tipo de frota",
-      width: 200,
-      sortable: false,
-      filterable: false,
-      valueGetter: (_, truck: Truck) => truck?.fleetType.code,
-    },
-    {
-      field: "manufactureYear",
-      headerName: "Ano Fabricação",
-      width: 150,
-      sortable: false,
-      filterable: false,
-    },
-    // {
-    //   field: "fleetType.fleetGroup.code",
-    //   headerName: "Cód frota",
-    //   width: 200,
-    //   sortable: false,
-    //   filterable: false,
-    //   valueGetter: (_, truck: Truck) => truck?.fleetType.fleetGroup.code,
-    // },
-    {
-      field: "locationGroup.code",
-      headerName: "Base Operacional",
-      width: 200,
-      sortable: false,
-      filterable: false,
-      valueGetter: (_, truck: Truck) => truck?.locationGroup?.code,
+      field: "description",
+      headerName: "Descrição",
+      width: 400,
     },
     {
       field: " ",
-      headerName: "Ação",
-      sortable: false,
-      filterable: false,
-      width: 50,
-
+      headerName: "",
+      width: 100,
       renderCell: (params) => {
         return (
           <button
-            disabled={loadingDeleteTruck}
+            disabled={isLoadingDelete}
             style={{
               paddingTop: 12,
               display: "flex",
@@ -107,10 +67,13 @@ export function Trucks() {
               }}
               onClick={() => {
                 openDialog({
-                  body: "Deseja apagar este caminhão?",
-                  onConfirm: () => {
-                    handleDeleteTruck({ truckId: params?.id as string });
-                    closeDialog();
+                  body: "Deseja apagar este registro?",
+                  onConfirm: async () => {
+                    await handleDeleteResponsibleSector(
+                      params?.id as string,
+                    ).then(() => {
+                      closeDialog();
+                    });
                   },
                   onCancel: () => {
                     closeDialog();
@@ -127,7 +90,7 @@ export function Trucks() {
   return (
     <MainContainer>
       <AppBar>
-        <HeaderTitle>Caminhão</HeaderTitle>
+        <HeaderTitle>Setor Responsável</HeaderTitle>
       </AppBar>
       <Box
         sx={{
@@ -140,9 +103,8 @@ export function Trucks() {
           gap: "16px",
         }}
       >
-        <TrucksFilterBar />
         <Button
-          onClick={handleAddTruck}
+          onClick={handleAddResponsibleSector}
           variant="outlined"
           sx={{
             width: "170px",
@@ -162,13 +124,24 @@ export function Trucks() {
             justifyContent: "center",
           }}
         >
-          {isLoading && <CircularProgress />}
+          {isLoading && <IsLoadingTable />}
           {isEmpty && !hasData && !isLoading && <EmptyResult />}
           {isError && !isLoading && <ErrorResult />}
-          {hasData && !isEmpty && !isLoading && (
+          {hasData && !isLoading && (
             <div style={{ height: "100%", width: "100%" }}>
               <DataGrid
-                rows={trucks || []}
+                sx={{
+                  width: "100%",
+                  "& .blueColumnHeaders ": {
+                    backgroundColor: "#24438F",
+                    color: "white",
+                  },
+                }}
+                slots={{
+                  noRowsOverlay: EmptyResult,
+                }}
+                loading={isLoading}
+                rows={responsibleSection || []}
                 getRowId={(row) => row.id}
                 localeText={{
                   noRowsLabel: "Nenhum registro encontrado",
@@ -183,10 +156,11 @@ export function Trucks() {
                       }`,
                   },
                 }}
+                disableRowSelectionOnClick
                 rowCount={totalCount}
                 columns={columns}
                 onRowDoubleClick={(params) => {
-                  handleEditTruck(params.id as string);
+                  handleEditResponsibleSector(params.id as string);
                 }}
                 initialState={{
                   pagination: {
@@ -194,7 +168,7 @@ export function Trucks() {
                   },
                 }}
                 onPaginationModelChange={() => {
-                  loadMoreLines();
+                  loadMore();
                 }}
                 pageSizeOptions={[10]}
               />
@@ -202,8 +176,14 @@ export function Trucks() {
           )}
         </Card>
       </Box>
-      <TrucksDialog open={!!addTruck} onClose={handleCloseDialog} />
-      <TrucksDialog open={!!truckId} onClose={handleCloseDialog} />
+      <ResponsibleSectorDialog
+        open={!!responsibleSectorId}
+        onClose={handleClose}
+      />
+      <ResponsibleSectorDialog
+        open={!!isToAddResponsibleSector}
+        onClose={handleClose}
+      />
     </MainContainer>
   );
 }

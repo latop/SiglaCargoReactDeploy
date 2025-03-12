@@ -37,7 +37,8 @@ const schema = z.object({
   tripTypeId: z.string().optional(),
 });
 
-interface FormFields extends FetchDailyTripsParams {}
+// eslint-disable-next-line prettier/prettier
+interface FormFields extends FetchDailyTripsParams { }
 
 interface Params {
   onChange: (value: FormFields) => void;
