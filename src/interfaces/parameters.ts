@@ -69,7 +69,7 @@ export interface JustificationType {
   code: string;
   description: string;
   responsibleSectorId: string;
-  responsibleSector?: ResponsibleSectorType;
-  type: string | null;
+  responsibleSector?: Partial<ResponsibleSectorType>;
+  type: string;
   id: string;
 }

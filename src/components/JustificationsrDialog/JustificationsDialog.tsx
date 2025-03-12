@@ -134,12 +134,9 @@ export function JustificationsDialog({
                         {...field}
                         error={!!error}
                         helperText={error?.message}
-                        label="Descrição"
+                        label="Setor Responsável"
                         variant="outlined"
                         fullWidth
-                        onChange={(e) => {
-                          field.onChange(e.target.value.toUpperCase());
-                        }}
                       />
                     )}
                   />
@@ -157,9 +154,6 @@ export function JustificationsDialog({
                         label="Tipo de Justificativa"
                         variant="outlined"
                         fullWidth
-                        onChange={(e) => {
-                          field.onChange(e.target.value.toUpperCase());
-                        }}
                       />
                     )}
                   />

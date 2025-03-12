@@ -29,7 +29,7 @@ export function Justifications() {
     handleDeleteJustification,
     handleEditJustification,
     isToAddJustification,
-    isToEditJustification,
+    justificationId,
     handleClose,
   } = useJustifications();
   const { openDialog, closeDialog } = useDialog();
@@ -56,7 +56,7 @@ export function Justifications() {
       headerName: "Tipo",
       width: 200,
       renderCell: ({ row }: { row: JustificationType }) => {
-        return row.type === null && "";
+        return row.type === "null" ? "" : row.type;
       },
     },
     {
@@ -155,7 +155,6 @@ export function Justifications() {
                 slots={{
                   noRowsOverlay: EmptyResult,
                 }}
-                loading={isLoading}
                 rows={justifications || []}
                 getRowId={(row) => row.id}
                 localeText={{
@@ -182,22 +181,19 @@ export function Justifications() {
                     paginationModel: { page: currentPage - 1, pageSize: 10 },
                   },
                 }}
-                onPaginationModelChange={() => {
-                  loadMore();
+                onPaginationModelChange={(params) => {
+                  loadMore(params.page + 1);
                 }}
                 pageSizeOptions={[10]}
                 density="compact"
+                loading={isLoading}
               />
             </div>
           )}
         </Card>
       </Box>
       <JustificationsDialog
-        open={!!isToAddJustification}
-        onClose={handleClose}
-      />
-      <JustificationsDialog
-        open={!!isToEditJustification}
+        open={!!justificationId || !!isToAddJustification}
         onClose={handleClose}
       />
     </MainContainer>

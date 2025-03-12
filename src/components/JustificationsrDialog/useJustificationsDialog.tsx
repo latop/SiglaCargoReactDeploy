@@ -1,11 +1,10 @@
 /* eslint-disable prettier/prettier */
 "use client";
 
-import { useResponsibleSector } from "@/features/ResponsibleSector/useResponsibleSector";
+import { useJustifications } from "@/features/Justifications/useJustifications";
 import { useFetch } from "@/hooks/useFetch";
 import { useHash } from "@/hooks/useHash";
 import { useToast } from "@/hooks/useToast";
-import { ResponsibleSectorType } from "@/interfaces/parameters";
 import { fetchJustificationById } from "@/services/parameters";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useLayoutEffect } from "react";
@@ -13,7 +12,7 @@ import { useForm } from "react-hook-form";
 import useSWR from "swr";
 import { z } from "zod";
 
-const schema = z.object({
+const justificationSchema = z.object({
   code: z
     .string()
     .min(1, {
@@ -32,12 +31,12 @@ const schema = z.object({
   type: z.string().optional(),
 });
 
-type JustificationsFormType = z.infer<typeof schema>;
+type JustificationsFormType = z.infer<typeof justificationSchema>;
 
 export const useJustificationsDialog = () => {
-  const { refreshList } = useResponsibleSector();
+  const { refreshList } = useJustifications();
   const methods = useForm<JustificationsFormType>({
-    resolver: zodResolver(schema),
+    resolver: zodResolver(justificationSchema),
     defaultValues: {
       code: "",
       description: "",
@@ -46,7 +45,7 @@ export const useJustificationsDialog = () => {
     },
   });
   const { addToast } = useToast();
-  const [handleJustification, { error: errorResponsibleSector }] =
+  const [handleJustification, { error: errorJustification }] =
     useFetch();
 
   const [hash, setHash] = useHash();
@@ -62,10 +61,10 @@ export const useJustificationsDialog = () => {
     data: justification,
     error,
     isLoading,
-  } = useSWR<ResponsibleSectorType>(
+  } = useSWR<JustificationsFormType>(
     justificationId
       ? {
-        url: `justification-${justificationId}`,
+        url: `justification`,
         id: justificationId,
       }
       : null,
@@ -74,15 +73,17 @@ export const useJustificationsDialog = () => {
       revalidateOnFocus: false,
       revalidateOnReconnect: false,
       onSuccess: (data) => {
-        if (justificationId) {
-          console.log('Acessei')
-          methods.reset({
-            code: data.code,
-            description: data.description,
-          });
+        if (isToAddJustification) {
+          methods.reset({});
           return;
         }
-        methods.reset({});
+
+        methods.reset({
+          code: data.code,
+          description: data.description,
+          type: data.type,
+          responsibleSector: data?.responsibleSector?.description
+        });
       },
       onError: () => {
         console.error(error);
@@ -90,7 +91,6 @@ export const useJustificationsDialog = () => {
     },
   );
 
-  console.log(justification);
   const handleSubmit = async (data: JustificationsFormType) => {
     if (isToAddJustification) {
       const body = {
@@ -105,7 +105,7 @@ export const useJustificationsDialog = () => {
         },
         onError: () => {
           addToast("Erro ao adicionar justificativa.", { type: "error" });
-          console.error(errorResponsibleSector);
+          console.error(errorJustification);
         },
       });
       return;
@@ -113,7 +113,8 @@ export const useJustificationsDialog = () => {
     if (justificationId) {
       const body = {
         ...data,
-        id: justification?.id,
+        id: justificationId,
+        responsibleSectorId: data?.responsibleSector?.id
       };
 
       await handleJustification("/Justification", body, {
@@ -125,7 +126,7 @@ export const useJustificationsDialog = () => {
         },
         onError: () => {
           addToast("Erro ao atualizar Justificativa.", { type: "error" });
-          console.error(errorResponsibleSector);
+          console.error(errorJustification);
         },
       });
       return;
@@ -134,7 +135,7 @@ export const useJustificationsDialog = () => {
 
   useLayoutEffect(() => {
     if (isToAddJustification) {
-      methods.reset();
+      methods.reset({});
     }
   }, [methods.reset, isToAddJustification]);
 

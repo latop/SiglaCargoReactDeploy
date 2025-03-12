@@ -22,8 +22,10 @@ export const useJustifications = () => {
     { loading: isLoadingDelete, error: deleteError },
   ] = useFetch();
   const [hash, setHash] = useHash();
-  const isToAddJustification = (hash as string)?.match(/#add-justifications/);
-
+  const isToAddJustification = (hash as string)?.match(
+    /#add-justifications/,
+  )?.[0];
+  console.log(isToAddJustification);
   const handleAddJustification = () => {
     setHash("#add-justifications");
   };
@@ -58,18 +60,19 @@ export const useJustifications = () => {
       addToast("Erro ao carregar registros.", { type: "error" });
     },
   });
+  const justifications = data?.map((page) => page.data).flat() || [];
 
-  const justifications = data?.[0].data || [];
   const hasNext = data?.[0].hasNext;
   const hasData = !!data?.[0].data.length;
   const isEmpty = data?.[0].data.length === 0 || !data?.[0].data.length;
   const totalCount = data?.[0].totalCount;
 
-  const loadMore = () => {
+  const loadMore = (page: number) => {
     if (hasNext && !isValidating) {
-      setSize((prevSize) => prevSize + 1);
+      setSize(page);
     }
   };
+
   const currentPage = data?.[0].currentPage || 0;
 
   const handleDeleteJustification = async (id: string) => {
@@ -98,7 +101,7 @@ export const useJustifications = () => {
     isLoadingDelete,
     isEmpty,
     isToAddJustification,
-    isToEditJustification: !!justificationId,
+    justificationId,
     handleAddJustification,
     handleEditJustification,
     totalCount,
