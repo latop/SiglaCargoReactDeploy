@@ -16,6 +16,7 @@ import {
 } from "@mui/material";
 import { Controller, FormProvider } from "react-hook-form";
 import { useJustificationsDialog } from "./useJustificationsDialog";
+import { AutocompleteResponsibleSector } from "../AutocompleteResponsibleSector";
 
 interface JustificationDialogProps {
   open: boolean;
@@ -124,24 +125,21 @@ export function JustificationsDialog({
                     )}
                   />
                 </Grid>
-                {/* TODO: Fazer autocomplete */}
                 <Grid item xs={2}>
-                  <Controller
-                    control={methods.control}
+                  <AutocompleteResponsibleSector
                     name="responsibleSector.description"
-                    render={({ field, fieldState: { error } }) => (
-                      <TextField
-                        {...field}
-                        error={!!error}
-                        helperText={error?.message}
-                        label="Setor Responsável"
-                        variant="outlined"
-                        fullWidth
-                      />
-                    )}
+                    keyCode="description"
+                    onChange={(value) => {
+                      methods.setValue(
+                        "responsibleSectorId",
+                        value?.id as string,
+                      );
+                      methods.setValue("responsibleSector", {
+                        description: value?.description || "",
+                      });
+                    }}
                   />
                 </Grid>
-                {/* TODO: Fazer autocomplete */}
                 <Grid item xs={2}>
                   <Controller
                     control={methods.control}
@@ -154,6 +152,9 @@ export function JustificationsDialog({
                         label="Tipo de Justificativa"
                         variant="outlined"
                         fullWidth
+                        onChange={(e) => {
+                          field.onChange(e.target.value.toUpperCase());
+                        }}
                       />
                     )}
                   />

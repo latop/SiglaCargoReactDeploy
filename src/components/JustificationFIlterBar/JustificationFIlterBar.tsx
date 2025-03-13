@@ -10,6 +10,7 @@ import customParseFormat from "dayjs/plugin/customParseFormat";
 import "dayjs/locale/pt-br";
 import dayjs from "dayjs";
 import { useJustificationFilterBar } from "./useJustificationFilterBar";
+import { AutocompleteResponsibleSector } from "../AutocompleteResponsibleSector";
 
 dayjs.extend(customParseFormat);
 
@@ -45,18 +46,16 @@ export function JustificationFilterBar() {
                   />
                 </Grid>
                 <Grid xs={2} item>
-                  <Controller
+                  <AutocompleteResponsibleSector
                     name="responsibleSectorDescription"
-                    control={methods.control}
-                    render={({ field }) => (
-                      <TextField
-                        {...field}
-                        label="Setor Responsável"
-                        onChange={(e) => {
-                          field.onChange(e.target.value.toUpperCase());
-                        }}
-                      />
-                    )}
+                    keyCode="description"
+                    onChange={(value) => {
+                      methods.setValue("responsibleSectorId", value?.id);
+                      methods.setValue(
+                        "responsibleSectorDescription",
+                        value?.description,
+                      );
+                    }}
                   />
                 </Grid>
                 <Grid xs={2} item>

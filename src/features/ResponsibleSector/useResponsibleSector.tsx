@@ -1,19 +1,9 @@
 import { useFetch } from "@/hooks/useFetch";
 import { useHash } from "@/hooks/useHash";
 import { useToast } from "@/hooks/useToast";
-import { ResponsibleSectorType } from "@/interfaces/parameters";
+import { ResponsibleSectorResponse } from "@/interfaces/parameters";
 import { fetchResponsibleSectors } from "@/services/parameters";
 import useSWRInfinite from "swr/infinite";
-
-type ResponsibleSectorResponse = {
-  currentPage?: number;
-  hasNext?: boolean;
-  hasPrevious?: boolean;
-  pageSize?: number;
-  totalPages?: number;
-  data: ResponsibleSectorType[];
-  totalCount?: number;
-};
 
 export const useResponsibleSector = () => {
   const { addToast } = useToast();

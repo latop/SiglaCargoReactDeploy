@@ -73,3 +73,13 @@ export interface JustificationType {
   type: string;
   id: string;
 }
+
+export interface ResponsibleSectorResponse {
+  currentPage?: number;
+  hasNext?: boolean;
+  hasPrevious?: boolean;
+  pageSize?: number;
+  totalPages?: number;
+  data: ResponsibleSectorType[];
+  totalCount?: number;
+}

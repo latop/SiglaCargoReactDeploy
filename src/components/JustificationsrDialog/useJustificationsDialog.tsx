@@ -12,6 +12,7 @@ import { useForm } from "react-hook-form";
 import useSWR from "swr";
 import { z } from "zod";
 
+
 const justificationSchema = z.object({
   code: z
     .string()
@@ -26,9 +27,16 @@ const justificationSchema = z.object({
   }).max(100, {
     message: "Máximo 100 caracteres.",
   }),
-  responsibleSectorId: z.string().optional(),
-  responsibleSector: z.record(z.any()).optional(),
-  type: z.string().optional(),
+  responsibleSectorId: z.string().min(1, {
+    message: "Obrigatório",
+  }),
+  responsibleSector:
+    z.object({
+      description: z.string().min(1, { message: "Obrigatório" })
+    }),
+  type: z.string().min(1, {
+    message: "Obrigatório",
+  })
 });
 
 type JustificationsFormType = z.infer<typeof justificationSchema>;
@@ -82,7 +90,8 @@ export const useJustificationsDialog = () => {
           code: data.code,
           description: data.description,
           type: data.type,
-          responsibleSector: data?.responsibleSector?.description
+          responsibleSector: data?.responsibleSector,
+          responsibleSectorId: data?.responsibleSectorId
         });
       },
       onError: () => {
@@ -90,7 +99,7 @@ export const useJustificationsDialog = () => {
       },
     },
   );
-
+  console.log(methods.getValues())
   const handleSubmit = async (data: JustificationsFormType) => {
     if (isToAddJustification) {
       const body = {
@@ -98,7 +107,7 @@ export const useJustificationsDialog = () => {
         code: data?.code,
         type: data?.type,
         id: justificationId,
-        responsibleSectorId: data?.responsibleSector?.id
+        responsibleSectorId: data?.responsibleSectorId
       };
       await handleJustification("/Justification", body, {
         method: "post",
@@ -120,7 +129,7 @@ export const useJustificationsDialog = () => {
         code: data?.code,
         type: data?.type,
         id: justificationId,
-        responsibleSectorId: data?.responsibleSector?.id
+        responsibleSectorId: data?.responsibleSectorId
       };
 
       await handleJustification("/Justification", body, {

@@ -19,6 +19,7 @@ interface JustificationResponse {
 interface JustificationFiltersParams {
   code?: string;
   type?: string;
+  responsibleSectorId?: string;
   responsibleSectorDescription?: string;
   submitted?: boolean;
 }
@@ -40,6 +41,7 @@ export const useJustifications = () => {
     type: params.get("type") || undefined,
     responsibleSectorDescription:
       params.get("responsibleSectorDescription") || undefined,
+    responsibleSectorId: params.get("responsibleSectorId") || undefined,
     submitted: !!params.get("submitted"),
   };
 
@@ -53,12 +55,11 @@ export const useJustifications = () => {
   )?.[1];
   const hasFilter = Object.values(filterParams).some((value) => !!value);
 
-  const getKey = (pageIndex: number, params: JustificationResponse) => {
+  const getKey = (pageIndex: number) => {
     if (!hasFilter) return null;
     return {
       url: "/justifications",
       args: {
-        ...params,
         ...filterParams,
         pageSize: 10,
         pageNumber: pageIndex + 1,

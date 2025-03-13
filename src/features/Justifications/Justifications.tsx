@@ -50,6 +50,12 @@ export function Justifications() {
       field: "responsibleSector.description",
       headerName: "Setor Responsável",
       width: 400,
+      renderCell: ({ row }: { row: JustificationType }) => {
+        return (
+          !!row.responsibleSector?.description &&
+          row.responsibleSector?.description
+        );
+      },
     },
     {
       field: "type",
