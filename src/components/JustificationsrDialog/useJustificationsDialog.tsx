@@ -94,7 +94,11 @@ export const useJustificationsDialog = () => {
   const handleSubmit = async (data: JustificationsFormType) => {
     if (isToAddJustification) {
       const body = {
-        ...data,
+        description: data?.description,
+        code: data?.code,
+        type: data?.type,
+        id: justificationId,
+        responsibleSectorId: data?.responsibleSector?.id
       };
       await handleJustification("/Justification", body, {
         method: "post",
@@ -112,7 +116,9 @@ export const useJustificationsDialog = () => {
     }
     if (justificationId) {
       const body = {
-        ...data,
+        description: data?.description,
+        code: data?.code,
+        type: data?.type,
         id: justificationId,
         responsibleSectorId: data?.responsibleSector?.id
       };

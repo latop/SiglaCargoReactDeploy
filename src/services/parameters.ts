@@ -34,6 +34,9 @@ export interface FetchResponsibleSectionsParams {
 export interface FetchJustificationsParams {
   pageSize?: number;
   pageNumber?: number;
+  responsibleSectionId?: string; // Filter1Id
+  code?: string; // Filter1String
+  type?: string; // Filter2String
 }
 
 export async function fetchAcitivities({
@@ -206,9 +209,13 @@ export async function fetchJustifications({
 }: {
   args: FetchJustificationsParams;
 }) {
+  console.log("params", params);
   const justificationsParams = {
     PageSize: params.pageSize,
     PageNumber: params.pageNumber,
+    Filter1String: params?.code,
+    Filter2String: params?.type,
+    Filter1Id: params?.responsibleSectionId,
   };
 
   try {

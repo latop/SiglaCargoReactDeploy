@@ -20,7 +20,7 @@ interface JustificationFiltersParams {
   code?: string;
   type?: string;
   responsibleSectorDescription?: string;
-  submitted?: true | false;
+  submitted?: boolean;
 }
 
 export const useJustifications = () => {
@@ -36,7 +36,11 @@ export const useJustifications = () => {
   const params = useSearchParams();
 
   const filterParams: JustificationFiltersParams = {
-    submitted: Boolean(params.get("submitted")) || undefined,
+    code: params.get("code") || undefined,
+    type: params.get("type") || undefined,
+    responsibleSectorDescription:
+      params.get("responsibleSectorDescription") || undefined,
+    submitted: !!params.get("submitted"),
   };
 
   const handleEditJustification = (id: string) => {
@@ -47,12 +51,18 @@ export const useJustifications = () => {
   const justificationId = (hash as string)?.match(
     /#justification-id-(.+)/,
   )?.[1];
+  const hasFilter = Object.values(filterParams).some((value) => !!value);
 
   const getKey = (pageIndex: number, params: JustificationResponse) => {
-    if (!filterParams.submitted) return null;
+    if (!hasFilter) return null;
     return {
       url: "/justifications",
-      args: { ...params, pageSize: 10, pageNumber: pageIndex + 1 },
+      args: {
+        ...params,
+        ...filterParams,
+        pageSize: 10,
+        pageNumber: pageIndex + 1,
+      },
     };
   };
   const {

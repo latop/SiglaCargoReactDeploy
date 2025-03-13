@@ -10,10 +10,7 @@ const justificationFilterBarSchema = z.object({
   type: z.string().optional(),
   responsibleSectorId: z.string().optional(),
   responsibleSectorDescription: z.string().optional(),
-  submitted: z
-    .enum(["true", "false", "undefined"])
-    .optional()
-    .default("undefined"),
+  submitted: z.enum(["true", "false"]).optional(),
 });
 
 export type JustificationFilterBarsType = z.infer<
