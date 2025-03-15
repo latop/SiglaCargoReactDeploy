@@ -4,7 +4,7 @@ import { HeaderTitle } from "@/components/HeaderTitle/HeaderTitle";
 import { ImportTripsFilterBar } from "@/components/ImportTripsFilterBar";
 import { MainContainer } from "@/components/MainContainer";
 import { useImportTrips } from "@/hooks/useImportTrips";
-import { ImportTripsResponseItem } from "@/interfaces/import-trips";
+import { ImportGtms } from "@/interfaces/import-trips";
 import { Box, Button, Card, CircularProgress } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import dayjs from "dayjs";
@@ -20,7 +20,7 @@ export function ImportTrips() {
       field: "FileName",
       headerName: "Nome do Arquivo",
       width: 300,
-      valueGetter: (_, data: ImportTripsResponseItem) => {
+      valueGetter: (_, data: ImportGtms) => {
         return data.FileName ? data.FileName.split(".xlsx")[0] : "";
       },
     },
@@ -33,7 +33,7 @@ export function ImportTrips() {
       field: "CreateAt",
       headerName: "Data criação",
       width: 200,
-      valueGetter: (_, data: ImportTripsResponseItem) => {
+      valueGetter: (_, data: ImportGtms) => {
         return dayjs(data.CreateAt).format("DD-MM-YY HH:mm");
       },
     },

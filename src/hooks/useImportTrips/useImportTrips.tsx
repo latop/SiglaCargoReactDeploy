@@ -1,5 +1,5 @@
 import useSWRImmutable from "swr/immutable";
-import { fetchImportTrips } from "@/services/import-trips";
+import { fetchAllGtms } from "@/services/import-trips";
 import { useSearchParams } from "next/navigation";
 import { ChangeEvent, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -44,7 +44,7 @@ export const useImportTrips = () => {
       url: "/import-trips",
       args: params,
     },
-    fetchImportTrips,
+    fetchAllGtms,
     {
       revalidateIfStale: false,
       revalidateOnFocus: false,
@@ -97,7 +97,7 @@ export const useImportTrips = () => {
       await fetchAction(`/deleteDemand?id=${id}`, id, {
         method: "delete",
         onSuccess: () => {
-          addToast("Arquivo deletado com sucesso!", { type: "success" });
+          addToast("Arquivo apagado com sucesso!", { type: "success" });
           handleClearFile();
           mutate();
         },
