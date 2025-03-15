@@ -116,7 +116,7 @@ export const useImportTrips = () => {
 
   const handleDeleteDemand = async (id: string) => {
     try {
-      await fetchAction(`/ deleteDemand ? id = ${id} `, id, {
+      await fetchAction(`/deleteDemand?id=${id} `, id, {
         method: "delete",
         onSuccess: () => {
           addToast("Arquivo apagado com sucesso!", { type: "success" });
