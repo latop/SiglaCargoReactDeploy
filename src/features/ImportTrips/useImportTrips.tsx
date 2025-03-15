@@ -52,12 +52,19 @@ export const useImportTrips = () => {
   );
 
   const getKey = () => {
-    if (hasParamsToSearch)
-      return {
-        url: `/import-trips-${hasParamsToSearch}`,
-        args: params,
-      };
-    return null;
+    if (!hasParamsToSearch) return null;
+
+    const { startDate, endDate, locationCodeId } = params;
+    let url = `/import-trips`;
+
+    if (startDate) url += `-${startDate}`;
+    if (endDate) url += `-${endDate}`;
+    if (locationCodeId) url += `-${locationCodeId}`;
+
+    return {
+      url,
+      args: params,
+    };
   };
 
   const { data, error, isLoading, mutate, isValidating } = useSWRImmutable(
@@ -79,7 +86,6 @@ export const useImportTrips = () => {
     setSelectedFile(null);
   };
 
-  console.log(selectedFile);
   const onSubmit = async (data: ImportTripsForm) => {
     const body = {
       File: data.File[0],
@@ -110,7 +116,7 @@ export const useImportTrips = () => {
 
   const handleDeleteDemand = async (id: string) => {
     try {
-      await fetchAction(`/deleteDemand?id=${id}`, id, {
+      await fetchAction(`/ deleteDemand ? id = ${id} `, id, {
         method: "delete",
         onSuccess: () => {
           addToast("Arquivo apagado com sucesso!", { type: "success" });

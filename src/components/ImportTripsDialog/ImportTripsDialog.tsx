@@ -24,65 +24,6 @@ interface LocationsDialogProps {
   onClose: () => void;
 }
 
-const columns: GridColDef[] = [
-  {
-    field: "origem",
-    headerName: "Origem",
-    width: 250,
-    valueGetter: (_, row: ImportGtm) => {
-      return `${row?.codOrigem} - ${row?.cdOrigem}`;
-    },
-  },
-  {
-    field: "destino",
-    headerName: "Destino",
-    width: 300,
-    valueGetter: (_, row: ImportGtm) =>
-      `${row?.codDestino} - ${row?.clienteCDV}`,
-  },
-  {
-    field: "sto",
-    headerName: "STO",
-    width: 150,
-  },
-  {
-    field: "dataColetaHora",
-    headerName: "Data Coleta + Hora",
-    width: 200,
-    valueGetter: (_, row: ImportGtm) =>
-      `${row?.dataColeta} ${row?.horaColeta || ""}`,
-  },
-  {
-    field: "dataSaidaHora",
-    headerName: "Data Saída + Hora",
-    width: 200,
-    valueGetter: (_, row: ImportGtm) =>
-      `${row?.dataSaida} ${row?.horaSaida || ""}`,
-  },
-  {
-    field: "dataEntregaHora",
-    headerName: "Data Entrega + Hora",
-    width: 200,
-    valueGetter: (_, row: ImportGtm) =>
-      `${row?.dataEntrega} ${row?.horaEntrega || ""}`,
-  },
-  {
-    field: "dataSolicitacao",
-    headerName: "Data de Solicitação",
-    width: 180,
-  },
-  {
-    field: "tipoCarga",
-    headerName: "Tipo de Carga",
-    width: 160,
-  },
-  {
-    field: "observacoes",
-    headerName: "Obs",
-    width: 250,
-  },
-];
-
 export function ImportTripsDialog({ open, onClose }: LocationsDialogProps) {
   const columnsHeader: GridColDef[] = [
     {
@@ -105,8 +46,68 @@ export function ImportTripsDialog({ open, onClose }: LocationsDialogProps) {
     },
   ];
 
+  const columns: GridColDef[] = [
+    {
+      field: "origem",
+      headerName: "Origem",
+      width: 250,
+      valueGetter: (_, row: ImportGtm) => {
+        return `${row?.codOrigem} - ${row?.cdOrigem}`;
+      },
+    },
+    {
+      field: "destino",
+      headerName: "Destino",
+      width: 300,
+      valueGetter: (_, row: ImportGtm) =>
+        `${row?.codDestino} - ${row?.clienteCDV}`,
+    },
+    {
+      field: "sto",
+      headerName: "STO",
+      width: 150,
+    },
+    {
+      field: "dataColetaHora",
+      headerName: "Data Coleta + Hora",
+      width: 200,
+      valueGetter: (_, row: ImportGtm) =>
+        `${row?.dataColeta} ${row?.horaColeta || ""}`,
+    },
+    {
+      field: "dataSaidaHora",
+      headerName: "Data Saída + Hora",
+      width: 200,
+      valueGetter: (_, row: ImportGtm) =>
+        `${row?.dataSaida} ${row?.horaSaida || ""}`,
+    },
+    {
+      field: "dataEntregaHora",
+      headerName: "Data Entrega + Hora",
+      width: 200,
+      valueGetter: (_, row: ImportGtm) =>
+        `${row?.dataEntrega} ${row?.horaEntrega || ""}`,
+    },
+    {
+      field: "dataSolicitacao",
+      headerName: "Data de Solicitação",
+      width: 180,
+    },
+    {
+      field: "tipoCarga",
+      headerName: "Tipo de Carga",
+      width: 160,
+    },
+    {
+      field: "observacoes",
+      headerName: "Obs",
+      width: 250,
+    },
+  ];
+
   const {
-    importedTrip,
+    tripGTMS,
+    tripGTMSDetails,
     isLoading,
     setIsFullscreen,
     isFullscreen,
@@ -134,7 +135,7 @@ export function ImportTripsDialog({ open, onClose }: LocationsDialogProps) {
         <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
           <Box display="flex" justifyContent={"space-between"}>
             <Typography variant="h5">
-              {importedTrip?.tripGTMS.fileName?.split(".xlsx")[0]}
+              {tripGTMS?.fileName?.split(".xlsx")[0]}
             </Typography>
             <Box>
               <Tooltip
@@ -198,20 +199,20 @@ export function ImportTripsDialog({ open, onClose }: LocationsDialogProps) {
               <CircularProgress />
             </Box>
           ) : (
-            <>
+            <Box>
               {
                 <Box
-                  mb={2}
                   sx={{
                     opacity: isPinned ? 1 : 0,
                     height: isPinned ? "auto" : 0,
                     pointerEvents: isPinned ? "auto" : "none",
                     transition: "all 0.2s ease",
+                    marginBottom: isPinned ? 2 : 0,
                   }}
                 >
                   <DataGrid
                     columns={columnsHeader}
-                    rows={importedTrip?.tripGTMS ? [importedTrip.tripGTMS] : []}
+                    rows={tripGTMS ? [tripGTMS] : []}
                     getRowId={(row) => row.id}
                     density="compact"
                     pageSizeOptions={[1]}
@@ -220,7 +221,6 @@ export function ImportTripsDialog({ open, onClose }: LocationsDialogProps) {
                   />
                 </Box>
               }
-
               <Box
                 sx={{
                   flex: 1,
@@ -231,7 +231,7 @@ export function ImportTripsDialog({ open, onClose }: LocationsDialogProps) {
                 <Box sx={{ minWidth: "1200px" }}>
                   <DataGrid
                     columns={columns}
-                    rows={importedTrip?.tripGTMSDetails || []}
+                    rows={tripGTMSDetails || []}
                     getRowId={(row) => row.id}
                     density="compact"
                     hideFooter
@@ -239,7 +239,7 @@ export function ImportTripsDialog({ open, onClose }: LocationsDialogProps) {
                   />
                 </Box>
               </Box>
-            </>
+            </Box>
           )}
         </DialogContent>
       </Dialog>

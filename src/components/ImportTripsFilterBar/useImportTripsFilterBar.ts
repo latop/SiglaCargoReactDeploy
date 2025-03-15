@@ -34,8 +34,7 @@ export function useImportTripsFilterBar() {
     defaultValues: {
       startDate: params.get("startDate")
         ? dayjs(params.get("startDate"))
-        : dayjs(),
-
+        : dayjs().subtract(1, "month"),
       endDate: params.get("endDate")
         ? dayjs(params.get("endDate"))
         : dayjs().add(1, "day"),

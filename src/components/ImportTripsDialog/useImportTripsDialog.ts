@@ -49,9 +49,12 @@ export const useImportTripsDialog = () => {
     revalidateOnFocus: false,
     revalidateOnMount: true,
   });
+  const tripGTMS = importedTrip?.tripGTMS;
+  const tripGTMSDetails = importedTrip?.tripGTMSDetails;
 
   return {
-    importedTrip,
+    tripGTMS,
+    tripGTMSDetails,
     importedTripId,
     isLoading: isLoading || isValidating,
     isFullscreen,
