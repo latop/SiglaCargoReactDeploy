@@ -5,8 +5,9 @@ import { ChangeEvent, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useFetch } from "../useFetch";
-import { useToast } from "../useToast";
+import { useFetch } from "../../hooks/useFetch";
+import { useToast } from "../../hooks/useToast";
+import { useHash } from "../../hooks/useHash";
 
 const schema = z.object({
   Locationcode: z.string().min(1, {
@@ -23,6 +24,17 @@ export const useImportTrips = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [fetchAction, { loading: loadingPostFile }] = useFetch();
   const { addToast } = useToast();
+  const [hash, setHash] = useHash();
+
+  const importedTripId = (hash as string)?.match(/#importedTripId-(.+)/)?.[1];
+
+  const handleImportedTrip = async (id: string) => {
+    setHash(`#importedTripId-${id}`);
+  };
+
+  const handleCloseDialog = () => {
+    setHash("");
+  };
 
   const formMethods = useForm<ImportTripsForm>({
     resolver: zodResolver(schema),
@@ -39,17 +51,21 @@ export const useImportTrips = () => {
     Object.values(params)?.filter(Boolean).length,
   );
 
+  const getKey = () => {
+    if (hasParamsToSearch)
+      return {
+        url: `/import-trips-${hasParamsToSearch}`,
+        args: params,
+      };
+    return null;
+  };
+
   const { data, error, isLoading, mutate, isValidating } = useSWRImmutable(
-    {
-      url: "/import-trips",
-      args: params,
-    },
+    getKey,
     fetchAllGtms,
     {
       revalidateIfStale: false,
       revalidateOnFocus: false,
-      revalidateOnReconnect: false,
-      revalidateOnMount: false,
     },
   );
 
@@ -128,5 +144,8 @@ export const useImportTrips = () => {
     loadingPostFile,
     onSubmit,
     handleDeleteDemand,
+    importedTripId,
+    handleImportedTrip,
+    handleCloseDialog,
   };
 };

@@ -7,10 +7,11 @@ export interface ImportGtmFilterParams {
 }
 
 export interface ImportGtms {
-  FileName: string;
+  FileName?: string;
   LocationCode: string;
   Id: string;
   CreateAt: Dayjs;
+  createAt?: string;
   UpdateAt?: string;
   UserIdCreate?: string | null;
   UserIdUpdate?: string | null;
@@ -52,10 +53,6 @@ export interface ImportGtm {
   dtEntrega: string;
   dtSolicitacao: string;
   id: string;
-  createAt: string;
-  updateAt: string | null;
-  userIdCreate: string | null;
-  userIdUpdate: string | null;
 }
 
 export type ImportGtmsResponse = ImportGtms[];

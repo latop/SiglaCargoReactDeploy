@@ -9,8 +9,8 @@ import axios from "axios";
 axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_URL;
 
 interface ImportedGtm {
-  tripGTMS: ImportGtms;
-  tripGTMDetails: ImportGtm;
+  tripGTMS: ImportGtms & { fileName?: string };
+  tripGTMSDetails: ImportGtm[];
 }
 
 export const fetchAllGtms = async ({
@@ -34,9 +34,9 @@ export const fetchAllGtms = async ({
   }
 };
 
-export const fetchGtm = async ({ id }: { id: string }) => {
+export const fetchGtmById = async ({ id }: { id: string }) => {
   try {
-    const response = await axios.get(`/GetGTM/${id}`);
+    const response = await axios.get(`/GetGTMS/?Id=${id}`);
     const data = response.data;
     return data as ImportedGtm;
   } catch (error) {
