@@ -14,6 +14,7 @@ export const fetchImportTrips = async ({
   const params = {
     startDate: args.startDate,
     endDate: args.endDate,
+    filter1Id: args.locationCodeId,
   };
 
   try {

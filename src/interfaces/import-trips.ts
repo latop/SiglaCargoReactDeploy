@@ -3,6 +3,7 @@ import { Dayjs } from "dayjs";
 export type FetchImportTripsParams = {
   startDate: Dayjs | null;
   endDate: Dayjs | null;
+  locationCodeId?: string;
 };
 
 export type ImportTripsResponseItem = {

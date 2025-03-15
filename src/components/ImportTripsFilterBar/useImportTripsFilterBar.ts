@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import dayjs, { Dayjs } from "dayjs";
+import dayjs from "dayjs";
 import { useRouter, useSearchParams } from "next/navigation";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 
@@ -8,11 +8,6 @@ import "dayjs/locale/pt-br";
 import { z } from "zod";
 
 dayjs.extend(customParseFormat);
-
-interface FormFields {
-  startDate: Dayjs | null;
-  endDate: Dayjs | null;
-}
 
 const dateOrDayjsSchema = z.custom(
   (val) => val instanceof Date || dayjs.isDayjs(val),
@@ -24,7 +19,11 @@ const dateOrDayjsSchema = z.custom(
 const schema = z.object({
   startDate: dateOrDayjsSchema,
   endDate: dateOrDayjsSchema,
+  locationCodeId: z.string().optional(),
+  locationCode: z.string().optional(),
 });
+
+type FormFields = z.infer<typeof schema>;
 
 export function useImportTripsFilterBar() {
   const params = useSearchParams();
@@ -40,6 +39,8 @@ export function useImportTripsFilterBar() {
       endDate: params.get("endDate")
         ? dayjs(params.get("endDate"))
         : dayjs().add(1, "day"),
+      locationCode: params.get("locationCode") || "",
+      locationCodeId: params.get("locationCodeId") || "",
     },
   });
 
@@ -48,13 +49,25 @@ export function useImportTripsFilterBar() {
     Object.entries(data).forEach(([key, value]) => {
       if (dayjs.isDayjs(value)) {
         params.append(key, value.format("YYYY-MM-DD"));
+      } else if (!!value && typeof value === "string") {
+        params.append(key, value);
       }
     });
     router.push(`/import-trips?${params.toString()}`);
   };
 
+  const onClearParams = () => {
+    methods.reset({
+      locationCodeId: "",
+      locationCode: "",
+    });
+    router.push("/import-trips");
+    setTimeout(() => window.location.reload(), 500);
+  };
+
   return {
     methods,
     onSubmit,
+    onClearParams,
   };
 }

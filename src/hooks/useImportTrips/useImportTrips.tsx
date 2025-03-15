@@ -32,6 +32,7 @@ export const useImportTrips = () => {
   const params = {
     startDate: searchParams.get("startDate"),
     endDate: searchParams.get("endDate"),
+    locationCodeId: searchParams.get("locationCodeId"),
   };
 
   const hasParamsToSearch = Boolean(

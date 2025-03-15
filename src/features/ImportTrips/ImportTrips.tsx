@@ -62,6 +62,12 @@ export function ImportTrips() {
           columns={columns}
           rows={data || []}
           getRowId={(row) => row.Id}
+          density="compact"
+          initialState={{
+            pagination: {
+              paginationModel: { pageSize: 15 },
+            },
+          }}
         />
       );
     return null;
@@ -79,7 +85,8 @@ export function ImportTrips() {
         sx={{
           width: "100%",
           padding: "20px",
-          height: "100vh",
+          minHeight: "790px",
+          height: "auto",
         }}
       >
         <Box

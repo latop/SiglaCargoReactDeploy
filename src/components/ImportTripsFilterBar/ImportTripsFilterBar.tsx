@@ -4,10 +4,11 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { Controller, FormProvider } from "react-hook-form";
 import { GridSearchIcon } from "@mui/x-data-grid";
 import { useImportTripsFilterBar } from "./useImportTripsFilterBar";
+import { AutocompleteLocationGroup } from "../AutocompleteLocationGroup";
 
 export function ImportTripsFilterBar(props: React.HTMLProps<HTMLFormElement>) {
   const { methods, onSubmit } = useImportTripsFilterBar();
-  const { control, handleSubmit } = methods;
+  const { control, handleSubmit, setValue } = methods;
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
@@ -30,8 +31,17 @@ export function ImportTripsFilterBar(props: React.HTMLProps<HTMLFormElement>) {
                 render={({ field }) => <DatePicker label="Fim" {...field} />}
               />
             </Grid>
+            <Grid item xs={3.2}>
+              <AutocompleteLocationGroup
+                name="locationCode"
+                onChange={(value) => {
+                  setValue("locationCodeId", value?.id || "");
+                  setValue("locationCode", value?.code || "");
+                }}
+              />
+            </Grid>
 
-            <Grid item xs={0.5}>
+            <Grid item xs={0.5} direction={"row"}>
               <Button
                 type="submit"
                 size="large"
