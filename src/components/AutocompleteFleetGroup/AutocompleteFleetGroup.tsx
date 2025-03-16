@@ -52,8 +52,6 @@ export function AutocompleteFleetGroup({
       name={name}
       control={control}
       render={({ field }) => {
-        console.log('field', field)
-        console.log([keyCode], field.value?.[keyCode] ?? "")
         return (
           <Autocomplete
             clearOnEscape

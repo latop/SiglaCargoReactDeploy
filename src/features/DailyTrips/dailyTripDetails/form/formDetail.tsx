@@ -29,9 +29,7 @@ export const DailyTripFormDetail = ({ initialValues, handleClose }: Params) => {
   });
 
   const onSubmit = async (data: DailyTrip) => {
-    console.log("data", data);
     const response = await mutateAsync(data);
-    console.log("response", response);
     if (response === "Ok") {
       handleClose();
     }
