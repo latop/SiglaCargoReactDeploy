@@ -2,7 +2,14 @@
 
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { Controller, FormProvider } from "react-hook-form";
-import { Box, Button, Grid, TextField } from "@mui/material";
+import {
+  Box,
+  Button,
+  FormControl,
+  Grid,
+  MenuItem,
+  TextField,
+} from "@mui/material";
 import { GridSearchIcon } from "@mui/x-data-grid";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
@@ -60,16 +67,32 @@ export function JustificationFilterBar() {
                 </Grid>
                 <Grid xs={2} item>
                   <Controller
-                    name="type"
                     control={methods.control}
-                    render={({ field }) => (
-                      <TextField
-                        {...field}
-                        label="Tipo de justificativa"
-                        onChange={(e) => {
-                          field.onChange(e.target.value.toUpperCase());
-                        }}
-                      />
+                    name="type"
+                    render={({ field, fieldState: { error } }) => (
+                      <FormControl>
+                        <TextField
+                          select
+                          label="Tipo"
+                          sx={{ minWidth: 154 }}
+                          {...field}
+                          error={!!error}
+                          helperText={error?.message}
+                          value={
+                            field.value === null || field.value === undefined
+                              ? "null"
+                              : field.value.toString()
+                          }
+                          onChange={(e) => {
+                            const value =
+                              e.target.value === "null" ? null : e.target.value;
+                            field.onChange(value);
+                          }}
+                        >
+                          <MenuItem value="A">A - Atraso</MenuItem>
+                          <MenuItem value="C">C - Cancelamento</MenuItem>
+                        </TextField>
+                      </FormControl>
                     )}
                   />
                 </Grid>

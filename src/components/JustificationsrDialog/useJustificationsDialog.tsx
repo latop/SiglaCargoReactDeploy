@@ -32,12 +32,10 @@ const justificationSchema = z.object({
   }),
   responsibleSector:
     z.object({
-      description: z.string().min(1, { message: "Obrigatório" })
+      description: z.string().min(1, { message: "Obrigatório", })
     }),
-  type: z.string().min(1, {
-    message: "Obrigatório",
-  })
-});
+  type: z.enum(['A', 'C'], { errorMap: () => ({ message: "Obrigatório" }) }),
+})
 
 type JustificationsFormType = z.infer<typeof justificationSchema>;
 
@@ -49,7 +47,7 @@ export const useJustificationsDialog = () => {
       code: "",
       description: "",
       responsibleSectorId: "",
-      type: "",
+      type: undefined,
     },
   });
   const { addToast } = useToast();
@@ -99,7 +97,7 @@ export const useJustificationsDialog = () => {
       },
     },
   );
-  console.log(methods.getValues())
+
   const handleSubmit = async (data: JustificationsFormType) => {
     if (isToAddJustification) {
       const body = {

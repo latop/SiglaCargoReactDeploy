@@ -11,7 +11,9 @@ import {
   Button,
   CircularProgress,
   DialogActions,
+  FormControl,
   Grid,
+  MenuItem,
   TextField,
 } from "@mui/material";
 import { Controller, FormProvider } from "react-hook-form";
@@ -140,22 +142,34 @@ export function JustificationsDialog({
                     }}
                   />
                 </Grid>
-                <Grid item xs={2}>
+                <Grid item xs={3}>
                   <Controller
                     control={methods.control}
                     name="type"
                     render={({ field, fieldState: { error } }) => (
-                      <TextField
-                        {...field}
-                        error={!!error}
-                        helperText={error?.message}
-                        label="Tipo de Justificativa"
-                        variant="outlined"
-                        fullWidth
-                        onChange={(e) => {
-                          field.onChange(e.target.value.toUpperCase());
-                        }}
-                      />
+                      <FormControl>
+                        <TextField
+                          select
+                          label="Tipo"
+                          sx={{ minWidth: 154 }}
+                          {...field}
+                          error={!!error}
+                          helperText={error?.message}
+                          value={
+                            field.value === null || field.value === undefined
+                              ? "null"
+                              : field.value.toString()
+                          }
+                          onChange={(e) => {
+                            const value =
+                              e.target.value === "null" ? null : e.target.value;
+                            field.onChange(value);
+                          }}
+                        >
+                          <MenuItem value="A">A - Atraso</MenuItem>
+                          <MenuItem value="C">C - Cancelamento</MenuItem>
+                        </TextField>
+                      </FormControl>
                     )}
                   />
                 </Grid>
