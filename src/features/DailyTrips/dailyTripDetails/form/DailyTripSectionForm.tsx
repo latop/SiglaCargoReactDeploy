@@ -74,19 +74,19 @@ export const DailyTripSectionForm = ({ seq, id }: Params) => {
           </Grid>
           <Grid item xs={2}>
             <AutocompleteLocation
-              name={`dailyTripSections.${seq}.locationOrigId`}
+              name={`dailyTripSections.${seq}.locationOrig.code`}
               label="Origem"
             />
           </Grid>
           <Grid item xs={2}>
             <AutocompleteLocation
-              name={`dailyTripSections.${seq}.locationDestId`}
+              name={`dailyTripSections.${seq}.locationDest.code`}
               label="Destino"
             />
           </Grid>
           <Grid item xs={2}>
             <AutocompleteStopType
-              name={`dailyTripSections.${seq}.stopTypeCode`}
+              name={`dailyTripSections.${seq}.stopType.stopTypeCode`}
               label="Parada"
             />
           </Grid>
