@@ -1,19 +1,9 @@
 import { useFetch } from "@/hooks/useFetch";
 import { useHash } from "@/hooks/useHash";
 import { useToast } from "@/hooks/useToast";
-import { ResponsibleSectorType } from "@/interfaces/parameters";
+import { ResponsibleSectorResponse } from "@/interfaces/parameters";
 import { fetchResponsibleSectors } from "@/services/parameters";
 import useSWRInfinite from "swr/infinite";
-
-type ResponsibleSectorResponse = {
-  currentPage?: number;
-  hasNext?: boolean;
-  hasPrevious?: boolean;
-  pageSize?: number;
-  totalPages?: number;
-  data: ResponsibleSectorType[];
-  totalCount?: number;
-};
 
 export const useResponsibleSector = () => {
   const { addToast } = useToast();
@@ -65,15 +55,15 @@ export const useResponsibleSector = () => {
     },
   );
 
-  const responsibleSection = data?.[0].data || [];
+  const responsibleSection = data?.map((page) => page.data).flat() || [];
   const hasNext = data?.[0].hasNext;
   const hasData = !!data?.[0].data.length;
   const isEmpty = data?.[0].data.length === 0 || !data?.[0].data.length;
   const totalCount = data?.[0].totalCount;
 
-  const loadMore = () => {
+  const loadMore = (page: number) => {
     if (hasNext && !isValidating) {
-      setSize((prevSize) => prevSize + 1);
+      setSize(page);
     }
   };
   const currentPage = data?.[0].currentPage || 0;

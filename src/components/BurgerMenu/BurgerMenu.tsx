@@ -7,10 +7,6 @@ import {
   ListItemIcon,
   ListItemText,
   ListItemButton,
-  Accordion,
-  AccordionSummary,
-  Typography,
-  AccordionDetails,
 } from "@mui/material";
 import Link from "next/link";
 import PersonSearchIcon from "@mui/icons-material/PersonSearch";
@@ -27,11 +23,9 @@ import SettingsSuggestIcon from "@mui/icons-material/SettingsSuggest";
 import RouteIcon from "@mui/icons-material/Route";
 import PublishIcon from "@mui/icons-material/Publish";
 import AddLocationAltIcon from "@mui/icons-material/AddLocationAlt";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { useRouter } from "next/navigation";
-import debounce from "debounce";
-import { AppRouterInstance } from "next/dist/shared/lib/app-router-context";
+import { BurgerMenuGroup } from "../BurgerMenuGroup";
+import EditNoteIcon from "@mui/icons-material/EditNote";
 
 interface BurgerMenuProps {
   isOpen: boolean;
@@ -40,7 +34,7 @@ interface BurgerMenuProps {
   ) => (event: React.KeyboardEvent | React.MouseEvent) => void;
 }
 
-interface RouteItem {
+export interface RouteItem {
   text: string;
   icon: React.ReactElement;
   path: string;
@@ -139,42 +133,13 @@ const routes: RouteItem[] = [
     path: "/responsible-sector",
     group: "register",
   },
+  {
+    text: "Justificativas",
+    icon: <EditNoteIcon />,
+    path: "/justifications",
+    group: "register",
+  },
 ];
-
-const RegisterList = ({ router }: { router: AppRouterInstance }) => {
-  return (
-    <Accordion>
-      <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-        <ListItemIcon>
-          <AddCircleIcon />
-        </ListItemIcon>
-        <Typography fontWeight={500}>Cadastros</Typography>
-      </AccordionSummary>
-      <AccordionDetails>
-        {routes
-          .filter(({ group }) => group === "register")
-          .sort((a: RouteItem, b: RouteItem) => a.text.localeCompare(b.text))
-          .map(({ text, icon, path }) => (
-            <ListItem key={text} disablePadding>
-              <Link
-                href={path}
-                passHref
-                style={{ width: "100%" }}
-                onMouseEnter={() => {
-                  debounce(() => router.prefetch(path), 300);
-                }}
-              >
-                <ListItemButton>
-                  <ListItemIcon>{icon}</ListItemIcon>
-                  <ListItemText primary={text} />
-                </ListItemButton>
-              </Link>
-            </ListItem>
-          ))}
-      </AccordionDetails>
-    </Accordion>
-  );
-};
 
 export function BurgerMenu({ isOpen, toggleDrawer }: BurgerMenuProps) {
   const router = useRouter();
@@ -209,7 +174,12 @@ export function BurgerMenu({ isOpen, toggleDrawer }: BurgerMenuProps) {
               </Link>
             </ListItem>
           ))}
-        <RegisterList router={router} />
+        <BurgerMenuGroup
+          routes={routes}
+          groupment="register"
+          name="Cadastros"
+          router={router}
+        />
       </List>
     </Drawer>
   );
