@@ -4,33 +4,34 @@ import React from "react";
 import { MainContainer } from "@/components/MainContainer";
 import { AppBar } from "@/components/AppBar";
 import { HeaderTitle } from "@/components/HeaderTitle/HeaderTitle";
-import { Box, Button, Card } from "@mui/material";
+import { Box, Card } from "@mui/material";
 import { DataGrid, GridColDef, GridDeleteForeverIcon } from "@mui/x-data-grid";
-import { useResponsibleSector } from "./useResponsibleSector";
 import { ErrorResult } from "@/components/ErrorResult";
 import { useDialog } from "@/hooks/useDialog/useDialog";
 import { EmptyResult } from "@/components/EmptyResult";
-import { ResponsibleSectorDialog } from "@/components/ResponsibleSectorDialog";
-import LoadingTableSkeleton from "@/components/LoadingTableSkeleton/LoadingTableSkeleton";
+import { useJustifications } from "./useJustifications";
+import { JustificationsDialog } from "@/components/JustificationsrDialog";
+import { JustificationType } from "@/interfaces/parameters";
+import LoadingTableSkeleton from "../../components/LoadingTableSkeleton/LoadingTableSkeleton";
+import { JustificationFilterBar } from "@/components/JustificationFIlterBar/JustificationFIlterBar";
 
-export function ResponsibleSector() {
+export function Justifications() {
   const {
-    responsibleSection,
+    justifications,
     loadMore,
     isLoading,
     error: isError,
     hasData,
     currentPage,
-    handleDeleteResponsibleSector,
     isLoadingDelete,
     isEmpty,
     totalCount,
-    handleAddResponsibleSector,
-    handleEditResponsibleSector,
-    isToAddResponsibleSector,
-    responsibleSectorId,
+    handleDeleteJustification,
+    handleEditJustification,
+    isToAddJustification,
+    justificationId,
     handleClose,
-  } = useResponsibleSector();
+  } = useJustifications();
   const { openDialog, closeDialog } = useDialog();
 
   const columns: GridColDef[] = [
@@ -44,6 +45,26 @@ export function ResponsibleSector() {
       headerName: "Descrição",
       width: 400,
     },
+    //TODO: Responsible Sector
+    {
+      field: "responsibleSector.description",
+      headerName: "Setor Responsável",
+      width: 400,
+      renderCell: ({ row }: { row: JustificationType }) => {
+        return (
+          !!row.responsibleSector?.description &&
+          row.responsibleSector?.description
+        );
+      },
+    },
+    {
+      field: "type",
+      headerName: "Tipo",
+      width: 200,
+      renderCell: ({ row }: { row: JustificationType }) => {
+        return row.type === "null" ? "" : row.type;
+      },
+    },
     {
       field: " ",
       headerName: "",
@@ -53,7 +74,7 @@ export function ResponsibleSector() {
           <button
             disabled={isLoadingDelete}
             style={{
-              paddingTop: 12,
+              paddingTop: 6,
               display: "flex",
               gap: "8px",
               border: "none",
@@ -69,11 +90,11 @@ export function ResponsibleSector() {
                 openDialog({
                   body: "Deseja apagar este registro?",
                   onConfirm: async () => {
-                    await handleDeleteResponsibleSector(
-                      params?.id as string,
-                    ).then(() => {
-                      closeDialog();
-                    });
+                    await handleDeleteJustification(params?.id as string).then(
+                      () => {
+                        closeDialog();
+                      },
+                    );
                   },
                   onCancel: () => {
                     closeDialog();
@@ -90,7 +111,7 @@ export function ResponsibleSector() {
   return (
     <MainContainer>
       <AppBar>
-        <HeaderTitle>Setor Responsável</HeaderTitle>
+        <HeaderTitle>Justificativas</HeaderTitle>
       </AppBar>
       <Box
         sx={{
@@ -103,16 +124,7 @@ export function ResponsibleSector() {
           gap: "16px",
         }}
       >
-        <Button
-          onClick={handleAddResponsibleSector}
-          variant="outlined"
-          sx={{
-            width: "170px",
-            alignSelf: "flex-end",
-          }}
-        >
-          Adicionar
-        </Button>
+        <JustificationFilterBar />
         <Card
           sx={{
             width: "100%",
@@ -140,8 +152,7 @@ export function ResponsibleSector() {
                 slots={{
                   noRowsOverlay: EmptyResult,
                 }}
-                loading={isLoading}
-                rows={responsibleSection || []}
+                rows={justifications || []}
                 getRowId={(row) => row.id}
                 localeText={{
                   noRowsLabel: "Nenhum registro encontrado",
@@ -160,7 +171,7 @@ export function ResponsibleSector() {
                 rowCount={totalCount}
                 columns={columns}
                 onRowDoubleClick={(params) => {
-                  handleEditResponsibleSector(params.id as string);
+                  handleEditJustification(params.id as string);
                 }}
                 initialState={{
                   pagination: {
@@ -172,17 +183,14 @@ export function ResponsibleSector() {
                 }}
                 pageSizeOptions={[10]}
                 density="compact"
+                loading={isLoading}
               />
             </div>
           )}
         </Card>
       </Box>
-      <ResponsibleSectorDialog
-        open={!!responsibleSectorId}
-        onClose={handleClose}
-      />
-      <ResponsibleSectorDialog
-        open={!!isToAddResponsibleSector}
+      <JustificationsDialog
+        open={!!justificationId || !!isToAddJustification}
         onClose={handleClose}
       />
     </MainContainer>

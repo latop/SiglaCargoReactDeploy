@@ -6,14 +6,14 @@ import { useFetch } from "@/hooks/useFetch";
 import { useHash } from "@/hooks/useHash";
 import { useToast } from "@/hooks/useToast";
 import { ResponsibleSectorType } from "@/interfaces/parameters";
-import { fetchResponsibleSectorsById } from "@/services/parameters";
+import { fetchResponsibleSectorById } from "@/services/parameters";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useLayoutEffect } from "react";
 import { useForm } from "react-hook-form";
 import useSWR from "swr";
 import { z } from "zod";
 
-const schema = z.object({
+export const resposibleSectorSchema = z.object({
   code: z
     .string()
     .min(1, {
@@ -27,12 +27,12 @@ const schema = z.object({
   }),
 });
 
-type ResponsibleSectorFormType = z.infer<typeof schema>;
+export type ResponsibleSectorFormType = z.infer<typeof resposibleSectorSchema>;
 
 export const useResponsibleSectorDialog = () => {
   const { refreshList } = useResponsibleSector();
   const methods = useForm<ResponsibleSectorFormType>({
-    resolver: zodResolver(schema),
+    resolver: zodResolver(resposibleSectorSchema),
     defaultValues: {
       code: "",
       description: "",
@@ -62,7 +62,7 @@ export const useResponsibleSectorDialog = () => {
         id: responsibleSectorId,
       }
       : null,
-    fetchResponsibleSectorsById,
+    fetchResponsibleSectorById,
     {
       revalidateOnFocus: false,
       revalidateOnReconnect: false,
@@ -115,7 +115,7 @@ export const useResponsibleSectorDialog = () => {
           setHash("");
         },
         onError: () => {
-          addToast("Erro ao atualizado setor responsável.", { type: "error" });
+          addToast("Erro ao atualizar setor responsável.", { type: "error" });
           console.error(errorResponsibleSector);
         },
       });
