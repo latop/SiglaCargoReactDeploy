@@ -4,7 +4,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
-import { Box, CircularProgress, Tooltip, Typography } from "@mui/material";
+import { Box, Tooltip, Typography } from "@mui/material";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
@@ -16,6 +16,7 @@ import FullscreenExitIcon from "@mui/icons-material/FullscreenExit";
 import PushPinIcon from "@mui/icons-material/PushPin";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { ImportGtm, ImportGtms } from "@/interfaces/import-trips";
+import LoadingTableSkeleton from "../LoadingTableSkeleton/LoadingTableSkeleton";
 
 dayjs.extend(customParseFormat);
 
@@ -188,16 +189,7 @@ export function ImportTripsDialog({ open, onClose }: LocationsDialogProps) {
           }}
         >
           {isLoading ? (
-            <Box
-              height="100%"
-              width="100%"
-              display="flex"
-              alignItems="center"
-              justifyContent="center"
-              overflow="auto"
-            >
-              <CircularProgress />
-            </Box>
+            <LoadingTableSkeleton length={10} />
           ) : (
             <Box>
               {
