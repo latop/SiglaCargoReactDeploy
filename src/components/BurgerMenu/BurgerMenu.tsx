@@ -26,6 +26,11 @@ import AddLocationAltIcon from "@mui/icons-material/AddLocationAlt";
 import { useRouter } from "next/navigation";
 import { BurgerMenuGroup } from "../BurgerMenuGroup";
 import EditNoteIcon from "@mui/icons-material/EditNote";
+import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd";
+import AltRouteIcon from "@mui/icons-material/AltRoute";
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import AutoGraphIcon from "@mui/icons-material/AutoGraph";
+import BarChartIcon from "@mui/icons-material/BarChart";
 
 interface BurgerMenuProps {
   isOpen: boolean;
@@ -33,87 +38,28 @@ interface BurgerMenuProps {
     open: boolean,
   ) => (event: React.KeyboardEvent | React.MouseEvent) => void;
 }
+export type GroupmentType =
+  | "register"
+  | "coordination"
+  | "driver-schedule"
+  | "planning"
+  | "reports";
 
 export interface RouteItem {
   text: string;
   icon: React.ReactElement;
   path: string;
-  group?: "register" | undefined;
+  group?: GroupmentType;
 }
 
 const routes: RouteItem[] = [
   { text: "Home", icon: <HomeIcon />, path: "/home" },
-  {
-    text: "Solicitação de Motoristas",
-    icon: <LocalShippingIcon />,
-    path: "/drivers-request",
-  },
-  {
-    text: "Escala de Motoristas",
-    icon: <LocalShippingIcon />,
-    path: "/drivers-schedule",
-  },
-  {
-    text: "Coordenação de viagens",
-    icon: <TbSteeringWheel />,
-    path: "/daily-trips-schedule",
-  },
-  {
-    text: "Partidas e chegadas",
-    icon: <SwapVertIcon />,
-    path: "/departures-and-arrivals",
-  },
-  {
-    text: "Viagens diárias",
-    icon: <MovingIcon />,
-    path: "/daily-trips",
-  },
-  {
-    text: "Planejamento de veículos",
-    icon: <TbSteeringWheel />,
-    path: "/vehicle-planning",
-  },
-  {
-    text: "Cenários",
-    icon: <BiTrip />,
-    path: "/scenarios",
-  },
-  {
-    text: "Liberação de motoristas",
-    icon: <NoCrashIcon />,
-    path: "/release-driver",
-  },
-  {
-    text: "Relatórios",
-    icon: <AssignmentIcon />,
-    path: "/reports",
-  },
-  {
-    text: "Importação de viagens",
-    icon: <UploadFileIcon />,
-    path: "/import-trips",
-  },
-  {
-    text: "Otimizacão de viagens",
-    icon: <SettingsSuggestIcon />,
-    path: "/trip-optimization",
-  },
-  {
-    text: "Rotas",
-    icon: <RouteIcon />,
-    path: "/lines",
-    group: "register",
-  },
+  { text: "Rotas", icon: <RouteIcon />, path: "/lines", group: "register" },
   {
     text: "Motoristas",
     icon: <TbSteeringWheel />,
     path: "/drivers",
     group: "register",
-  },
-  {
-    text: "Publicação",
-    icon: <PublishIcon />,
-    path: "/publish-journey",
   },
   {
     text: "Caminhão",
@@ -138,6 +84,81 @@ const routes: RouteItem[] = [
     icon: <EditNoteIcon />,
     path: "/justifications",
     group: "register",
+  },
+
+  // Coordenação de Viagens
+  {
+    text: "Coordenação de viagens",
+    icon: <TbSteeringWheel />,
+    path: "/daily-trips-schedule",
+    group: "coordination",
+  },
+  {
+    text: "Partidas e chegadas",
+    icon: <SwapVertIcon />,
+    path: "/departures-and-arrivals",
+    group: "coordination",
+  },
+  {
+    text: "Viagens diárias",
+    icon: <MovingIcon />,
+    path: "/daily-trips",
+    group: "coordination",
+  },
+
+  // Escala de Motoristas
+  {
+    text: "Solicitação de Motoristas",
+    icon: <LocalShippingIcon />,
+    path: "/drivers-request",
+    group: "driver-schedule",
+  },
+  {
+    text: "Escala de Motoristas",
+    icon: <LocalShippingIcon />,
+    path: "/drivers-schedule",
+    group: "driver-schedule",
+  },
+  {
+    text: "Liberação de motoristas",
+    icon: <NoCrashIcon />,
+    path: "/release-driver",
+    group: "driver-schedule",
+  },
+  {
+    text: "Publicação",
+    icon: <PublishIcon />,
+    path: "/publish-journey",
+    group: "driver-schedule",
+  },
+
+  // Planejamento
+  {
+    text: "Planejamento de veículos",
+    icon: <TbSteeringWheel />,
+    path: "/vehicle-planning",
+    group: "planning",
+  },
+  { text: "Cenários", icon: <BiTrip />, path: "/scenarios", group: "planning" },
+  {
+    text: "Importação de viagens",
+    icon: <UploadFileIcon />,
+    path: "/import-trips",
+    group: "planning",
+  },
+  {
+    text: "Otimizacão de viagens",
+    icon: <SettingsSuggestIcon />,
+    path: "/trip-optimization",
+    group: "planning",
+  },
+
+  // Relatórios
+  {
+    text: "Relatórios",
+    icon: <AssignmentIcon />,
+    path: "/reports",
+    group: "reports",
   },
 ];
 
@@ -179,6 +200,35 @@ export function BurgerMenu({ isOpen, toggleDrawer }: BurgerMenuProps) {
           groupment="register"
           name="Cadastros"
           router={router}
+          icon={PlaylistAddIcon}
+        />
+        <BurgerMenuGroup
+          routes={routes}
+          groupment="coordination"
+          name="Coordenação de Viagens"
+          router={router}
+          icon={AltRouteIcon}
+        />
+        <BurgerMenuGroup
+          routes={routes}
+          groupment="driver-schedule"
+          name="Escala de Motoristas"
+          router={router}
+          icon={CalendarMonthIcon}
+        />
+        <BurgerMenuGroup
+          routes={routes}
+          groupment="planning"
+          name="Planejamento"
+          router={router}
+          icon={AutoGraphIcon}
+        />
+        <BurgerMenuGroup
+          routes={routes}
+          groupment="reports"
+          name="Relatórios"
+          router={router}
+          icon={BarChartIcon}
         />
       </List>
     </Drawer>

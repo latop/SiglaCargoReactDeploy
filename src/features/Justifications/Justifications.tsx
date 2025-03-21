@@ -45,7 +45,6 @@ export function Justifications() {
       headerName: "Descrição",
       width: 400,
     },
-    //TODO: Responsible Sector
     {
       field: "responsibleSector.description",
       headerName: "Setor Responsável",
