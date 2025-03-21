@@ -39,8 +39,8 @@ export function ImportTripsFilterBar(props: React.HTMLProps<HTMLFormElement>) {
               <AutocompleteLocationGroup
                 name="locationCode"
                 onChange={(value) => {
-                  setValue("locationCodeId", value?.id || "");
-                  setValue("locationCode", value?.code || "");
+                  setValue("locationGroupCodeId", value?.id || "");
+                  setValue("locationGroupCode", value?.code || "");
                 }}
               />
             </Grid>

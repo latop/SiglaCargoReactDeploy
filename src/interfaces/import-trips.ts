@@ -3,7 +3,7 @@ import { Dayjs } from "dayjs";
 export interface ImportGtmFilterParams {
   startDate: Dayjs | null;
   endDate: Dayjs | null;
-  locationCodeId?: string;
+  locationGroupCode?: string;
 }
 
 export interface ImportGtms {

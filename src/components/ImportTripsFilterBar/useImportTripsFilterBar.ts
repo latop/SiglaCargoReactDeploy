@@ -19,8 +19,8 @@ const dateOrDayjsSchema = z.custom(
 const schema = z.object({
   startDate: dateOrDayjsSchema,
   endDate: dateOrDayjsSchema,
-  locationCodeId: z.string().optional(),
-  locationCode: z.string().optional(),
+  locationGroupCodeId: z.string().optional(),
+  locationGroupCode: z.string().optional(),
 });
 
 type FormFields = z.infer<typeof schema>;
@@ -38,8 +38,8 @@ export function useImportTripsFilterBar() {
       endDate: params.get("endDate")
         ? dayjs(params.get("endDate"))
         : dayjs().add(1, "day"),
-      locationCode: params.get("locationCode") || "",
-      locationCodeId: params.get("locationCodeId") || "",
+      locationGroupCode: params.get("locationGroupCode") || "",
+      locationGroupCodeId: params.get("locationGroupCodeId") || "",
     },
   });
 
@@ -57,8 +57,8 @@ export function useImportTripsFilterBar() {
 
   const onClearParams = () => {
     methods.reset({
-      locationCodeId: "",
-      locationCode: "",
+      locationGroupCodeId: "",
+      locationGroupCode: "",
     });
     router.push("/import-trips");
     setTimeout(() => window.location.reload(), 500);

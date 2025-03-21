@@ -21,7 +21,7 @@ export const fetchAllGtms = async ({
   const params = {
     startDate: args.startDate,
     endDate: args.endDate,
-    filter1Id: args.locationCodeId,
+    locationGroupCode: args.locationGroupCode,
   };
 
   try {

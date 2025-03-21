@@ -44,7 +44,7 @@ export const useImportTrips = () => {
   const params = {
     startDate: searchParams.get("startDate"),
     endDate: searchParams.get("endDate"),
-    locationCodeId: searchParams.get("locationCodeId"),
+    locationGroupCode: searchParams.get("locationGroupCode"),
   };
 
   const hasParamsToSearch = Boolean(
@@ -54,12 +54,12 @@ export const useImportTrips = () => {
   const getKey = () => {
     if (!hasParamsToSearch) return null;
 
-    const { startDate, endDate, locationCodeId } = params;
+    const { startDate, endDate, locationGroupCode } = params;
     let url = `/import-trips`;
 
     if (startDate) url += `-${startDate}`;
     if (endDate) url += `-${endDate}`;
-    if (locationCodeId) url += `-${locationCodeId}`;
+    if (locationGroupCode) url += `-${locationGroupCode}`;
 
     return {
       url,
