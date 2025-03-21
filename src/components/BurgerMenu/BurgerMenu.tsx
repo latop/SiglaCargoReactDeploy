@@ -49,17 +49,16 @@ const BoxStyled = styled(Box)`
   justify-content: center;
   align-items: center;
   width: 100%;
-  padding: 20px 0;
   background-color: transparent !important;
 `;
 
 interface BurgerMenuProps {
   isOpen: boolean;
-  toggleDrawer: (
+  toggleDrawer?: (
     open: boolean,
   ) => (event: React.KeyboardEvent | React.MouseEvent) => void;
-  menuGroupsOpen: Record<GroupmentType, boolean>;
-  setMenuGroupsOpen: React.Dispatch<
+  menuGroupsOpen?: Record<GroupmentType, boolean>;
+  setMenuGroupsOpen?: React.Dispatch<
     React.SetStateAction<Record<GroupmentType, boolean>>
   >;
 }
@@ -231,12 +230,11 @@ export function BurgerMenu({ isOpen, toggleDrawer }: BurgerMenuProps) {
   }, []);
 
   return (
-    <Drawer anchor="left" open={isOpen} onClose={toggleDrawer(false)}>
+    <Drawer anchor="left" open={isOpen} onClose={toggleDrawer?.(false)}>
       <Box
         sx={{
           display: "flex",
           flexDirection: "column",
-          justifyContent: "space-between",
           height: "100vh",
         }}
       >
@@ -244,7 +242,6 @@ export function BurgerMenu({ isOpen, toggleDrawer }: BurgerMenuProps) {
           sx={{
             display: "flex",
             flexDirection: "column",
-            height: "100%",
             overflowY: "auto",
           }}
         >
