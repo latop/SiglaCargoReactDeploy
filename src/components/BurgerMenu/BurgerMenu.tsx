@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Drawer,
   List,
@@ -7,6 +7,9 @@ import {
   ListItemIcon,
   ListItemText,
   ListItemButton,
+  Button,
+  Tooltip,
+  styled,
 } from "@mui/material";
 import Link from "next/link";
 import PersonSearchIcon from "@mui/icons-material/PersonSearch";
@@ -32,11 +35,22 @@ import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import AutoGraphIcon from "@mui/icons-material/AutoGraph";
 import BarChartIcon from "@mui/icons-material/BarChart";
 
+const ButtonStyled = styled(Button)`
+  transition: all 0.2s ease-in-out;
+  &:hover {
+    opacity: 0.7;
+  }
+`;
+
 interface BurgerMenuProps {
   isOpen: boolean;
   toggleDrawer: (
     open: boolean,
   ) => (event: React.KeyboardEvent | React.MouseEvent) => void;
+  menuGroupsOpen: Record<GroupmentType, boolean>;
+  setMenuGroupsOpen: React.Dispatch<
+    React.SetStateAction<Record<GroupmentType, boolean>>
+  >;
 }
 export type GroupmentType =
   | "register"
@@ -162,8 +176,48 @@ const routes: RouteItem[] = [
   },
 ];
 
+const STORAGE_KEY = "burgerMenuOpenGroups";
+
+const initialState: Record<GroupmentType, boolean> = {
+  register: false,
+  coordination: false,
+  "driver-schedule": false,
+  planning: false,
+  reports: false,
+};
+
+const getInitialOpenState = (): Record<GroupmentType, boolean> => {
+  if (typeof window === "undefined") return initialState;
+  const stored = localStorage.getItem(STORAGE_KEY);
+  return stored ? JSON.parse(stored) : initialState;
+};
+
+const saveOpenState = (state: Record<GroupmentType, boolean>) => {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+};
+
 export function BurgerMenu({ isOpen, toggleDrawer }: BurgerMenuProps) {
   const router = useRouter();
+
+  const [open, setOpen] = useState(initialState);
+
+  const handleMenuOpen = ({ group }: { group: GroupmentType }) => {
+    setOpen((prev) => {
+      const newState = { ...prev, [group]: !prev[group] };
+      saveOpenState(newState);
+      return newState;
+    });
+  };
+
+  const handleMenuCloseAll = () => {
+    setOpen(initialState);
+    saveOpenState(initialState);
+  };
+
+  useEffect(() => {
+    const stored = getInitialOpenState();
+    setOpen(stored);
+  }, []);
 
   return (
     <Drawer anchor="left" open={isOpen} onClose={toggleDrawer(false)}>
@@ -201,6 +255,8 @@ export function BurgerMenu({ isOpen, toggleDrawer }: BurgerMenuProps) {
           name="Cadastros"
           router={router}
           icon={PlaylistAddIcon}
+          expanded={open.register}
+          onToggle={() => handleMenuOpen({ group: "register" })}
         />
         <BurgerMenuGroup
           routes={routes}
@@ -208,6 +264,8 @@ export function BurgerMenu({ isOpen, toggleDrawer }: BurgerMenuProps) {
           name="Coordenação de Viagens"
           router={router}
           icon={AltRouteIcon}
+          expanded={open.coordination}
+          onToggle={() => handleMenuOpen({ group: "coordination" })}
         />
         <BurgerMenuGroup
           routes={routes}
@@ -215,6 +273,8 @@ export function BurgerMenu({ isOpen, toggleDrawer }: BurgerMenuProps) {
           name="Escala de Motoristas"
           router={router}
           icon={CalendarMonthIcon}
+          expanded={open["driver-schedule"]}
+          onToggle={() => handleMenuOpen({ group: "driver-schedule" })}
         />
         <BurgerMenuGroup
           routes={routes}
@@ -222,6 +282,8 @@ export function BurgerMenu({ isOpen, toggleDrawer }: BurgerMenuProps) {
           name="Planejamento"
           router={router}
           icon={AutoGraphIcon}
+          expanded={open.planning}
+          onToggle={() => handleMenuOpen({ group: "planning" })}
         />
         <BurgerMenuGroup
           routes={routes}
@@ -229,8 +291,15 @@ export function BurgerMenu({ isOpen, toggleDrawer }: BurgerMenuProps) {
           name="Relatórios"
           router={router}
           icon={BarChartIcon}
+          expanded={open.reports}
+          onToggle={() => handleMenuOpen({ group: "reports" })}
         />
       </List>
+      <Tooltip title="Fecha todos os menus" placement="top">
+        <ButtonStyled variant="text" onClick={() => handleMenuCloseAll()}>
+          Fechar todos
+        </ButtonStyled>
+      </Tooltip>
     </Drawer>
   );
 }

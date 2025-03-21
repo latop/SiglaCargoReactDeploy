@@ -23,6 +23,8 @@ type BurgerMenuGroupProps = {
   groupment: GroupmentType;
   name?: string;
   icon?: React.ElementType;
+  expanded?: boolean;
+  onToggle: (group: GroupmentType) => void;
 };
 
 const AccordionStyled = styled(Accordion)`
@@ -45,15 +47,15 @@ export const BurgerMenuGroup = ({
   name,
   groupment,
   icon: Icon = MenuIcon,
+  expanded,
+  onToggle,
 }: BurgerMenuGroupProps) => {
   return (
     <AccordionStyled
-      sx={{
-        "&.Mui-expanded": {
-          borderTop: "1px solid rgba(0, 0, 0, 0.1)",
-          margin: 0,
-        },
-      }}
+      expanded={expanded}
+      onChange={() => onToggle(groupment)}
+      disableGutters
+      square
     >
       <AccordionSummaryStyled expandIcon={<ExpandMoreIcon />}>
         <ListItemIcon>
@@ -72,7 +74,7 @@ export const BurgerMenuGroup = ({
                 passHref
                 style={{ width: "100%" }}
                 onMouseEnter={() => {
-                  debounce(() => router.prefetch(path), 300);
+                  debounce(() => router.prefetch(path), 300)();
                 }}
               >
                 <ListItemButton>
