@@ -37,9 +37,20 @@ import BarChartIcon from "@mui/icons-material/BarChart";
 
 const ButtonStyled = styled(Button)`
   transition: all 0.2s ease-in-out;
+  background-color: transparent;
   &:hover {
-    opacity: 0.7;
+    background-color: transparent;
+    text-decoration: underline;
   }
+`;
+
+const BoxStyled = styled(Box)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 20px 0;
+  background-color: transparent !important;
 `;
 
 interface BurgerMenuProps {
@@ -222,84 +233,117 @@ export function BurgerMenu({ isOpen, toggleDrawer }: BurgerMenuProps) {
   return (
     <Drawer anchor="left" open={isOpen} onClose={toggleDrawer(false)}>
       <Box
-        display="flex"
-        justifyContent="center"
-        width="100%"
-        sx={{ padding: "20px 0 10px" }}
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+          height: "100vh",
+        }}
       >
-        <img src="/pepsico-logo.png" width={144} height={40} alt="PepsiCo" />
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            height: "100%",
+            overflowY: "auto",
+          }}
+        >
+          <Box
+            display="flex"
+            justifyContent="center"
+            width="100%"
+            sx={{ padding: "20px 0 10px" }}
+          >
+            <img
+              src="/pepsico-logo.png"
+              width={144}
+              height={40}
+              alt="PepsiCo"
+            />
+          </Box>
+          <Box
+            sx={{
+              maxHeight: "100vh",
+              overflowY: "auto",
+            }}
+          >
+            <List>
+              {routes
+                .filter(({ group }) => group === undefined)
+                .map(({ text, icon, path }) => (
+                  <ListItem key={text} disablePadding>
+                    <Link
+                      href={path}
+                      passHref
+                      style={{ width: "100%" }}
+                      onMouseEnter={() => {
+                        void router.prefetch(path);
+                      }}
+                    >
+                      <ListItemButton>
+                        <ListItemIcon>{icon}</ListItemIcon>
+                        <ListItemText primary={text} />
+                      </ListItemButton>
+                    </Link>
+                  </ListItem>
+                ))}
+              <BurgerMenuGroup
+                routes={routes}
+                groupment="register"
+                name="Cadastros"
+                router={router}
+                icon={PlaylistAddIcon}
+                expanded={open.register}
+                onToggle={() => handleMenuOpen({ group: "register" })}
+              />
+              <BurgerMenuGroup
+                routes={routes}
+                groupment="coordination"
+                name="Coordenação de Viagens"
+                router={router}
+                icon={AltRouteIcon}
+                expanded={open.coordination}
+                onToggle={() => handleMenuOpen({ group: "coordination" })}
+              />
+              <BurgerMenuGroup
+                routes={routes}
+                groupment="driver-schedule"
+                name="Escala de Motoristas"
+                router={router}
+                icon={CalendarMonthIcon}
+                expanded={open["driver-schedule"]}
+                onToggle={() => handleMenuOpen({ group: "driver-schedule" })}
+              />
+              <BurgerMenuGroup
+                routes={routes}
+                groupment="planning"
+                name="Planejamento"
+                router={router}
+                icon={AutoGraphIcon}
+                expanded={open.planning}
+                onToggle={() => handleMenuOpen({ group: "planning" })}
+              />
+              <BurgerMenuGroup
+                routes={routes}
+                groupment="reports"
+                name="Relatórios"
+                router={router}
+                icon={BarChartIcon}
+                expanded={open.reports}
+                onToggle={() => handleMenuOpen({ group: "reports" })}
+              />
+            </List>
+          </Box>
+        </Box>
+
+        <BoxStyled>
+          <Tooltip title="Fecha todos os menus" placement="top">
+            <ButtonStyled variant="text" onClick={() => handleMenuCloseAll()}>
+              Fechar abas
+            </ButtonStyled>
+          </Tooltip>
+        </BoxStyled>
       </Box>
-      <List sx={{ display: "flex", flexDirection: "column" }}>
-        {routes
-          .filter(({ group }) => group === undefined)
-          .map(({ text, icon, path }) => (
-            <ListItem key={text} disablePadding>
-              <Link
-                href={path}
-                passHref
-                style={{ width: "100%" }}
-                onMouseEnter={() => {
-                  void router.prefetch(path);
-                }}
-              >
-                <ListItemButton>
-                  <ListItemIcon>{icon}</ListItemIcon>
-                  <ListItemText primary={text} />
-                </ListItemButton>
-              </Link>
-            </ListItem>
-          ))}
-        <BurgerMenuGroup
-          routes={routes}
-          groupment="register"
-          name="Cadastros"
-          router={router}
-          icon={PlaylistAddIcon}
-          expanded={open.register}
-          onToggle={() => handleMenuOpen({ group: "register" })}
-        />
-        <BurgerMenuGroup
-          routes={routes}
-          groupment="coordination"
-          name="Coordenação de Viagens"
-          router={router}
-          icon={AltRouteIcon}
-          expanded={open.coordination}
-          onToggle={() => handleMenuOpen({ group: "coordination" })}
-        />
-        <BurgerMenuGroup
-          routes={routes}
-          groupment="driver-schedule"
-          name="Escala de Motoristas"
-          router={router}
-          icon={CalendarMonthIcon}
-          expanded={open["driver-schedule"]}
-          onToggle={() => handleMenuOpen({ group: "driver-schedule" })}
-        />
-        <BurgerMenuGroup
-          routes={routes}
-          groupment="planning"
-          name="Planejamento"
-          router={router}
-          icon={AutoGraphIcon}
-          expanded={open.planning}
-          onToggle={() => handleMenuOpen({ group: "planning" })}
-        />
-        <BurgerMenuGroup
-          routes={routes}
-          groupment="reports"
-          name="Relatórios"
-          router={router}
-          icon={BarChartIcon}
-          expanded={open.reports}
-          onToggle={() => handleMenuOpen({ group: "reports" })}
-        />
-      </List>
-      <Tooltip title="Fecha todos os menus" placement="top">
-        <ButtonStyled variant="text" onClick={() => handleMenuCloseAll()}>
-          Fechar todos
-        </ButtonStyled>
-      </Tooltip>
     </Drawer>
   );
 }
