@@ -1,5 +1,6 @@
 import axios from "axios";
 import api from "./configs/api";
+
 axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_URL;
 
 export interface FetchActivitiesParams {
@@ -264,6 +265,17 @@ export async function fetchActivityType({
     const response = await api.get("/ActivityType", {
       params: activityTypeParams,
     });
+    const data = response.data;
+    return data;
+  } catch (error) {
+    console.error(error);
+    return error;
+  }
+}
+
+export async function fetchActivityTypeById({ id }: { id: string }) {
+  try {
+    const response = await api.get(`/ActivityType/${id}`);
     const data = response.data;
     return data;
   } catch (error) {

@@ -15,20 +15,18 @@ export const useActivityType = () => {
     { loading: isLoadingDelete, error: deleteError },
   ] = useFetch();
   const [hash, setHash] = useHash();
-  const isToAddActivityType = (hash as string)?.match(
-    /#add-responsible-sector/,
-  );
+  const isToAddActivityType = (hash as string)?.match(/#add-activity-type/);
 
   const handleAddActivityType = () => {
     setHash("#add-activity-type");
   };
   const handleEditActivityType = (id: string) => {
-    setHash(`#activity-type-${id}`);
+    setHash(`#activity-type-id-${id}`);
   };
   const handleClose = () => setHash("");
 
-  const activityTypeId = (hash as string)?.match(/#activity-type-(.+)/)?.[1];
-
+  const activityTypeId = (hash as string)?.match(/#activity-type-id-(.+)/)?.[1];
+  console.log(activityTypeId);
   const getKey = (pageIndex: number, params: ResponsibleSectorResponse) => {
     return {
       url: "/activity-type",

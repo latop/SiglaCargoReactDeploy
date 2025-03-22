@@ -10,9 +10,9 @@ import { useActivityType } from "./useActivityType";
 import { ErrorResult } from "@/components/ErrorResult";
 import { useDialog } from "@/hooks/useDialog/useDialog";
 import { EmptyResult } from "@/components/EmptyResult";
-import { ResponsibleSectorDialog } from "@/components/ResponsibleSectorDialog";
 import LoadingTableSkeleton from "@/components/LoadingTableSkeleton/LoadingTableSkeleton";
 import { columnsConfig } from "./columnsConfig";
+import { ActivityTypeDialog } from "@/components/ActivityTypeDialog";
 
 export function ActivityType() {
   const {
@@ -122,11 +122,8 @@ export function ActivityType() {
           )}
         </Card>
       </Box>
-      <ResponsibleSectorDialog open={!!activityTypeId} onClose={handleClose} />
-      <ResponsibleSectorDialog
-        open={!!isToAddActivityType}
-        onClose={handleClose}
-      />
+      <ActivityTypeDialog open={!!activityTypeId} onClose={handleClose} />
+      <ActivityTypeDialog open={!!isToAddActivityType} onClose={handleClose} />
     </MainContainer>
   );
 }
