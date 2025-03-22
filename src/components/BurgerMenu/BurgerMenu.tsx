@@ -12,15 +12,10 @@ import {
   styled,
 } from "@mui/material";
 import Link from "next/link";
-
 import { useRouter } from "next/navigation";
 import { BurgerMenuGroup } from "../BurgerMenuGroup";
-import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd";
-import AltRouteIcon from "@mui/icons-material/AltRoute";
-import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
-import AutoGraphIcon from "@mui/icons-material/AutoGraph";
-import BarChartIcon from "@mui/icons-material/BarChart";
-import { GroupmentType, routes } from "./routes";
+
+import { groupments, routes } from "./config";
 
 const ButtonStyled = styled(Button)`
   transition: all 0.2s ease-in-out;
@@ -49,7 +44,19 @@ interface BurgerMenuProps {
     React.SetStateAction<Record<GroupmentType, boolean>>
   >;
 }
+export type GroupmentType =
+  | "register"
+  | "coordination"
+  | "driver-schedule"
+  | "planning"
+  | "reports";
 
+export interface RouteItem {
+  text: string;
+  icon: React.ReactElement;
+  path: string;
+  group?: GroupmentType;
+}
 const STORAGE_KEY = "burgerMenuOpenGroups";
 
 const initialState: Record<GroupmentType, boolean> = {
@@ -73,10 +80,10 @@ const saveOpenState = (state: Record<GroupmentType, boolean>) => {
 export function BurgerMenu({ isOpen, toggleDrawer }: BurgerMenuProps) {
   const router = useRouter();
 
-  const [open, setOpen] = useState(initialState);
+  const [menuOpen, setOpenMenu] = useState(initialState);
 
   const handleMenuOpen = ({ group }: { group: GroupmentType }) => {
-    setOpen((prev) => {
+    setOpenMenu((prev) => {
       const newState = { ...prev, [group]: !prev[group] };
       saveOpenState(newState);
       return newState;
@@ -84,13 +91,13 @@ export function BurgerMenu({ isOpen, toggleDrawer }: BurgerMenuProps) {
   };
 
   const handleMenuCloseAll = () => {
-    setOpen(initialState);
+    setOpenMenu(initialState);
     saveOpenState(initialState);
   };
 
   useEffect(() => {
     const stored = getInitialOpenState();
-    setOpen(stored);
+    setOpenMenu(stored);
   }, []);
 
   return (
@@ -148,51 +155,19 @@ export function BurgerMenu({ isOpen, toggleDrawer }: BurgerMenuProps) {
                     </Link>
                   </ListItem>
                 ))}
-              <BurgerMenuGroup
-                routes={routes}
-                groupment="register"
-                name="Cadastros"
-                router={router}
-                icon={PlaylistAddIcon}
-                expanded={open.register}
-                onToggle={() => handleMenuOpen({ group: "register" })}
-              />
-              <BurgerMenuGroup
-                routes={routes}
-                groupment="coordination"
-                name="Coordenação de Viagens"
-                router={router}
-                icon={AltRouteIcon}
-                expanded={open.coordination}
-                onToggle={() => handleMenuOpen({ group: "coordination" })}
-              />
-              <BurgerMenuGroup
-                routes={routes}
-                groupment="driver-schedule"
-                name="Escala de Motoristas"
-                router={router}
-                icon={CalendarMonthIcon}
-                expanded={open["driver-schedule"]}
-                onToggle={() => handleMenuOpen({ group: "driver-schedule" })}
-              />
-              <BurgerMenuGroup
-                routes={routes}
-                groupment="planning"
-                name="Planejamento"
-                router={router}
-                icon={AutoGraphIcon}
-                expanded={open.planning}
-                onToggle={() => handleMenuOpen({ group: "planning" })}
-              />
-              <BurgerMenuGroup
-                routes={routes}
-                groupment="reports"
-                name="Relatórios"
-                router={router}
-                icon={BarChartIcon}
-                expanded={open.reports}
-                onToggle={() => handleMenuOpen({ group: "reports" })}
-              />
+
+              {groupments.map(({ groupment, name, icon: Icon }) => (
+                <BurgerMenuGroup
+                  key={groupment}
+                  routes={routes}
+                  groupment={groupment}
+                  name={name}
+                  router={router}
+                  icon={Icon}
+                  expanded={menuOpen[groupment]}
+                  onToggle={() => handleMenuOpen({ group: groupment })}
+                />
+              ))}
             </List>
           </Box>
         </Box>

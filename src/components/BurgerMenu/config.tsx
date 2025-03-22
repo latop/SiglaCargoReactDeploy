@@ -1,3 +1,4 @@
+import React from "react";
 import PersonSearchIcon from "@mui/icons-material/PersonSearch";
 import HomeIcon from "@mui/icons-material/Home";
 import { TbSteeringWheel } from "react-icons/tb";
@@ -13,6 +14,11 @@ import RouteIcon from "@mui/icons-material/Route";
 import PublishIcon from "@mui/icons-material/Publish";
 import AddLocationAltIcon from "@mui/icons-material/AddLocationAlt";
 import EditNoteIcon from "@mui/icons-material/EditNote";
+import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd";
+import AltRouteIcon from "@mui/icons-material/AltRoute";
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import AutoGraphIcon from "@mui/icons-material/AutoGraph";
+import BarChartIcon from "@mui/icons-material/BarChart";
 import CategoryIcon from "@mui/icons-material/Category";
 
 export type GroupmentType =
@@ -29,9 +35,18 @@ export interface RouteItem {
   group?: GroupmentType;
 }
 
-export const routes: RouteItem[] = [
-  { text: "Home", icon: <HomeIcon />, path: "/home" },
-  { text: "Rotas", icon: <RouteIcon />, path: "/lines", group: "register" },
+const routes: RouteItem[] = [
+  {
+    text: "Home",
+    icon: <HomeIcon />,
+    path: "/home",
+  },
+  {
+    text: "Rotas",
+    icon: <RouteIcon />,
+    path: "/lines",
+    group: "register",
+  },
   {
     text: "Motoristas",
     icon: <TbSteeringWheel />,
@@ -122,7 +137,12 @@ export const routes: RouteItem[] = [
     path: "/vehicle-planning",
     group: "planning",
   },
-  { text: "Cenários", icon: <BiTrip />, path: "/scenarios", group: "planning" },
+  {
+    text: "Cenários",
+    icon: <BiTrip />,
+    path: "/scenarios",
+    group: "planning",
+  },
   {
     text: "Importação de viagens",
     icon: <UploadFileIcon />,
@@ -144,3 +164,37 @@ export const routes: RouteItem[] = [
     group: "reports",
   },
 ];
+
+const groupments = [
+  {
+    groupment: "register",
+    name: "Cadastros",
+    icon: PlaylistAddIcon,
+  },
+  {
+    groupment: "coordination",
+    name: "Coordenação de Viagens",
+    icon: AltRouteIcon,
+  },
+  {
+    groupment: "driver-schedule",
+    name: "Escala de Motoristas",
+    icon: CalendarMonthIcon,
+  },
+  {
+    groupment: "planning",
+    name: "Planejamento",
+    icon: AutoGraphIcon,
+  },
+  {
+    groupment: "reports",
+    name: "Relatórios",
+    icon: BarChartIcon,
+  },
+] satisfies Array<{
+  groupment: GroupmentType;
+  name: string;
+  icon: React.ElementType;
+}>;
+
+export { routes, groupments };
