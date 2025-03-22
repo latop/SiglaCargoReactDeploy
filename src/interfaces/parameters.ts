@@ -83,3 +83,23 @@ export interface ResponsibleSectorResponse {
   data: ResponsibleSectorType[];
   totalCount?: number;
 }
+
+export interface ActivityType {
+  code: string;
+  description: string;
+  function: string;
+  flgJourney: boolean;
+  flgPayroll: boolean;
+  color: string;
+  id: string;
+}
+
+export interface ActivityTypeResponse {
+  currentPage?: number;
+  hasNext?: boolean;
+  hasPrevious?: boolean;
+  pageSize?: number;
+  totalPages?: number;
+  data: ActivityType[];
+  totalCount?: number;
+}

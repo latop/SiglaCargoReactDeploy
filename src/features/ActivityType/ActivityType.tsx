@@ -4,34 +4,33 @@ import React from "react";
 import { MainContainer } from "@/components/MainContainer";
 import { AppBar } from "@/components/AppBar";
 import { HeaderTitle } from "@/components/HeaderTitle/HeaderTitle";
-import { Box, Card } from "@mui/material";
+import { Box, Button, Card } from "@mui/material";
 import { DataGrid, GridColDef, GridDeleteForeverIcon } from "@mui/x-data-grid";
+import { useActivityType } from "./useActivityType";
 import { ErrorResult } from "@/components/ErrorResult";
 import { useDialog } from "@/hooks/useDialog/useDialog";
 import { EmptyResult } from "@/components/EmptyResult";
-import { useJustifications } from "./useJustifications";
-import { JustificationsDialog } from "@/components/JustificationsrDialog";
-import { JustificationType } from "@/interfaces/parameters";
-import LoadingTableSkeleton from "../../components/LoadingTableSkeleton/LoadingTableSkeleton";
-import { JustificationFilterBar } from "@/components/JustificationFIlterBar/JustificationFIlterBar";
+import { ResponsibleSectorDialog } from "@/components/ResponsibleSectorDialog";
+import LoadingTableSkeleton from "@/components/LoadingTableSkeleton/LoadingTableSkeleton";
 
-export function Justifications() {
+export function ActivityType() {
   const {
-    justifications,
+    activityType,
     loadMore,
     isLoading,
     error: isError,
     hasData,
     currentPage,
+    handleDeleteActivityType,
     isLoadingDelete,
     isEmpty,
     totalCount,
-    handleDeleteJustification,
-    handleEditJustification,
-    isToAddJustification,
-    justificationId,
+    handleAddActivityType,
+    handleEditActivityType,
+    isToAddActivityType,
+    activityTypeId,
     handleClose,
-  } = useJustifications();
+  } = useActivityType();
   const { openDialog, closeDialog } = useDialog();
 
   const columns: GridColDef[] = [
@@ -46,25 +45,6 @@ export function Justifications() {
       width: 400,
     },
     {
-      field: "responsibleSector.description",
-      headerName: "Setor Responsável",
-      width: 400,
-      renderCell: ({ row }: { row: JustificationType }) => {
-        return (
-          !!row.responsibleSector?.description &&
-          row.responsibleSector?.description
-        );
-      },
-    },
-    {
-      field: "type",
-      headerName: "Tipo",
-      width: 200,
-      renderCell: ({ row }: { row: JustificationType }) => {
-        return row.type === "null" ? "" : row.type;
-      },
-    },
-    {
       field: " ",
       headerName: "",
       width: 100,
@@ -73,7 +53,7 @@ export function Justifications() {
           <button
             disabled={isLoadingDelete}
             style={{
-              paddingTop: 6,
+              paddingTop: 12,
               display: "flex",
               gap: "8px",
               border: "none",
@@ -89,7 +69,7 @@ export function Justifications() {
                 openDialog({
                   body: "Deseja apagar este registro?",
                   onConfirm: async () => {
-                    await handleDeleteJustification(params?.id as string).then(
+                    await handleDeleteActivityType(params?.id as string).then(
                       () => {
                         closeDialog();
                       },
@@ -110,7 +90,7 @@ export function Justifications() {
   return (
     <MainContainer>
       <AppBar>
-        <HeaderTitle>Justificativas</HeaderTitle>
+        <HeaderTitle>Tipo de Atividade</HeaderTitle>
       </AppBar>
       <Box
         sx={{
@@ -123,7 +103,16 @@ export function Justifications() {
           gap: "16px",
         }}
       >
-        <JustificationFilterBar />
+        <Button
+          onClick={handleAddActivityType}
+          variant="outlined"
+          sx={{
+            width: "170px",
+            alignSelf: "flex-end",
+          }}
+        >
+          Adicionar
+        </Button>
         <Card
           sx={{
             width: "100%",
@@ -151,7 +140,8 @@ export function Justifications() {
                 slots={{
                   noRowsOverlay: EmptyResult,
                 }}
-                rows={justifications || []}
+                loading={isLoading}
+                rows={activityType || []}
                 getRowId={(row) => row.id}
                 localeText={{
                   noRowsLabel: "Nenhum registro encontrado",
@@ -170,7 +160,7 @@ export function Justifications() {
                 rowCount={totalCount}
                 columns={columns}
                 onRowDoubleClick={(params) => {
-                  handleEditJustification(params.id as string);
+                  handleEditActivityType(params.id as string);
                 }}
                 initialState={{
                   pagination: {
@@ -182,14 +172,14 @@ export function Justifications() {
                 }}
                 pageSizeOptions={[15]}
                 density="compact"
-                loading={isLoading}
               />
             </div>
           )}
         </Card>
       </Box>
-      <JustificationsDialog
-        open={!!justificationId || !!isToAddJustification}
+      <ResponsibleSectorDialog open={!!activityTypeId} onClose={handleClose} />
+      <ResponsibleSectorDialog
+        open={!!isToAddActivityType}
         onClose={handleClose}
       />
     </MainContainer>

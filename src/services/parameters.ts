@@ -39,6 +39,14 @@ export interface FetchJustificationsParams {
   type?: string; // Filter2String
 }
 
+export interface FetchActivityTypeParams {
+  pageSize?: number;
+  pageNumber?: number;
+  responsibleSectorId?: string; // Filter1Id
+  code?: string; // Filter1String
+  type?: string; // Filter2String
+}
+
 export async function fetchAcitivities({
   args: params,
 }: {
@@ -232,6 +240,30 @@ export async function fetchJustifications({
 export async function fetchJustificationById({ id }: { id: string }) {
   try {
     const response = await api.get(`/Justification/${id}`);
+    const data = response.data;
+    return data;
+  } catch (error) {
+    console.error(error);
+    return error;
+  }
+}
+
+export async function fetchActivityType({
+  args: params,
+}: {
+  args: FetchActivityTypeParams;
+}) {
+  const activityTypeParams = {
+    PageSize: params.pageSize,
+    PageNumber: params.pageNumber,
+    Filter1String: params?.code,
+    Filter2String: params?.type,
+    Filter1Id: params?.responsibleSectorId,
+  };
+  try {
+    const response = await api.get("/ActivityType", {
+      params: activityTypeParams,
+    });
     const data = response.data;
     return data;
   } catch (error) {

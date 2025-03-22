@@ -15,7 +15,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import MenuIcon from "@mui/icons-material/Menu";
 import debounce from "debounce";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context";
-import { GroupmentType, RouteItem } from "../BurgerMenu/BurgerMenu";
+import { GroupmentType, RouteItem } from "../BurgerMenu/routes";
 
 type BurgerMenuGroupProps = {
   routes: RouteItem[];

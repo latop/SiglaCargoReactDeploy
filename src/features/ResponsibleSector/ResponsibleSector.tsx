@@ -116,7 +116,7 @@ export function ResponsibleSector() {
         <Card
           sx={{
             width: "100%",
-            height: "454px",
+            height: "654px",
             position: "relative",
             display: "flex",
             flexDirection: "column",
@@ -124,7 +124,7 @@ export function ResponsibleSector() {
             justifyContent: "center",
           }}
         >
-          {isLoading && <LoadingTableSkeleton length={10} />}
+          {isLoading && <LoadingTableSkeleton length={15} />}
           {isEmpty && !hasData && !isLoading && <EmptyResult />}
           {isError && !isLoading && <ErrorResult />}
           {hasData && !isLoading && (
@@ -170,7 +170,7 @@ export function ResponsibleSector() {
                 onPaginationModelChange={(params) => {
                   loadMore(params.page + 1);
                 }}
-                pageSizeOptions={[10]}
+                pageSizeOptions={[15]}
                 density="compact"
               />
             </div>
