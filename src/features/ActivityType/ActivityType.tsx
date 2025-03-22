@@ -5,13 +5,14 @@ import { MainContainer } from "@/components/MainContainer";
 import { AppBar } from "@/components/AppBar";
 import { HeaderTitle } from "@/components/HeaderTitle/HeaderTitle";
 import { Box, Button, Card } from "@mui/material";
-import { DataGrid, GridColDef, GridDeleteForeverIcon } from "@mui/x-data-grid";
+import { DataGrid } from "@mui/x-data-grid";
 import { useActivityType } from "./useActivityType";
 import { ErrorResult } from "@/components/ErrorResult";
 import { useDialog } from "@/hooks/useDialog/useDialog";
 import { EmptyResult } from "@/components/EmptyResult";
 import { ResponsibleSectorDialog } from "@/components/ResponsibleSectorDialog";
 import LoadingTableSkeleton from "@/components/LoadingTableSkeleton/LoadingTableSkeleton";
+import { columnsConfig } from "./columnsConfig";
 
 export function ActivityType() {
   const {
@@ -32,61 +33,12 @@ export function ActivityType() {
     handleClose,
   } = useActivityType();
   const { openDialog, closeDialog } = useDialog();
-
-  const columns: GridColDef[] = [
-    {
-      field: "code",
-      headerName: "Código",
-      width: 200,
-    },
-    {
-      field: "description",
-      headerName: "Descrição",
-      width: 400,
-    },
-    {
-      field: " ",
-      headerName: "",
-      width: 100,
-      renderCell: (params) => {
-        return (
-          <button
-            disabled={isLoadingDelete}
-            style={{
-              paddingTop: 12,
-              display: "flex",
-              gap: "8px",
-              border: "none",
-              background: "transparent",
-            }}
-          >
-            <GridDeleteForeverIcon
-              sx={{
-                cursor: "pointer",
-                color: "#e53935",
-              }}
-              onClick={() => {
-                openDialog({
-                  body: "Deseja apagar este registro?",
-                  onConfirm: async () => {
-                    await handleDeleteActivityType(params?.id as string).then(
-                      () => {
-                        closeDialog();
-                      },
-                    );
-                  },
-                  onCancel: () => {
-                    closeDialog();
-                  },
-                });
-              }}
-            />
-          </button>
-        );
-      },
-    },
-  ];
-
+  const columns = columnsConfig({
+    closeDialog,
+    openDialog,
+    handleDeleteActivityType,
+    isLoadingDelete,
+  });
   return (
     <MainContainer>
       <AppBar>
@@ -130,13 +82,6 @@ export function ActivityType() {
           {hasData && !isLoading && (
             <div style={{ height: "100%", width: "100%" }}>
               <DataGrid
-                sx={{
-                  width: "100%",
-                  "& .blueColumnHeaders ": {
-                    backgroundColor: "#24438F",
-                    color: "white",
-                  },
-                }}
                 slots={{
                   noRowsOverlay: EmptyResult,
                 }}
