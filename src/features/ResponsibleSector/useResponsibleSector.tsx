@@ -31,7 +31,7 @@ export const useResponsibleSector = () => {
   const getKey = (pageIndex: number, params: ResponsibleSectorResponse) => {
     return {
       url: "/responsible-section",
-      args: { ...params, pageSize: 10, pageNumber: pageIndex + 1 },
+      args: { ...params, pageSize: 15, pageNumber: pageIndex + 1 },
     };
   };
   const {

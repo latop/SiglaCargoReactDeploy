@@ -248,7 +248,7 @@ export const useGetLocationsQuery = (params: Partial<FetchLocationsParams>) => {
       try {
         const response = await api.get("/Location", {
           params: {
-            PageSize: params?.pageSize || 10,
+            PageSize: params?.pageSize || 15,
             PageNumber: pageParam || 0,
             filter1Id: params?.locationGroupId,
             filter2Id: params?.locationTypeId,
