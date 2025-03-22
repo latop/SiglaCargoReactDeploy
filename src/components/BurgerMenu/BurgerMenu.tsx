@@ -76,6 +76,38 @@ export interface RouteItem {
   group?: GroupmentType;
 }
 
+const groupConfigs = [
+  {
+    groupment: "register",
+    name: "Cadastros",
+    icon: PlaylistAddIcon,
+  },
+  {
+    groupment: "coordination",
+    name: "Coordenação de Viagens",
+    icon: AltRouteIcon,
+  },
+  {
+    groupment: "driver-schedule",
+    name: "Escala de Motoristas",
+    icon: CalendarMonthIcon,
+  },
+  {
+    groupment: "planning",
+    name: "Planejamento",
+    icon: AutoGraphIcon,
+  },
+  {
+    groupment: "reports",
+    name: "Relatórios",
+    icon: BarChartIcon,
+  },
+] satisfies Array<{
+  groupment: GroupmentType;
+  name: string;
+  icon: React.ElementType;
+}>;
+
 const routes: RouteItem[] = [
   { text: "Home", icon: <HomeIcon />, path: "/home" },
   { text: "Rotas", icon: <RouteIcon />, path: "/lines", group: "register" },
@@ -284,51 +316,19 @@ export function BurgerMenu({ isOpen, toggleDrawer }: BurgerMenuProps) {
                     </Link>
                   </ListItem>
                 ))}
-              <BurgerMenuGroup
-                routes={routes}
-                groupment="register"
-                name="Cadastros"
-                router={router}
-                icon={PlaylistAddIcon}
-                expanded={open.register}
-                onToggle={() => handleMenuOpen({ group: "register" })}
-              />
-              <BurgerMenuGroup
-                routes={routes}
-                groupment="coordination"
-                name="Coordenação de Viagens"
-                router={router}
-                icon={AltRouteIcon}
-                expanded={open.coordination}
-                onToggle={() => handleMenuOpen({ group: "coordination" })}
-              />
-              <BurgerMenuGroup
-                routes={routes}
-                groupment="driver-schedule"
-                name="Escala de Motoristas"
-                router={router}
-                icon={CalendarMonthIcon}
-                expanded={open["driver-schedule"]}
-                onToggle={() => handleMenuOpen({ group: "driver-schedule" })}
-              />
-              <BurgerMenuGroup
-                routes={routes}
-                groupment="planning"
-                name="Planejamento"
-                router={router}
-                icon={AutoGraphIcon}
-                expanded={open.planning}
-                onToggle={() => handleMenuOpen({ group: "planning" })}
-              />
-              <BurgerMenuGroup
-                routes={routes}
-                groupment="reports"
-                name="Relatórios"
-                router={router}
-                icon={BarChartIcon}
-                expanded={open.reports}
-                onToggle={() => handleMenuOpen({ group: "reports" })}
-              />
+
+              {groupConfigs.map(({ groupment, name, icon: Icon }) => (
+                <BurgerMenuGroup
+                  key={groupment}
+                  routes={routes}
+                  groupment={groupment}
+                  name={name}
+                  router={router}
+                  icon={Icon}
+                  expanded={open[groupment]}
+                  onToggle={() => handleMenuOpen({ group: groupment })}
+                />
+              ))}
             </List>
           </Box>
         </Box>
