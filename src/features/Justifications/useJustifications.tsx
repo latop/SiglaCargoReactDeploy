@@ -61,7 +61,7 @@ export const useJustifications = () => {
       url: "/justifications",
       args: {
         ...filterParams,
-        pageSize: 10,
+        pageSize: 15,
         pageNumber: pageIndex + 1,
       },
     };

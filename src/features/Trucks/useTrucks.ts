@@ -48,20 +48,21 @@ export const useTrucks = () => {
     data,
     fetchNextPage,
     hasNextPage,
-    isFetching,
     isFetchingNextPage,
     status,
     hasPreviousPage,
     isError,
+    isLoading,
     refetch: refetchTrucks,
   } = useGetTrucksQuery(payload());
 
   const trucks = data?.pages.flatMap((page) => page.data) || [];
-  const currentPage = data?.pages[data.pages.length - 1]?.currentPage || 1;
+  const currentPage = data?.pages[data.pages.length - 1]?.currentPage || 0;
 
-  const loadMoreLines = () => {
-    if (!hasNextPage && isFetchingNextPage) return;
-    fetchNextPage();
+  const loadMoreLines = (page: number) => {
+    if (currentPage < page && hasNextPage && !isFetchingNextPage) {
+      fetchNextPage();
+    }
   };
 
   const handleDeleteTruck = async ({ truckId }: { truckId: string }) => {
@@ -86,7 +87,7 @@ export const useTrucks = () => {
     currentPage,
     hasData: trucks.length > 0,
     isEmpty: trucks.length === 0,
-    isLoading: isFetching || isFetchingNextPage,
+    isLoading,
     isFetchingNextPage,
     loadMoreLines,
     status,
