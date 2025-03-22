@@ -127,7 +127,7 @@ export function Justifications() {
         <Card
           sx={{
             width: "100%",
-            height: "654px",
+            height: "635px",
             position: "relative",
             display: "flex",
             flexDirection: "column",
@@ -141,13 +141,6 @@ export function Justifications() {
           {hasData && !isLoading && (
             <div style={{ height: "100%", width: "100%" }}>
               <DataGrid
-                sx={{
-                  width: "100%",
-                  "& .blueColumnHeaders ": {
-                    backgroundColor: "#24438F",
-                    color: "white",
-                  },
-                }}
                 slots={{
                   noRowsOverlay: EmptyResult,
                 }}
@@ -174,7 +167,7 @@ export function Justifications() {
                 }}
                 initialState={{
                   pagination: {
-                    paginationModel: { page: currentPage - 1, pageSize: 10 },
+                    paginationModel: { page: currentPage - 1, pageSize: 15 },
                   },
                 }}
                 onPaginationModelChange={(params) => {

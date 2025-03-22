@@ -98,7 +98,7 @@ export const useGetTrucksQuery = (params: FetchTrucksParams) => {
       try {
         const response = await api.get("/Truck", {
           params: {
-            PageSize: params?.pageSize || 10,
+            PageSize: params?.pageSize || 15,
             PageNumber: pageParam || 0,
             filter1Id: params?.fleetTypeId,
             filter2Id: params?.fleetGroupId,
@@ -128,7 +128,7 @@ export const useGetTrucksQuery = (params: FetchTrucksParams) => {
     },
     initialPageParam: 1,
     staleTime: 60 * 1000 * 5,
-    enabled: !!params.isEnabled || hasAdditionalParameters,
+    enabled: !!params.isEnabled || hasAdditionalParameters || false,
   });
 };
 

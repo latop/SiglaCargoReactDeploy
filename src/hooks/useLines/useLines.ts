@@ -20,7 +20,7 @@ export const useLines = (options?: SWRConfiguration) => {
 
     return {
       url: "/lines",
-      args: { ...params, pageSize: 10, pageNumber: pageIndex + 1 },
+      args: { ...params, pageSize: 15, pageNumber: pageIndex + 1 },
     };
   };
   const { data, error, isLoading, mutate, size, setSize, isValidating } =

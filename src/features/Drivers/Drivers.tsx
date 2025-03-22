@@ -123,13 +123,14 @@ export function Drivers() {
                 }}
                 initialState={{
                   pagination: {
-                    paginationModel: { page: size - 1, pageSize: 10 },
+                    paginationModel: { page: size - 1, pageSize: 15 },
                   },
                 }}
                 onPaginationModelChange={(params) => {
                   loadMoreLines(params.page + 1);
                 }}
-                pageSizeOptions={[10]}
+                pageSizeOptions={[15]}
+                density="compact"
               />
             </div>
           )}

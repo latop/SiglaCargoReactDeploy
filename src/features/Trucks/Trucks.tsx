@@ -190,13 +190,14 @@ export function Trucks() {
                 }}
                 initialState={{
                   pagination: {
-                    paginationModel: { page: currentPage - 1, pageSize: 10 },
+                    paginationModel: { page: currentPage - 1, pageSize: 15 },
                   },
                 }}
-                onPaginationModelChange={() => {
-                  loadMoreLines();
+                onPaginationModelChange={(params) => {
+                  loadMoreLines(params.page + 1);
                 }}
-                pageSizeOptions={[10]}
+                pageSizeOptions={[15]}
+                density="compact"
               />
             </div>
           )}
