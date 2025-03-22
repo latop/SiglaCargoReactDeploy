@@ -62,5 +62,6 @@ export const useDriversPaginated = (options?: SWRConfiguration) => {
     loadMoreLines,
     totalCount,
     hasData,
+    isLoadingMore,
   };
 };

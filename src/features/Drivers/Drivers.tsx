@@ -55,6 +55,7 @@ export function Drivers() {
     size,
     totalCount,
     hasData,
+    isLoadingMore,
   } = useDriversPaginated();
   const [hash, setHash] = useHash();
   const driverId = (hash as string)?.match(/#driver-id-(.+)/)?.[1];
@@ -103,6 +104,7 @@ export function Drivers() {
               <DataGrid
                 rows={drivers}
                 getRowId={(row) => row.id}
+                loading={isLoadingMore}
                 localeText={{
                   noRowsLabel: "Nenhum registro encontrado",
                   columnMenuHideColumn: "Ocultar coluna",

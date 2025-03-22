@@ -30,6 +30,7 @@ export function ResponsibleSector() {
     isToAddResponsibleSector,
     responsibleSectorId,
     handleClose,
+    isLoadingMore,
   } = useResponsibleSector();
   const { openDialog, closeDialog } = useDialog();
 
@@ -140,7 +141,7 @@ export function ResponsibleSector() {
                 slots={{
                   noRowsOverlay: EmptyResult,
                 }}
-                loading={isLoading}
+                loading={isLoadingMore}
                 rows={responsibleSection || []}
                 getRowId={(row) => row.id}
                 localeText={{

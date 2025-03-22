@@ -59,10 +59,9 @@ export const useTrucks = () => {
   const trucks = data?.pages.flatMap((page) => page.data) || [];
   const currentPage = data?.pages[data.pages.length - 1]?.currentPage || 0;
 
-  const loadMoreLines = (page: number) => {
-    if (currentPage < page && hasNextPage && !isFetchingNextPage) {
-      fetchNextPage();
-    }
+  const loadMoreLines = () => {
+    if (!hasNextPage && isFetchingNextPage) return;
+    fetchNextPage();
   };
 
   const handleDeleteTruck = async ({ truckId }: { truckId: string }) => {

@@ -93,5 +93,6 @@ export const useLocations = () => {
     handleCloseDialog,
     handleDeleteLocation,
     isLoadingDelete,
+    isFetchingNextPage,
   };
 };

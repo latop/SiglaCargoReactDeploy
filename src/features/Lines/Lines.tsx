@@ -35,6 +35,7 @@ export function Lines() {
     totalCount,
     hasData,
     refetchLines,
+    isLoadingMore,
   } = useLines();
   const { handleDeleteLine } = useLine();
 
@@ -195,6 +196,7 @@ export function Lines() {
                       }`,
                   },
                 }}
+                loading={isLoadingMore}
                 rowCount={totalCount}
                 columns={columns}
                 onCellDoubleClick={(params) => {

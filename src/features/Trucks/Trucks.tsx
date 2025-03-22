@@ -33,6 +33,7 @@ export function Trucks() {
     handleCloseDialog,
     handleEditTruck,
     truckId,
+    isFetchingNextPage,
   } = useTrucks();
 
   const columns: GridColDef[] = [
@@ -170,6 +171,7 @@ export function Trucks() {
               <DataGrid
                 rows={trucks || []}
                 getRowId={(row) => row.id}
+                loading={isFetchingNextPage}
                 localeText={{
                   noRowsLabel: "Nenhum registro encontrado",
                   columnMenuHideColumn: "Ocultar coluna",

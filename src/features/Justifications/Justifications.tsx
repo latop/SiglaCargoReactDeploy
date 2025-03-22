@@ -31,6 +31,7 @@ export function Justifications() {
     isToAddJustification,
     justificationId,
     handleClose,
+    isLoadingMore,
   } = useJustifications();
   const { openDialog, closeDialog } = useDialog();
 
@@ -176,7 +177,7 @@ export function Justifications() {
                 }}
                 pageSizeOptions={[15]}
                 density="compact"
-                loading={isLoading}
+                loading={isLoadingMore}
               />
             </div>
           )}

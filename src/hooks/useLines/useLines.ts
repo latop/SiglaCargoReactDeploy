@@ -44,7 +44,8 @@ export const useLines = (options?: SWRConfiguration) => {
       setSize(page);
     }
   };
-  const hasData = !isEmpty && !isLoading && !error && !isLoadingMore;
+  const hasData = !!lines?.length && !isLoading;
+
   return {
     lines,
     error,
@@ -53,10 +54,11 @@ export const useLines = (options?: SWRConfiguration) => {
     loadMoreLines,
     size,
     isReachingEnd,
-    isLoading: isLoadingMore || isLoading,
+    isLoading,
     setSize,
     isValidating,
     totalCount,
+    isLoadingMore,
     hasData,
   };
 };

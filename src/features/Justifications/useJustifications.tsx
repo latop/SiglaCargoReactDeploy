@@ -128,5 +128,6 @@ export const useJustifications = () => {
     totalCount,
     handleClose,
     refreshList,
+    isLoadingMore: isValidating,
   };
 };

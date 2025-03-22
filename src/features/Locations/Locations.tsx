@@ -37,6 +37,7 @@ export function Locations() {
     handleCloseDialog,
     handleDeleteLocation,
     isLoadingDelete,
+    isFetchingNextPage,
   } = useLocations();
 
   const columns: GridColDef[] = [
@@ -190,6 +191,7 @@ export function Locations() {
               <DataGrid
                 rows={locations || []}
                 getRowId={(row) => row.id}
+                loading={isFetchingNextPage}
                 localeText={{
                   noRowsLabel: "Nenhum registro encontrado",
                   columnMenuHideColumn: "Ocultar coluna",

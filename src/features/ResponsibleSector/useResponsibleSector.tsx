@@ -100,5 +100,6 @@ export const useResponsibleSector = () => {
     totalCount,
     handleClose,
     refreshList,
+    isLoadingMore: isValidating,
   };
 };
