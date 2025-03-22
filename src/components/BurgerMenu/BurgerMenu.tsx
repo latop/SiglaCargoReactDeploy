@@ -15,7 +15,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { BurgerMenuGroup } from "../BurgerMenuGroup";
 
-import { groupments, routes } from "./config";
+import { groupments, GroupmentType, routes } from "./config";
 
 const ButtonStyled = styled(Button)`
   transition: all 0.2s ease-in-out;
@@ -43,19 +43,6 @@ interface BurgerMenuProps {
   setMenuGroupsOpen?: React.Dispatch<
     React.SetStateAction<Record<GroupmentType, boolean>>
   >;
-}
-export type GroupmentType =
-  | "register"
-  | "coordination"
-  | "driver-schedule"
-  | "planning"
-  | "reports";
-
-export interface RouteItem {
-  text: string;
-  icon: React.ReactElement;
-  path: string;
-  group?: GroupmentType;
 }
 const STORAGE_KEY = "burgerMenuOpenGroups";
 
