@@ -76,10 +76,5 @@ export const columnsConfig = ({
         );
       },
     },
-    {
-      field: " ",
-      headerName: "",
-      width: 1000,
-    },
   ].map((column) => ({ ...column })) as GridColDef[];
 };
