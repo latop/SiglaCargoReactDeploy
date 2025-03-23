@@ -60,6 +60,7 @@ export function DailyTrips() {
   };
 
   const handleBulkTripAction = async (values: FieldValues) => {
+
     const payload = {
       ...values,
       dailyTripId: rowSelectionModel
@@ -69,6 +70,7 @@ export function DailyTrips() {
     const response = await mutateAsync(payload as DailyTripBatchChangePayload)
     console.log(response)
     if (response === 'Ok') {
+      setRowSelectionModel([])
       addToast("Alteração salva com sucesso");
     } else {
       addToast("Erro ao salvar alteração", { type: "error" });
@@ -246,7 +248,6 @@ export function DailyTrips() {
         id={tripId}
       />
       <GenerateDailyTripDialog isOpen={generateDailyTripModalIsOpen} onClose={() => setGenerateDailyTripModalIsOpen(false)} />
-      {JSON.stringify(batchCancelModal)}
       <ModalBatchCancelTrip
         isOpen={batchCancelModal}
         handleClose={() => setBatchCancelModal(false)}
