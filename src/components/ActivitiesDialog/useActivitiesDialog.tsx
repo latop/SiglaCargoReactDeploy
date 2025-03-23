@@ -149,7 +149,6 @@ export const useActivityTypeDialog = () => {
     }
   }, [methods.reset, isToAddActivity]);
 
-  console.log(methods.getValues())
 
   return {
     isToAddActivityType: isToAddActivity,
