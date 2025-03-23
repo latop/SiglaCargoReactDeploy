@@ -1,30 +1,30 @@
 import { useFetch } from "@/hooks/useFetch";
 import { useHash } from "@/hooks/useHash";
 import { useToast } from "@/hooks/useToast";
-import { ActivityTypeResponse } from "@/interfaces/parameters";
-import { fetchActivityType } from "@/services/parameters";
+import { Activity, PaginatedResponse } from "@/interfaces/parameters";
+import { fetchActivity } from "@/services/parameters";
 import useSWRInfinite from "swr/infinite";
 
-export const useActivityType = () => {
+export const useActivity = () => {
   const { addToast } = useToast();
-  const [deleteActivityType, { loading: isLoadingDelete, error: deleteError }] =
+  const [deleteActivity, { loading: isLoadingDelete, error: deleteError }] =
     useFetch();
   const [hash, setHash] = useHash();
-  const isToAddActivityType = (hash as string)?.match(/#add-activity-type/);
+  const isToAddActivity = (hash as string)?.match(/#add-activity/);
 
-  const handleAddActivityType = () => {
-    setHash("#add-activity-type");
+  const handleAddActivity = () => {
+    setHash("#add-activity");
   };
-  const handleEditActivityType = (id: string) => {
-    setHash(`#activity-type-id-${id}`);
+  const handleEditActivity = (id: string) => {
+    setHash(`#activity-id-${id}`);
   };
   const handleClose = () => setHash("");
 
-  const activityTypeId = (hash as string)?.match(/#activity-type-id-(.+)/)?.[1];
-  console.log(activityTypeId);
-  const getKey = (pageIndex: number, params: ActivityTypeResponse) => {
+  const activityId = (hash as string)?.match(/#activity-id-(.+)/)?.[1];
+  console.log(activityId);
+  const getKey = (pageIndex: number, params: PaginatedResponse<Activity>) => {
     return {
-      url: "/activity-type",
+      url: "/activity",
       args: { ...params, pageSize: 15, pageNumber: pageIndex + 1 },
     };
   };
@@ -36,7 +36,7 @@ export const useActivityType = () => {
     setSize,
     isValidating,
     mutate: refreshList,
-  } = useSWRInfinite<ActivityTypeResponse>(getKey, fetchActivityType, {
+  } = useSWRInfinite<PaginatedResponse<Activity>>(getKey, fetchActivity, {
     revalidateFirstPage: false,
     revalidateIfStale: false,
     revalidateOnFocus: false,
@@ -45,7 +45,7 @@ export const useActivityType = () => {
     },
   });
 
-  const activityType = data?.map((page) => page.data).flat() || [];
+  const activities = data?.map((page) => page.data).flat() || [];
   const hasNext = data?.[0].hasNext;
   const hasData = !!data?.[0].data.length;
   const isEmpty = data?.[0].data.length === 0 || !data?.[0].data.length;
@@ -58,8 +58,8 @@ export const useActivityType = () => {
   };
   const currentPage = data?.[0].currentPage || 0;
 
-  const handleDeleteActivityType = async (id: string) => {
-    return await deleteActivityType(`/ActivityType/${id}`, id, {
+  const handleDeleteActivity = async (id: string) => {
+    return await deleteActivity(`/Activity/${id}`, id, {
       method: "delete",
       onSuccess: () => {
         refreshList();
@@ -73,20 +73,20 @@ export const useActivityType = () => {
   };
 
   return {
-    activityType,
+    activities,
     loadMore,
     isLoading,
     error,
     size,
     hasData,
     currentPage,
-    handleDeleteActivityType,
+    handleDeleteActivity,
     isLoadingDelete,
     isEmpty,
-    isToAddActivityType,
-    activityTypeId,
-    handleAddActivityType,
-    handleEditActivityType,
+    isToAddActivity,
+    activityId,
+    handleAddActivity,
+    handleEditActivity,
     totalCount,
     handleClose,
     refreshList,

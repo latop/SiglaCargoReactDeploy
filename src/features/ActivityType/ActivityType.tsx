@@ -31,6 +31,7 @@ export function ActivityType() {
     isToAddActivityType,
     activityTypeId,
     handleClose,
+    isLoadingMore,
   } = useActivityType();
   const { openDialog, closeDialog } = useDialog();
   const columns = columnsConfig({
@@ -68,7 +69,7 @@ export function ActivityType() {
         <Card
           sx={{
             width: "100%",
-            height: "654px",
+            height: "634px",
             position: "relative",
             display: "flex",
             flexDirection: "column",
@@ -85,7 +86,7 @@ export function ActivityType() {
                 slots={{
                   noRowsOverlay: EmptyResult,
                 }}
-                loading={isLoading}
+                loading={isLoadingMore}
                 rows={activityType || []}
                 getRowId={(row) => row.id}
                 localeText={{
@@ -109,7 +110,7 @@ export function ActivityType() {
                 }}
                 initialState={{
                   pagination: {
-                    paginationModel: { page: currentPage - 1, pageSize: 10 },
+                    paginationModel: { page: currentPage - 1, pageSize: 15 },
                   },
                 }}
                 onPaginationModelChange={(params) => {
