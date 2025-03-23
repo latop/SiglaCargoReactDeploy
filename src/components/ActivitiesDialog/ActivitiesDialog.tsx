@@ -182,8 +182,6 @@ export function ActivitiesDialog({ open, onClose }: ActivitiesDialogProps) {
                         )}
                       />
                     </Grid>
-                  </Grid>
-                  <Grid container gap={1}>
                     <Grid
                       item
                       xs={3}
