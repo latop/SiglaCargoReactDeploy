@@ -69,7 +69,9 @@ export function AutocompleteJustification({
           noOptionsText={
             isLoading ? "Carregando..." : "Nenhum resultado encontrado"
           }
-          getOptionLabel={(option: Timezone) => option?.code}
+          getOptionLabel={(option: Timezone) =>
+            option?.description || "Selecionar uma opção"
+          }
           renderInput={(params) => (
             <TextField
               {...field}
