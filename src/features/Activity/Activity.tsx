@@ -12,7 +12,7 @@ import { useDialog } from "@/hooks/useDialog/useDialog";
 import { EmptyResult } from "@/components/EmptyResult";
 import LoadingTableSkeleton from "@/components/LoadingTableSkeleton/LoadingTableSkeleton";
 import { columnsConfig } from "./columnsConfig";
-import { ActivityTypeDialog } from "@/components/ActivityTypeDialog";
+import { ActivitiesDialog } from "@/components/ActivitiesDialog";
 
 export function Activity() {
   const {
@@ -43,7 +43,7 @@ export function Activity() {
   return (
     <MainContainer>
       <AppBar>
-        <HeaderTitle>Tipo de Atividade</HeaderTitle>
+        <HeaderTitle>Atividades</HeaderTitle>
       </AppBar>
       <Box
         sx={{
@@ -123,8 +123,8 @@ export function Activity() {
           )}
         </Card>
       </Box>
-      <ActivityTypeDialog open={!!activityId} onClose={handleClose} />
-      <ActivityTypeDialog open={!!isToAddActivity} onClose={handleClose} />
+      <ActivitiesDialog open={!!activityId} onClose={handleClose} />
+      <ActivitiesDialog open={!!isToAddActivity} onClose={handleClose} />
     </MainContainer>
   );
 }

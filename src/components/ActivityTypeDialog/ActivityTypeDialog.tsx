@@ -37,7 +37,7 @@ export function ActivityTypeDialog({ open, onClose }: ActivityTypeDialogProps) {
 
   const DialogHeader = () => {
     if (activityTypeId) return "Atualizar Tipo de Atividade";
-    return "Adicionar Atividade";
+    return "Adicionar Tipo de Atividade";
   };
 
   return (

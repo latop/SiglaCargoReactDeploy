@@ -109,6 +109,7 @@ export interface Activity {
   code: string;
   description: string;
   activityTypeId: string;
+  activityTypeCode: ActivityType["code"];
   start: string; // ISO datetime string
   end: string; // ISO datetime string
   flgActive: boolean;
