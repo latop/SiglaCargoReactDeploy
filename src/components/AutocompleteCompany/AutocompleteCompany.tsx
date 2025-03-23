@@ -45,7 +45,8 @@ export function AutocompleteCompany({
             option[keyCode] === value[keyCode]
           }
           onChange={(_, value) => {
-            setValue(name, value?.[keyCode] || "");
+            setValue(name, value?.[keyCode] ?? "");
+            setValue("companyId", value?.id ?? "");
           }}
           noOptionsText={
             !field.value

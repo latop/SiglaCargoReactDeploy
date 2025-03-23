@@ -246,7 +246,6 @@ export function DailyTrips() {
         id={tripId}
       />
       <GenerateDailyTripDialog isOpen={generateDailyTripModalIsOpen} onClose={() => setGenerateDailyTripModalIsOpen(false)} />
-      {JSON.stringify(batchCancelModal)}
       <ModalBatchCancelTrip
         isOpen={batchCancelModal}
         handleClose={() => setBatchCancelModal(false)}
