@@ -5,19 +5,18 @@ import { MainContainer } from "@/components/MainContainer";
 import { AppBar } from "@/components/AppBar";
 import { HeaderTitle } from "@/components/HeaderTitle/HeaderTitle";
 import { Box, Card } from "@mui/material";
-import { DataGrid, GridColDef, GridDeleteForeverIcon } from "@mui/x-data-grid";
+import { DataGrid } from "@mui/x-data-grid";
+import { useActivity } from "./useActivity";
 import { ErrorResult } from "@/components/ErrorResult";
 import { useDialog } from "@/hooks/useDialog/useDialog";
 import { EmptyResult } from "@/components/EmptyResult";
-import { useJustifications } from "./useJustifications";
-import { JustificationsDialog } from "@/components/JustificationsrDialog";
-import { JustificationType } from "@/interfaces/parameters";
-import LoadingTableSkeleton from "../../components/LoadingTableSkeleton/LoadingTableSkeleton";
-import { JustificationFilterBar } from "@/components/JustificationFIlterBar/JustificationFIlterBar";
+import LoadingTableSkeleton from "@/components/LoadingTableSkeleton/LoadingTableSkeleton";
+import { columnsConfig } from "./columnsConfig";
+import { ActivitiesDialog } from "@/components/ActivitiesDialog";
+import { ActivityFilterBar } from "@/components/ActivityFilterBar/ActivityFilterBar";
 
-export function Justifications() {
+export function Activity() {
   const {
-    justifications,
     loadMore,
     isLoading,
     error: isError,
@@ -26,92 +25,27 @@ export function Justifications() {
     isLoadingDelete,
     isEmpty,
     totalCount,
-    handleDeleteJustification,
-    handleEditJustification,
-    isToAddJustification,
-    justificationId,
+    activities,
+    activityId,
+    handleDeleteActivity,
+    handleEditActivity,
+    isToAddActivity,
     handleClose,
     isLoadingMore,
-  } = useJustifications();
-  const { openDialog, closeDialog } = useDialog();
+  } = useActivity();
 
-  const columns: GridColDef[] = [
-    {
-      field: "code",
-      headerName: "Código",
-      width: 200,
-    },
-    {
-      field: "description",
-      headerName: "Descrição",
-      width: 400,
-    },
-    {
-      field: "responsibleSector.description",
-      headerName: "Setor Responsável",
-      width: 400,
-      renderCell: ({ row }: { row: JustificationType }) => {
-        return (
-          !!row.responsibleSector?.description &&
-          row.responsibleSector?.description
-        );
-      },
-    },
-    {
-      field: "type",
-      headerName: "Tipo",
-      width: 200,
-      renderCell: ({ row }: { row: JustificationType }) => {
-        return row.type === "null" ? "" : row.type;
-      },
-    },
-    {
-      field: " ",
-      headerName: "",
-      width: 100,
-      renderCell: (params) => {
-        return (
-          <button
-            disabled={isLoadingDelete}
-            style={{
-              paddingTop: 6,
-              display: "flex",
-              gap: "8px",
-              border: "none",
-              background: "transparent",
-            }}
-          >
-            <GridDeleteForeverIcon
-              sx={{
-                cursor: "pointer",
-                color: "#e53935",
-              }}
-              onClick={() => {
-                openDialog({
-                  body: "Deseja apagar este registro?",
-                  onConfirm: async () => {
-                    await handleDeleteJustification(params?.id as string).then(
-                      () => {
-                        closeDialog();
-                      },
-                    );
-                  },
-                  onCancel: () => {
-                    closeDialog();
-                  },
-                });
-              }}
-            />
-          </button>
-        );
-      },
-    },
-  ];
+  const { openDialog, closeDialog } = useDialog();
+  const columns = columnsConfig({
+    closeDialog,
+    openDialog,
+    handleDeleteActivity,
+    isLoadingDelete,
+  });
 
   return (
     <MainContainer>
       <AppBar>
-        <HeaderTitle>Justificativas</HeaderTitle>
+        <HeaderTitle>Atividades</HeaderTitle>
       </AppBar>
       <Box
         sx={{
@@ -124,7 +58,7 @@ export function Justifications() {
           gap: "16px",
         }}
       >
-        <JustificationFilterBar />
+        <ActivityFilterBar />
         <Card
           sx={{
             width: "100%",
@@ -142,10 +76,12 @@ export function Justifications() {
           {hasData && !isLoading && (
             <div style={{ height: "100%", width: "100%" }}>
               <DataGrid
+                key={totalCount}
                 slots={{
                   noRowsOverlay: EmptyResult,
                 }}
-                rows={justifications || []}
+                loading={isLoadingMore}
+                rows={activities || []}
                 getRowId={(row) => row.id}
                 localeText={{
                   noRowsLabel: "Nenhum registro encontrado",
@@ -164,7 +100,7 @@ export function Justifications() {
                 rowCount={totalCount}
                 columns={columns}
                 onRowDoubleClick={(params) => {
-                  handleEditJustification(params.id as string);
+                  handleEditActivity(params.id as string);
                 }}
                 initialState={{
                   pagination: {
@@ -176,16 +112,13 @@ export function Justifications() {
                 }}
                 pageSizeOptions={[15]}
                 density="compact"
-                loading={isLoadingMore}
               />
             </div>
           )}
         </Card>
       </Box>
-      <JustificationsDialog
-        open={!!justificationId || !!isToAddJustification}
-        onClose={handleClose}
-      />
+      <ActivitiesDialog open={!!activityId} onClose={handleClose} />
+      <ActivitiesDialog open={!!isToAddActivity} onClose={handleClose} />
     </MainContainer>
   );
 }
