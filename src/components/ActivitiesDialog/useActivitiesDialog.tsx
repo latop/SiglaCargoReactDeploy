@@ -48,11 +48,11 @@ export const useActivityTypeDialog = () => {
     defaultValues: {
       code: "",
       description: "",
-      flgActive: false,
-      flgMeal: false,
-      flgLunch: false,
-      flgRest: false,
-      flgRequest: false,
+      flgActive: true,
+      flgMeal: true,
+      flgLunch: true,
+      flgRest: true,
+      flgRequest: true,
       activityType: {
         code: "",
       },
@@ -110,12 +110,12 @@ export const useActivityTypeDialog = () => {
       await handleActivityType("/Activity", body, {
         method: "post",
         onSuccess: () => {
-          addToast("Setor responsável adicionado com sucesso!");
+          addToast("Atividade adicionada com sucesso!");
           refreshList();
           setHash("");
         },
         onError: () => {
-          addToast("Erro ao adicionar setor responsável.", { type: "error" });
+          addToast("Erro ao adicionar atividade.", { type: "error" });
           console.error(errorActivityType);
         },
       });
@@ -125,6 +125,7 @@ export const useActivityTypeDialog = () => {
       const body = {
         ...data,
         id: activity?.id,
+        activityType: undefined,
       };
 
       await handleActivityType("/Activity", body, {

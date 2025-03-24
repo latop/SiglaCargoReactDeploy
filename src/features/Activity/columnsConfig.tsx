@@ -1,4 +1,6 @@
+import { Activity } from "@/interfaces/parameters";
 import { GridColDef, GridDeleteForeverIcon } from "@mui/x-data-grid";
+import dayjs from "dayjs";
 import { ReactNode } from "react";
 
 // const headerClassName = "blueColumnHeaders";
@@ -33,20 +35,72 @@ export const columnsConfig = ({
     {
       field: "description",
       headerName: "Descrição",
-      width: 400,
+      width: 300,
     },
     {
       field: "activityType.code",
       headerName: "Atividade",
-      width: 200,
-      renderCell: (params: { row: { activityType: { code: string } } }) => {
-        return params?.row?.activityType?.code;
+      width: 100,
+      valueGetter: (_: unknown, row: Activity) => {
+        return row?.activityType?.code;
+      },
+    },
+    {
+      field: "startEnd",
+      headerName: "Começo / Fim",
+      width: 150,
+      valueGetter: (_: unknown, row: Activity) => {
+        return (
+          dayjs(row?.start).format("HH:mm") +
+          " / " +
+          dayjs(row?.end).format("HH:mm")
+        );
+      },
+    },
+    {
+      field: "flgActive",
+      headerName: "Ativo",
+      width: 100,
+      valueGetter: (_: unknown, row: Activity) => {
+        return row?.flgActive ? "Sim" : "Nao";
+      },
+    },
+    {
+      field: "flgMeal",
+      headerName: "Paga Ref.",
+      width: 100,
+      valueGetter: (_: unknown, row: Activity) => {
+        return row?.flgMeal ? "Sim" : "Nao";
+      },
+    },
+    {
+      field: "flgLunch",
+      headerName: " Desc. Ref.",
+      width: 100,
+      valueGetter: (_: unknown, row: Activity) => {
+        return row?.flgLunch ? "Sim" : "Nao";
+      },
+    },
+    {
+      field: "flgRequest",
+      headerName: "Pedido",
+      width: 100,
+      valueGetter: (_: unknown, row: Activity) => {
+        return row?.flgRequest ? "Sim" : "Nao";
+      },
+    },
+    {
+      field: "flgRest",
+      headerName: "Descanso",
+      width: 100,
+      valueGetter: (_: unknown, row: Activity) => {
+        return row?.flgRest ? "Sim" : "Nao";
       },
     },
     {
       field: " ",
       headerName: "",
-      width: 100,
+      width: 50,
       renderCell: (params: { id: string }) => {
         return (
           <button

@@ -10,7 +10,7 @@ const ActivityFilterBarSchema = z.object({
   type: z.string().optional(),
   activityTypeId: z.string().optional(),
   activityTypeCode: z.string().optional(),
-  flgRequest: z.enum(["true", "false", "all"]).default("all"),
+  flgActive: z.enum(["true", "false", "all"]).default("all"),
   submitted: z.enum(["true", "false"]).optional(),
 });
 
@@ -24,7 +24,7 @@ export const useActivityFilterBar = () => {
     resolver: zodResolver(ActivityFilterBarSchema),
     defaultValues: {
       code: params.get("code") || "",
-      flgRequest: (params.get("flgRequest") as "true" | "false") || undefined,
+      flgActive: (params.get("flgRequest") as "true" | "false") || undefined,
       activityTypeId: params.get("activityTypeId") || "",
       activityTypeCode: params.get("activityTypeCode") || "",
     },

@@ -55,6 +55,7 @@ export function ActivityFilterBar() {
                 <Grid xs={2} item>
                   <AutocompleteActivity
                     name="activityTypeCode"
+                    label="Tipo de Atividade"
                     onChange={(field) => {
                       methods.setValue("activityTypeId", field.activityTypeId);
                       methods.setValue("activityTypeCode", field?.code);
@@ -64,13 +65,13 @@ export function ActivityFilterBar() {
                 <Grid xs={2} item>
                   <Controller
                     control={methods.control}
-                    name="flgRequest"
+                    name="flgActive"
                     render={({ field, fieldState: { error } }) => (
                       <FormControl>
                         <TextField
                           select
                           defaultValue={null}
-                          label="Pedido"
+                          label="Ativo"
                           sx={{ minWidth: 154 }}
                           {...field}
                           error={!!error}

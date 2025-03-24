@@ -11,7 +11,7 @@ interface ActivityFiltersParams {
   type?: string;
   activityTypeId?: string;
   activityTypeCode?: string;
-  flgRequest?: "true" | "false" | "all";
+  flgActive?: "true" | "false" | "all";
   submitted?: boolean;
 }
 
@@ -38,8 +38,8 @@ export const useActivity = () => {
     type: params.get("type") || undefined,
     activityTypeCode: params.get("activityTypeCode") || undefined,
     activityTypeId: params.get("activityTypeId") || undefined,
-    flgRequest:
-      (params.get("flgRequest") as "true" | "false" | "all") || undefined,
+    flgActive:
+      (params.get("flgActive") as "true" | "false" | "all") || undefined,
     submitted: !!params.get("submitted"),
   };
 
@@ -51,7 +51,7 @@ export const useActivity = () => {
 
     if (filterParams.activityTypeId) url += `-${filterParams.activityTypeId}`;
     if (filterParams.code) url += `-${filterParams.code}`;
-    if (filterParams.flgRequest) url += `-${filterParams.flgRequest}`;
+    if (filterParams.flgActive) url += `-${filterParams.flgActive}`;
 
     return {
       url,
