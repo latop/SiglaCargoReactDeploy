@@ -106,6 +106,7 @@ export const useActivityTypeDialog = () => {
     if (isToAddActivity) {
       const body = {
         ...data,
+        activityType: undefined,
       };
       await handleActivityType("/Activity", body, {
         method: "post",

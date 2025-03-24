@@ -5,7 +5,6 @@ import { useHash } from "@/hooks/useHash";
 import { useToast } from "@/hooks/useToast";
 import { Activity, PaginatedResponse } from "@/interfaces/parameters";
 import { fetchActivity } from "@/services/parameters";
-import dayjs from "dayjs";
 import { useSearchParams } from "next/navigation";
 import useSWRInfinite from "swr/infinite";
 
@@ -54,7 +53,7 @@ export const useActivity = () => {
     if (filterParams.activityTypeId) url += `-${filterParams.activityTypeId}`;
     if (filterParams.code) url += `-${filterParams.code}`;
     if (filterParams.flgActive || filterParams.flgActive === undefined)
-      url += `-${filterParams.flgActive}-${dayjs()}`;
+      url += `-${filterParams.flgActive}`;
 
     return {
       url,
