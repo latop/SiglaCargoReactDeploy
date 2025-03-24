@@ -17,7 +17,7 @@ import customParseFormat from "dayjs/plugin/customParseFormat";
 import "dayjs/locale/pt-br";
 import dayjs from "dayjs";
 import { useActivityFilterBar } from "./useActivityFilterBar";
-import { AutocompleteActivity } from "../AutocompleteActivity";
+import { AutocompleteActivityType } from "../AutocompleteActivityType";
 
 dayjs.extend(customParseFormat);
 
@@ -53,11 +53,11 @@ export function ActivityFilterBar() {
                   />
                 </Grid>
                 <Grid xs={2} item>
-                  <AutocompleteActivity
+                  <AutocompleteActivityType
                     name="activityTypeCode"
                     label="Tipo de Atividade"
                     onChange={(field) => {
-                      methods.setValue("activityTypeId", field.activityTypeId);
+                      methods.setValue("activityTypeId", field.id);
                       methods.setValue("activityTypeCode", field?.code);
                     }}
                   />

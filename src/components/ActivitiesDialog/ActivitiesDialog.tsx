@@ -23,7 +23,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { TimePicker } from "../TimePicker";
 import dayjs from "dayjs";
-import { AutocompleteActivity } from "../AutocompleteActivity";
+import { AutocompleteActivityType } from "../AutocompleteActivityType";
 
 interface ActivitiesDialogProps {
   open: boolean;
@@ -133,13 +133,10 @@ export function ActivitiesDialog({ open, onClose }: ActivitiesDialogProps) {
 
                   <Grid container gap={1}>
                     <Grid item xs={2}>
-                      <AutocompleteActivity
+                      <AutocompleteActivityType
                         name="activityType.code"
                         onChange={(field) => {
-                          methods.setValue(
-                            "activityTypeId",
-                            field.activityTypeId,
-                          );
+                          methods.setValue("activityTypeId", field.id);
                           methods.setValue("activityType.code", field?.code);
                         }}
                       />

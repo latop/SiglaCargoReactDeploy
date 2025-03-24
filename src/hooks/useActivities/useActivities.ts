@@ -1,19 +1,27 @@
 import useSWR, { SWRConfiguration } from "swr";
-import { FetchActivitiesParams, fetchAcitivities } from "@/services/parameters";
-import { Activity } from "@/interfaces/parameters";
+import {
+  FetchActivitiesParams,
+  fetchActivityType,
+} from "@/services/parameters";
+import { ActivityType, PaginatedResponse } from "@/interfaces/parameters";
 
 export const useActivities = (
   params?: FetchActivitiesParams,
   options?: SWRConfiguration,
 ) => {
-  const { data, error, isLoading } = useSWR<Activity[]>(
-    { url: "/activities", args: params },
-    fetchAcitivities,
+  const { data, error, isLoading } = useSWR<PaginatedResponse<ActivityType>>(
+    {
+      url: "/activityTypes",
+      args: params,
+    },
+    fetchActivityType,
     options,
   );
 
+  const activityTypes = data?.data || [];
+
   return {
-    activities: data,
+    activityTypes,
     error,
     isLoading,
   };
