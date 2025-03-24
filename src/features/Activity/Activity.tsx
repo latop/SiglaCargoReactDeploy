@@ -76,6 +76,7 @@ export function Activity() {
           {hasData && !isLoading && (
             <div style={{ height: "100%", width: "100%" }}>
               <DataGrid
+                key={totalCount}
                 slots={{
                   noRowsOverlay: EmptyResult,
                 }}
