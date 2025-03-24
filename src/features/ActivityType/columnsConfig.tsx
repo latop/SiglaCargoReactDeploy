@@ -54,6 +54,14 @@ export const columnsConfig = ({
       },
     },
     {
+      field: "flgPayroll",
+      headerName: "Folha. de Pgto",
+      width: 200,
+      valueGetter: (_: unknown, row: ActivityType) => {
+        return row.flgPayroll ? "Sim" : "Nao";
+      },
+    },
+    {
       field: "color",
       headerName: "Cor",
       width: 50,
@@ -68,14 +76,6 @@ export const columnsConfig = ({
             }}
           />
         );
-      },
-    },
-    {
-      field: "flgPayroll",
-      headerName: "Flh. de Pagamento",
-      width: 200,
-      valueGetter: (_: unknown, row: ActivityType) => {
-        return row.flgPayroll ? "Sim" : "Nao";
       },
     },
     {

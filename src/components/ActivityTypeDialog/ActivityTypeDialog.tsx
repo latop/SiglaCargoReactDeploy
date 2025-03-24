@@ -48,12 +48,17 @@ export function ActivityTypeDialog({ open, onClose }: ActivityTypeDialogProps) {
       open={open}
       fullWidth
       PaperProps={{
-        sx: { maxWidth: "1000px" },
+        sx: { maxWidth: "1000px", height: "290px", overflowY: "hidden" },
       }}
     >
       <FormProvider {...methods}>
         <form
-          style={{ display: "flex", flexDirection: "column", height: "100%" }}
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            height: "100%",
+            overflowY: "hidden",
+          }}
           onSubmit={handleSubmit}
         >
           <DialogTitle
