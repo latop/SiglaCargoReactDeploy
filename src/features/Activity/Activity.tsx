@@ -4,7 +4,7 @@ import React from "react";
 import { MainContainer } from "@/components/MainContainer";
 import { AppBar } from "@/components/AppBar";
 import { HeaderTitle } from "@/components/HeaderTitle/HeaderTitle";
-import { Box, Button, Card } from "@mui/material";
+import { Box, Card } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { useActivity } from "./useActivity";
 import { ErrorResult } from "@/components/ErrorResult";
@@ -13,6 +13,7 @@ import { EmptyResult } from "@/components/EmptyResult";
 import LoadingTableSkeleton from "@/components/LoadingTableSkeleton/LoadingTableSkeleton";
 import { columnsConfig } from "./columnsConfig";
 import { ActivitiesDialog } from "@/components/ActivitiesDialog";
+import { ActivityFilterBar } from "@/components/ActivityFilterBar/ActivityFilterBar";
 
 export function Activity() {
   const {
@@ -25,7 +26,6 @@ export function Activity() {
     isEmpty,
     totalCount,
     activities,
-    handleAddActivity,
     activityId,
     handleDeleteActivity,
     handleEditActivity,
@@ -56,16 +56,7 @@ export function Activity() {
           gap: "16px",
         }}
       >
-        <Button
-          onClick={handleAddActivity}
-          variant="outlined"
-          sx={{
-            width: "170px",
-            alignSelf: "flex-end",
-          }}
-        >
-          Adicionar
-        </Button>
+        <ActivityFilterBar />
         <Card
           sx={{
             width: "100%",

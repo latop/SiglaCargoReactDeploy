@@ -3,10 +3,21 @@ import { useHash } from "@/hooks/useHash";
 import { useToast } from "@/hooks/useToast";
 import { Activity, PaginatedResponse } from "@/interfaces/parameters";
 import { fetchActivity } from "@/services/parameters";
+import { useSearchParams } from "next/navigation";
 import useSWRInfinite from "swr/infinite";
+
+interface ActivityFiltersParams {
+  code?: string;
+  type?: string;
+  activityTypeId?: string;
+  activityTypeCode?: string;
+  flgRequest?: "true" | "false" | "all";
+  submitted?: boolean;
+}
 
 export const useActivity = () => {
   const { addToast } = useToast();
+  const params = useSearchParams();
   const [deleteActivity, { loading: isLoadingDelete, error: deleteError }] =
     useFetch();
   const [hash, setHash] = useHash();
@@ -21,13 +32,38 @@ export const useActivity = () => {
   const handleClose = () => setHash("");
 
   const activityId = (hash as string)?.match(/#activity-id-(.+)/)?.[1];
-  console.log(activityId);
+
+  const filterParams: ActivityFiltersParams = {
+    code: params.get("code") || undefined,
+    type: params.get("type") || undefined,
+    activityTypeCode: params.get("activityTypeCode") || undefined,
+    activityTypeId: params.get("activityTypeId") || undefined,
+    flgRequest:
+      (params.get("flgRequest") as "true" | "false" | "all") || undefined,
+    submitted: !!params.get("submitted"),
+  };
+
+  const hasFilter = Object.values(filterParams).some((value) => !!value);
   const getKey = (pageIndex: number, params: PaginatedResponse<Activity>) => {
+    let url = "/activity";
+
+    if (!hasFilter) return null;
+
+    if (filterParams.activityTypeId) url += `-${filterParams.activityTypeId}`;
+    if (filterParams.code) url += `-${filterParams.code}`;
+    if (filterParams.flgRequest) url += `-${filterParams.flgRequest}`;
+
     return {
-      url: "/activity",
-      args: { ...params, pageSize: 15, pageNumber: pageIndex + 1 },
+      url,
+      args: {
+        ...params,
+        ...filterParams,
+        pageSize: 15,
+        pageNumber: pageIndex + 1,
+      },
     };
   };
+
   const {
     data,
     error,
@@ -37,9 +73,8 @@ export const useActivity = () => {
     isValidating,
     mutate: refreshList,
   } = useSWRInfinite<PaginatedResponse<Activity>>(getKey, fetchActivity, {
-    revalidateFirstPage: false,
-    revalidateIfStale: false,
     revalidateOnFocus: false,
+    revalidateIfStale: false,
     onError: () => {
       addToast("Erro ao carregar registros.", { type: "error" });
     },
@@ -47,8 +82,8 @@ export const useActivity = () => {
 
   const activities = data?.map((page) => page.data).flat() || [];
   const hasNext = data?.[0].hasNext;
-  const hasData = !!data?.[0].data.length;
-  const isEmpty = data?.[0].data.length === 0 || !data?.[0].data.length;
+  const hasData = !!data?.[0].data?.length;
+  const isEmpty = data?.[0]?.data?.length === 0 || !data?.[0]?.data?.length;
   const totalCount = data?.[0].totalCount;
 
   const loadMore = (page: number) => {

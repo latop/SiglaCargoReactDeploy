@@ -36,6 +36,14 @@ export const columnsConfig = ({
       width: 400,
     },
     {
+      field: "activityType.code",
+      headerName: "Atividade",
+      width: 200,
+      renderCell: (params: { row: { activityType: { code: string } } }) => {
+        return params?.row?.activityType?.code;
+      },
+    },
+    {
       field: " ",
       headerName: "",
       width: 100,

@@ -51,7 +51,8 @@ export interface FetchActivityParams {
   pageSize?: number;
   pageNumber?: number;
   code?: string; // Filter1String
-  type?: string; // Filter2String
+  activityTypeId?: string; // Filter1Id
+  flgRequest?: boolean | string; // Filter1Bool
 }
 
 export async function fetchAcitivities({
@@ -298,8 +299,10 @@ export async function fetchActivity({
     PageSize: params.pageSize,
     PageNumber: params.pageNumber,
     Filter1String: params?.code,
-    Filter2String: params?.type,
+    Filter1Id: params?.activityTypeId,
+    Filter1Bool: params?.flgRequest !== "all" ? params?.flgRequest : undefined,
   };
+
   try {
     const response = await api.get("/Activity", {
       params: activityParams,
