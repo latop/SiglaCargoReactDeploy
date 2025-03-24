@@ -53,6 +53,7 @@ export interface FetchActivityParams {
   code?: string; // Filter1String
   activityTypeId?: string; // Filter1Id
   flgActive?: boolean | string; // Filter1Bool
+  flgRequest?: boolean | string; // Filter1Bool
 }
 
 export async function fetchAcitivities({
@@ -300,7 +301,8 @@ export async function fetchActivity({
     PageNumber: params.pageNumber,
     Filter1String: params?.code,
     Filter1Id: params?.activityTypeId,
-    Filter1Bool: params?.flgActive !== "all" ? params?.flgActive : undefined,
+    Filter1Bool: params?.flgRequest !== "all" ? params?.flgRequest : undefined,
+    Filter2Bool: params?.flgActive !== "all" ? params?.flgActive : undefined,
   };
 
   try {
