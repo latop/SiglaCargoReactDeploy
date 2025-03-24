@@ -55,7 +55,7 @@ export const columnsConfig = ({
     },
     {
       field: "flgPayroll",
-      headerName: "Folha. de Pgto",
+      headerName: "Folha de Pgto.",
       width: 200,
       valueGetter: (_: unknown, row: ActivityType) => {
         return row.flgPayroll ? "Sim" : "Nao";
@@ -69,12 +69,18 @@ export const columnsConfig = ({
         return (
           <div
             style={{
-              width: "25px",
-              height: "25px",
-              background: `${params.row.color}`,
-              borderRadius: "50%",
+              paddingTop: 6,
             }}
-          />
+          >
+            <div
+              style={{
+                width: "25px",
+                height: "25px",
+                background: `${params.row.color}`,
+                borderRadius: "50%",
+              }}
+            />
+          </div>
         );
       },
     },
@@ -87,7 +93,7 @@ export const columnsConfig = ({
           <button
             disabled={isLoadingDelete}
             style={{
-              paddingTop: 12,
+              paddingTop: 6,
               display: "flex",
               gap: "8px",
               border: "none",
