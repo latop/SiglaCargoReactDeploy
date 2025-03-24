@@ -134,6 +134,7 @@ export function ActivitiesDialog({ open, onClose }: ActivitiesDialogProps) {
                   <Grid container gap={1}>
                     <Grid item xs={2}>
                       <AutocompleteActivityType
+                        label="Tipo de Atividade"
                         name="activityType.code"
                         onChange={(field) => {
                           methods.setValue("activityTypeId", field.id);
