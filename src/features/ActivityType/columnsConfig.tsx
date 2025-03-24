@@ -1,3 +1,4 @@
+import { ActivityType } from "@/interfaces/parameters";
 import { GridColDef, GridDeleteForeverIcon } from "@mui/x-data-grid";
 import { ReactNode } from "react";
 
@@ -18,6 +19,10 @@ interface ColumnsConfigProps {
   isLoadingDelete: boolean;
 }
 
+// color: z.string().min(1, {
+//   message: "Obrigatório",
+// }),
+
 export const columnsConfig = ({
   closeDialog,
   openDialog,
@@ -33,12 +38,50 @@ export const columnsConfig = ({
     {
       field: "description",
       headerName: "Descrição",
-      width: 400,
+      width: 300,
+    },
+    {
+      field: "function",
+      headerName: "Função",
+      width: 200,
+    },
+    {
+      field: "flgJourney",
+      headerName: "Jornada",
+      width: 200,
+      valueGetter: (_: unknown, row: ActivityType) => {
+        return row.flgJourney ? "Sim" : "Nao";
+      },
+    },
+    {
+      field: "color",
+      headerName: "Cor",
+      width: 50,
+      renderCell: (params: { row: { color: string } }) => {
+        return (
+          <div
+            style={{
+              width: "25px",
+              height: "25px",
+              background: `${params.row.color}`,
+              borderRadius: "50%",
+            }}
+          />
+        );
+      },
+    },
+    {
+      field: "flgPayroll",
+      headerName: "Flh. de Pagamento",
+      width: 200,
+      valueGetter: (_: unknown, row: ActivityType) => {
+        return row.flgPayroll ? "Sim" : "Nao";
+      },
     },
     {
       field: " ",
       headerName: "",
-      width: 100,
+      width: 50,
       renderCell: (params: { id: string }) => {
         return (
           <button

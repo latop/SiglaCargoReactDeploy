@@ -106,12 +106,12 @@ export const useActivityTypeDialog = () => {
       await handleActivityType("/ActivityType", body, {
         method: "post",
         onSuccess: () => {
-          addToast("Setor responsável adicionado com sucesso!");
+          addToast("Tipo de atividade adicionado com sucesso!");
           refreshList();
           setHash("");
         },
         onError: () => {
-          addToast("Erro ao adicionar setor responsável.", { type: "error" });
+          addToast("Erro ao adicionar Tipo de atividade.", { type: "error" });
           console.error(errorActivityType);
         },
       });
