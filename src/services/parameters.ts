@@ -302,7 +302,8 @@ export async function fetchActivity({
     Filter1String: params?.code,
     Filter1Id: params?.activityTypeId,
     Filter1Bool: params?.flgRequest !== "all" ? params?.flgRequest : undefined,
-    Filter2Bool: params?.flgActive !== "all" ? params?.flgActive : undefined,
+    Filter2Bool:
+      params?.flgActive !== "undefined" ? params?.flgActive : undefined,
   };
 
   try {

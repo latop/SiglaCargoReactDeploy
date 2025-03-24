@@ -33,6 +33,7 @@ export function Activity() {
     handleClose,
     isLoadingMore,
   } = useActivity();
+
   const { openDialog, closeDialog } = useDialog();
   const columns = columnsConfig({
     closeDialog,
@@ -40,6 +41,7 @@ export function Activity() {
     handleDeleteActivity,
     isLoadingDelete,
   });
+
   return (
     <MainContainer>
       <AppBar>

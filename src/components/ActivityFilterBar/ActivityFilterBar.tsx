@@ -70,13 +70,12 @@ export function ActivityFilterBar() {
                       <FormControl>
                         <TextField
                           select
-                          defaultValue={null}
                           label="Ativo"
                           sx={{ minWidth: 154 }}
                           {...field}
                           error={!!error}
                           helperText={error?.message}
-                          value={field.value}
+                          defaultValue={field.value}
                           onChange={(e) => {
                             const value =
                               !e.target.value === undefined
@@ -87,7 +86,7 @@ export function ActivityFilterBar() {
                         >
                           <MenuItem value="true">Sim</MenuItem>
                           <MenuItem value="false">Não</MenuItem>
-                          <MenuItem value="all">Todos</MenuItem>
+                          <MenuItem value={"undefined"}>Todos</MenuItem>
                         </TextField>
                       </FormControl>
                     )}

@@ -1,9 +1,10 @@
+/* eslint-disable prettier/prettier */
 import React from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import { TextField } from "@mui/material";
 import Autocomplete from "@mui/material/Autocomplete";
 import debounce from "debounce";
-import { useActivities } from "@/hooks/useActivities";
+import { useActivityTypes } from "@/hooks/useActivityTypes";
 import { ActivityType } from "@/interfaces/parameters";
 
 export function AutocompleteActivityType({
@@ -22,7 +23,7 @@ export function AutocompleteActivityType({
     watch,
   } = useFormContext();
 
-  const { activityTypes, error } = useActivities({
+  const { activityTypes, error } = useActivityTypes({
     pageSize: 15,
     code: watch(name),
   });

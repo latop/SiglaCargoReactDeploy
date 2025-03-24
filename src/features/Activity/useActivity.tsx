@@ -1,8 +1,11 @@
+"use client";
+
 import { useFetch } from "@/hooks/useFetch";
 import { useHash } from "@/hooks/useHash";
 import { useToast } from "@/hooks/useToast";
 import { Activity, PaginatedResponse } from "@/interfaces/parameters";
 import { fetchActivity } from "@/services/parameters";
+import dayjs from "dayjs";
 import { useSearchParams } from "next/navigation";
 import useSWRInfinite from "swr/infinite";
 
@@ -11,7 +14,7 @@ interface ActivityFiltersParams {
   type?: string;
   activityTypeId?: string;
   activityTypeCode?: string;
-  flgActive?: "true" | "false" | "all";
+  flgActive?: "true" | "false";
   submitted?: boolean;
 }
 
@@ -38,8 +41,7 @@ export const useActivity = () => {
     type: params.get("type") || undefined,
     activityTypeCode: params.get("activityTypeCode") || undefined,
     activityTypeId: params.get("activityTypeId") || undefined,
-    flgActive:
-      (params.get("flgActive") as "true" | "false" | "all") || undefined,
+    flgActive: (params.get("flgActive") as "true" | "false") || undefined,
     submitted: !!params.get("submitted"),
   };
 
@@ -51,7 +53,8 @@ export const useActivity = () => {
 
     if (filterParams.activityTypeId) url += `-${filterParams.activityTypeId}`;
     if (filterParams.code) url += `-${filterParams.code}`;
-    if (filterParams.flgActive) url += `-${filterParams.flgActive}`;
+    if (filterParams.flgActive || filterParams.flgActive === undefined)
+      url += `-${filterParams.flgActive}-${dayjs()}`;
 
     return {
       url,
@@ -73,8 +76,9 @@ export const useActivity = () => {
     isValidating,
     mutate: refreshList,
   } = useSWRInfinite<PaginatedResponse<Activity>>(getKey, fetchActivity, {
-    revalidateOnFocus: false,
+    revalidateFirstPage: false,
     revalidateIfStale: false,
+    revalidateOnFocus: false,
     onError: () => {
       addToast("Erro ao carregar registros.", { type: "error" });
     },

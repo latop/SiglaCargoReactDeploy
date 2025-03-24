@@ -10,7 +10,7 @@ const ActivityFilterBarSchema = z.object({
   type: z.string().optional(),
   activityTypeId: z.string().optional(),
   activityTypeCode: z.string().optional(),
-  flgActive: z.enum(["true", "false", "all"]).default("all"),
+  flgActive: z.enum(["true", "false", "undefined"]).optional(),
   submitted: z.enum(["true", "false"]).optional(),
 });
 
@@ -20,6 +20,7 @@ export const useActivityFilterBar = () => {
   const [, setHash] = useHash();
   const router = useRouter();
   const params = useSearchParams();
+
   const methods = useForm<ActivityFilterBarsType>({
     resolver: zodResolver(ActivityFilterBarSchema),
     defaultValues: {
@@ -36,7 +37,11 @@ export const useActivityFilterBar = () => {
 
     Object.entries(data).forEach(([key, value]) => {
       if (value !== undefined && value !== "") {
-        if (typeof value === "string" && value.trim() !== "") {
+        if (
+          typeof value === "string" &&
+          value.trim() !== "" &&
+          value !== "undefined"
+        ) {
           params.append(key, value);
           hasValues = true;
         }
