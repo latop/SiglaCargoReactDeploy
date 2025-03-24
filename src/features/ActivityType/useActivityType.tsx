@@ -1,19 +1,14 @@
 import { useFetch } from "@/hooks/useFetch";
 import { useHash } from "@/hooks/useHash";
 import { useToast } from "@/hooks/useToast";
-import {
-  ActivityTypeResponse,
-  ResponsibleSectorResponse,
-} from "@/interfaces/parameters";
+import { ActivityTypeResponse } from "@/interfaces/parameters";
 import { fetchActivityType } from "@/services/parameters";
 import useSWRInfinite from "swr/infinite";
 
 export const useActivityType = () => {
   const { addToast } = useToast();
-  const [
-    deleteResponsibleSector,
-    { loading: isLoadingDelete, error: deleteError },
-  ] = useFetch();
+  const [deleteActivityType, { loading: isLoadingDelete, error: deleteError }] =
+    useFetch();
   const [hash, setHash] = useHash();
   const isToAddActivityType = (hash as string)?.match(/#add-activity-type/);
 
@@ -27,10 +22,10 @@ export const useActivityType = () => {
 
   const activityTypeId = (hash as string)?.match(/#activity-type-id-(.+)/)?.[1];
   console.log(activityTypeId);
-  const getKey = (pageIndex: number, params: ResponsibleSectorResponse) => {
+  const getKey = (pageIndex: number, params: ActivityTypeResponse) => {
     return {
       url: "/activity-type",
-      args: { ...params, pageSize: 10, pageNumber: pageIndex + 1 },
+      args: { ...params, pageSize: 15, pageNumber: pageIndex + 1 },
     };
   };
   const {
@@ -64,7 +59,7 @@ export const useActivityType = () => {
   const currentPage = data?.[0].currentPage || 0;
 
   const handleDeleteActivityType = async (id: string) => {
-    return await deleteResponsibleSector(`/ActivityType/${id}`, id, {
+    return await deleteActivityType(`/ActivityType/${id}`, id, {
       method: "delete",
       onSuccess: () => {
         refreshList();
@@ -95,5 +90,6 @@ export const useActivityType = () => {
     totalCount,
     handleClose,
     refreshList,
+    isLoadingMore: isValidating,
   };
 };

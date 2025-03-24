@@ -20,6 +20,7 @@ import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import AutoGraphIcon from "@mui/icons-material/AutoGraph";
 import BarChartIcon from "@mui/icons-material/BarChart";
 import CategoryIcon from "@mui/icons-material/Category";
+import EventNoteIcon from "@mui/icons-material/EventNote";
 
 export type GroupmentType =
   | "register"
@@ -81,6 +82,12 @@ const routes: RouteItem[] = [
     text: "Tipo de Atividade",
     icon: <CategoryIcon />,
     path: "/activity-types",
+    group: "register",
+  },
+  {
+    text: "Atividades",
+    icon: <EventNoteIcon />,
+    path: "/activities",
     group: "register",
   },
 
