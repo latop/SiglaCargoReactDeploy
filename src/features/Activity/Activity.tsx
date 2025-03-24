@@ -4,93 +4,48 @@ import React from "react";
 import { MainContainer } from "@/components/MainContainer";
 import { AppBar } from "@/components/AppBar";
 import { HeaderTitle } from "@/components/HeaderTitle/HeaderTitle";
-import { Box, Button, Card } from "@mui/material";
-import { DataGrid, GridColDef, GridDeleteForeverIcon } from "@mui/x-data-grid";
-import { useResponsibleSector } from "./useResponsibleSector";
+import { Box, Card } from "@mui/material";
+import { DataGrid } from "@mui/x-data-grid";
+import { useActivity } from "./useActivity";
 import { ErrorResult } from "@/components/ErrorResult";
 import { useDialog } from "@/hooks/useDialog/useDialog";
 import { EmptyResult } from "@/components/EmptyResult";
-import { ResponsibleSectorDialog } from "@/components/ResponsibleSectorDialog";
 import LoadingTableSkeleton from "@/components/LoadingTableSkeleton/LoadingTableSkeleton";
+import { columnsConfig } from "./columnsConfig";
+import { ActivitiesDialog } from "@/components/ActivitiesDialog";
+import { ActivityFilterBar } from "@/components/ActivityFilterBar/ActivityFilterBar";
 
-export function ResponsibleSector() {
+export function Activity() {
   const {
-    responsibleSection,
     loadMore,
     isLoading,
     error: isError,
     hasData,
     currentPage,
-    handleDeleteResponsibleSector,
     isLoadingDelete,
     isEmpty,
     totalCount,
-    handleAddResponsibleSector,
-    handleEditResponsibleSector,
-    isToAddResponsibleSector,
-    responsibleSectorId,
+    activities,
+    activityId,
+    handleDeleteActivity,
+    handleEditActivity,
+    isToAddActivity,
     handleClose,
-  } = useResponsibleSector();
-  const { openDialog, closeDialog } = useDialog();
+    isLoadingMore,
+  } = useActivity();
 
-  const columns: GridColDef[] = [
-    {
-      field: "code",
-      headerName: "Código",
-      width: 200,
-    },
-    {
-      field: "description",
-      headerName: "Descrição",
-      width: 400,
-    },
-    {
-      field: " ",
-      headerName: "",
-      width: 100,
-      renderCell: (params) => {
-        return (
-          <button
-            disabled={isLoadingDelete}
-            style={{
-              paddingTop: 12,
-              display: "flex",
-              gap: "8px",
-              border: "none",
-              background: "transparent",
-            }}
-          >
-            <GridDeleteForeverIcon
-              sx={{
-                cursor: "pointer",
-                color: "#e53935",
-              }}
-              onClick={() => {
-                openDialog({
-                  body: "Deseja apagar este registro?",
-                  onConfirm: async () => {
-                    await handleDeleteResponsibleSector(
-                      params?.id as string,
-                    ).then(() => {
-                      closeDialog();
-                    });
-                  },
-                  onCancel: () => {
-                    closeDialog();
-                  },
-                });
-              }}
-            />
-          </button>
-        );
-      },
-    },
-  ];
+  const { openDialog, closeDialog } = useDialog();
+  const columns = columnsConfig({
+    closeDialog,
+    openDialog,
+    handleDeleteActivity,
+    isLoadingDelete,
+  });
 
   return (
     <MainContainer>
       <AppBar>
-        <HeaderTitle>Setor Responsável</HeaderTitle>
+        <HeaderTitle>Atividades</HeaderTitle>
       </AppBar>
       <Box
         sx={{
@@ -103,16 +58,7 @@ export function ResponsibleSector() {
           gap: "16px",
         }}
       >
-        <Button
-          onClick={handleAddResponsibleSector}
-          variant="outlined"
-          sx={{
-            width: "170px",
-            alignSelf: "flex-end",
-          }}
-        >
-          Adicionar
-        </Button>
+        <ActivityFilterBar />
         <Card
           sx={{
             width: "100%",
@@ -130,18 +76,12 @@ export function ResponsibleSector() {
           {hasData && !isLoading && (
             <div style={{ height: "100%", width: "100%" }}>
               <DataGrid
-                sx={{
-                  width: "100%",
-                  "& .blueColumnHeaders ": {
-                    backgroundColor: "#24438F",
-                    color: "white",
-                  },
-                }}
+                key={totalCount}
                 slots={{
                   noRowsOverlay: EmptyResult,
                 }}
-                loading={isLoading}
-                rows={responsibleSection || []}
+                loading={isLoadingMore}
+                rows={activities || []}
                 getRowId={(row) => row.id}
                 localeText={{
                   noRowsLabel: "Nenhum registro encontrado",
@@ -160,7 +100,7 @@ export function ResponsibleSector() {
                 rowCount={totalCount}
                 columns={columns}
                 onRowDoubleClick={(params) => {
-                  handleEditResponsibleSector(params.id as string);
+                  handleEditActivity(params.id as string);
                 }}
                 initialState={{
                   pagination: {
@@ -177,14 +117,8 @@ export function ResponsibleSector() {
           )}
         </Card>
       </Box>
-      <ResponsibleSectorDialog
-        open={!!responsibleSectorId}
-        onClose={handleClose}
-      />
-      <ResponsibleSectorDialog
-        open={!!isToAddResponsibleSector}
-        onClose={handleClose}
-      />
+      <ActivitiesDialog open={!!activityId} onClose={handleClose} />
+      <ActivitiesDialog open={!!isToAddActivity} onClose={handleClose} />
     </MainContainer>
   );
 }
