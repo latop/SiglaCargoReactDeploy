@@ -12,8 +12,10 @@ import {
   Checkbox,
   CircularProgress,
   DialogActions,
+  FormControl,
   FormControlLabel,
   Grid,
+  MenuItem,
   TextField,
 } from "@mui/material";
 import { useActivityTypeDialog } from "./useActivityTypeDialog";
@@ -37,7 +39,7 @@ export function ActivityTypeDialog({ open, onClose }: ActivityTypeDialogProps) {
 
   const DialogHeader = () => {
     if (activityTypeId) return "Atualizar Tipo de Atividade";
-    return "Adicionar Atividade";
+    return "Adicionar Tipo de Atividade";
   };
 
   return (
@@ -132,17 +134,26 @@ export function ActivityTypeDialog({ open, onClose }: ActivityTypeDialogProps) {
                       control={methods.control}
                       name="function"
                       render={({ field, fieldState: { error } }) => (
-                        <TextField
-                          {...field}
-                          error={!!error}
-                          helperText={error?.message}
-                          label="Função"
-                          variant="outlined"
-                          fullWidth
-                          onChange={(e) => {
-                            field.onChange(e.target.value.toUpperCase());
-                          }}
-                        />
+                        <FormControl>
+                          <TextField
+                            select
+                            label="Função"
+                            sx={{ minWidth: 154 }}
+                            {...field}
+                            error={!!error}
+                            helperText={error?.message}
+                            value={field.value.toLocaleUpperCase()}
+                            onChange={(e) => {
+                              const value = e.target.value;
+                              field.onChange(value);
+                            }}
+                          >
+                            <MenuItem value="AFASTADO">AFASTADO</MenuItem>
+                            <MenuItem value="FOLGA">FOLGA</MenuItem>
+                            <MenuItem value="JORNADA">JORNADA</MenuItem>
+                            <MenuItem value="TREINAMENTO">TREINAMENTO</MenuItem>
+                          </TextField>
+                        </FormControl>
                       )}
                     />
                   </Grid>
