@@ -55,7 +55,7 @@ export const columnsConfig = ({
     },
     {
       field: "flgPayroll",
-      headerName: "Folha. de Pgto",
+      headerName: "Folha de Pgto.",
       width: 200,
       valueGetter: (_: unknown, row: ActivityType) => {
         return row.flgPayroll ? "Sim" : "Nao";
