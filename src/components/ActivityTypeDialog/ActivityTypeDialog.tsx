@@ -142,7 +142,7 @@ export function ActivityTypeDialog({ open, onClose }: ActivityTypeDialogProps) {
                             {...field}
                             error={!!error}
                             helperText={error?.message}
-                            value={field.value.toLocaleUpperCase()}
+                            value={field.value?.toLocaleUpperCase()}
                             onChange={(e) => {
                               const value = e.target.value;
                               field.onChange(value);
