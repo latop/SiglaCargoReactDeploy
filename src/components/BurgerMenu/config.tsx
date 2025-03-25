@@ -21,6 +21,7 @@ import AutoGraphIcon from "@mui/icons-material/AutoGraph";
 import BarChartIcon from "@mui/icons-material/BarChart";
 import CategoryIcon from "@mui/icons-material/Category";
 import EventNoteIcon from "@mui/icons-material/EventNote";
+import ReduceCapacityIcon from "@mui/icons-material/ReduceCapacity";
 
 export type GroupmentType =
   | "register"
@@ -88,6 +89,12 @@ const routes: RouteItem[] = [
     text: "Atividades",
     icon: <EventNoteIcon />,
     path: "/activities",
+    group: "register",
+  },
+  {
+    text: "Grupos de Localizacão",
+    icon: <ReduceCapacityIcon />,
+    path: "/location-groups",
     group: "register",
   },
 

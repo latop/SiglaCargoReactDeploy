@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from "axios";
+import api from "./configs/api";
 
 axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -18,9 +19,20 @@ export async function fetchLocationGroup({
       PageSize: params.pageSize,
       filter1String: params.code?.toUpperCase(),
     };
-    const response = await axios.get("/LocationGroup", {
+    const response = await api.get("/LocationGroup", {
       params: locationGroupParams,
     });
+    const data = response.data;
+    return data;
+  } catch (error) {
+    console.error(error);
+    return error;
+  }
+}
+
+export async function fetchLocationGroupById({ id }: { id: string }) {
+  try {
+    const response = await api.get(`/LocationGroup/${id}`);
     const data = response.data;
     return data;
   } catch (error) {
