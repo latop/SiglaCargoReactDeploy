@@ -25,13 +25,13 @@ export function AutocompleteJustification({
   onChange,
   rules,
 }: Params) {
-  const { data, isLoading } = useJustificationQuery();
-
   const {
     control,
     setValue,
     formState: { errors },
   } = useFormContext();
+
+  const { data, isLoading } = useJustificationQuery();
 
   const handleChange = useCallback(
     (_: unknown, value: JustificationResponse | null) => {
@@ -47,7 +47,7 @@ export function AutocompleteJustification({
   const showSkeleton = isLoading;
 
   if (showSkeleton) return <Skeleton width="100%" height="100%" />;
-  console.log(errors);
+
   return (
     <Controller
       name={name}
