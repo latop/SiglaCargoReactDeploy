@@ -190,7 +190,7 @@ export const useGetLinesQuery = ({
             filter2Id: locationDestId,
             filter3Id: fleetGroupId,
             filter1String: code,
-            PageSize: 1000,
+            PageSize: 9999,
             PageNumber: pageNumber,
           },
         });

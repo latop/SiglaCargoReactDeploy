@@ -23,7 +23,6 @@ export function AutocompleteJustification({
   label = "Justificativa",
   keyCode = "code",
   onChange,
-  rules,
 }: Params) {
   const {
     control,
@@ -52,7 +51,6 @@ export function AutocompleteJustification({
     <Controller
       name={name}
       control={control}
-      rules={rules}
       render={({ field }) => (
         <Autocomplete
           forcePopupIcon={false}
