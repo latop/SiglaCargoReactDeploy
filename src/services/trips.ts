@@ -297,3 +297,13 @@ export const fetchStopTypeList = async ({
     return error;
   }
 };
+
+export const fetchStopTypeById = async ({ id }: { id: string }) => {
+  try {
+    const response = await api.get(`/StopType/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    return error;
+  }
+};

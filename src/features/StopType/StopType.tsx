@@ -11,8 +11,8 @@ import { useDialog } from "@/hooks/useDialog/useDialog";
 import { EmptyResult } from "@/components/EmptyResult";
 import LoadingTableSkeleton from "@/components/LoadingTableSkeleton/LoadingTableSkeleton";
 import { columnsConfig } from "./columnsConfig";
-import { LocationTypeDialog } from "@/components/LocationTypeDialog";
 import { useStopType } from "./useStopType";
+import { StopTypeDialog } from "@/components/StopTypeDialog";
 
 export function StopType() {
   const {
@@ -132,8 +132,8 @@ export function StopType() {
           )}
         </Card>
       </Box>
-      <LocationTypeDialog open={!!stopTypeId} onClose={handleClose} />
-      <LocationTypeDialog open={!!isToAddStopType} onClose={handleClose} />
+      <StopTypeDialog open={!!stopTypeId} onClose={handleClose} />
+      <StopTypeDialog open={!!isToAddStopType} onClose={handleClose} />
     </MainContainer>
   );
 }

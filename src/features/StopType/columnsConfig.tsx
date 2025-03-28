@@ -1,8 +1,10 @@
 import { StopType } from "@/interfaces/trip";
 import { GridColDef, GridDeleteForeverIcon } from "@mui/x-data-grid";
 import { ReactNode } from "react";
+import duration from "dayjs/plugin/duration";
+import dayjs from "dayjs";
 
-// const headerClassName = "blueColumnHeaders";
+dayjs.extend(duration);
 
 interface DialogConfig {
   title?: string;
@@ -34,14 +36,14 @@ export const columnsConfig = ({
     {
       field: "stopTime",
       headerName: "Tempo de parada",
-      width: 300,
+      width: 150,
       valueGetter: (_: unknown, row: StopType) => {
         return row.stopTime.toString().padStart(3, "0") + " min";
       },
     },
     {
       field: "flgJourney",
-      headerName: "Operacional",
+      headerName: "Jornada",
       width: 100,
       valueGetter: (_: unknown, row: StopType) => {
         return row.flgJourney === "S" ? "Sim" : "Não";
