@@ -1,3 +1,4 @@
+import { LocationType } from "@/interfaces/trip";
 import { GridColDef, GridDeleteForeverIcon } from "@mui/x-data-grid";
 import { ReactNode } from "react";
 
@@ -34,6 +35,14 @@ export const columnsConfig = ({
       field: "description",
       headerName: "Descrição",
       width: 300,
+    },
+    {
+      field: "isOperation",
+      headerName: "Operacional",
+      width: 100,
+      valueGetter: (_: unknown, row: LocationType) => {
+        return row.isOperation ? "Sim" : "Não";
+      },
     },
     {
       field: " ",

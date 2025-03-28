@@ -155,7 +155,7 @@ export function LocationTypeDialog({ open, onClose }: LocationTypeDialogProps) {
                               checked={field.value}
                             />
                           }
-                          label="Operação"
+                          label="Operacional"
                         />
                       );
                     }}
