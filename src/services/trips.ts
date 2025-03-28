@@ -245,3 +245,34 @@ export async function fetchStopType({
     return error;
   }
 }
+
+export const fetchLocationType = async ({
+  pageSize = 20,
+  code,
+}: {
+  pageSize?: number;
+  code?: string;
+}) => {
+  try {
+    const response = await api.get("/LocationType", {
+      params: {
+        PageSize: pageSize,
+        filter1String: code?.toUpperCase(),
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    return error;
+  }
+};
+
+export const fetchLocationTypeById = async ({ id }: { id: string }) => {
+  try {
+    const response = await api.get(`/LocationType/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    return error;
+  }
+};

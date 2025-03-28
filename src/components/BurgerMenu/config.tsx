@@ -22,6 +22,7 @@ import BarChartIcon from "@mui/icons-material/BarChart";
 import CategoryIcon from "@mui/icons-material/Category";
 import EventNoteIcon from "@mui/icons-material/EventNote";
 import ReduceCapacityIcon from "@mui/icons-material/ReduceCapacity";
+import StreetviewIcon from "@mui/icons-material/Streetview";
 
 export type GroupmentType =
   | "register"
@@ -95,6 +96,12 @@ const routes: RouteItem[] = [
     text: "Grupos de Localizacão",
     icon: <ReduceCapacityIcon />,
     path: "/location-groups",
+    group: "register",
+  },
+  {
+    text: "Tipo de Localizacão",
+    icon: <StreetviewIcon />,
+    path: "/location-types",
     group: "register",
   },
 
