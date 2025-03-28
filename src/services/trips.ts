@@ -276,3 +276,24 @@ export const fetchLocationTypeById = async ({ id }: { id: string }) => {
     return error;
   }
 };
+
+export const fetchStopTypeList = async ({
+  pageSize = 20,
+  code,
+}: {
+  pageSize?: number;
+  code?: string;
+}) => {
+  try {
+    const response = await api.get("/StopType", {
+      params: {
+        PageSize: pageSize,
+        filter1String: code?.toUpperCase(),
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    return error;
+  }
+};
