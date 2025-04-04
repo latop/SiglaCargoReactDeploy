@@ -27,9 +27,10 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { GridAddIcon } from "@mui/x-data-grid";
 import CloseIcon from "@mui/icons-material/Close";
-
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import FullscreenIcon from "@mui/icons-material/Fullscreen";
 import FullscreenExitIcon from "@mui/icons-material/FullscreenExit";
+
 import api from "@/services/configs/api";
 
 const labelStyle: React.CSSProperties = {
@@ -212,35 +213,53 @@ export const ImportTripsCheckDialog: React.FC<ImportTripsCheckDialogProps> = ({
                 }}
               >
                 {!file && (
-                  <Typography color={"textSecondary"}>
-                    Arraste e solte o arquivo aqui ou clique para selecionar
-                  </Typography>
+                  <Box
+                    display={"flex"}
+                    flexDirection={"column"}
+                    gap={"8px"}
+                    alignItems={"center"}
+                  >
+                    <Typography color={"textSecondary"}>
+                      Arraste e solte o arquivo aqui ou clique para selecionar
+                    </Typography>
+
+                    <CloudUploadIcon
+                      fontSize="large"
+                      color="disabled"
+                      sx={{
+                        width: "50px",
+                        height: "50px",
+                      }}
+                    />
+                  </Box>
                 )}
                 {file && <Typography>Arquivo: {file.name}</Typography>}
-                <Button
-                  color="primary"
-                  variant="text"
-                  size="large"
-                  sx={{
-                    "&:hover": {
-                      textDecoration: "underline",
-                      background: "transparent",
-                    },
-                  }}
-                >
-                  <label style={labelStyle}>
-                    <Input
-                      type="file"
-                      sx={{ display: "none" }}
-                      inputProps={{ accept: ".xlsx" }}
-                      {...methods.register("file", {
-                        onChange: handleFileChange,
-                      })}
-                    />
-                    Importar Viagem
-                    <GridAddIcon fontSize="small" />
-                  </label>
-                </Button>
+                {!file && (
+                  <Button
+                    color="primary"
+                    variant="text"
+                    size="large"
+                    sx={{
+                      "&:hover": {
+                        textDecoration: "underline",
+                        background: "transparent",
+                      },
+                    }}
+                  >
+                    <label style={labelStyle}>
+                      <Input
+                        type="file"
+                        sx={{ display: "none" }}
+                        inputProps={{ accept: ".xlsx" }}
+                        {...methods.register("file", {
+                          onChange: handleFileChange,
+                        })}
+                      />
+                      Selecionar arquivo
+                      <GridAddIcon fontSize="small" />
+                    </label>
+                  </Button>
+                )}
               </div>
             )}
 
