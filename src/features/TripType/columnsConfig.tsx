@@ -36,8 +36,8 @@ export const columnsConfig = ({
       width: 300,
     },
     {
-      field: "flgPayroll",
-      headerName: "Folha de Pgto.",
+      field: "isLoaded",
+      headerName: "Tem carga",
       width: 200,
       valueGetter: (_: unknown, row: TripType) => {
         return row.isLoaded ? "Sim" : "Não";
