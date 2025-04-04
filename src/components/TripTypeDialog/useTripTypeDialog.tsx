@@ -7,6 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import useSWR from "swr";
 import { useTripType } from "@/features/TripType/useTripType";
+import { colorHex } from "@/utils";
 
 export const tripTypeSchema = z.object({
   code: z
@@ -21,9 +22,6 @@ export const tripTypeSchema = z.object({
 });
 
 export type TripTypeFormType = z.infer<typeof tripTypeSchema>;
-
-const colorHex = (colorRGB: string) =>
-  ((colorRGB as unknown as number) >>> 0).toString(16).padStart(6, "0"); // Convert to hex and pad with zeros
 
 export const useTripTypeDialog = () => {
   const { refresh } = useTripType();
@@ -40,7 +38,7 @@ export const useTripTypeDialog = () => {
       code: "",
       description: "",
       isLoaded: false,
-      colorRGB: "",
+      colorRGB: "#000",
     },
   });
 
@@ -53,6 +51,7 @@ export const useTripTypeDialog = () => {
     fetchTripTypeById,
     {
       onSuccess: (data) => {
+        console.log(colorHex(data.colorRGB));
         if (tripTypeId) {
           methods.reset({
             ...data,
@@ -67,8 +66,6 @@ export const useTripTypeDialog = () => {
   );
 
   const handleSubmit = async (data: TripTypeFormType) => {
-    // Convert the color value to hex
-
     if (isToAddTripType) {
       await handleTripType(
         "/TripType",

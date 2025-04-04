@@ -1,3 +1,5 @@
+import { TripType } from "@/interfaces/trip";
+import { colorHex } from "@/utils";
 import { GridColDef, GridDeleteForeverIcon } from "@mui/x-data-grid";
 import { ReactNode } from "react";
 
@@ -32,6 +34,38 @@ export const columnsConfig = ({
       field: "description",
       headerName: "Descrição",
       width: 300,
+    },
+    {
+      field: "flgPayroll",
+      headerName: "Folha de Pgto.",
+      width: 200,
+      valueGetter: (_: unknown, row: TripType) => {
+        return row.isLoaded ? "Sim" : "Não";
+      },
+    },
+    {
+      field: "color",
+      headerName: "Cor",
+      width: 100,
+      renderCell: (params: { row: { colorRGB: string } }) => {
+        return (
+          <div
+            style={{
+              paddingTop: 6,
+            }}
+          >
+            <div
+              style={{
+                width: "25px",
+                height: "25px",
+                background: `#${colorHex(params.row.colorRGB)}`,
+                borderRadius: "50%",
+                border: "1px solid #cfd8dc",
+              }}
+            />
+          </div>
+        );
+      },
     },
     {
       field: " ",

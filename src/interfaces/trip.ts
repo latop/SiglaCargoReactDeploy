@@ -44,6 +44,8 @@ export interface TripType {
   code: string;
   description: string;
   id: string;
+  isLoaded: boolean;
+  coloRGB: string;
 }
 
 export interface FetchOptmizedTripsData {

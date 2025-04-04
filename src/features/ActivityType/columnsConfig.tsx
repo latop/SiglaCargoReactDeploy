@@ -50,7 +50,7 @@ export const columnsConfig = ({
       headerName: "Jornada",
       width: 200,
       valueGetter: (_: unknown, row: ActivityType) => {
-        return row.flgJourney ? "Sim" : "Nao";
+        return row.flgJourney ? "Sim" : "Não";
       },
     },
     {
@@ -58,7 +58,7 @@ export const columnsConfig = ({
       headerName: "Folha de Pgto.",
       width: 200,
       valueGetter: (_: unknown, row: ActivityType) => {
-        return row.flgPayroll ? "Sim" : "Nao";
+        return row.flgPayroll ? "Sim" : "Não";
       },
     },
     {
@@ -78,6 +78,7 @@ export const columnsConfig = ({
                 height: "25px",
                 background: `${params.row.color}`,
                 borderRadius: "50%",
+                border: "1px solid #cfd8dc",
               }}
             />
           </div>
