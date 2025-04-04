@@ -40,6 +40,7 @@ export const ColorPicker = forwardRef<HTMLInputElement>(
       [onChange],
     );
 
+    console.log(color);
     return (
       <Box>
         <FormLabel

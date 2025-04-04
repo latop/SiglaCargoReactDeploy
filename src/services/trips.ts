@@ -98,12 +98,35 @@ export interface FetchTripTypeParams {
   code?: string;
 }
 
-export async function fetchTripTypes({ args }: { args: FetchTripTypeParams }) {
+export async function fetchTripTypeById({ id }: { id: string }) {
+  try {
+    const response = await api.get(`/TripType/${id}`);
+    const data = response.data;
+    return data;
+  } catch (error) {
+    console.error(error);
+    return error;
+  }
+}
+
+export async function fetchTripTypes({
+  args,
+  isApiInstance = false,
+}: {
+  args: FetchTripTypeParams;
+  isApiInstance?: boolean;
+}) {
   try {
     const params = {
       PageSize: args.pageSize,
       filter1String: args.code?.toUpperCase(),
     };
+
+    if (isApiInstance) {
+      const response = await api.get("/TripType", { params });
+      const data = response.data;
+      return data;
+    }
 
     const response = await axios.get("/TripType", { params });
     const data = response.data;

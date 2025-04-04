@@ -111,6 +111,12 @@ const routes: RouteItem[] = [
     path: "/location-types",
     group: "register",
   },
+  {
+    text: "Tipo de viagem",
+    icon: <StreetviewIcon />,
+    path: "/trip-type",
+    group: "register",
+  },
 
   // Coordenação de Viagens
   {
