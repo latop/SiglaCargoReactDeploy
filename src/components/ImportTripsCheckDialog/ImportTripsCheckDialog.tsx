@@ -122,7 +122,6 @@ export const ImportTripsCheckDialog: React.FC<ImportTripsCheckDialogProps> = ({
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
         const errorData = error.response.data.tripGTMSDetails;
-        console.log(errorData);
         if (Array.isArray(errorData)) {
           const extractedErrors = errorData.map(
             (error: { sto: string; erro: string }) => ({
@@ -216,7 +215,7 @@ export const ImportTripsCheckDialog: React.FC<ImportTripsCheckDialogProps> = ({
                   <Box
                     display={"flex"}
                     flexDirection={"column"}
-                    gap={"8px"}
+                    gap={"16px"}
                     alignItems={"center"}
                   >
                     <Typography color={"textSecondary"}>
@@ -231,35 +230,24 @@ export const ImportTripsCheckDialog: React.FC<ImportTripsCheckDialogProps> = ({
                         height: "50px",
                       }}
                     />
+                    <Button color="primary" variant="outlined" size="large">
+                      <label style={labelStyle}>
+                        <Input
+                          type="file"
+                          sx={{ display: "none" }}
+                          inputProps={{ accept: ".xlsx" }}
+                          {...methods.register("file", {
+                            onChange: handleFileChange,
+                          })}
+                        />
+                        Selecionar arquivo
+                        <GridAddIcon fontSize="small" />
+                      </label>
+                    </Button>
                   </Box>
                 )}
+
                 {file && <Typography>Arquivo: {file.name}</Typography>}
-                {!file && (
-                  <Button
-                    color="primary"
-                    variant="text"
-                    size="large"
-                    sx={{
-                      "&:hover": {
-                        textDecoration: "underline",
-                        background: "transparent",
-                      },
-                    }}
-                  >
-                    <label style={labelStyle}>
-                      <Input
-                        type="file"
-                        sx={{ display: "none" }}
-                        inputProps={{ accept: ".xlsx" }}
-                        {...methods.register("file", {
-                          onChange: handleFileChange,
-                        })}
-                      />
-                      Selecionar arquivo
-                      <GridAddIcon fontSize="small" />
-                    </label>
-                  </Button>
-                )}
               </div>
             )}
 
