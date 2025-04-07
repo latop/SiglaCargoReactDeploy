@@ -51,7 +51,6 @@ export const useTripTypeDialog = () => {
     fetchTripTypeById,
     {
       onSuccess: (data) => {
-        console.log(colorHex(data.colorRGB));
         if (tripTypeId) {
           methods.reset({
             ...data,
@@ -83,9 +82,10 @@ export const useTripTypeDialog = () => {
           },
         },
       );
-    } else if (tripTypeId) {
+    }
+    if (tripTypeId) {
       await handleTripType(
-        `/TripType/${tripTypeId}`,
+        `/TripType`,
         { ...data, id: tripTypeId, colorRGB: colorHex(data.colorRGB) },
         {
           method: "put",
