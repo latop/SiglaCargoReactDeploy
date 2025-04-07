@@ -91,9 +91,10 @@ export const ImportTripsCheckDialog: React.FC<ImportTripsCheckDialogProps> = ({
     }
   };
 
-  const clearFile = () => {
+  const onClearFile = () => {
     setFile(null);
     setValue("locationGroupCode", "");
+    setStopErrors([]);
   };
 
   const onSubmit = async (data: FieldValues) => {
@@ -116,7 +117,7 @@ export const ImportTripsCheckDialog: React.FC<ImportTripsCheckDialogProps> = ({
 
       if (response.status === 200) {
         addToast("Arquivo enviado com sucesso!", { type: "success" });
-        clearFile();
+        onClearFile();
         onClose();
       }
     } catch (error) {
@@ -126,7 +127,10 @@ export const ImportTripsCheckDialog: React.FC<ImportTripsCheckDialogProps> = ({
           const extractedErrors = errorData.map(
             (error: { sto: string; erro: string }) => ({
               sto: error.sto || "Vazio",
-              error: error.erro || "Erro desconhecido",
+              error:
+                error.erro !== null || error.erro !== undefined
+                  ? error.erro
+                  : "Vazio",
             }),
           );
           setStopErrors(extractedErrors);
@@ -143,10 +147,14 @@ export const ImportTripsCheckDialog: React.FC<ImportTripsCheckDialogProps> = ({
       setIsLoading(false);
     }
   };
+  const handleOnClose = () => {
+    onClose();
+    onClearFile();
+  };
 
   return (
     <Dialog
-      onClose={onClose}
+      onClose={handleOnClose}
       open={open}
       fullWidth
       PaperProps={{ sx: sxFullscreen }}
@@ -188,17 +196,22 @@ export const ImportTripsCheckDialog: React.FC<ImportTripsCheckDialogProps> = ({
               gap: "16px",
             }}
           >
-            <AutocompleteLocationGroup
-              name="locationGroupCode"
-              onChange={(value) =>
-                setValue("locationGroupCode", value?.code || "")
-              }
-              label="Grupo de localização"
-            />
+            {!isLoading && (
+              <AutocompleteLocationGroup
+                name="locationGroupCode"
+                key={methods.watch("locationGroupCode")}
+                onChange={(value) =>
+                  setValue("locationGroupCode", value?.code || "")
+                }
+                label="Grupo de localização"
+              />
+            )}
             {!stopErrors.length && !isLoading && (
               <div
                 onDrop={handleDrop}
-                onDragOver={(e) => e.preventDefault()}
+                onDragOver={(e) => {
+                  e.preventDefault();
+                }}
                 style={{
                   display: "flex",
                   flexDirection: "column",
@@ -265,8 +278,13 @@ export const ImportTripsCheckDialog: React.FC<ImportTripsCheckDialogProps> = ({
               </Box>
             )}
 
-            {!!stopErrors.length && (
-              <TableContainer component={Paper}>
+            {!!stopErrors.length && !isLoading && (
+              <TableContainer
+                component={Paper}
+                sx={{
+                  height: "100%",
+                }}
+              >
                 <Table>
                   <TableHead sx={{ backgroundColor: "#f5f5f5" }}>
                     <TableRow>
@@ -275,12 +293,20 @@ export const ImportTripsCheckDialog: React.FC<ImportTripsCheckDialogProps> = ({
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {stopErrors.map((error, index) => (
-                      <TableRow key={index}>
-                        <TableCell>{error.sto}</TableCell>
-                        <TableCell>{error.error}</TableCell>
-                      </TableRow>
-                    ))}
+                    {stopErrors
+                      .filter(
+                        (error) =>
+                          error.error !== undefined && error.error !== null,
+                      )
+                      .map((error, index) => {
+                        console.log(error);
+                        return (
+                          <TableRow key={index}>
+                            <TableCell>{error.sto}</TableCell>
+                            <TableCell>{error.error}</TableCell>
+                          </TableRow>
+                        );
+                      })}
                   </TableBody>
                 </Table>
               </TableContainer>
@@ -294,7 +320,7 @@ export const ImportTripsCheckDialog: React.FC<ImportTripsCheckDialogProps> = ({
               }}
             >
               <Button
-                onClick={clearFile}
+                onClick={onClearFile}
                 variant="contained"
                 color="secondary"
                 disabled={!file || isLoading}
