@@ -1,30 +1,31 @@
 import { useFetch } from "@/hooks/useFetch";
 import { useHash } from "@/hooks/useHash";
 import { useToast } from "@/hooks/useToast";
-import { ActivityTypeResponse } from "@/interfaces/parameters";
-import { fetchActivityType } from "@/services/parameters";
+import { PaginatedResponse } from "@/interfaces/parameters";
+import { StopType } from "@/interfaces/trip";
+import { fetchStopTypeList } from "@/services/trips";
 import useSWRInfinite from "swr/infinite";
 
-export const useActivityType = () => {
+export const useStopType = () => {
   const { addToast } = useToast();
-  const [deleteActivityType, { loading: isLoadingDelete, error: deleteError }] =
+  const [deleteStopType, { loading: isLoadingDelete, error: deleteError }] =
     useFetch();
   const [hash, setHash] = useHash();
-  const isToAddActivityType = (hash as string)?.match(/#add-activity-type/);
+  const isToAddStopType = (hash as string)?.match(/#add-stop-type/);
 
-  const handleAddActivityType = () => {
-    setHash("#add-activity-type");
+  const handleAddStopType = () => {
+    setHash("#add-stop-type");
   };
-  const handleEditActivityType = (id: string) => {
-    setHash(`#activity-type-id-${id}`);
+  const handleEditStopType = (id: string) => {
+    setHash(`#stop-type-id-${id}`);
   };
   const handleClose = () => setHash("");
 
-  const activityTypeId = (hash as string)?.match(/#activity-type-id-(.+)/)?.[1];
+  const stopTypeId = (hash as string)?.match(/#stop-type-id-(.+)/)?.[1];
 
-  const getKey = (pageIndex: number, params: ActivityTypeResponse) => {
+  const getKey = (pageIndex: number, params: PaginatedResponse<StopType>) => {
     return {
-      url: "/activity-type",
+      url: "/stop-type",
       args: { ...params, pageSize: 15, pageNumber: pageIndex + 1 },
     };
   };
@@ -36,7 +37,7 @@ export const useActivityType = () => {
     setSize,
     isValidating,
     mutate: refreshList,
-  } = useSWRInfinite<ActivityTypeResponse>(getKey, fetchActivityType, {
+  } = useSWRInfinite<PaginatedResponse<StopType>>(getKey, fetchStopTypeList, {
     revalidateFirstPage: false,
     revalidateIfStale: false,
     revalidateOnFocus: false,
@@ -45,7 +46,7 @@ export const useActivityType = () => {
     },
   });
 
-  const activityType = data?.map((page) => page.data).flat() || [];
+  const stopType = data?.map((page) => page.data).flat() || [];
   const hasNext = data?.[0].hasNext;
   const hasData = !!data?.[0].data.length;
   const isEmpty = data?.[0].data.length === 0 || !data?.[0].data.length;
@@ -58,8 +59,8 @@ export const useActivityType = () => {
   };
   const currentPage = data?.[0].currentPage || 0;
 
-  const handleDeleteActivityType = async (id: string) => {
-    return await deleteActivityType(`/ActivityType/${id}`, id, {
+  const handleDeleteStopType = async (id: string) => {
+    return await deleteStopType(`/StopType/${id}`, id, {
       method: "delete",
       onSuccess: () => {
         refreshList();
@@ -73,20 +74,20 @@ export const useActivityType = () => {
   };
 
   return {
-    activityType,
+    stopType,
     loadMore,
     isLoading,
     error,
     size,
     hasData,
     currentPage,
-    handleDeleteActivityType,
+    handleDeleteStopType,
     isLoadingDelete,
     isEmpty,
-    isToAddActivityType,
-    activityTypeId,
-    handleAddActivityType,
-    handleEditActivityType,
+    isToAddStopType,
+    stopTypeId,
+    handleAddStopType,
+    handleEditStopType,
     totalCount,
     handleClose,
     refreshList,

@@ -52,3 +52,11 @@ export const getOperationValue = (value: string | null): boolean | null => {
       return null;
   }
 };
+
+export const colorHex = (colorRGB: string) =>
+  ((colorRGB as unknown as number) >>> 0).toString(16).padStart(6, "0");
+
+export const colorDecimal = (hex: string): number => {
+  const cleanedHex = hex.replace("#", "");
+  return Number.parseInt(cleanedHex, 16);
+};

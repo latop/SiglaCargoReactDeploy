@@ -1,30 +1,34 @@
 import { useFetch } from "@/hooks/useFetch";
 import { useHash } from "@/hooks/useHash";
 import { useToast } from "@/hooks/useToast";
-import { ActivityTypeResponse } from "@/interfaces/parameters";
-import { fetchActivityType } from "@/services/parameters";
+import { PaginatedResponse } from "@/interfaces/parameters";
+import { LocationType } from "@/interfaces/trip";
+import { fetchLocationType } from "@/services/trips";
 import useSWRInfinite from "swr/infinite";
 
-export const useActivityType = () => {
+export const useLocationType = () => {
   const { addToast } = useToast();
-  const [deleteActivityType, { loading: isLoadingDelete, error: deleteError }] =
+  const [deleteLocationType, { loading: isLoadingDelete, error: deleteError }] =
     useFetch();
   const [hash, setHash] = useHash();
-  const isToAddActivityType = (hash as string)?.match(/#add-activity-type/);
+  const isToAddLocationType = (hash as string)?.match(/#add-location-type/);
 
-  const handleAddActivityType = () => {
-    setHash("#add-activity-type");
+  const handleAddLocationType = () => {
+    setHash("#add-location-type");
   };
-  const handleEditActivityType = (id: string) => {
-    setHash(`#activity-type-id-${id}`);
+  const handleEditLocationType = (id: string) => {
+    setHash(`#location-type-id-${id}`);
   };
   const handleClose = () => setHash("");
 
-  const activityTypeId = (hash as string)?.match(/#activity-type-id-(.+)/)?.[1];
+  const locationTypeId = (hash as string)?.match(/#location-type-id-(.+)/)?.[1];
 
-  const getKey = (pageIndex: number, params: ActivityTypeResponse) => {
+  const getKey = (
+    pageIndex: number,
+    params: PaginatedResponse<LocationType>,
+  ) => {
     return {
-      url: "/activity-type",
+      url: "/location-type",
       args: { ...params, pageSize: 15, pageNumber: pageIndex + 1 },
     };
   };
@@ -36,16 +40,20 @@ export const useActivityType = () => {
     setSize,
     isValidating,
     mutate: refreshList,
-  } = useSWRInfinite<ActivityTypeResponse>(getKey, fetchActivityType, {
-    revalidateFirstPage: false,
-    revalidateIfStale: false,
-    revalidateOnFocus: false,
-    onError: () => {
-      addToast("Erro ao carregar registros.", { type: "error" });
+  } = useSWRInfinite<PaginatedResponse<LocationType>>(
+    getKey,
+    fetchLocationType,
+    {
+      revalidateFirstPage: false,
+      revalidateIfStale: false,
+      revalidateOnFocus: false,
+      onError: () => {
+        addToast("Erro ao carregar registros.", { type: "error" });
+      },
     },
-  });
+  );
 
-  const activityType = data?.map((page) => page.data).flat() || [];
+  const locationType = data?.map((page) => page.data).flat() || [];
   const hasNext = data?.[0].hasNext;
   const hasData = !!data?.[0].data.length;
   const isEmpty = data?.[0].data.length === 0 || !data?.[0].data.length;
@@ -58,8 +66,8 @@ export const useActivityType = () => {
   };
   const currentPage = data?.[0].currentPage || 0;
 
-  const handleDeleteActivityType = async (id: string) => {
-    return await deleteActivityType(`/ActivityType/${id}`, id, {
+  const handleDeleteLocationType = async (id: string) => {
+    return await deleteLocationType(`/LocationType/${id}`, id, {
       method: "delete",
       onSuccess: () => {
         refreshList();
@@ -73,20 +81,20 @@ export const useActivityType = () => {
   };
 
   return {
-    activityType,
+    locationType,
     loadMore,
     isLoading,
     error,
     size,
     hasData,
     currentPage,
-    handleDeleteActivityType,
+    handleDeleteLocationType,
     isLoadingDelete,
     isEmpty,
-    isToAddActivityType,
-    activityTypeId,
-    handleAddActivityType,
-    handleEditActivityType,
+    isToAddLocationType,
+    locationTypeId,
+    handleAddLocationType,
+    handleEditLocationType,
     totalCount,
     handleClose,
     refreshList,
