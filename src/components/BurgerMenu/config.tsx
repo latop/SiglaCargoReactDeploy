@@ -24,6 +24,7 @@ import EventNoteIcon from "@mui/icons-material/EventNote";
 import ReduceCapacityIcon from "@mui/icons-material/ReduceCapacity";
 import StreetviewIcon from "@mui/icons-material/Streetview";
 import RoomIcon from "@mui/icons-material/Room";
+import LinearScaleIcon from "@mui/icons-material/LinearScale";
 
 export type GroupmentType =
   | "register"
@@ -45,6 +46,8 @@ const routes: RouteItem[] = [
     icon: <HomeIcon />,
     path: "/home",
   },
+
+  // Cadastros
   {
     text: "Rotas",
     icon: <RouteIcon />,
@@ -117,7 +120,19 @@ const routes: RouteItem[] = [
     path: "/trip-type",
     group: "register",
   },
+  {
+    text: "Atribuição",
+    icon: <PersonSearchIcon />,
+    group: "register",
+    path: "/attribution",
+  },
 
+  {
+    text: "Cargos",
+    icon: <LinearScaleIcon />,
+    group: "register",
+    path: "/positions",
+  },
   // Coordenação de Viagens
   {
     text: "Coordenação de viagens",
