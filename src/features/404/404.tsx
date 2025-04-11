@@ -38,7 +38,7 @@ export function NotFound() {
             </Typography>
             <Typography component="h1" variant="h5" marginTop={5}></Typography>
           </Box>
-          <Link href={"/"} style={{ textDecoration: "underline" }}>
+          <Link href={"/home"} style={{ textDecoration: "underline" }}>
             Voltar para Home
           </Link>
         </CardContent>
