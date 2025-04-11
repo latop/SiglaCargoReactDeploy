@@ -51,25 +51,25 @@ const routes: RouteItem[] = [
   {
     text: "Rotas",
     icon: <RouteIcon />,
-    path: "/lines",
+    path: "/line",
     group: "register",
   },
   {
     text: "Motoristas",
     icon: <TbSteeringWheel />,
-    path: "/drivers",
+    path: "/driver",
     group: "register",
   },
   {
     text: "Caminhão",
     icon: <LocalShippingIcon />,
-    path: "/trucks",
+    path: "/truck",
     group: "register",
   },
   {
     text: "Localização",
     icon: <AddLocationAltIcon />,
-    path: "/locations",
+    path: "/location",
     group: "register",
   },
   {
@@ -81,37 +81,37 @@ const routes: RouteItem[] = [
   {
     text: "Justificativas",
     icon: <EditNoteIcon />,
-    path: "/justifications",
+    path: "/justification",
     group: "register",
   },
   {
     text: "Tipo de Atividade",
     icon: <CategoryIcon />,
-    path: "/activity-types",
+    path: "/activity-type",
     group: "register",
   },
   {
     text: "Atividades",
     icon: <EventNoteIcon />,
-    path: "/activities",
+    path: "/activity",
     group: "register",
   },
   {
     text: "Grupos de Localizacão",
     icon: <ReduceCapacityIcon />,
-    path: "/location-groups",
+    path: "/location-group",
     group: "register",
   },
   {
     text: "Tipo de Parada",
     icon: <RoomIcon />,
-    path: "/stop-types",
+    path: "/stop-type",
     group: "register",
   },
   {
     text: "Tipo de Localizacão",
     icon: <StreetviewIcon />,
-    path: "/location-types",
+    path: "/location-type",
     group: "register",
   },
   {
@@ -131,7 +131,7 @@ const routes: RouteItem[] = [
     text: "Cargos",
     icon: <LinearScaleIcon />,
     group: "register",
-    path: "/positions",
+    path: "/position",
   },
   // Coordenação de Viagens
   {
@@ -149,7 +149,7 @@ const routes: RouteItem[] = [
   {
     text: "Viagens diárias",
     icon: <MovingIcon />,
-    path: "/daily-trips",
+    path: "/daily-trip",
     group: "coordination",
   },
 
