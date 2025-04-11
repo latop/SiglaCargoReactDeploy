@@ -1,7 +1,7 @@
 "use client";
 import { useToast } from "@/hooks/useToast";
 import api from "@/services/configs/api";
-import { Dayjs } from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 import React, { createContext, useState, ReactNode, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
@@ -17,6 +17,7 @@ type AuthenticatedResponse = {
 interface User {
   userName: string;
   accessToken: string;
+  expiration: Dayjs;
 }
 
 interface AuthContextType {
@@ -37,6 +38,8 @@ export const AuthContext = createContext<AuthContextType | undefined>(
   undefined,
 );
 
+const currentTime = dayjs();
+
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -48,15 +51,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const storedUser = localStorage.getItem("@pepsico:user");
     if (storedUser) {
       const parsedUser = JSON.parse(storedUser);
-      setUser(parsedUser);
-      setIsAuthenticated(true);
-      router.push("/home");
-    } else {
-      if (!storedUser || !isAuthenticated) {
-        router.push("/");
+      const expirationTime = dayjs(parsedUser.expiration);
+
+      if (currentTime.isAfter(expirationTime)) {
+        handleLogout();
+      } else {
+        setUser(parsedUser);
+        setIsAuthenticated(true);
+        router.push("/home");
       }
+    } else {
+      router.push("/");
     }
-  }, [router, isAuthenticated]);
+  }, [router]);
 
   const getAuth = async ({
     username,
@@ -64,19 +71,26 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }: {
     username: string;
     password: string;
-  }): Promise<AuthenticatedResponse> => {
+  }): Promise<AuthenticatedResponse | string> => {
     try {
       const { data } = await api.post("/api/Login", {
         userLogin: username,
         password: password,
         domain: "application",
       });
+
+      if (data.message === "Authentication Failed") {
+        console.error(data.message);
+        addToast("Crendenciais inválidas.", { type: "error" });
+        return data.message;
+      }
+
       addToast("Logado com sucesso!", { type: "success" });
 
       return data;
     } catch (error) {
       console.error(error);
-      addToast("Erro ao logar", { type: "error" });
+      addToast("Crendenciais inválidas.", { type: "error" });
       throw error;
     }
   };
@@ -90,18 +104,24 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }) => {
     setLoading(true);
     try {
-      const { authenticated, accessToken, userName, expiration } =
-        await getAuth({
-          username,
-          password,
-        });
+      const data = await getAuth({
+        username,
+        password,
+      });
 
+      if (typeof data === "string") {
+        return;
+      }
+
+      const { authenticated, accessToken, userName, expiration } = data;
       setIsAuthenticated(authenticated);
       if (authenticated) {
         const userInfo = { userName, accessToken, expiration };
         setUser(userInfo);
         localStorage.setItem("@pepsico:user", JSON.stringify(userInfo));
-        document.cookie = `@pepsico:accessToken=${accessToken}; path=/;`;
+        document.cookie = `@pepsico:accessToken=${accessToken}; expires=${dayjs(
+          expiration,
+        ).toDate()}; path=/;`;
         router.push("/home");
       }
     } catch (error) {
@@ -114,7 +134,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const handleLogout = () => {
     setIsAuthenticated(false);
     setUser(null);
-    localStorage.removeItem("user");
+    localStorage.removeItem("@pepsico:user");
     document.cookie =
       "@pepsico:accessToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     router.push("/");
