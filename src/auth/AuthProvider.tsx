@@ -101,7 +101,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         const userInfo = { userName, accessToken, expiration };
         setUser(userInfo);
         localStorage.setItem("@pepsico:user", JSON.stringify(userInfo));
-        document.cookie = `accessToken=${accessToken}; path=/;`;
+        document.cookie = `@pepsico:accessToken=${accessToken}; path=/;`;
         router.push("/home");
       }
     } catch (error) {
@@ -116,7 +116,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setUser(null);
     localStorage.removeItem("user");
     document.cookie =
-      "accessToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+      "@pepsico:accessToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     router.push("/");
   };
 
