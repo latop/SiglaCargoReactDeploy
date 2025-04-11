@@ -1,5 +1,6 @@
 import { VehiclePlanningsResponse } from "@/interfaces/vehicle";
 import axios from "axios";
+import api from "./configs/api";
 
 axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -134,3 +135,40 @@ export const fetchTruckAssignment = async ({
     return error;
   }
 };
+
+export interface FetchFleetTypeParams {
+  pageSize?: number;
+  code?: string;
+}
+
+export async function fetchFleetTypes({
+  args: params,
+}: {
+  args: FetchFleetTypeParams;
+}) {
+  try {
+    const fleetTypeParams = {
+      PageSize: params.pageSize,
+      filter1String: params.code?.toUpperCase(),
+    };
+    const response = await api.get("/FleetType", {
+      params: fleetTypeParams,
+    });
+    const data = response.data;
+    return data;
+  } catch (error) {
+    console.error(error);
+    return error;
+  }
+}
+
+export async function fetchFleetTypeById({ id }: { id: string }) {
+  try {
+    const response = await api.get(`/FleetType/${id}`);
+    const data = response.data;
+    return data;
+  } catch (error) {
+    console.error(error);
+    return error;
+  }
+}
