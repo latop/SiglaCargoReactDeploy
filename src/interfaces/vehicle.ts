@@ -1,4 +1,5 @@
 import { Driver } from "./driver";
+import { Company } from "./parameters";
 import { LocationGroup } from "./trip";
 
 export interface FleetGroup {
@@ -15,6 +16,7 @@ export interface FleetType {
   fleetGroup: FleetGroup;
   fleetModelId: string;
   companyId: string;
+  company: Company;
   standardUnit: string;
   tare: number;
   capacity: number;

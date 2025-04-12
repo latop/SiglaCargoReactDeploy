@@ -42,6 +42,12 @@ export const fleetTypeSchema = z.object({
   note: z.string().nullable(),
   fleetGroupId: z.string(),
   companyId: z.string(),
+  fleetGroup: z.object({
+    code: z.string().optional(),
+  }),
+  company: z.object({
+    code: z.string().optional(),
+  }),
 });
 
 export type FleetTypeFormType = z.infer<typeof fleetTypeSchema>;
@@ -82,7 +88,10 @@ export const useFleetTypeDialog = () => {
       revalidateOnFocus: false,
       revalidateOnReconnect: false,
       onSuccess: (data) => {
-        console.log(data);
+        console.log({
+          fleetGroupCode: data.fleetGroup.code,
+          companyCode: data.company.code,
+        });
         if (fleetTypeId) {
           methods.reset({
             code: data.code,
@@ -93,6 +102,12 @@ export const useFleetTypeDialog = () => {
             fuelType: data.fuelType,
             steeringGearType: data.steeringGearType,
             note: data.note,
+            fleetGroup: {
+              code: data.fleetGroup.code,
+            },
+            company: {
+              code: data.company.code,
+            },
           });
           return;
         }
@@ -108,6 +123,8 @@ export const useFleetTypeDialog = () => {
     if (isToAddFleetType) {
       const body = {
         ...data,
+        companyCode: undefined,
+        fleetGroupCode: undefined,
       };
       await handleFleetType("/FleetType", body, {
         method: "post",
@@ -127,6 +144,8 @@ export const useFleetTypeDialog = () => {
       const body = {
         ...data,
         id: fleetType?.id,
+        companyCode: undefined,
+        fleetGroupCode: undefined,
       };
 
       await handleFleetType("/FleetType", body, {
