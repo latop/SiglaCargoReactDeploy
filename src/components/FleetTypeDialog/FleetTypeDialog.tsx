@@ -225,18 +225,16 @@ export function FleetTypeDialog({ open, onClose }: FleetTypeDialogProps) {
                 <Grid item xs={2} gap={1} display="flex" flexDirection="column">
                   <AutocompleteCompany
                     name="company.code"
-                    keyCode="code"
                     onChange={(value) => {
                       methods.setValue("companyId", value?.id || "");
-                      methods.setValue("companyCode", value?.code || "");
+                      methods.setValue("company", value || {});
                     }}
                   />
                   <AutocompleteFleetGroup
                     name="fleetGroup.code"
-                    keyCode="code"
                     onChange={(value) => {
                       methods.setValue("fleetGroupId", value?.id || "");
-                      methods.setValue("fleetGroupCode", value?.code || "");
+                      methods.setValue("fleetGroup", value || {});
                     }}
                   />
                 </Grid>
