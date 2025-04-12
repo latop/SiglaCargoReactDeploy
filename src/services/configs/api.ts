@@ -5,11 +5,14 @@ const api = axios.create({
 });
 
 api.interceptors.request.use((config) => {
-  // const token = localStorage.getItem("token");
-  // if (token) {
-  //   config.headers;
-  //   config.headers.Authorization = `Bearer ${token}`;
-  // }
+  const { accessToken } = JSON.parse(
+    localStorage.getItem("@pepsico:user") || "{}",
+  );
+
+  if (accessToken) {
+    config.headers;
+    config.headers.Authorization = `Bearer ${accessToken}`;
+  }
   return config;
 });
 
@@ -28,6 +31,14 @@ api.interceptors.response.use((response) => {
     response.data = normalizeData;
   }
 
+  return response;
+});
+
+api.interceptors.response.use((response) => {
+  if (response.status === 401) {
+    localStorage.removeItem("@pepsico:user");
+    window.location.href = "/";
+  }
   return response;
 });
 
