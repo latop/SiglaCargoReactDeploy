@@ -2,11 +2,28 @@ import { Driver } from "./driver";
 import { Company } from "./parameters";
 import { LocationGroup } from "./trip";
 
+export interface FleetBrand {
+  id: string;
+  name: string;
+  code: string;
+}
+
 export interface FleetGroup {
   description: string;
   code: string;
   id: string;
   qtyDemands: number;
+}
+
+export interface FleetModel {
+  name: string;
+  code: string;
+  fleetBrandId: string;
+  id: string;
+  createAt: string;
+  updateAt: string;
+  userIdCreate: string | null;
+  userIdUpdate: string | null;
 }
 
 export interface FleetType {

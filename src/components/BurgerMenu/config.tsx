@@ -25,6 +25,7 @@ import ReduceCapacityIcon from "@mui/icons-material/ReduceCapacity";
 import StreetviewIcon from "@mui/icons-material/Streetview";
 import RoomIcon from "@mui/icons-material/Room";
 import LinearScaleIcon from "@mui/icons-material/LinearScale";
+import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
 
 export type GroupmentType =
   | "register"
@@ -133,6 +134,13 @@ const routes: RouteItem[] = [
     group: "register",
     path: "/positions",
   },
+  {
+    text: "Modelos de Frota",
+    icon: <DirectionsCarIcon />,
+    path: "/fleet-model",
+    group: "register",
+  },
+
   // Coordenação de Viagens
   {
     text: "Coordenação de viagens",

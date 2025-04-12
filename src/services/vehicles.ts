@@ -9,6 +9,10 @@ export interface FetchTruckParams {
   licensePlate?: string;
 }
 
+export interface FetchFleetBrandParams {
+  pageSize?: number;
+  code?: string;
+}
 export async function fetchTruck({ args }: { args: FetchTruckParams }) {
   try {
     const params = {
@@ -167,6 +171,64 @@ export async function fetchFleetTypeById({ id }: { id: string }) {
     const response = await api.get(`/FleetType/${id}`);
     const data = response.data;
     return data;
+  } catch (error) {
+    console.error(error);
+    return error;
+  }
+}
+
+export interface FetchFleetModelParams {
+  pageSize?: number;
+  code?: string;
+}
+
+export async function fetchFleetModels({
+  args: params,
+}: {
+  args: FetchFleetModelParams;
+}) {
+  try {
+    const fleetModelParams = {
+      PageSize: params.pageSize,
+      filter1String: params.code?.toUpperCase(),
+    };
+    const response = await api.get("/FleetModel", {
+      params: fleetModelParams,
+    });
+    const data = response.data;
+    return data;
+  } catch (error) {
+    console.error(error);
+    return error;
+  }
+}
+
+export async function fetchFleetModelById({ id }: { id: string }) {
+  try {
+    const response = await api.get(`/FleetModel/${id}`);
+    const data = response.data;
+    return data;
+  } catch (error) {
+    console.error(error);
+    return error;
+  }
+}
+
+export async function fetchFleetBrands({
+  args: params,
+}: {
+  args: FetchFleetBrandParams;
+}) {
+  try {
+    const fleetBrandParams = {
+      PageSize: params.pageSize,
+      filter1String: params.code?.toUpperCase(),
+    };
+    const response = await api.get("/FleetBrand", {
+      params: fleetBrandParams,
+    });
+    console.log(response.data);
+    return response.data;
   } catch (error) {
     console.error(error);
     return error;
