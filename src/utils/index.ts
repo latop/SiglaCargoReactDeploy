@@ -41,3 +41,22 @@ export const formatCep = (value: string) => {
   const rawValue = value.replace(/\D/g, "");
   return rawValue.replace(/(\d{5})(\d)/, "$1-$2").slice(0, 9);
 };
+
+export const getOperationValue = (value: string | null): boolean | null => {
+  switch (value) {
+    case "true":
+      return true;
+    case "false":
+      return false;
+    default:
+      return null;
+  }
+};
+
+export const colorHex = (colorRGB: string) =>
+  ((colorRGB as unknown as number) >>> 0).toString(16).padStart(6, "0");
+
+export const colorDecimal = (hex: string): number => {
+  const cleanedHex = hex.replace("#", "");
+  return Number.parseInt(cleanedHex, 16);
+};
