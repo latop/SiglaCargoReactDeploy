@@ -21,27 +21,47 @@ export const fleetTypeSchema = z.object({
     .max(10, {
       message: "Máximo 10 caracteres.",
     }),
-  description: z.string().min(1, {
-    message: "Obrigatório",
-  }),
-  standardUnit: z.string().min(1, {
-    message: "Obrigatório",
-  }),
-  tare: z.number().min(0, {
-    message: "Tara deve ser maior ou igual a 0",
-  }),
-  capacity: z.number().min(0, {
-    message: "Capacidade deve ser maior ou igual a 0",
-  }),
-  fuelType: z.string().min(1, {
-    message: "Obrigatório",
-  }),
-  steeringGearType: z.string().min(1, {
-    message: "Obrigatório",
-  }),
+  description: z
+    .string()
+    .min(1, {
+      message: "Obrigatório",
+    })
+    .optional(),
+  standardUnit: z
+    .string()
+    .min(1, {
+      message: "Obrigatório",
+    })
+    .optional(),
+  tare: z
+    .number()
+    .min(0, {
+      message: "Tara deve ser maior ou igual a 0",
+    })
+    .optional(),
+  capacity: z
+    .number()
+    .min(0, {
+      message: "Capacidade deve ser maior ou igual a 0",
+    })
+    .optional(),
+  fuelType: z
+    .string()
+    .min(1, {
+      message: "Obrigatório",
+    })
+    .optional(),
+  steeringGearType: z
+    .string()
+    .min(1, {
+      message: "Obrigatório",
+    })
+    .optional(),
   note: z.string().nullable(),
   fleetGroupId: z.string(),
   companyId: z.string(),
+  fleetGroup: z.any(),
+  company: z.any(),
 });
 
 export type FleetTypeFormType = z.infer<typeof fleetTypeSchema>;
@@ -82,7 +102,6 @@ export const useFleetTypeDialog = () => {
       revalidateOnFocus: false,
       revalidateOnReconnect: false,
       onSuccess: (data) => {
-        console.log(data);
         if (fleetTypeId) {
           methods.reset({
             code: data.code,
@@ -93,6 +112,10 @@ export const useFleetTypeDialog = () => {
             fuelType: data.fuelType,
             steeringGearType: data.steeringGearType,
             note: data.note,
+            fleetGroupId: data.fleetGroupId,
+            companyId: data.companyId,
+            fleetGroup: data.fleetGroup,
+            company: data.company,
           });
           return;
         }
@@ -108,6 +131,10 @@ export const useFleetTypeDialog = () => {
     if (isToAddFleetType) {
       const body = {
         ...data,
+        fleetGroupId: data.fleetGroupId,
+        companyId: data.companyId,
+        fleetGroup: undefined,
+        company: undefined,
       };
       await handleFleetType("/FleetType", body, {
         method: "post",
@@ -127,6 +154,10 @@ export const useFleetTypeDialog = () => {
       const body = {
         ...data,
         id: fleetType?.id,
+        fleetGroupId: data.fleetGroupId,
+        companyId: data.companyId,
+        fleetGroup: undefined,
+        company: undefined,
       };
 
       await handleFleetType("/FleetType", body, {
@@ -150,7 +181,6 @@ export const useFleetTypeDialog = () => {
       methods.reset();
     }
   }, [methods.reset, isToAddFleetType]);
-
   return {
     isToAddFleetType,
     fleetTypeId,
