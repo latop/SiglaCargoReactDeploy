@@ -28,7 +28,7 @@ export const columnsConfig = ({
     },
     {
       field: "name",
-      headerName: "Nome",
+      headerName: "Descrição",
       width: 200,
     },
     {

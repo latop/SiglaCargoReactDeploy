@@ -110,7 +110,7 @@ const routes: RouteItem[] = [
     group: "register",
   },
   {
-    text: "Tipo de Localizacão",
+    text: "Tipo de Localização",
     icon: <StreetviewIcon />,
     path: "/location-types",
     group: "register",
@@ -132,7 +132,7 @@ const routes: RouteItem[] = [
     text: "Cargos",
     icon: <LinearScaleIcon />,
     group: "register",
-    path: "/positions",
+    path: "/position",
   },
   {
     text: "Modelos de Frota",
@@ -144,6 +144,12 @@ const routes: RouteItem[] = [
     text: "Grupos de Frota",
     icon: <TbSteeringWheel />,
     path: "/fleet-group",
+    group: "register",
+  },
+  {
+    text: "Tipos de Frota",
+    icon: <TbSteeringWheel />,
+    path: "/fleet-type",
     group: "register",
   },
 
