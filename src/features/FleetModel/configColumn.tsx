@@ -1,3 +1,4 @@
+import { FleetModel } from "@/interfaces/vehicle";
 import { GridColDef, GridDeleteForeverIcon } from "@mui/x-data-grid";
 import { ReactNode } from "react";
 
@@ -30,6 +31,14 @@ export const columnsConfig = ({
       field: "name",
       headerName: "Descrição",
       width: 200,
+    },
+    {
+      field: "fleetBrand",
+      headerName: "Marca",
+      width: 200,
+      valueGetter: (_: unknown, value: FleetModel) => {
+        return value?.fleetBrand?.name;
+      },
     },
     {
       field: " ",
