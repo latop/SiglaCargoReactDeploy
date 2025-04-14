@@ -227,7 +227,6 @@ export async function fetchFleetBrands({
     const response = await api.get("/FleetBrand", {
       params: fleetBrandParams,
     });
-    console.log(response.data);
     return response.data;
   } catch (error) {
     console.error(error);

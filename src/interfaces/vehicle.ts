@@ -19,6 +19,7 @@ export interface FleetModel {
   name: string;
   code: string;
   fleetBrandId: string;
+  fleetBrand: FleetBrand;
   id: string;
   createAt: string;
   updateAt: string;

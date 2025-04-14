@@ -32,6 +32,10 @@ export const fleetModelSchema = z.object({
   fleetBrandId: z.string().min(1, {
     message: "Obrigatório",
   }),
+  fleetBrand: z.object({
+    name: z.string().optional(),
+    code: z.string().optional(),
+  }),
 });
 
 export type FleetModelFormType = z.infer<typeof fleetModelSchema>;
@@ -72,6 +76,10 @@ export const useFleetModelDialog = () => {
             name: data.name,
             code: data.code,
             fleetBrandId: data.fleetBrandId,
+            fleetBrand: {
+              name: data.fleetBrand.name,
+              code: data.fleetBrand.code,
+            },
           });
           return;
         }
@@ -87,6 +95,7 @@ export const useFleetModelDialog = () => {
     if (isToAddFleetModel) {
       const body = {
         ...data,
+        fleetBrand: undefined,
       };
       await handleFleetModel("/FleetModel", body, {
         method: "post",
@@ -106,6 +115,7 @@ export const useFleetModelDialog = () => {
       const body = {
         ...data,
         id: fleetModel?.id,
+        fleetBrand: undefined,
       };
 
       await handleFleetModel("/FleetModel", body, {

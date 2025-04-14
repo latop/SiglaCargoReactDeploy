@@ -84,26 +84,7 @@ export function FleetModelDialog({ open, onClose }: FleetModelDialogProps) {
               </Box>
             ) : (
               <Grid container gap={1.5}>
-                <Grid item xs={6}>
-                  <Controller
-                    control={methods.control}
-                    name="name"
-                    render={({ field, fieldState: { error } }) => (
-                      <TextField
-                        {...field}
-                        error={!!error}
-                        helperText={error?.message}
-                        label="Nome"
-                        variant="outlined"
-                        fullWidth
-                        onChange={(e) => {
-                          field.onChange(e.target.value.toUpperCase());
-                        }}
-                      />
-                    )}
-                  />
-                </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={3}>
                   <Controller
                     control={methods.control}
                     name="code"
@@ -122,8 +103,34 @@ export function FleetModelDialog({ open, onClose }: FleetModelDialogProps) {
                     )}
                   />
                 </Grid>
-                <Grid item xs={12}>
-                  <AutocompleteFleetBrand name="fleetBrand.code" />
+                <Grid item xs={3}>
+                  <Controller
+                    control={methods.control}
+                    name="name"
+                    render={({ field, fieldState: { error } }) => (
+                      <TextField
+                        {...field}
+                        error={!!error}
+                        helperText={error?.message}
+                        label="Nome"
+                        variant="outlined"
+                        fullWidth
+                        onChange={(e) => {
+                          field.onChange(e.target.value.toUpperCase());
+                        }}
+                      />
+                    )}
+                  />
+                </Grid>
+                <Grid item xs={5}>
+                  <AutocompleteFleetBrand
+                    name="fleetBrand.name"
+                    onChange={(value) => {
+                      methods.setValue("fleetBrand.code", value?.code || "");
+                      methods.setValue("fleetBrand.name", value?.code || "");
+                      methods.setValue("fleetBrandId", value?.id || "");
+                    }}
+                  />
                 </Grid>
               </Grid>
             )}
