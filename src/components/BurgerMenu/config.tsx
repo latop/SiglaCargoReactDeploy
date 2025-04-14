@@ -142,13 +142,13 @@ const routes: RouteItem[] = [
   },
   {
     text: "Grupos de Frota",
-    icon: <TbSteeringWheel />,
+    icon: <DirectionsCarIcon />,
     path: "/fleet-group",
     group: "register",
   },
   {
-    text: "Tipos de Frota",
-    icon: <TbSteeringWheel />,
+    text: "Tipo de Frota",
+    icon: <LocalShippingIcon />,
     path: "/fleet-type",
     group: "register",
   },
