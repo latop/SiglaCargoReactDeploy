@@ -44,7 +44,7 @@ export async function fetchFleetGroup({
       PageSize: params.pageSize,
       filter1String: params.code?.toUpperCase(),
     };
-    const response = await axios.get("/FleetGroup", {
+    const response = await api.get("/FleetGroup", {
       params: fleetGroupParams,
     });
     const data = response.data;
@@ -54,6 +54,18 @@ export async function fetchFleetGroup({
     return error;
   }
 }
+
+export async function fetchFleetGroupById({ id }: { id: string }) {
+  try {
+    const response = await api.get(`/FleetGroup/${id}`);
+    const data = response.data;
+    return data;
+  } catch (error) {
+    console.error(error);
+    return error;
+  }
+}
+
 export type FetchVehiclePlanningsParams = {
   fleetGroupId?: string;
   locationGroupId?: string;

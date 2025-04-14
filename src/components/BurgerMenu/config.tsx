@@ -140,6 +140,12 @@ const routes: RouteItem[] = [
     path: "/fleet-model",
     group: "register",
   },
+  {
+    text: "Grupos de Frota",
+    icon: <TbSteeringWheel />,
+    path: "/fleet-group",
+    group: "register",
+  },
 
   // Coordenação de Viagens
   {
