@@ -112,7 +112,7 @@ export function FleetModelDialog({ open, onClose }: FleetModelDialogProps) {
                         {...field}
                         error={!!error}
                         helperText={error?.message}
-                        label="Nome"
+                        label="Descrição"
                         variant="outlined"
                         fullWidth
                         onChange={(e) => {

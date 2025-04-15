@@ -99,7 +99,7 @@ const routes: RouteItem[] = [
     group: "register",
   },
   {
-    text: "Grupos de Localizacão",
+    text: "Grupos de Localização",
     icon: <ReduceCapacityIcon />,
     path: "/location-groups",
     group: "register",
