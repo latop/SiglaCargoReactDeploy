@@ -126,7 +126,7 @@ export const fetchStates = async ({
   };
 
   try {
-    const response = await axios.get("/States", { params: statesParams });
+    const response = await api.get("/States", { params: statesParams });
 
     const data = response.data;
     return data;

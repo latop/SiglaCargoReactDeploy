@@ -104,7 +104,7 @@ export const useCitiesDialog = () => {
         countryId: data.countryId,
         state: undefined,
         country: undefined,
-        id: "00000000-0000-0000-0000-000000000000",
+        // id: "00000000-0000-0000-0000-000000000000",
       };
       await handleCity("/Cities", body, {
         method: "post",

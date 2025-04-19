@@ -25,6 +25,7 @@ export const useCities = () => {
 
   const filterParams = useSearchParams();
   const stateId = filterParams.get("stateId");
+  const cityName = filterParams.get("cityName");
 
   const getKey = (pageIndex: number, params: City) => {
     return {
@@ -34,6 +35,7 @@ export const useCities = () => {
         pageSize: 15,
         pageNumber: pageIndex + 1,
         stateId,
+        cityName,
       },
     };
   };

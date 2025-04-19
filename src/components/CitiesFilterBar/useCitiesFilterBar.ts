@@ -10,6 +10,7 @@ const CitiesFilterBarSchema = z.object({
   stateId: z.string().optional(),
   stateCode: z.string().optional(),
   stateName: z.string().optional(),
+  cityName: z.string().optional(),
 });
 
 export type CitiesFilterBarType = z.infer<typeof CitiesFilterBarSchema>;
@@ -26,6 +27,7 @@ export const useCitiesFilterBar = () => {
       stateId: params.get("stateId") || "",
       name: params.get("name") || "",
       stateName: params.get("stateName") || "",
+      cityName: params.get("cityName") || "",
     },
   });
 

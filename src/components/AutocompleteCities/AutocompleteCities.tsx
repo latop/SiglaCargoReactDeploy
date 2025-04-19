@@ -5,7 +5,7 @@ import { Skeleton, TextField } from "@mui/material";
 import Autocomplete from "@mui/material/Autocomplete";
 import debounce from "debounce";
 import { City } from "@/interfaces/parameters";
-import { useCitiesQuery } from "@/hooks/useCities/useCitiesQuery";
+import { useCities } from "@/hooks/useCities";
 interface AutocompleteCitiesProps {
   name?: string;
   label?: string;
@@ -30,30 +30,31 @@ export function AutocompleteCities({
   } = useFormContext();
 
   const isDirty = dirtyFields[name];
-  const { data: citiesData, error, isFetching } = useCitiesQuery({
+  const {
+    cities,
+    error,
+    isLoading: isFetching,
+  } = useCities({
     cityName: isDirty ? watch(name) : "",
-  }, {
-    queryKey: ["cities", { cityName: isDirty ? watch(name) : "" }],
-    staleTime: 0, // 1 day in milliseconds
   });
 
   useLayoutEffect(() => {
     isFirstRender.current = false;
   }, []);
 
-  const cities = Array.isArray(citiesData) ? citiesData : [];
+  const handleChange = useCallback(
+    (_: unknown, value: City | null) => {
+      if (onChange) {
+        onChange(value);
+      } else {
+        setValue("id", value?.id ?? "");
+        setValue("code", value?.code ?? "");
+      }
+    },
+    [onChange, setValue],
+  );
 
-  const handleChange = useCallback((_: unknown, value: City | null) => {
-    if (onChange) {
-      onChange(value);
-    } else {
-      setValue("id", value?.id ?? "");
-      setValue("code", value?.code ?? "");
-    }
-  }, [onChange, setValue]);
-
-
-  const isLoadingCondition = !cities && !error || isFetching;
+  const isLoadingCondition = (!cities && !error) || isFetching;
   const showSkeleton = hasSkeleton && isFetching && isFirstRender.current;
 
   if (showSkeleton) return <Skeleton width="100%" height="100%" />;
@@ -77,8 +78,8 @@ export function AutocompleteCities({
             isLoadingCondition
               ? "Carregando..."
               : !field.value
-                ? "Digite o código"
-                : "Nenhum resultado encontrado"
+              ? "Digite o código"
+              : "Nenhum resultado encontrado"
           }
           getOptionLabel={(option: City) => option?.name}
           renderInput={(params) => (
@@ -91,6 +92,12 @@ export function AutocompleteCities({
               label={label}
               error={!!errors[field.name]}
               helperText={errors[field.name]?.message?.toString()}
+              inputProps={{
+                ...params.inputProps,
+                style: {
+                  textTransform: "uppercase",
+                },
+              }}
             />
           )}
         />

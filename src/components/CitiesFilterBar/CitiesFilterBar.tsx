@@ -4,13 +4,16 @@ import { LocalizationProvider } from "@mui/x-date-pickers";
 import { FormProvider } from "react-hook-form";
 import { Box, Button, Grid } from "@mui/material";
 import { GridSearchIcon } from "@mui/x-data-grid";
+import { AutocompleteStates } from "../AutocompleteStates";
+import { AutocompleteCities } from "../AutocompleteCities";
+
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+
+import { useCitiesFilterBar } from "./useCitiesFilterBar";
 
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import "dayjs/locale/pt-br";
 import dayjs from "dayjs";
-import { useCitiesFilterBar } from "./useCitiesFilterBar";
-import { AutocompleteStates } from "../AutocompleteStates";
 
 dayjs.extend(customParseFormat);
 
@@ -38,6 +41,15 @@ export function CitiesFilterBar() {
                       methods.setValue("stateId", field?.id || "");
                       methods.setValue("stateCode", field?.code || "");
                       methods.setValue("stateName", field?.name || "");
+                    }}
+                  />
+                </Grid>
+                <Grid xs={2} item>
+                  <AutocompleteCities
+                    name="cityName"
+                    label="Cidade"
+                    onChange={(field) => {
+                      methods.setValue("cityName", field?.name || "");
                     }}
                   />
                 </Grid>
