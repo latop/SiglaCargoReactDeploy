@@ -245,3 +245,14 @@ export async function fetchFleetBrands({
     return error;
   }
 }
+
+export async function fetchFleetBrandById({ id }: { id: string }) {
+  try {
+    const response = await api.get(`/FleetBrand/${id}`);
+    const data = response.data;
+    return data;
+  } catch (error) {
+    console.error(error);
+    return error;
+  }
+}

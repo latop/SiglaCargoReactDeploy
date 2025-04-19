@@ -15,17 +15,16 @@ import {
   TextField,
 } from "@mui/material";
 import { Controller, FormProvider } from "react-hook-form";
-import { useFleetModelDialog } from "./useFleetModelDialog";
-import { AutocompleteFleetBrand } from "../AutocompleteFleetBrand";
+import { useFleetBrandDialog } from "./useFleetBrandDialog";
 
-interface FleetModelDialogProps {
+interface FleetBrandDialogProps {
   open: boolean;
   onClose: () => void;
 }
 
-export function FleetModelDialog({ open, onClose }: FleetModelDialogProps) {
-  const { fleetModelId, methods, isLoading, handleSubmit } =
-    useFleetModelDialog();
+export function FleetBrandDialog({ open, onClose }: FleetBrandDialogProps) {
+  const { fleetBrandId, methods, isLoading, handleSubmit } =
+    useFleetBrandDialog();
 
   const handleClose = () => {
     methods.reset({});
@@ -33,8 +32,8 @@ export function FleetModelDialog({ open, onClose }: FleetModelDialogProps) {
   };
 
   const DialogHeader = () => {
-    if (fleetModelId) return "Atualizar Modelo de Frota";
-    return "Adicionar Modelo de Frota";
+    if (fleetBrandId) return "Atualizar Marca de Frota";
+    return "Adicionar Marca de Frota";
   };
 
   return (
@@ -84,7 +83,7 @@ export function FleetModelDialog({ open, onClose }: FleetModelDialogProps) {
               </Box>
             ) : (
               <Grid container gap={1.5}>
-                <Grid item xs={3}>
+                <Grid item xs={5}>
                   <Controller
                     control={methods.control}
                     name="code"
@@ -103,7 +102,7 @@ export function FleetModelDialog({ open, onClose }: FleetModelDialogProps) {
                     )}
                   />
                 </Grid>
-                <Grid item xs={3}>
+                <Grid item xs={5}>
                   <Controller
                     control={methods.control}
                     name="name"
@@ -112,7 +111,7 @@ export function FleetModelDialog({ open, onClose }: FleetModelDialogProps) {
                         {...field}
                         error={!!error}
                         helperText={error?.message}
-                        label="Descrição"
+                        label="Nome"
                         variant="outlined"
                         fullWidth
                         onChange={(e) => {
@@ -120,16 +119,6 @@ export function FleetModelDialog({ open, onClose }: FleetModelDialogProps) {
                         }}
                       />
                     )}
-                  />
-                </Grid>
-                <Grid item xs={5}>
-                  <AutocompleteFleetBrand
-                    name="fleetBrand.name"
-                    onChange={(value) => {
-                      methods.setValue("fleetBrand.code", value?.code || "");
-                      methods.setValue("fleetBrand.name", value?.code || "");
-                      methods.setValue("fleetBrandId", value?.id || "");
-                    }}
                   />
                 </Grid>
               </Grid>
