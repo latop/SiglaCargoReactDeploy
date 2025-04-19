@@ -6,7 +6,6 @@ export const useCities = (
   params?: FetchCitiesParams,
   options?: SWRConfiguration,
 ) => {
-  console.log(params);
   const { data, error, isLoading } = useSWR<PaginatedResponse<City>>(
     { url: "/cities", args: params },
     fetchCities,

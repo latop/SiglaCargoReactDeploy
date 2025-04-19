@@ -28,6 +28,8 @@ export const useCities = () => {
   const cityName = filterParams.get("cityName");
 
   const getKey = (pageIndex: number, params: City) => {
+    if (!stateId && !cityName) return null;
+
     return {
       url: "/cities",
       args: {

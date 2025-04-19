@@ -27,6 +27,7 @@ import RoomIcon from "@mui/icons-material/Room";
 import LinearScaleIcon from "@mui/icons-material/LinearScale";
 import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
 import BrandingWatermarkIcon from "@mui/icons-material/BrandingWatermark";
+import LocationCityIcon from "@mui/icons-material/LocationCity";
 
 export type GroupmentType =
   | "register"
@@ -157,6 +158,18 @@ const routes: RouteItem[] = [
     text: "Marca de Frota",
     icon: <BrandingWatermarkIcon />,
     path: "/fleet-brand",
+    group: "register",
+  },
+  {
+    text: "Atividades de Caminhão",
+    icon: <LocalShippingIcon />,
+    path: "/activity-truck",
+    group: "register",
+  },
+  {
+    text: "Cidades",
+    icon: <LocationCityIcon />,
+    path: "/city",
     group: "register",
   },
 
