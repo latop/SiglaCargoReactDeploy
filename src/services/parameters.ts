@@ -22,6 +22,8 @@ export interface FetchAttribuitionParams {
 export interface FetchCitiesParams {
   cityName?: string;
   pageSize?: number;
+  stateId?: string;
+  pageNumber?: number;
 }
 
 export interface FetchStatesParams {
@@ -55,6 +57,11 @@ export interface FetchActivityParams {
   activityTypeId?: string; // Filter1Id
   flgActive?: boolean | string; // Filter1Bool
   flgRequest?: boolean | string; // Filter1Bool
+}
+
+export interface FetchActivityTruckParams {
+  pageSize?: number;
+  code?: string;
 }
 
 export async function fetchAcitivities({
@@ -119,7 +126,7 @@ export const fetchStates = async ({
   };
 
   try {
-    const response = await axios.get("/States", { params: statesParams });
+    const response = await api.get("/States", { params: statesParams });
 
     const data = response.data;
     return data;
@@ -180,9 +187,11 @@ export async function fetchCities({
   try {
     const citiesParams = {
       PageSize: params.pageSize,
+      PageNumber: params.pageNumber,
       filter1String: params.cityName?.toUpperCase(),
+      filter2Id: params.stateId,
     };
-    const response = await axios.get("/Cities", { params: citiesParams });
+    const response = await api.get("/Cities", { params: citiesParams });
     const data = response.data;
     return data;
   } catch (error) {
@@ -345,6 +354,49 @@ export async function fetchAttribuitionById({ id }: { id: string }) {
 export async function fetchPositionById({ id }: { id: string }) {
   try {
     const response = await api.get(`/Position/${id}`);
+    const data = response.data;
+    return data;
+  } catch (error) {
+    console.error(error);
+    return error;
+  }
+}
+
+export async function fetchActivityTrucks({
+  args: params,
+}: {
+  args: FetchActivityTruckParams;
+}) {
+  try {
+    const activityTruckParams = {
+      PageSize: params.pageSize,
+      filter1String: params.code?.toUpperCase(),
+    };
+    const response = await api.get("/ActivityTruck", {
+      params: activityTruckParams,
+    });
+    const data = response.data;
+    return data;
+  } catch (error) {
+    console.error(error);
+    return error;
+  }
+}
+
+export async function fetchActivityTruckById({ id }: { id: string }) {
+  try {
+    const response = await api.get(`/ActivityTruck/${id}`);
+    const data = response.data;
+    return data;
+  } catch (error) {
+    console.error(error);
+    return error;
+  }
+}
+
+export async function fetchCityById({ id }: { id: string }) {
+  try {
+    const response = await api.get(`/Cities/${id}`);
     const data = response.data;
     return data;
   } catch (error) {

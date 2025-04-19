@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import {
   ListItemIcon,
   ListItemText,
@@ -54,9 +54,13 @@ export const BurgerMenuGroup = ({
 }: BurgerMenuGroupProps) => {
   const pathname = usePathname();
   const isActive = (path: string) => pathname === path;
-  const hasActiveItem = routes
-    .filter(({ group }) => group === groupment)
-    .some(({ path }) => isActive(path));
+  const hasActiveItem = useMemo(
+    () =>
+      routes
+        .filter(({ group }) => group === groupment)
+        .some(({ path }) => isActive(path)),
+    [routes, groupment, pathname],
+  );
 
   return (
     <AccordionStyled
