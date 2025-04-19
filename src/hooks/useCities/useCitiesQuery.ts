@@ -8,7 +8,10 @@ export const useCitiesQuery = (
 ) => {
   return useQuery<City[], Error>({
     queryKey: ["cities", params],
-    queryFn: () => fetchCities({ args: params }),
+    queryFn: async () => {
+      const response = await fetchCities({ args: params });
+      return response.data;
+    },
     staleTime: 0,
     ...options,
   });

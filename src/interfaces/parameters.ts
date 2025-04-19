@@ -44,6 +44,7 @@ export interface State {
   country: Country;
   id: string;
 }
+
 export interface City {
   id: string;
   code: string;
@@ -51,6 +52,10 @@ export interface City {
   stateId: string;
   countryId: string;
   capital: boolean;
+  latitude?: number;
+  longitude?: number;
+  state?: State;
+  country?: Country;
 }
 
 export type Attribution = {

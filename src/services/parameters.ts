@@ -22,6 +22,8 @@ export interface FetchAttribuitionParams {
 export interface FetchCitiesParams {
   cityName?: string;
   pageSize?: number;
+  stateId?: string;
+  pageNumber?: number;
 }
 
 export interface FetchStatesParams {
@@ -185,9 +187,11 @@ export async function fetchCities({
   try {
     const citiesParams = {
       PageSize: params.pageSize,
+      PageNumber: params.pageNumber,
       filter1String: params.cityName?.toUpperCase(),
+      filter2Id: params.stateId,
     };
-    const response = await axios.get("/Cities", { params: citiesParams });
+    const response = await api.get("/Cities", { params: citiesParams });
     const data = response.data;
     return data;
   } catch (error) {
@@ -382,6 +386,17 @@ export async function fetchActivityTrucks({
 export async function fetchActivityTruckById({ id }: { id: string }) {
   try {
     const response = await api.get(`/ActivityTruck/${id}`);
+    const data = response.data;
+    return data;
+  } catch (error) {
+    console.error(error);
+    return error;
+  }
+}
+
+export async function fetchCityById({ id }: { id: string }) {
+  try {
+    const response = await api.get(`/Cities/${id}`);
     const data = response.data;
     return data;
   } catch (error) {
