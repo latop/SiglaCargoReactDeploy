@@ -57,6 +57,11 @@ export interface FetchActivityParams {
   flgRequest?: boolean | string; // Filter1Bool
 }
 
+export interface FetchActivityTruckParams {
+  pageSize?: number;
+  code?: string;
+}
+
 export async function fetchAcitivities({
   args: params,
 }: {
@@ -345,6 +350,38 @@ export async function fetchAttribuitionById({ id }: { id: string }) {
 export async function fetchPositionById({ id }: { id: string }) {
   try {
     const response = await api.get(`/Position/${id}`);
+    const data = response.data;
+    return data;
+  } catch (error) {
+    console.error(error);
+    return error;
+  }
+}
+
+export async function fetchActivityTrucks({
+  args: params,
+}: {
+  args: FetchActivityTruckParams;
+}) {
+  try {
+    const activityTruckParams = {
+      PageSize: params.pageSize,
+      filter1String: params.code?.toUpperCase(),
+    };
+    const response = await api.get("/ActivityTruck", {
+      params: activityTruckParams,
+    });
+    const data = response.data;
+    return data;
+  } catch (error) {
+    console.error(error);
+    return error;
+  }
+}
+
+export async function fetchActivityTruckById({ id }: { id: string }) {
+  try {
+    const response = await api.get(`/ActivityTruck/${id}`);
     const data = response.data;
     return data;
   } catch (error) {

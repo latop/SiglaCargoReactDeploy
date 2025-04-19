@@ -146,3 +146,11 @@ export interface Position {
   priority: number;
   colorRGB: number;
 }
+
+export interface ActivityTruck {
+  id: string;
+  code: string;
+  description: string;
+  flgDriverRequired: boolean;
+  color: string;
+}
