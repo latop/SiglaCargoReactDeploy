@@ -35,43 +35,11 @@ export const columnsConfig = ({
       },
     },
     {
-      field: "state.name",
-      headerName: "Estado",
-      width: 150,
-      valueGetter: (_: unknown, params: { state: { name: string } }) => {
-        return params?.state?.name || "";
-      },
-    },
-    {
-      field: "state.code",
-      headerName: "UF",
-      width: 100,
-      valueGetter: (_: unknown, params: { state: { code: string } }) =>
-        params.state?.code || "",
-    },
-    {
       field: "country.name",
       headerName: "País",
       width: 150,
       valueGetter: (_: unknown, params: { country: { name: string } }) =>
         params.country?.name || "",
-    },
-    {
-      field: "capital",
-      headerName: "Capital",
-      width: 100,
-      valueGetter: (_: unknown, params: { capital: boolean }) =>
-        params.capital ? "Sim" : "Não",
-    },
-    {
-      field: "latitude",
-      headerName: "Latitude",
-      width: 120,
-    },
-    {
-      field: "longitude",
-      headerName: "Longitude",
-      width: 120,
     },
     {
       field: " ",

@@ -13,21 +13,19 @@ import {
   DialogActions,
   Grid,
   TextField,
-  FormControlLabel,
-  Checkbox,
 } from "@mui/material";
 import { Controller, FormProvider } from "react-hook-form";
-import { useCitiesDialog } from "./useCitiesDialog";
-import { AutocompleteStates } from "../AutocompleteStates";
+import { useStatesDialog } from "./useStatesDialog";
 import { AutocompleteContries } from "../AutocompleteCountries";
+import { AutocompleteRegions } from "../AutocompleteRegions";
 
-interface CitiesDialogProps {
+interface StatesDialogProps {
   open: boolean;
   onClose: () => void;
 }
 
-export function CitiesDialog({ open, onClose }: CitiesDialogProps) {
-  const { cityId, methods, isLoading, handleSubmit } = useCitiesDialog();
+export function StatesDialog({ open, onClose }: StatesDialogProps) {
+  const { stateId, methods, isLoading, handleSubmit } = useStatesDialog();
 
   const handleClose = () => {
     methods.reset({});
@@ -35,8 +33,8 @@ export function CitiesDialog({ open, onClose }: CitiesDialogProps) {
   };
 
   const DialogHeader = () => {
-    if (cityId) return "Atualizar Cidade";
-    return "Adicionar Cidade";
+    if (stateId) return "Atualizar Estado";
+    return "Adicionar Estado";
   };
 
   return (
@@ -86,7 +84,7 @@ export function CitiesDialog({ open, onClose }: CitiesDialogProps) {
               </Box>
             ) : (
               <Grid container gap={1.5}>
-                <Grid item xs={3}>
+                <Grid item xs={2.5}>
                   <Controller
                     control={methods.control}
                     name="code"
@@ -105,7 +103,7 @@ export function CitiesDialog({ open, onClose }: CitiesDialogProps) {
                     )}
                   />
                 </Grid>
-                <Grid item xs={3}>
+                <Grid item xs={2.5}>
                   <Controller
                     control={methods.control}
                     name="name"
@@ -114,7 +112,7 @@ export function CitiesDialog({ open, onClose }: CitiesDialogProps) {
                         {...field}
                         error={!!error}
                         helperText={error?.message}
-                        label="Descrição"
+                        label="Nome"
                         variant="outlined"
                         fullWidth
                         onChange={(e) => {
@@ -124,7 +122,7 @@ export function CitiesDialog({ open, onClose }: CitiesDialogProps) {
                     )}
                   />
                 </Grid>
-                <Grid item xs={3}>
+                <Grid item xs={2.5}>
                   <AutocompleteContries
                     name="country.code"
                     onChange={(value) => {
@@ -133,73 +131,13 @@ export function CitiesDialog({ open, onClose }: CitiesDialogProps) {
                     }}
                   />
                 </Grid>
-                <Grid item xs={3}>
-                  <AutocompleteStates
-                    name="state.code"
+                <Grid item xs={2.5}>
+                  <AutocompleteRegions
+                    name="region.code"
                     onChange={(value) => {
-                      methods.setValue("stateId", value?.id || "");
-                      methods.setValue("state", value || {});
+                      methods.setValue("regionId", value?.id || "");
+                      methods.setValue("region.code", value?.code || "");
                     }}
-                  />
-                </Grid>
-
-                <Grid item xs={3}>
-                  <Controller
-                    control={methods.control}
-                    name="latitude"
-                    render={({ field, fieldState: { error } }) => (
-                      <TextField
-                        {...field}
-                        error={!!error}
-                        helperText={error?.message}
-                        label="Latitude"
-                        variant="outlined"
-                        fullWidth
-                        type="number"
-                        inputProps={{ step: "any" }}
-                        onChange={(e) => {
-                          field.onChange(Number(e.target.value));
-                        }}
-                      />
-                    )}
-                  />
-                </Grid>
-                <Grid item xs={3}>
-                  <Controller
-                    control={methods.control}
-                    name="longitude"
-                    render={({ field, fieldState: { error } }) => (
-                      <TextField
-                        {...field}
-                        error={!!error}
-                        helperText={error?.message}
-                        label="Longitude"
-                        variant="outlined"
-                        fullWidth
-                        type="number"
-                        inputProps={{ step: "any" }}
-                        onChange={(e) => {
-                          field.onChange(Number(e.target.value));
-                        }}
-                      />
-                    )}
-                  />
-                </Grid>
-                <Grid item xs={1}>
-                  <Controller
-                    control={methods.control}
-                    name="capital"
-                    render={({ field }) => (
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            checked={field.value}
-                            onChange={(e) => field.onChange(e.target.checked)}
-                          />
-                        }
-                        label="Capital"
-                      />
-                    )}
                   />
                 </Grid>
               </Grid>

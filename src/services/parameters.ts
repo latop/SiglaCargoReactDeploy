@@ -29,7 +29,9 @@ export interface FetchCitiesParams {
 export interface FetchStatesParams {
   stateName?: string;
   pageSize?: number;
+  pageNumber?: number;
 }
+
 export interface FetchResponsibleSectionsParams {
   pageSize?: number;
   pageNumber?: number;
@@ -62,6 +64,18 @@ export interface FetchActivityParams {
 export interface FetchActivityTruckParams {
   pageSize?: number;
   code?: string;
+}
+
+export interface FetchStates {
+  stateName?: string;
+  pageSize?: number;
+  pageNumber?: number;
+}
+
+export interface FetchRegionsParams {
+  pageSize?: number;
+  pageNumber?: number;
+  regionName?: string;
 }
 
 export async function fetchAcitivities({
@@ -117,12 +131,14 @@ export const fetchCountries = async () => {
 };
 
 export const fetchStates = async ({
-  args: { pageSize = 0 },
+  args: params,
 }: {
   args: FetchStatesParams;
 }) => {
   const statesParams = {
-    pageSize,
+    pageSize: params.pageSize,
+    stateName: params.stateName,
+    pageNumber: params.pageNumber,
   };
 
   try {
@@ -399,6 +415,33 @@ export async function fetchCityById({ id }: { id: string }) {
     const response = await api.get(`/Cities/${id}`);
     const data = response.data;
     return data;
+  } catch (error) {
+    console.error(error);
+    return error;
+  }
+}
+
+export async function fetchStateById({ id }: { id: string }) {
+  try {
+    const response = await api.get(`/States/${id}`);
+    const data = response.data;
+    return data;
+  } catch (error) {
+    console.error(error);
+    return error;
+  }
+}
+
+export async function fetchRegions({
+  args: params,
+}: {
+  args: FetchRegionsParams;
+}) {
+  try {
+    const response = await api.get("/Regions", {
+      params: params,
+    });
+    return response.data;
   } catch (error) {
     console.error(error);
     return error;
