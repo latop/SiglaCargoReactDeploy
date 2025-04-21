@@ -30,9 +30,9 @@ export const stateSchema = z.object({
   regionId: z.string().nullable(),
   country: z.any(),
   region: z.object({
-    id: z.string(),
-    code: z.string(),
-    name: z.string(),
+    id: z.string().nullable(),
+    code: z.string().nullable(),
+    name: z.string().nullable(),
   }),
 });
 
@@ -150,6 +150,7 @@ export const useStatesDialog = () => {
       methods.reset();
     }
   }, [methods.reset, isToAddState]);
+  console.log(methods.formState.errors);
   return {
     isToAddState,
     stateId,

@@ -432,6 +432,17 @@ export async function fetchStateById({ id }: { id: string }) {
   }
 }
 
+export async function fetchRegionById({ id }: { id: string }) {
+  try {
+    const response = await api.get(`/Regions/${id}`);
+    const data = response.data;
+    return data;
+  } catch (error) {
+    console.error(error);
+    return error;
+  }
+}
+
 export async function fetchRegions({
   args: params,
 }: {

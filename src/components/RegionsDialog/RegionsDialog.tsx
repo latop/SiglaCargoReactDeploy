@@ -15,17 +15,15 @@ import {
   TextField,
 } from "@mui/material";
 import { Controller, FormProvider } from "react-hook-form";
-import { useStatesDialog } from "./useStatesDialog";
-import { AutocompleteContries } from "../AutocompleteCountries";
-import { AutocompleteRegions } from "../AutocompleteRegions";
+import { useRegionsDialog } from "./useRegionsDialog";
 
-interface StatesDialogProps {
+interface RegionsDialogProps {
   open: boolean;
   onClose: () => void;
 }
 
-export function StatesDialog({ open, onClose }: StatesDialogProps) {
-  const { stateId, methods, isLoading, handleSubmit } = useStatesDialog();
+export function RegionsDialog({ open, onClose }: RegionsDialogProps) {
+  const { regionId, methods, isLoading, handleSubmit } = useRegionsDialog();
 
   const handleClose = () => {
     methods.reset({});
@@ -33,8 +31,8 @@ export function StatesDialog({ open, onClose }: StatesDialogProps) {
   };
 
   const DialogHeader = () => {
-    if (stateId) return "Atualizar Estado";
-    return "Adicionar Estado";
+    if (regionId) return "Atualizar Região";
+    return "Adicionar Região";
   };
 
   return (
@@ -120,26 +118,6 @@ export function StatesDialog({ open, onClose }: StatesDialogProps) {
                         }}
                       />
                     )}
-                  />
-                </Grid>
-                <Grid item xs={2.5}>
-                  <AutocompleteContries
-                    name="country.code"
-                    onChange={(value) => {
-                      methods.setValue("countryId", value?.id || "");
-                      methods.setValue("country", value || {});
-                    }}
-                  />
-                </Grid>
-                <Grid item xs={2.5}>
-                  <AutocompleteRegions
-                    name="region.code"
-                    onChange={(value) => {
-                      methods.setValue("regionId", value?.id || "");
-                      methods.setValue("region.code", value?.code || "");
-                      methods.setValue("region.name", value?.name || "");
-                      methods.setValue("region.id", value?.id || "");
-                    }}
                   />
                 </Grid>
               </Grid>

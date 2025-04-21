@@ -28,6 +28,7 @@ import LinearScaleIcon from "@mui/icons-material/LinearScale";
 import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
 import BrandingWatermarkIcon from "@mui/icons-material/BrandingWatermark";
 import LocationCityIcon from "@mui/icons-material/LocationCity";
+import SouthAmericaIcon from "@mui/icons-material/SouthAmerica";
 
 export type GroupmentType =
   | "register"
@@ -170,6 +171,18 @@ const routes: RouteItem[] = [
     text: "Cidades",
     icon: <LocationCityIcon />,
     path: "/city",
+    group: "register",
+  },
+  {
+    text: "Estados",
+    icon: <SouthAmericaIcon />,
+    path: "/state",
+    group: "register",
+  },
+  {
+    text: "Regiões",
+    icon: <SouthAmericaIcon />,
+    path: "/region",
     group: "register",
   },
 
