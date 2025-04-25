@@ -1,32 +1,35 @@
 import { useFetch } from "@/hooks/useFetch";
 import { useHash } from "@/hooks/useHash";
 import { useToast } from "@/hooks/useToast";
-import { PaginatedResponse } from "@/interfaces/pagination";
-import { StopType } from "@/interfaces/trip";
-import { fetchStopTypeList } from "@/services/trips";
+import { Company } from "@/interfaces/parameters";
+import { fetchCompanies } from "@/services/parameters";
 import useSWRInfinite from "swr/infinite";
 
-export const useStopType = () => {
+export const useCompanies = () => {
   const { addToast } = useToast();
-  const [deleteStopType, { loading: isLoadingDelete, error: deleteError }] =
+  const [deleteCompany, { loading: isLoadingDelete, error: deleteError }] =
     useFetch();
   const [hash, setHash] = useHash();
-  const isToAddStopType = (hash as string)?.match(/#add-stop-type/);
+  const isToAddCompany = (hash as string)?.match(/#add-company/);
 
-  const handleAddStopType = () => {
-    setHash("#add-stop-type");
+  const handleAddCompany = () => {
+    setHash("#add-company");
   };
-  const handleEditStopType = (id: string) => {
-    setHash(`#stop-type-id-${id}`);
+  const handleEditCompany = (id: string) => {
+    setHash(`#company-id-${id}`);
   };
   const handleClose = () => setHash("");
 
-  const stopTypeId = (hash as string)?.match(/#stop-type-id-(.+)/)?.[1];
+  const companyId = (hash as string)?.match(/#company-id-(.+)/)?.[1];
 
-  const getKey = (pageIndex: number, params: PaginatedResponse<StopType>) => {
+  const getKey = (pageIndex: number, params: Company) => {
     return {
-      url: "/stop-type",
-      args: { ...params, pageSize: 15, pageNumber: pageIndex + 1 },
+      url: "/companies",
+      args: {
+        ...params,
+        pageSize: 15,
+        pageNumber: pageIndex + 1,
+      },
     };
   };
   const {
@@ -37,7 +40,7 @@ export const useStopType = () => {
     setSize,
     isValidating,
     mutate: refreshList,
-  } = useSWRInfinite<PaginatedResponse<StopType>>(getKey, fetchStopTypeList, {
+  } = useSWRInfinite(getKey, fetchCompanies, {
     revalidateFirstPage: false,
     revalidateIfStale: false,
     revalidateOnFocus: false,
@@ -46,7 +49,7 @@ export const useStopType = () => {
     },
   });
 
-  const stopType = data?.map((page) => page.data).flat() || [];
+  const companies = data?.map((page) => page.data).flat() || [];
   const hasNext = data?.[0].hasNext;
   const hasData = !!data?.[0].data.length;
   const isEmpty = data?.[0].data.length === 0 || !data?.[0].data.length;
@@ -59,8 +62,8 @@ export const useStopType = () => {
   };
   const currentPage = data?.[0].currentPage || 0;
 
-  const handleDeleteStopType = async (id: string) => {
-    return await deleteStopType(`/StopType/${id}`, id, {
+  const handleDeleteCompany = async (id: string) => {
+    return await deleteCompany(`/Companies/${id}`, id, {
       method: "delete",
       onSuccess: () => {
         refreshList();
@@ -74,20 +77,20 @@ export const useStopType = () => {
   };
 
   return {
-    stopType,
+    companies,
     loadMore,
     isLoading,
     error,
     size,
     hasData,
     currentPage,
-    handleDeleteStopType,
+    handleDeleteCompany,
     isLoadingDelete,
     isEmpty,
-    isToAddStopType,
-    stopTypeId,
-    handleAddStopType,
-    handleEditStopType,
+    isToAddCompany,
+    companyId,
+    handleAddCompany,
+    handleEditCompany,
     totalCount,
     handleClose,
     refreshList,

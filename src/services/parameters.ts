@@ -110,7 +110,7 @@ export async function fetchCompanies({ args }: { args: FetchCompanyParams }) {
       filter1String: args.code?.toUpperCase(),
     };
 
-    const response = await axios.get("/Companies", { params });
+    const response = await api.get("/Companies", { params });
     const data = response.data;
     return data;
   } catch (error) {
@@ -462,6 +462,17 @@ export async function fetchRegions({
 export async function fetchCountryById({ id }: { id: string }) {
   try {
     const response = await api.get(`/Countries/${id}`);
+    const data = response.data;
+    return data;
+  } catch (error) {
+    console.error(error);
+    return error;
+  }
+}
+
+export async function fetchCompanyById({ id }: { id: string }) {
+  try {
+    const response = await api.get(`/Companies/${id}`);
     const data = response.data;
     return data;
   } catch (error) {

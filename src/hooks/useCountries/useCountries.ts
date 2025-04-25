@@ -1,4 +1,5 @@
-import { Country, PaginatedResponse } from "@/interfaces/parameters";
+import { PaginatedResponse } from "@/interfaces/pagination";
+import { Country } from "@/interfaces/parameters";
 import { FetchCompanyParams, fetchCountries } from "@/services/parameters";
 import useSWR, { SWRConfiguration } from "swr";
 

@@ -1,4 +1,5 @@
-import { PaginatedResponse, State } from "@/interfaces/parameters";
+import { PaginatedResponse } from "@/interfaces/pagination";
+import { State } from "@/interfaces/parameters";
 import { fetchStates, FetchStatesParams } from "@/services/parameters";
 import useSWR, { SWRConfiguration } from "swr";
 

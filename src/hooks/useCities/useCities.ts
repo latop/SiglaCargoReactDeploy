@@ -1,4 +1,5 @@
-import { City, PaginatedResponse } from "@/interfaces/parameters";
+import { PaginatedResponse } from "@/interfaces/pagination";
+import { City } from "@/interfaces/parameters";
 import { fetchCities, FetchCitiesParams } from "@/services/parameters";
 import useSWR, { SWRConfiguration } from "swr";
 

@@ -141,16 +141,6 @@ export interface ActivityeResponse {
   totalCount?: number;
 }
 
-export interface PaginatedResponse<T> {
-  currentPage?: number;
-  hasNext?: boolean;
-  hasPrevious?: boolean;
-  pageSize?: number;
-  totalPages?: number;
-  data: T[];
-  totalCount?: number;
-}
-
 export interface Position {
   id: string;
   code: string;
