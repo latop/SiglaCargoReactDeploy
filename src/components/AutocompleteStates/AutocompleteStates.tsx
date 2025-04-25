@@ -9,7 +9,7 @@ import { useStates } from "@/hooks/useStates";
 
 export function AutocompleteStates({
   name = "name",
-  label = "Estados",
+  label = "Estado",
   keyCode = "name",
   onChange,
   hasSkeleton = false,
@@ -34,6 +34,7 @@ export function AutocompleteStates({
     isLoading: isFetching,
   } = useStates({
     stateName: isDirty ? watch(name) : "",
+    pageSize: 0,
   });
 
   const handleChange = (_: unknown, value: State | null) => {

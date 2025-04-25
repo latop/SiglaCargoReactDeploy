@@ -97,6 +97,7 @@ export function StatesDialog({ open, onClose }: StatesDialogProps) {
                         variant="outlined"
                         fullWidth
                         onChange={(e) => {
+                          if (e.target.value.length > 2) return;
                           field.onChange(e.target.value.toUpperCase());
                         }}
                       />
@@ -124,16 +125,16 @@ export function StatesDialog({ open, onClose }: StatesDialogProps) {
                 </Grid>
                 <Grid item xs={2.5}>
                   <AutocompleteContries
-                    name="country.code"
+                    name="country.name"
                     onChange={(value) => {
                       methods.setValue("countryId", value?.id || "");
-                      methods.setValue("country", value || {});
+                      methods.setValue("country.name", value?.name || "");
                     }}
                   />
                 </Grid>
                 <Grid item xs={2.5}>
                   <AutocompleteRegions
-                    name="region.code"
+                    name="region.name"
                     onChange={(value) => {
                       methods.setValue("regionId", value?.id || "");
                       methods.setValue("region.code", value?.code || "");

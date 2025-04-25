@@ -52,12 +52,12 @@ export const useCitiesFilterBar = () => {
       params.append("submitted", "true");
     }
 
-    router.push(`/cities?${params.toString()}`);
+    router.push(`/city?${params.toString()}`);
   };
 
   const onClearParams = () => {
     methods.reset({});
-    router.push(`/cities`);
+    router.push(`/city`);
     setTimeout(() => window.location.reload(), 500);
   };
 

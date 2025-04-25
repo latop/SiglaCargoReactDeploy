@@ -99,6 +99,7 @@ export function CitiesDialog({ open, onClose }: CitiesDialogProps) {
                         variant="outlined"
                         fullWidth
                         onChange={(e) => {
+                          if (e.target.value.length > 3) return;
                           field.onChange(e.target.value.toUpperCase());
                         }}
                       />
@@ -114,7 +115,7 @@ export function CitiesDialog({ open, onClose }: CitiesDialogProps) {
                         {...field}
                         error={!!error}
                         helperText={error?.message}
-                        label="Descrição"
+                        label="Nome da Cidade"
                         variant="outlined"
                         fullWidth
                         onChange={(e) => {

@@ -22,11 +22,6 @@ export const columnsConfig = ({
 }: ColumnsConfigProps): GridColDef[] => {
   return [
     {
-      field: "name",
-      headerName: "Descrição",
-      width: 250,
-    },
-    {
       field: "code",
       headerName: "Código",
       width: 150,
@@ -34,6 +29,12 @@ export const columnsConfig = ({
         return params?.code || "";
       },
     },
+    {
+      field: "name",
+      headerName: "Descrição",
+      width: 250,
+    },
+
     {
       field: " ",
       headerName: "",

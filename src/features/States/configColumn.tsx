@@ -22,16 +22,24 @@ export const columnsConfig = ({
 }: ColumnsConfigProps): GridColDef[] => {
   return [
     {
-      field: "name",
-      headerName: "Descrição",
-      width: 250,
-    },
-    {
       field: "code",
       headerName: "Código",
       width: 150,
       valueGetter: (_: unknown, params: { code: string }) => {
         return params?.code || "";
+      },
+    },
+    {
+      field: "name",
+      headerName: "Nome do Estado",
+      width: 250,
+    },
+    {
+      field: "region.name",
+      headerName: "Região",
+      width: 150,
+      valueGetter: (_: unknown, params: { region: { name: string } }) => {
+        return params?.region?.name || "";
       },
     },
     {

@@ -185,6 +185,12 @@ const routes: RouteItem[] = [
     path: "/region",
     group: "register",
   },
+  {
+    text: "Países",
+    icon: <SouthAmericaIcon />,
+    path: "/country",
+    group: "register",
+  },
 
   // Coordenação de Viagens
   {

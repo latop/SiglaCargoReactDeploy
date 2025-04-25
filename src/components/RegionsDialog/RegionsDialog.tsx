@@ -95,6 +95,7 @@ export function RegionsDialog({ open, onClose }: RegionsDialogProps) {
                         variant="outlined"
                         fullWidth
                         onChange={(e) => {
+                          if (e.target.value.length > 2) return;
                           field.onChange(e.target.value.toUpperCase());
                         }}
                       />

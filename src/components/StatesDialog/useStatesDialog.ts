@@ -28,7 +28,11 @@ export const stateSchema = z.object({
     message: "Obrigatório",
   }),
   regionId: z.string().nullable(),
-  country: z.any(),
+  country: z.object({
+    id: z.string().nullable(),
+    code: z.string().nullable(),
+    name: z.string().nullable(),
+  }),
   region: z.object({
     id: z.string().nullable(),
     code: z.string().nullable(),
@@ -47,7 +51,11 @@ export const useStatesDialog = () => {
       name: "",
       countryId: "",
       regionId: null,
-      country: {},
+      country: {
+        id: "",
+        code: "",
+        name: "",
+      },
       region: {
         id: "",
         code: "",
@@ -80,9 +88,12 @@ export const useStatesDialog = () => {
             name: data.name,
             countryId: data.countryId,
             regionId: data.regionId,
-            country: data.country,
+            country: {
+              id: data.country?.id,
+              name: data.country?.name,
+            },
             region: {
-              code: data.region?.code,
+              id: data.region?.id,
               name: data.region?.name,
             },
           });
@@ -150,7 +161,7 @@ export const useStatesDialog = () => {
       methods.reset();
     }
   }, [methods.reset, isToAddState]);
-  console.log(methods.formState.errors);
+
   return {
     isToAddState,
     stateId,

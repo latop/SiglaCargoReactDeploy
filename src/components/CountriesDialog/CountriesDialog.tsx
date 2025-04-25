@@ -95,6 +95,7 @@ export function CountriesDialog({ open, onClose }: CountriesDialogProps) {
                         variant="outlined"
                         fullWidth
                         onChange={(e) => {
+                          if (e.target.value.length > 2) return;
                           field.onChange(e.target.value.toUpperCase());
                         }}
                       />
@@ -114,6 +115,7 @@ export function CountriesDialog({ open, onClose }: CountriesDialogProps) {
                         variant="outlined"
                         fullWidth
                         onChange={(e) => {
+                          if (e.target.value.length > 3) return;
                           field.onChange(e.target.value.toUpperCase());
                         }}
                       />
