@@ -144,7 +144,7 @@ export function CompaniesDialog({ open, onClose }: CompaniesDialogProps) {
                 </Grid>
                 <Grid item xs={3}>
                   <AutocompleteContries
-                    name="countryId"
+                    name="country.name"
                     label="País"
                     onChange={(value) => {
                       methods.setValue("countryId", value?.id ?? "");
@@ -153,7 +153,7 @@ export function CompaniesDialog({ open, onClose }: CompaniesDialogProps) {
                 </Grid>
                 <Grid item xs={3}>
                   <AutocompleteStates
-                    name="stateId"
+                    name="state.name"
                     label="Estado"
                     onChange={(value) => {
                       methods.setValue("stateId", value?.id ?? "");
@@ -162,7 +162,7 @@ export function CompaniesDialog({ open, onClose }: CompaniesDialogProps) {
                 </Grid>
                 <Grid item xs={3}>
                   <AutocompleteCities
-                    name="cityId"
+                    name="city.name"
                     label="Cidade"
                     onChange={(value) => {
                       methods.setValue("cityId", value?.id ?? "");
@@ -171,7 +171,7 @@ export function CompaniesDialog({ open, onClose }: CompaniesDialogProps) {
                 </Grid>
                 <Grid item xs={3}>
                   <AutocompleteRegions
-                    name="regionId"
+                    name="region.name"
                     label="Região"
                     onChange={(value) => {
                       methods.setValue("regionId", value?.id ?? "");

@@ -26,6 +26,9 @@ export interface Company {
   regionId: null | string;
   countryId: string;
   isSupplier: boolean;
+  country: Country;
+  state: State;
+  city: City;
 }
 
 export interface Country {

@@ -4,7 +4,6 @@ import { useCompanies } from "@/features/Companies/useCompanies";
 import { useFetch } from "@/hooks/useFetch";
 import { useHash } from "@/hooks/useHash";
 import { useToast } from "@/hooks/useToast";
-import { Company } from "@/interfaces/parameters";
 import { fetchCompanyById } from "@/services/parameters";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useLayoutEffect } from "react";
@@ -13,6 +12,7 @@ import useSWR from "swr";
 import { z } from "zod";
 
 export const companySchema = z.object({
+  id: z.string().nullable(),
   name: z.string().min(1, {
     message: "Obrigatório",
   }),
@@ -32,9 +32,24 @@ export const companySchema = z.object({
     message: "Obrigatório",
   }),
   regionId: z.string().nullable(),
+  country: z.object({
+    code: z.string().nullable(),
+    name: z.string().nullable(),
+  }),
+  state: z.object({
+    code: z.string().nullable(),
+    name: z.string().nullable(),
+  }),
+  city: z.object({
+    code: z.string().nullable(),
+    name: z.string().nullable(),
+  }),
+  region: z.object({
+    code: z.string().nullable(),
+    name: z.string().nullable(),
+  }),
   isSupplier: z.boolean().default(false),
 });
-
 export type CompanyFormType = z.infer<typeof companySchema>;
 
 export const useCompaniesDialog = () => {
@@ -64,7 +79,7 @@ export const useCompaniesDialog = () => {
     data: company,
     error,
     isLoading,
-  } = useSWR<Company>(
+  } = useSWR<CompanyFormType>(
     companyId ? { url: `company-${companyId}`, id: companyId } : null,
     fetchCompanyById,
     {
@@ -80,6 +95,18 @@ export const useCompaniesDialog = () => {
             stateId: data.stateId,
             countryId: data.countryId,
             regionId: data.regionId,
+            country: {
+              name: data.country?.name,
+            },
+            state: {
+              name: data.state?.name,
+            },
+            city: {
+              name: data.city?.name,
+            },
+            region: {
+              name: data.region?.name,
+            },
             isSupplier: data.isSupplier,
           });
           return;
