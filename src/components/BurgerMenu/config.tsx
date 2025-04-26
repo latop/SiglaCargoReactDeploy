@@ -30,6 +30,7 @@ import BrandingWatermarkIcon from "@mui/icons-material/BrandingWatermark";
 import LocationCityIcon from "@mui/icons-material/LocationCity";
 import SouthAmericaIcon from "@mui/icons-material/SouthAmerica";
 import BusinessIcon from "@mui/icons-material/Business";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
 
 export type GroupmentType =
   | "register"
@@ -196,6 +197,12 @@ const routes: RouteItem[] = [
     text: "Empresas",
     icon: <BusinessIcon />,
     path: "/company",
+    group: "register",
+  },
+  {
+    text: "Timezones",
+    icon: <AccessTimeIcon />,
+    path: "/timezone",
     group: "register",
   },
 
