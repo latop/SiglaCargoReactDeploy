@@ -480,3 +480,25 @@ export async function fetchCompanyById({ id }: { id: string }) {
     return error;
   }
 }
+
+export const fetchTimezones = async () => {
+  try {
+    const response = await api.get("/Timezone");
+    const data = response.data;
+    return data;
+  } catch (error) {
+    console.error(error);
+    return error;
+  }
+};
+
+export async function fetchTimezoneById({ id }: { id: string }) {
+  try {
+    const response = await api.get(`/Timezone/${id}`);
+    const data = response.data;
+    return data;
+  } catch (error) {
+    console.error(error);
+    return error;
+  }
+}
