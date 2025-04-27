@@ -159,3 +159,18 @@ export interface ActivityTruck {
   flgDriverRequired: boolean;
   color: string;
 }
+
+export interface Timezone {
+  code: string;
+  description: string;
+  id: string;
+}
+
+export interface TimezoneValue {
+  timezoneId: string;
+  start: string;
+  end: string;
+  value: number;
+  timezone: Timezone;
+  id: string;
+}

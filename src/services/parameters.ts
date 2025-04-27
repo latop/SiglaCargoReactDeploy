@@ -78,6 +78,12 @@ export interface FetchRegionsParams {
   regionName?: string;
 }
 
+export interface FetchTimezoneValueParams {
+  pageSize?: number;
+  pageNumber?: number;
+  timezoneId?: string;
+}
+
 export async function fetchAcitivities({
   args: params,
 }: {
@@ -495,6 +501,39 @@ export const fetchTimezones = async () => {
 export async function fetchTimezoneById({ id }: { id: string }) {
   try {
     const response = await api.get(`/Timezone/${id}`);
+    const data = response.data;
+    return data;
+  } catch (error) {
+    console.error(error);
+    return error;
+  }
+}
+
+export const fetchTimezoneValues = async ({
+  args: params,
+}: {
+  args: FetchTimezoneValueParams;
+}) => {
+  try {
+    const timezoneValueParams = {
+      PageSize: params.pageSize,
+      PageNumber: params.pageNumber,
+      Filter1Id: params.timezoneId,
+    };
+    const response = await api.get("/TimezoneValue", {
+      params: timezoneValueParams,
+    });
+    const data = response.data;
+    return data;
+  } catch (error) {
+    console.error(error);
+    return error;
+  }
+};
+
+export async function fetchTimezoneValueById({ id }: { id: string }) {
+  try {
+    const response = await api.get(`/TimezoneValue/${id}`);
     const data = response.data;
     return data;
   } catch (error) {

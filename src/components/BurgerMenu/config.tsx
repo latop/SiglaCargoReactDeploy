@@ -200,9 +200,15 @@ const routes: RouteItem[] = [
     group: "register",
   },
   {
-    text: "Timezones",
+    text: "Fuso horário",
     icon: <AccessTimeIcon />,
     path: "/timezone",
+    group: "register",
+  },
+  {
+    text: "Valores de Fuso horário",
+    icon: <AccessTimeIcon />,
+    path: "/timezone-value",
     group: "register",
   },
 
