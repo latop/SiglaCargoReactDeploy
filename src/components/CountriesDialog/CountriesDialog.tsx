@@ -82,7 +82,7 @@ export function CountriesDialog({ open, onClose }: CountriesDialogProps) {
               </Box>
             ) : (
               <Grid container gap={1.5}>
-                <Grid item xs={3}>
+                <Grid item xs={1.5}>
                   <Controller
                     control={methods.control}
                     name="code"
@@ -102,16 +102,17 @@ export function CountriesDialog({ open, onClose }: CountriesDialogProps) {
                     )}
                   />
                 </Grid>
-                <Grid item xs={3}>
+
+                <Grid item xs={1.5}>
                   <Controller
                     control={methods.control}
-                    name="name"
+                    name="codeAlpha3"
                     render={({ field, fieldState: { error } }) => (
                       <TextField
                         {...field}
                         error={!!error}
                         helperText={error?.message}
-                        label="Descrição"
+                        label="Cod. Alpha3"
                         variant="outlined"
                         fullWidth
                         onChange={(e) => {
@@ -122,16 +123,16 @@ export function CountriesDialog({ open, onClose }: CountriesDialogProps) {
                     )}
                   />
                 </Grid>
-                <Grid item xs={3}>
+                <Grid item xs={6}>
                   <Controller
                     control={methods.control}
-                    name="codeAlpha3"
+                    name="name"
                     render={({ field, fieldState: { error } }) => (
                       <TextField
                         {...field}
                         error={!!error}
                         helperText={error?.message}
-                        label="Código Alpha3"
+                        label="Descrição"
                         variant="outlined"
                         fullWidth
                         onChange={(e) => {

@@ -21,9 +21,14 @@ export const countrySchema = z.object({
     .max(3, {
       message: "Máximo 3 caracteres.",
     }),
-  name: z.string().min(1, {
-    message: "Obrigatório",
-  }),
+  name: z
+    .string()
+    .min(1, {
+      message: "Obrigatório",
+    })
+    .max(100, {
+      message: "Máximo 100 caracteres.",
+    }),
   codeAlpha3: z
     .string()
     .min(1, {
