@@ -12,7 +12,6 @@ import useSWR from "swr";
 import { z } from "zod";
 
 export const companySchema = z.object({
-  id: z.string().nullable(),
   name: z.string().min(1, {
     message: "Obrigatório",
   }),
@@ -32,22 +31,6 @@ export const companySchema = z.object({
     message: "Obrigatório",
   }),
   regionId: z.string().nullable(),
-  country: z.object({
-    code: z.string().nullable(),
-    name: z.string().nullable(),
-  }),
-  state: z.object({
-    code: z.string().nullable(),
-    name: z.string().nullable(),
-  }),
-  city: z.object({
-    code: z.string().nullable(),
-    name: z.string().nullable(),
-  }),
-  region: z.object({
-    code: z.string().nullable(),
-    name: z.string().nullable(),
-  }),
   isSupplier: z.boolean().default(false),
 });
 export type CompanyFormType = z.infer<typeof companySchema>;
@@ -95,18 +78,6 @@ export const useCompaniesDialog = () => {
             stateId: data.stateId,
             countryId: data.countryId,
             regionId: data.regionId,
-            country: {
-              name: data.country?.name,
-            },
-            state: {
-              name: data.state?.name,
-            },
-            city: {
-              name: data.city?.name,
-            },
-            region: {
-              name: data.region?.name,
-            },
             isSupplier: data.isSupplier,
           });
           return;
@@ -141,7 +112,11 @@ export const useCompaniesDialog = () => {
     if (companyId) {
       const body = {
         ...data,
-        id: company?.id,
+        id: companyId,
+        country: undefined,
+        state: undefined,
+        city: undefined,
+        region: undefined,
       };
 
       await handleCompany("/Companies", body, {
@@ -165,6 +140,8 @@ export const useCompaniesDialog = () => {
       methods.reset();
     }
   }, [methods.reset, isToAddCompany]);
+  console.log(methods.formState.errors);
+
   return {
     isToAddCompany,
     companyId,

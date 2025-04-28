@@ -91,13 +91,13 @@ export function CompaniesDialog({ open, onClose }: CompaniesDialogProps) {
                 <Grid item xs={3}>
                   <Controller
                     control={methods.control}
-                    name="name"
+                    name="code"
                     render={({ field, fieldState: { error } }) => (
                       <TextField
                         {...field}
                         error={!!error}
                         helperText={error?.message}
-                        label="Nome"
+                        label="Código"
                         variant="outlined"
                         fullWidth
                         onChange={(e) => {
@@ -110,13 +110,13 @@ export function CompaniesDialog({ open, onClose }: CompaniesDialogProps) {
                 <Grid item xs={3}>
                   <Controller
                     control={methods.control}
-                    name="code"
+                    name="name"
                     render={({ field, fieldState: { error } }) => (
                       <TextField
                         {...field}
                         error={!!error}
                         helperText={error?.message}
-                        label="Código"
+                        label="Nome"
                         variant="outlined"
                         fullWidth
                         onChange={(e) => {
