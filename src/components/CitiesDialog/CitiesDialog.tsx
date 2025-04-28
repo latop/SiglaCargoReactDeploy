@@ -127,7 +127,7 @@ export function CitiesDialog({ open, onClose }: CitiesDialogProps) {
                 </Grid>
                 <Grid item xs={3}>
                   <AutocompleteContries
-                    name="country.code"
+                    name="country.name"
                     onChange={(value) => {
                       methods.setValue("countryId", value?.id || "");
                       methods.setValue("country", value || {});
@@ -136,7 +136,7 @@ export function CitiesDialog({ open, onClose }: CitiesDialogProps) {
                 </Grid>
                 <Grid item xs={3}>
                   <AutocompleteStates
-                    name="state.code"
+                    name="state.name"
                     onChange={(value) => {
                       methods.setValue("stateId", value?.id || "");
                       methods.setValue("state", value || {});
@@ -156,10 +156,9 @@ export function CitiesDialog({ open, onClose }: CitiesDialogProps) {
                         label="Latitude"
                         variant="outlined"
                         fullWidth
-                        type="number"
                         inputProps={{ step: "any" }}
                         onChange={(e) => {
-                          field.onChange(Number(e.target.value));
+                          field.onChange(e.target.value);
                         }}
                       />
                     )}
@@ -177,10 +176,9 @@ export function CitiesDialog({ open, onClose }: CitiesDialogProps) {
                         label="Longitude"
                         variant="outlined"
                         fullWidth
-                        type="number"
                         inputProps={{ step: "any" }}
                         onChange={(e) => {
-                          field.onChange(Number(e.target.value));
+                          field.onChange(e.target.value);
                         }}
                       />
                     )}

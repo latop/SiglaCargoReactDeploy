@@ -55,12 +55,12 @@ export const useLocationsFilterBar = () => {
       params.append("submitted", "true");
     }
 
-    router.push(`/locations?${params.toString()}`);
+    router.push(`/locations${params.toString()}`);
   };
 
   const onClearParams = () => {
     methods.reset({});
-    router.push("/locations");
+    router.push("/location");
     setTimeout(() => window.location.reload(), 500);
   };
 

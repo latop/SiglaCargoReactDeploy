@@ -15,12 +15,11 @@ import { z } from "zod";
 export const citySchema = z.object({
   code: z
     .string()
-    .min(1, {
-      message: "Obrigatório",
-    })
     .max(3, {
       message: "Máximo 3 caracteres.",
-    }),
+    })
+    .nullable()
+    .default(""),
   name: z.string().min(1, {
     message: "Obrigatório",
   }),
@@ -31,8 +30,8 @@ export const citySchema = z.object({
     message: "Obrigatório",
   }),
   capital: z.boolean().default(false),
-  latitude: z.number().optional(),
-  longitude: z.number().optional(),
+  latitude: z.coerce.number().optional(),
+  longitude: z.coerce.number().optional(),
   state: z.any(),
   country: z.any(),
 });
@@ -81,8 +80,8 @@ export const useCitiesDialog = () => {
             stateId: data.stateId,
             countryId: data.countryId,
             capital: data.capital,
-            latitude: data.latitude,
-            longitude: data.longitude,
+            latitude: data.latitude || 0,
+            longitude: data.longitude || 0,
             state: data.state,
             country: data.country,
           });
@@ -151,6 +150,8 @@ export const useCitiesDialog = () => {
       methods.reset();
     }
   }, [methods.reset, isToAddCity]);
+
+  console.log(methods.formState.errors);
   return {
     isToAddCity,
     cityId,
