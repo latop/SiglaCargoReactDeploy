@@ -164,7 +164,7 @@ const routes: RouteItem[] = [
     group: "register",
   },
   {
-    text: "Atividades de Caminhão",
+    text: "Atividades de Veículo",
     icon: <LocalShippingIcon />,
     path: "/activity-truck",
     group: "register",

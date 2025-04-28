@@ -45,7 +45,7 @@ export function ActivityTruck() {
   return (
     <MainContainer>
       <AppBar>
-        <HeaderTitle>Atividades de Caminhão</HeaderTitle>
+        <HeaderTitle>Atividades de Veículo</HeaderTitle>
       </AppBar>
       <Box
         sx={{
