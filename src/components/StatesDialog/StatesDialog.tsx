@@ -129,6 +129,7 @@ export function StatesDialog({ open, onClose }: StatesDialogProps) {
                     onChange={(value) => {
                       methods.setValue("countryId", value?.id || "");
                       methods.setValue("country.name", value?.name || "");
+                      methods.setValue("country.code", value?.code || "");
                     }}
                   />
                 </Grid>

@@ -151,7 +151,6 @@ export const useCitiesDialog = () => {
     }
   }, [methods.reset, isToAddCity]);
 
-  console.log(methods.formState.errors);
   return {
     isToAddCity,
     cityId,

@@ -91,10 +91,12 @@ export const useStatesDialog = () => {
             country: {
               id: data.country?.id,
               name: data.country?.name,
+              code: data.country?.code,
             },
             region: {
               id: data.region?.id,
               name: data.region?.name,
+              code: data.region?.code,
             },
           });
           return;
@@ -161,7 +163,7 @@ export const useStatesDialog = () => {
       methods.reset();
     }
   }, [methods.reset, isToAddState]);
-
+  console.log(methods.formState.errors);
   return {
     isToAddState,
     stateId,
