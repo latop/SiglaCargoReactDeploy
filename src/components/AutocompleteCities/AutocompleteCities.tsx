@@ -29,7 +29,8 @@ export function AutocompleteCities({
     formState: { errors, dirtyFields },
   } = useFormContext();
 
-  const isDirty = dirtyFields[name];
+  const isDirty = dirtyFields[name] || name.includes("city");
+
   const {
     cities,
     error,
@@ -69,7 +70,9 @@ export function AutocompleteCities({
           clearOnEscape
           options={cities ?? []}
           loadingText="Carregando..."
-          defaultValue={{ [keyCode]: field.value?.[keyCode] || "" } as City}
+          defaultValue={
+            { [keyCode]: field.value?.[keyCode] || field.value || "" } as City
+          }
           isOptionEqualToValue={(option: City, value: City) =>
             option[keyCode] === value[keyCode]
           }
@@ -78,7 +81,7 @@ export function AutocompleteCities({
             isLoadingCondition
               ? "Carregando..."
               : !field.value
-              ? "Digite o código"
+              ? "Digite..."
               : "Nenhum resultado encontrado"
           }
           getOptionLabel={(option: City) => option?.name}

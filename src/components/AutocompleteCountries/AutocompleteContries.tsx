@@ -56,7 +56,7 @@ export function AutocompleteContries({
           onChange={handleChange}
           noOptionsText={
             !field.value
-              ? "Digite o código"
+              ? "Digite..."
               : !countries && !error
               ? "Carregando..."
               : "Nenhum resultado encontrado"

@@ -13,12 +13,22 @@ import useSWR from "swr";
 import { z } from "zod";
 
 export const timezoneSchema = z.object({
-  code: z.string().min(1, {
-    message: "Obrigatório",
-  }),
-  description: z.string().min(1, {
-    message: "Obrigatório",
-  }),
+  code: z
+    .string()
+    .min(1, {
+      message: "Obrigatório",
+    })
+    .max(20, {
+      message: "Máximo 20 caracteres",
+    }),
+  description: z
+    .string()
+    .min(1, {
+      message: "Obrigatório",
+    })
+    .max(100, {
+      message: "Máximo 100 caracteres",
+    }),
 });
 
 export type TimezoneFormType = z.infer<typeof timezoneSchema>;

@@ -20,6 +20,7 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
 import { Timezone } from "@/services/query/parameters";
 import { AutocompleteTimezone } from "../AutocompleteTimzone";
+import dayjs from "dayjs";
 
 interface TimezoneValueDialogProps {
   open: boolean;
@@ -106,13 +107,12 @@ export function TimezoneValueDialog({
                     render={({ field, fieldState: { error } }) => (
                       <TextField
                         {...field}
-                        type="number"
                         error={!!error}
                         helperText={error?.message}
                         label="Valor"
                         variant="outlined"
                         fullWidth
-                        onChange={(e) => field.onChange(Number(e.target.value))}
+                        onChange={(e) => field.onChange(e.target.value)}
                       />
                     )}
                   />
@@ -124,7 +124,7 @@ export function TimezoneValueDialog({
                     render={({ field, fieldState: { error } }) => (
                       <DatePicker
                         label="Data Início"
-                        value={null}
+                        value={field.value ? dayjs(field.value) : null}
                         onChange={(date) => field.onChange(date)}
                         slotProps={{
                           textField: {
@@ -144,7 +144,7 @@ export function TimezoneValueDialog({
                     render={({ field, fieldState: { error } }) => (
                       <DatePicker
                         label="Data Fim"
-                        value={null}
+                        value={field.value ? dayjs(field.value) : null}
                         onChange={(date) => field.onChange(date)}
                         slotProps={{
                           textField: {

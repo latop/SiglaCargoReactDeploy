@@ -147,7 +147,8 @@ export function CompaniesDialog({ open, onClose }: CompaniesDialogProps) {
                     name="country.name"
                     label="País"
                     onChange={(value) => {
-                      methods.setValue("countryId", value?.id ?? "");
+                      methods.setValue("countryId", value?.id || null);
+                      methods.setValue("country", value || null);
                     }}
                   />
                 </Grid>
@@ -156,7 +157,8 @@ export function CompaniesDialog({ open, onClose }: CompaniesDialogProps) {
                     name="state.name"
                     label="Estado"
                     onChange={(value) => {
-                      methods.setValue("stateId", value?.id ?? "");
+                      methods.setValue("stateId", value?.id || null);
+                      methods.setValue("state", value || null);
                     }}
                   />
                 </Grid>
@@ -165,7 +167,8 @@ export function CompaniesDialog({ open, onClose }: CompaniesDialogProps) {
                     name="city.name"
                     label="Cidade"
                     onChange={(value) => {
-                      methods.setValue("cityId", value?.id ?? "");
+                      methods.setValue("cityId", value?.id || null);
+                      methods.setValue("city", value || null);
                     }}
                   />
                 </Grid>
@@ -174,7 +177,8 @@ export function CompaniesDialog({ open, onClose }: CompaniesDialogProps) {
                     name="region.name"
                     label="Região"
                     onChange={(value) => {
-                      methods.setValue("regionId", value?.id ?? "");
+                      methods.setValue("regionId", value?.id || null);
+                      methods.setValue("region", value || null);
                     }}
                   />
                 </Grid>

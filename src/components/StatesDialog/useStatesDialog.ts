@@ -163,7 +163,7 @@ export const useStatesDialog = () => {
       methods.reset();
     }
   }, [methods.reset, isToAddState]);
-  console.log(methods.formState.errors);
+
   return {
     isToAddState,
     stateId,

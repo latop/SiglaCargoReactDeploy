@@ -20,7 +20,7 @@ export const timezoneValueSchema = z.object({
     code: z.string(),
     description: z.string(),
   }),
-  value: z.number().min(-12).max(14, {
+  value: z.coerce.number().min(-12).max(14, {
     message: "Valor deve estar entre -12 e 14",
   }),
   start: z.any(),
@@ -41,8 +41,8 @@ export const useTimezoneValueDialog = () => {
         description: "",
       },
       value: 0,
-      start: dayjs().format(),
-      end: dayjs().format(),
+      start: null,
+      end: null,
     },
   });
   const { addToast } = useToast();

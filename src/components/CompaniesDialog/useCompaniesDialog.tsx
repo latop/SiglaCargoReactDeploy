@@ -18,20 +18,32 @@ export const companySchema = z.object({
   code: z.string().min(1, {
     message: "Obrigatório",
   }),
-  address: z.string().min(1, {
-    message: "Obrigatório",
-  }),
-  cityId: z.string().min(1, {
-    message: "Obrigatório",
-  }),
-  stateId: z.string().min(1, {
-    message: "Obrigatório",
-  }),
-  countryId: z.string().min(1, {
-    message: "Obrigatório",
-  }),
+  address: z.string().nullable(),
+  cityId: z.string().nullable(),
+  stateId: z.string().nullable(),
+  countryId: z.string().nullable(),
   regionId: z.string().nullable(),
   isSupplier: z.boolean().default(false),
+  city: z
+    .object({
+      name: z.string().nullable(),
+    })
+    .nullable(),
+  state: z
+    .object({
+      name: z.string().nullable(),
+    })
+    .nullable(),
+  country: z
+    .object({
+      name: z.string().nullable(),
+    })
+    .nullable(),
+  region: z
+    .object({
+      name: z.string().nullable(),
+    })
+    .nullable(),
 });
 export type CompanyFormType = z.infer<typeof companySchema>;
 
@@ -43,11 +55,15 @@ export const useCompaniesDialog = () => {
       name: "",
       code: "",
       address: "",
-      cityId: "",
-      stateId: "",
-      countryId: "",
+      cityId: null,
+      stateId: null,
+      countryId: null,
       regionId: null,
       isSupplier: false,
+      city: null,
+      state: null,
+      country: null,
+      region: null,
     },
   });
   const { addToast } = useToast();
@@ -79,6 +95,10 @@ export const useCompaniesDialog = () => {
             countryId: data.countryId,
             regionId: data.regionId,
             isSupplier: data.isSupplier,
+            city: data.city ? { name: data.city.name } : null,
+            state: data.state ? { name: data.state.name } : null,
+            country: data.country ? { name: data.country.name } : null,
+            region: data.region ? { name: data.region.name } : null,
           });
           return;
         }
@@ -94,6 +114,10 @@ export const useCompaniesDialog = () => {
     if (isToAddCompany) {
       const body = {
         ...data,
+        country: undefined,
+        state: undefined,
+        city: undefined,
+        region: undefined,
       };
       await handleCompany("/Companies", body, {
         method: "post",
@@ -141,7 +165,6 @@ export const useCompaniesDialog = () => {
     }
   }, [methods.reset, isToAddCompany]);
   console.log(methods.formState.errors);
-
   return {
     isToAddCompany,
     companyId,

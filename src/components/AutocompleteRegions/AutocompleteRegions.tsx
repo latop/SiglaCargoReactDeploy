@@ -56,7 +56,7 @@ export function AutocompleteRegions({
           onChange={handleChange}
           noOptionsText={
             !field.value
-              ? "Digite o código"
+              ? "Digite..."
               : !regions && !error
               ? "Carregando..."
               : "Nenhum resultado encontrado"

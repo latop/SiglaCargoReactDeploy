@@ -137,7 +137,7 @@ export function StatesDialog({ open, onClose }: StatesDialogProps) {
                   <AutocompleteRegions
                     name="region.name"
                     onChange={(value) => {
-                      methods.setValue("regionId", value?.id || "");
+                      methods.setValue("regionId", value?.id || null);
                       methods.setValue("region.code", value?.code || "");
                       methods.setValue("region.name", value?.name || "");
                       methods.setValue("region.id", value?.id || "");

@@ -69,7 +69,7 @@ export function AutocompleteStates({
           onChange={handleChange}
           noOptionsText={
             !field.value
-              ? "Digite o código"
+              ? "Digite..."
               : !states && !error
               ? "Carregando..."
               : "Nenhum resultado encontrado"

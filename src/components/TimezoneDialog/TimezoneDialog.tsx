@@ -81,7 +81,7 @@ export function TimezoneDialog({ open, onClose }: TimezoneDialogProps) {
                 <CircularProgress />
               </Box>
             ) : (
-              <Grid container gap={1.5}>
+              <Grid container spacing={1.5}>
                 <Grid item xs={6}>
                   <Controller
                     control={methods.control}
