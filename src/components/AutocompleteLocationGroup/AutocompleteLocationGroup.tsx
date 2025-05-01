@@ -49,7 +49,6 @@ export function AutocompleteLocationGroup({
       staleTime: 0,
     },
   );
-  console.log(locationGroups);
 
   const handleChange = (
     _: SyntheticEvent<Element, Event>,
