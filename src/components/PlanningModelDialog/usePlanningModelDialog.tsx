@@ -140,8 +140,8 @@ export const usePlanningModelDialog = () => {
     if (isToAddPlanningModel) {
       const body = {
         ...data,
-        locationOrigId: data.locationOrig.id,
-        locationDestId: data.locationDest.id,
+        locationOrigId: data.locationOrig?.id,
+        locationDestId: data.locationDest?.id,
         locationOrig: undefined,
         locationDest: undefined,
       };
@@ -165,8 +165,8 @@ export const usePlanningModelDialog = () => {
       const body = {
         ...data,
         id: planningModel?.id,
-        locationOrigId: data.locationOrig.id,
-        locationDestId: data.locationDest.id,
+        locationOrigId: data.locationOrig?.id,
+        locationDestId: data.locationDest?.id,
         locationOrig: undefined,
         locationDest: undefined,
       };
