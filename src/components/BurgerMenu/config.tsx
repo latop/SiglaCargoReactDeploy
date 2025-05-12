@@ -27,6 +27,10 @@ import RoomIcon from "@mui/icons-material/Room";
 import LinearScaleIcon from "@mui/icons-material/LinearScale";
 import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
 import BrandingWatermarkIcon from "@mui/icons-material/BrandingWatermark";
+import LocationCityIcon from "@mui/icons-material/LocationCity";
+import SouthAmericaIcon from "@mui/icons-material/SouthAmerica";
+import BusinessIcon from "@mui/icons-material/Business";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
 
 export type GroupmentType =
   | "register"
@@ -157,6 +161,54 @@ const routes: RouteItem[] = [
     text: "Marca de Frota",
     icon: <BrandingWatermarkIcon />,
     path: "/fleet-brand",
+    group: "register",
+  },
+  {
+    text: "Atividades de Veículo",
+    icon: <LocalShippingIcon />,
+    path: "/activity-truck",
+    group: "register",
+  },
+  {
+    text: "Cidades",
+    icon: <LocationCityIcon />,
+    path: "/city",
+    group: "register",
+  },
+  {
+    text: "Estados",
+    icon: <SouthAmericaIcon />,
+    path: "/state",
+    group: "register",
+  },
+  {
+    text: "Regiões",
+    icon: <SouthAmericaIcon />,
+    path: "/region",
+    group: "register",
+  },
+  {
+    text: "Países",
+    icon: <SouthAmericaIcon />,
+    path: "/country",
+    group: "register",
+  },
+  {
+    text: "Empresas",
+    icon: <BusinessIcon />,
+    path: "/company",
+    group: "register",
+  },
+  {
+    text: "Fuso horário",
+    icon: <AccessTimeIcon />,
+    path: "/timezone",
+    group: "register",
+  },
+  {
+    text: "Fuso horário - Valores",
+    icon: <AccessTimeIcon />,
+    path: "/timezone-value",
     group: "register",
   },
 
