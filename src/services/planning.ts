@@ -102,7 +102,6 @@ export const fetchPlanningModelList = async (
 
 export const fetchPlanningModelById = async ({ id }: { id: string }) => {
   try {
-    console.log(id);
     const response = await api.get(`/PlanningModel/${id}`);
     return response.data;
   } catch (error) {

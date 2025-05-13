@@ -38,13 +38,13 @@ export const columnsConfig = ({
     valueFormatter: (value) => dayjs(value).format("DD/MM/YYYY"),
   },
   {
-    field: "locationOrigId",
+    field: "locationOrig.code",
     headerName: "Local de Origem",
     flex: 1,
     minWidth: 150,
   },
   {
-    field: "locationDestId",
+    field: "locationDest.code",
     headerName: "Local de Destino",
     flex: 1,
     minWidth: 150,

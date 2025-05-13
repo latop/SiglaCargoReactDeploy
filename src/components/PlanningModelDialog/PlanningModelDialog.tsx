@@ -95,7 +95,7 @@ export function PlanningModelDialog({
                   <CircularProgress />
                 </Box>
               ) : (
-                <Grid container gap={1}>
+                <Grid container gap={2}>
                   <Grid container spacing={1}>
                     <Grid item xs={2}>
                       <Controller
@@ -133,6 +133,7 @@ export function PlanningModelDialog({
                         label="Origem"
                         onChange={(value) => {
                           methods.setValue("locationOrig.id", value?.id || "");
+                          methods.setValue("locationOrigId", value?.id || "");
                         }}
                       />
                     </Grid>
@@ -142,6 +143,7 @@ export function PlanningModelDialog({
                         label="Destino"
                         onChange={(value) => {
                           methods.setValue("locationDest.id", value?.id || "");
+                          methods.setValue("locationDestId", value?.id || "");
                         }}
                       />
                     </Grid>
