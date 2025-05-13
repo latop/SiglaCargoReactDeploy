@@ -5,7 +5,7 @@ import EditIcon from "@mui/icons-material/Edit";
 interface ActionsColumnProps {
   onDelete: () => void;
   onEdit?: () => void;
-  isLoadingDelete: boolean;
+  isLoadingDelete?: boolean;
 }
 
 export const ActionsColumn = ({

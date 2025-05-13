@@ -1,13 +1,63 @@
-/* eslint-disable prettier/prettier */
 import { useFetch } from "@/hooks/useFetch";
 import { useHash } from "@/hooks/useHash";
 import { useLines } from "@/hooks/useLines";
 import { useToast } from "@/hooks/useToast";
-import { Line } from "@/interfaces/lines";
 import { fetchLineById } from "@/services/trips";
 import dayjs from "dayjs";
-import { FieldValues, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import useSWR from "swr";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+const lineSectionSchema = z.object({
+  id: z.string().uuid().optional(),
+  lineId: z.string().uuid(),
+  section: z.number().int().min(1),
+  locationOrigId: z.string().optional(),
+  locationOrig: z
+    .object({
+      code: z.string().optional(),
+    })
+    .optional(),
+  locationDestId: z.string().optional(),
+  locationDest: z
+    .object({
+      code: z.string().optional(),
+    })
+    .optional(),
+  duration: z.number().nullable(),
+  stopTypeId: z.string().uuid().optional(),
+  locationGroupId: z.string().uuid().nullable(),
+  logisticHub: z.boolean().optional().default(false),
+});
+
+const lineSchema = z.object({
+  line: z.object({
+    id: z.string().uuid(),
+    code: z.string().min(1, "Code is required"),
+    description: z.string().min(1, "Description is required"),
+    startDate: z.string().min(1, "Start date is required"),
+    endDate: z.string().min(1, "End date is required"),
+    freqMon: z.number().int().min(0).max(1),
+    freqTue: z.number().int().min(0).max(1),
+    freqWed: z.number().int().min(0).max(1),
+    freqThu: z.number().int().min(0).max(1),
+    freqFri: z.number().int().min(0).max(1),
+    freqSat: z.number().int().min(0).max(1),
+    freqSun: z.number().int().min(0).max(1),
+    overtimeAllowed: z.number().int().min(0),
+    locationOrigId: z.string().optional(),
+    locationOrigCode: z.string().optional(),
+    locationDestId: z.string().optional(),
+    locationDestCode: z.string().optional(),
+    cost: z.number().int().min(0),
+    fleetGroupId: z.string().uuid(),
+    tripTypeId: z.string().uuid().optional(),
+  }),
+  lineSections: z.array(lineSectionSchema).optional(),
+});
+export type LineSection = z.infer<typeof lineSectionSchema>;
+export type LineFormData = z.infer<typeof lineSchema>;
 
 export function useUpdateLineDialog() {
   const [hash] = useHash();
@@ -15,65 +65,65 @@ export function useUpdateLineDialog() {
   const match = (hash as string)?.match(/#line-id-(.+)/);
   const lineId = match?.[1];
 
-  const normalizeData = (data: Line | undefined) => {
-    const lineDefaultValues = {
-      line: {
-        ...data?.line,
-        freqFri: data?.line.freqFri ? 1 : 0,
-        freqMon: data?.line.freqMon ? 1 : 0,
-        freqSat: data?.line.freqSat ? 1 : 0,
-        freqSun: data?.line.freqSun ? 1 : 0,
-        freqThu: data?.line.freqThu ? 1 : 0,
-        freqTue: data?.line.freqTue ? 1 : 0,
-        freqWed: data?.line.freqWed ? 1 : 0,
-        description: data?.line.description,
-        code: data?.line.code,
-        locationOrig: data?.line.locationOrig.code,
-        locationDest: data?.line.locationDest.code,
-        locationOrigId: data?.line.locationOrig.id,
-        locationDestId: data?.line.locationDest.id,
-        tripType: data?.line.tripType,
-        tripTypeId: data?.line.tripType?.id,
-        fleetGroupId: data?.line.fleetGroupId,
-      },
-      lineSections: data?.lineSections?.map((section) => {
-        return {
-          ...section,
-          locationOrig: section.locationOrig.code,
-          locationDest: section.locationDest.code,
-          locationGroupId: section.locationGroupId,
-        }
-      }),
-    };
-
-    return lineDefaultValues;
-  };
-
-  const { data: lineData, isLoading: isLoadingLine, mutate: refreshLine } = useSWR<Line>(
-    lineId
-      ? {
-        id: lineId,
-        url: "/returnline",
-      }
-      : null,
+  const {
+    data: lineData,
+    isLoading: isLoadingLine,
+    mutate: refreshLine,
+  } = useSWR<LineFormData>(
+    lineId ? { id: lineId, url: `returnline-${lineId}` } : null,
     fetchLineById,
     {
-      revalidateOnFocus: false,
-      revalidateOnReconnect: false,
-      revalidateIfStale: false,
       onSuccess: (data) => {
-        methods.reset(normalizeData(data));
+        if (lineId) {
+          methods.reset({
+            ...data,
+            lineSections: data.lineSections?.map((section: LineSection) => ({
+              ...section,
+              locationOrigCode: section.locationOrig?.code,
+              locationDestCode: section.locationDest?.code,
+            })),
+          });
+        }
+      },
+      onError: (error) => {
+        console.error(error);
+        methods.reset({});
       },
     },
   );
 
-  const methods = useForm();
+  const methods = useForm<LineFormData>({
+    resolver: zodResolver(lineSchema),
+    defaultValues: {
+      line: {
+        id: "00000000-0000-0000-0000-000000000000",
+        code: "",
+        description: "",
+        startDate: "",
+        endDate: "",
+        freqMon: 1,
+        freqTue: 1,
+        freqWed: 1,
+        freqThu: 1,
+        freqFri: 1,
+        freqSat: 1,
+        freqSun: 1,
+        overtimeAllowed: 0,
+        locationOrigId: "",
+        locationDestId: "",
+        cost: 0,
+        fleetGroupId: "",
+        tripTypeId: "",
+      },
+      lineSections: [],
+    },
+  });
 
   const { addToast } = useToast();
   const [lineCreate, { loading: loadingCreate }] = useFetch();
   const [, setHash] = useHash();
 
-  const handleSubmit = async (data: FieldValues) => {
+  const handleSubmit = async (data: LineFormData) => {
     const body = {
       line: {
         id: data.line.id,
@@ -88,47 +138,51 @@ export function useUpdateLineDialog() {
         freqWed: data.line.freqWed ? 1 : 0,
         description: data.line.description,
         code: data.line.code,
-        tripType: data.line.tripType,
-        tripTypeId: data.line.tripType?.id,
+        tripTypeId: data.line.tripTypeId,
         locationOrigId: data.line.locationOrigId,
         locationDestId: data.line.locationDestId,
         fleetGroupId: data.line.fleetGroupId,
         overtimeAllowed: data?.line.overtimeAllowed,
         cost: data?.line.cost,
       },
-
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      lineSections: data?.lineSections?.map((section: any) => {
-        console.log(section);
-        return {
-          id: section?.id,
-          lineId: section?.lineId,
-          locationOrigId: section?.locationOrigId,
-          locationDestId: section?.locationDestId,
-          stopTypeId: section?.stopTypeId,
-          duration: Number(section?.duration),
-          locationGroupId: section?.locationGroupId,
-        };
-      }),
+      lineSections: data?.lineSections?.map(
+        (section: LineSection): LineSection => {
+          return {
+            section: section.section,
+            lineId: section.lineId,
+            locationOrigId: section.locationOrigId,
+            locationDestId: section.locationDestId,
+            locationGroupId: section.locationGroupId,
+            stopTypeId: section.stopTypeId,
+            logisticHub: section.logisticHub,
+            duration: section.duration,
+          };
+        },
+      ),
     };
 
     return await lineCreate("/updateline", body, {
       onSuccess: () => {
         addToast("Rota atualizada com sucesso!", { type: "success" });
-        refetchLines();
         setHash("");
         methods.reset({});
-        refetchLines()
-        refreshLine()
+        refetchLines();
+        refreshLine();
       },
       onError: (error) => addToast(error.message, { type: "error" }),
     });
   };
+  const lineSections = methods.watch("lineSections");
+  const countSections = lineSections?.length;
 
   return {
     methods,
     handleSubmit,
     loadingCreate,
-    isLoadingLine: isLoadingLine && !lineData,
+    isLoadingLine: isLoadingLine,
+    lineSections,
+    countSections,
+    lineId,
+    lineData,
   };
 }

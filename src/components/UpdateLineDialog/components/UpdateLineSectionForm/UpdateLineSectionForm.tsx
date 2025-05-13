@@ -8,6 +8,8 @@ import {
   IconButton,
   Icon,
   Tooltip,
+  Checkbox,
+  FormControlLabel,
 } from "@mui/material";
 
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -84,7 +86,7 @@ export const UpdateLineSectionForm = ({ seq }: { seq: number }) => {
           </Grid>
           <Grid item xs={3}>
             <AutocompleteLocation
-              name={`lineSections.${seq}.locationOrig`}
+              name={`lineSections.${seq}.locationOrig.code`}
               label="Origem"
               onChange={(value) => {
                 setValue(`lineSections.${seq}.locationOrigId`, value?.id || "");
@@ -94,7 +96,7 @@ export const UpdateLineSectionForm = ({ seq }: { seq: number }) => {
           <Grid item xs={3}>
             <AutocompleteLocation
               label="Destino"
-              name={`lineSections.${seq}.locationDest`}
+              name={`lineSections.${seq}.locationDest.code`}
               onChange={(value) => {
                 setValue(`lineSections.${seq}.locationDestId`, value?.id || "");
               }}
@@ -118,6 +120,40 @@ export const UpdateLineSectionForm = ({ seq }: { seq: number }) => {
               name={`lineSections.${seq}.stopType.stopTypeCode`}
               onChange={(value) => {
                 setValue(`lineSections.${seq}.stopTypeId`, value?.id);
+              }}
+            />
+          </Grid>
+          <Grid item xs={1}>
+            <Controller
+              name={`lineSections.${seq}.logisticHub`}
+              control={control}
+              render={({ field }) => {
+                return (
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={field.value}
+                        {...field}
+                        sx={{ padding: "0" }}
+                      />
+                    }
+                    label="Ponto de troca"
+                    componentsProps={{
+                      typography: {
+                        sx: {
+                          fontSize: "12px",
+                          color: colors.grey[600],
+                        },
+                      },
+                    }}
+                    sx={{
+                      display: "flex",
+                      flexDirection: "column-reverse",
+                      margin: "0",
+                      alignItems: "center",
+                    }}
+                  />
+                );
               }}
             />
           </Grid>
