@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form";
 import useSWR from "swr";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useLayoutEffect } from "react";
 
 const lineSectionSchema = z.object({
   id: z.string().uuid().optional(),
@@ -75,19 +76,14 @@ export function useUpdateLineDialog() {
     {
       onSuccess: (data) => {
         if (lineId) {
-          methods.reset({
-            ...data,
-            lineSections: data.lineSections?.map((section: LineSection) => ({
-              ...section,
-              locationOrigCode: section.locationOrig?.code,
-              locationDestCode: section.locationDest?.code,
-            })),
-          });
+          methods.reset(data);
+          return;
         }
+        methods.reset();
       },
       onError: (error) => {
         console.error(error);
-        methods.reset({});
+        methods.reset();
       },
     },
   );
@@ -175,11 +171,17 @@ export function useUpdateLineDialog() {
   const lineSections = methods.watch("lineSections");
   const countSections = lineSections?.length;
 
+  useLayoutEffect(() => {
+    if (lineData) {
+      methods.reset(lineData);
+    }
+  }, [methods.reset, lineData]);
+
   return {
     methods,
     handleSubmit,
     loadingCreate,
-    isLoadingLine: isLoadingLine,
+    isLoadingLine: isLoadingLine || !lineData,
     lineSections,
     countSections,
     lineId,

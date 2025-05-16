@@ -86,7 +86,6 @@ export const columnsConfig = ({
       sortable: false,
       filterable: false,
       renderCell: (params) => {
-        console.log(params);
         return (
           <ActionsColumn
             onDelete={() => {

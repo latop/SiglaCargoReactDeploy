@@ -55,33 +55,13 @@ export function UpdateLineDialog({ open, onClose }: DailyTripDetailsProps) {
     countSections,
     lineSections,
     lineId,
+    loadingCreate,
   } = useUpdateLineDialog();
 
   const handleClose = () => {
-    methods.reset({
-      line: {
-        id: "00000000-0000-0000-0000-000000000000",
-        code: "",
-        description: "",
-        startDate: "",
-        endDate: "",
-        freqMon: 1,
-        freqTue: 1,
-        freqWed: 1,
-        freqThu: 1,
-        freqFri: 1,
-        freqSat: 1,
-        freqSun: 1,
-        overtimeAllowed: 0,
-        locationOrigId: "",
-        locationDestId: "",
-        cost: 0,
-        fleetGroupId: "",
-        tripTypeId: "",
-      },
-      lineSections: [],
-    });
     onClose();
+
+    methods.reset();
   };
 
   const renderedSections = useMemo(() => {
@@ -387,7 +367,9 @@ export function UpdateLineDialog({ open, onClose }: DailyTripDetailsProps) {
               )}
             </DialogContent>
 
-            {!isLoadingLine && <UpdateLineFormFooter />}
+            {!isLoadingLine && (
+              <UpdateLineFormFooter loadingCreate={loadingCreate} />
+            )}
           </form>
         </FormProvider>
       </Dialog>
