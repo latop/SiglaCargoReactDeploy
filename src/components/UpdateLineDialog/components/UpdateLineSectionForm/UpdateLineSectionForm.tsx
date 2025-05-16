@@ -33,7 +33,7 @@ export const UpdateLineSectionForm = ({ seq }: { seq: number }) => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const updatedSteps = steps.map((step: any, index: number) => ({
       ...step,
-      section: { ...step.section, seq: index },
+      section: index + 1,
     }));
     setValue("lineSections", updatedSteps);
   };
@@ -90,6 +90,7 @@ export const UpdateLineSectionForm = ({ seq }: { seq: number }) => {
               label="Origem"
               onChange={(value) => {
                 setValue(`lineSections.${seq}.locationOrigId`, value?.id || "");
+                setValue(`lineSections.${seq}.locationOrig`, value || "");
               }}
             />
           </Grid>
@@ -98,7 +99,9 @@ export const UpdateLineSectionForm = ({ seq }: { seq: number }) => {
               label="Destino"
               name={`lineSections.${seq}.locationDest.code`}
               onChange={(value) => {
+                console.log(value);
                 setValue(`lineSections.${seq}.locationDestId`, value?.id || "");
+                setValue(`lineSections.${seq}.locationDest`, value || "");
               }}
             />
           </Grid>
@@ -107,11 +110,11 @@ export const UpdateLineSectionForm = ({ seq }: { seq: number }) => {
               label="Base vinculada"
               name={`lineSections.${seq}.locationGroup.code`}
               onChange={(value) => {
+                console.log(value);
                 setValue(
                   `lineSections.${seq}.locationGroupId`,
                   value?.id || "",
                 );
-                setValue(`lineSections.${seq}.locationGroup`, value || "");
               }}
             />
           </Grid>
@@ -120,6 +123,7 @@ export const UpdateLineSectionForm = ({ seq }: { seq: number }) => {
               name={`lineSections.${seq}.stopType.stopTypeCode`}
               onChange={(value) => {
                 setValue(`lineSections.${seq}.stopTypeId`, value?.id);
+                setValue(`lineSections.${seq}.stopType`, value || "");
               }}
             />
           </Grid>

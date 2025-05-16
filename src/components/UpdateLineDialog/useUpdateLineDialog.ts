@@ -15,19 +15,12 @@ const lineSectionSchema = z.object({
   lineId: z.string().uuid().optional(),
   section: z.number().int().min(1),
   locationOrigId: z.string().optional(),
-  locationOrig: z
-    .object({
-      code: z.string().optional(),
-    })
-    .optional(),
+  locationOrig: z.any().optional(),
   locationDestId: z.string().optional(),
-  locationDest: z
-    .object({
-      code: z.string().optional(),
-    })
-    .optional(),
+  locationDest: z.any().optional(),
   duration: z.number().nullable(),
   stopTypeId: z.string().uuid().optional(),
+  stopType: z.any().optional(),
   locationGroupId: z.string().uuid().nullable(),
   logisticHub: z.boolean().optional().default(false),
 });
@@ -151,7 +144,10 @@ export function useUpdateLineDialog() {
             locationOrigId: lineSection.locationOrigId,
             locationDestId: lineSection.locationDestId,
             locationGroupId: lineSection.locationGroupId,
+            locationOrig: lineSection.locationOrig,
+            locationDest: lineSection.locationDest,
             stopTypeId: lineSection.stopTypeId,
+            stopType: lineSection.stopType,
             logisticHub: lineSection.logisticHub,
             duration: lineSection.duration,
           };
