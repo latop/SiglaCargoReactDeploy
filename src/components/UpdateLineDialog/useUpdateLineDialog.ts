@@ -12,7 +12,7 @@ import { useEffect } from "react";
 
 const lineSectionSchema = z.object({
   id: z.string().uuid().optional(),
-  lineId: z.string().uuid(),
+  lineId: z.string().uuid().optional(),
   section: z.number().int().min(1),
   locationOrigId: z.string().optional(),
   locationOrig: z
@@ -144,16 +144,16 @@ export function useUpdateLineDialog() {
         cost: data?.line.cost,
       },
       lineSections: data?.lineSections?.map(
-        (section: LineSection): LineSection => {
+        (lineSection: LineSection): LineSection => {
           return {
-            section: section.section,
-            lineId: section.lineId,
-            locationOrigId: section.locationOrigId,
-            locationDestId: section.locationDestId,
-            locationGroupId: section.locationGroupId,
-            stopTypeId: section.stopTypeId,
-            logisticHub: section.logisticHub,
-            duration: section.duration,
+            section: lineSection.section,
+            lineId: lineSection.lineId,
+            locationOrigId: lineSection.locationOrigId,
+            locationDestId: lineSection.locationDestId,
+            locationGroupId: lineSection.locationGroupId,
+            stopTypeId: lineSection.stopTypeId,
+            logisticHub: lineSection.logisticHub,
+            duration: lineSection.duration,
           };
         },
       ),

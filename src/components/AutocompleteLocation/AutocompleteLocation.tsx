@@ -32,7 +32,7 @@ export function AutocompleteLocation({
   const isDirty = dirtyFields[name];
 
   const { data = [], error } = useGetLocationReleaseQuery({
-    code: (isDirty && watch(name)) ?? watch(name) ?? "",
+    code: isDirty ? watch(name) : "",
     pageSize: 5000,
   });
 
