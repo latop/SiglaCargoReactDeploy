@@ -56,7 +56,6 @@ export const useGetLocationReleaseQuery = ({
   pageSize = 15,
   code,
 }: FetchBasicParams) => {
-  console.log(code);
   return useQuery({
     queryKey: ["location_release"],
     queryFn: async () => {
