@@ -60,8 +60,7 @@ export function UpdateLineDialog({ open, onClose }: DailyTripDetailsProps) {
 
   const handleClose = () => {
     onClose();
-
-    methods.reset();
+    methods.reset({});
   };
 
   const renderedSections = useMemo(() => {

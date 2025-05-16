@@ -8,7 +8,7 @@ import { useForm } from "react-hook-form";
 import useSWR from "swr";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useLayoutEffect } from "react";
+import { useEffect } from "react";
 
 const lineSectionSchema = z.object({
   id: z.string().uuid().optional(),
@@ -63,6 +63,8 @@ export type LineFormData = z.infer<typeof lineSchema>;
 export function useUpdateLineDialog() {
   const [hash] = useHash();
   const { refetchLines } = useLines();
+
+  const isToAddLine = hash.match("#add-line")?.[0];
   const match = (hash as string)?.match(/#line-id-(.+)/);
   const lineId = match?.[1];
 
@@ -171,17 +173,22 @@ export function useUpdateLineDialog() {
   const lineSections = methods.watch("lineSections");
   const countSections = lineSections?.length;
 
-  useLayoutEffect(() => {
+  useEffect(() => {
+    if (isToAddLine) {
+      methods.reset();
+      return;
+    }
     if (lineData) {
       methods.reset(lineData);
+      return;
     }
-  }, [methods.reset, lineData]);
+  }, [methods.reset, lineData, isToAddLine]);
 
   return {
     methods,
     handleSubmit,
     loadingCreate,
-    isLoadingLine: isLoadingLine || !lineData,
+    isLoadingLine: isLoadingLine,
     lineSections,
     countSections,
     lineId,

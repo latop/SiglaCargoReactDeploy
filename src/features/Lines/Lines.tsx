@@ -5,7 +5,7 @@ import { MainContainer } from "@/components/MainContainer";
 import { AppBar } from "@/components/AppBar";
 import { HeaderTitle } from "@/components/HeaderTitle/HeaderTitle";
 import { DataGrid } from "@mui/x-data-grid";
-import { Box, Button, Card, CircularProgress } from "@mui/material";
+import { Box, Button, Card } from "@mui/material";
 import { EmptyResult } from "@/components/EmptyResult";
 import { ErrorResult } from "@/components/ErrorResult";
 import { useHash } from "@/hooks/useHash";
@@ -16,11 +16,13 @@ import { UpdateLineDialog } from "@/components/UpdateLineDialog";
 import { useLine } from "@/hooks/useLine";
 import { useDialog } from "@/hooks/useDialog/useDialog";
 import { columnsConfig } from "./configColumn";
+import LoadingTableSkeleton from "@/components/LoadingTableSkeleton/LoadingTableSkeleton";
 
 export function Lines() {
   const [hash, setHash] = useHash();
   const lineId = hash.match(/#line-id-(.+)/)?.[1];
-  const isToAddLine = hash.includes("add-line");
+  const isToAddLine = hash.match("#add-line")?.[0];
+
   const { openDialog, closeDialog } = useDialog();
 
   const {
@@ -29,7 +31,7 @@ export function Lines() {
     size,
     isLoading,
     isEmpty,
-    error,
+    error: isError,
     totalCount,
     hasData,
     refetchLines,
@@ -89,10 +91,10 @@ export function Lines() {
             justifyContent: "center",
           }}
         >
-          {isLoading && <CircularProgress />}
-          {isEmpty && <EmptyResult />}
-          {error && <ErrorResult />}
-          {hasData && (
+          {isLoading && <LoadingTableSkeleton length={15} />}
+          {isEmpty && !hasData && !isLoading && <EmptyResult />}
+          {isError && !isLoading && <ErrorResult />}
+          {hasData && !isLoading && (
             <div style={{ height: "100%", width: "100%" }}>
               <DataGrid
                 rows={lines}
@@ -133,7 +135,11 @@ export function Lines() {
         </Card>
       </Box>
       <UpdateLineDialog open={!!lineId} onClose={handleCloseDialog} />
-      <UpdateLineDialog open={!!isToAddLine} onClose={handleCloseDialog} />
+      <UpdateLineDialog
+        open={!!isToAddLine}
+        key={isToAddLine}
+        onClose={handleCloseDialog}
+      />
     </MainContainer>
   );
 }
