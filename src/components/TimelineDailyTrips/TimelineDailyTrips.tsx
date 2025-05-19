@@ -14,6 +14,7 @@ import {
   TimelineItemDestination,
   TimelineItemOrigin,
   TimelineItemTitle,
+  TripPercentage,
 } from "./TimelineDailyTrips.styles";
 import "dayjs/locale/pt-br";
 import "react-calendar-timeline/lib/Timeline.css";
@@ -93,14 +94,26 @@ export function TimelineDailyTrips() {
           currentTrip?.locationDestCode &&
           currentTrip?.locationOrigCode &&
           currentTrip.tripType === "TRIP" && (
-            <TimelineItemSubtitle>
-              <TimelineItemOrigin>
-                {currentTrip.locationOrigCode}
-              </TimelineItemOrigin>
-              <TimelineItemDestination>
-                {currentTrip.locationDestCode}
-              </TimelineItemDestination>
-            </TimelineItemSubtitle>
+            <div
+              style={{
+                position: "relative",
+                display: "flex",
+                gap: 1,
+                flexDirection: "column",
+              }}
+            >
+              <TimelineItemSubtitle>
+                <TimelineItemOrigin>
+                  {currentTrip.locationOrigCode}
+                </TimelineItemOrigin>
+                <TimelineItemDestination>
+                  {currentTrip.locationDestCode}
+                </TimelineItemDestination>
+              </TimelineItemSubtitle>
+              <Tooltip title={`${55}%`} arrow>
+                <TripPercentage percentage={55}>55%</TripPercentage>
+              </Tooltip>
+            </div>
           )}
         <Tooltip title={currentTrip?.code} arrow>
           <TimelineItemTitle

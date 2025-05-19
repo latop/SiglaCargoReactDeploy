@@ -64,3 +64,13 @@ export const TimelineItemTitle = styled.div<{
     return "12px";
   }};
 `;
+
+export const TripPercentage = styled.div<{
+  percentage: number;
+}>`
+  width: 100%;
+  height: 12px;
+  background-color: ${colors.green[100]};
+  width: ${(props) => props.percentage}%;
+  border-radius: 4px;
+`;
