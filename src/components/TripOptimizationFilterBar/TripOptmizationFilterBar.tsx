@@ -13,19 +13,18 @@ import { useToast } from "@/hooks/useToast";
 import { useDialog } from "@/hooks/useDialog/useDialog";
 import dayjs from "dayjs";
 
-export function TripOptmizationFilterBar() {
+export function TripOptmizationFilterBar({
+  hasFinishDate = true,
+}: {
+  hasFinishDate?: boolean;
+}) {
   const { methods, onSubmit } = useTripOptmizationFilterBar();
 
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-  } = methods;
+  const { control, handleSubmit } = methods;
   const { mutate, isLoading, handleOptmizeTrip } = useTripOptimization();
   const { addToast } = useToast();
 
   const { openDialog, closeDialog } = useDialog();
-  console.log(errors);
   const handleDialogOptmize = (data: FieldValues) => {
     const params = {
       start: dayjs(data.start).format("YYYY-MM-DD"),
@@ -61,9 +60,9 @@ export function TripOptmizationFilterBar() {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
       <FormProvider {...methods}>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <Grid container gap={1}>
-            <Grid item xs={3}>
+        <form style={{ width: "100%" }} onSubmit={handleSubmit(onSubmit)}>
+          <Grid container alignItems="flex-start" spacing={1}>
+            <Grid item xs={1.5}>
               <Controller
                 name="start"
                 rules={{ required: true }}
@@ -71,14 +70,16 @@ export function TripOptmizationFilterBar() {
                 render={({ field }) => <DatePicker label="Início" {...field} />}
               />
             </Grid>
-            <Grid item xs={3}>
-              <Controller
-                name="end"
-                rules={{ required: true }}
-                control={control}
-                render={({ field }) => <DatePicker label="Fim" {...field} />}
-              />
-            </Grid>
+            {hasFinishDate && (
+              <Grid item xs={1.5}>
+                <Controller
+                  name="end"
+                  rules={{ required: true }}
+                  control={control}
+                  render={({ field }) => <DatePicker label="Fim" {...field} />}
+                />
+              </Grid>
+            )}
             <Grid item xs={2}>
               <AutocompleteLocationGroup
                 name="locationGroupCode"
@@ -88,8 +89,7 @@ export function TripOptmizationFilterBar() {
                 }}
               />
             </Grid>
-
-            <Grid item xs={2}>
+            <Grid item xs={4} display="flex" gap="4px">
               <Button
                 size="large"
                 variant="contained"
@@ -99,8 +99,6 @@ export function TripOptmizationFilterBar() {
                 Otimizar
                 <SettingsIcon fontSize="inherit" sx={{ ml: "5px" }} />
               </Button>
-            </Grid>
-            <Grid item xs={1}>
               <Button
                 onClick={() => mutate()}
                 size="large"
