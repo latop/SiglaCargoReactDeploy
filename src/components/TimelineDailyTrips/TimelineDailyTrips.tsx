@@ -98,20 +98,20 @@ export function TimelineDailyTrips() {
               style={{
                 position: "relative",
                 display: "flex",
-                gap: 1,
+                gap: "4px",
                 flexDirection: "column",
               }}
             >
               <TimelineItemSubtitle>
                 <TimelineItemOrigin>
-                  {currentTrip.locationOrigCode}
+                  {currentTrip.locationOrigCode + " - " + `55%`}
                 </TimelineItemOrigin>
                 <TimelineItemDestination>
-                  {currentTrip.locationDestCode}
+                  {`55%` + " - " + currentTrip.locationDestCode}
                 </TimelineItemDestination>
               </TimelineItemSubtitle>
               <Tooltip title={`${55}%`} arrow>
-                <TripPercentage percentage={55}>55%</TripPercentage>
+                <TripPercentage percentage={55} />
               </Tooltip>
             </div>
           )}
