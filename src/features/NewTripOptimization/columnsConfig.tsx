@@ -51,7 +51,7 @@ export const columnsConfig = ({
       field: "details",
       headerName: "Ações",
       width: 100,
-      align: "center",
+
       renderCell: (params) => {
         return (
           <ActionsColumn
