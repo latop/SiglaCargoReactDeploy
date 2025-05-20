@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Timeline, {
   ItemContext,
   TimelineHeaders,
@@ -33,6 +33,12 @@ export function TimelineDailyTrips() {
     handleLabelFormatItem,
     handleLabelFormatHeader,
   } = useTimelineDailyTrips();
+  const [selectedTrip, setSelectedTrip] = useState<Trip>();
+
+  const handleDoubleClickAction = (id: string) => {
+    if (selectedTrip?.tripType !== "TRIP") return;
+    handleDoubleClick(id);
+  };
 
   const itemRenderer = ({
     itemContext,
@@ -71,12 +77,16 @@ export function TimelineDailyTrips() {
     return (
       <TimelineItem
         {...itemProps}
+        key={itemContext.title}
         style={style}
         className="giantt-item"
         data-id={itemContext.title}
         isStop={currentTrip?.tripType === "STOP"}
         title=""
         selected={itemContext.selected}
+        onClick={() => {
+          setSelectedTrip(currentTrip);
+        }}
       >
         {!!itemContext.useResizeHandle && <div {...leftResizeProps} />}
         {itemContext.dimensions.width > 50 &&
@@ -118,7 +128,7 @@ export function TimelineDailyTrips() {
       items={items}
       canMove={false}
       canResize={false}
-      onItemDoubleClick={handleDoubleClick}
+      onItemDoubleClick={(id) => handleDoubleClickAction(id as string)}
       canChangeGroup={false}
       minZoom={60 * 60 * 24}
       stackItems={false}

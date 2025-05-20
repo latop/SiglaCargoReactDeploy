@@ -27,6 +27,7 @@ export function AutocompleteAttribution({
   } = useFormContext();
 
   const isDirty = dirtyFields[name];
+
   const { attribution, error } = useAttribution({
     pageSize: 10,
     code: isDirty ? watch(name) : "",
@@ -52,10 +53,10 @@ export function AutocompleteAttribution({
           }}
           noOptionsText={
             !field.value
-              ? "Digite o código"
+              ? "Digite..."
               : !attribution && !error
-                ? "Carregando..."
-                : "Nenhum resultado encontrado"
+              ? "Carregando..."
+              : "Nenhum resultado encontrado"
           }
           getOptionLabel={(option: Attribution) => option.code}
           renderInput={(params) => (
