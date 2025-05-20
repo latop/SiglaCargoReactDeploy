@@ -5,7 +5,7 @@ import { TextField } from "@mui/material";
 import Autocomplete from "@mui/material/Autocomplete";
 import debounce from "debounce";
 import { FleetGroup } from "@/interfaces/vehicle";
-import { useGetFleetGroupQuery } from "@/services/query/vehicles";
+import { useFleetGroup } from "@/hooks/useFleetGroup";
 
 export function AutocompleteFleetGroup({
   name = "fleetGroupCode",
@@ -31,10 +31,9 @@ export function AutocompleteFleetGroup({
 
   const isDirty = dirtyFields[name];
 
-  const { data: { data: fleetGroups = [] } = [], error } =
-    useGetFleetGroupQuery({
-      code: isDirty ? watch(name) : "",
-    });
+  const { fleetGroups, error } = useFleetGroup({
+    code: isDirty ? watch(name) : "",
+  });
 
   const handleChange = (
     _: SyntheticEvent<Element, Event>,
@@ -61,17 +60,21 @@ export function AutocompleteFleetGroup({
             forcePopupIcon={false}
             options={fleetGroups}
             loadingText="Carregando..."
-            defaultValue={{ [keyCode]: field.value?.[keyCode] || field.value || "" } as FleetGroup}
+            defaultValue={
+              {
+                [keyCode]: field.value?.[keyCode] || field.value || "",
+              } as FleetGroup
+            }
             isOptionEqualToValue={(option: FleetGroup, value: FleetGroup) =>
               option[keyCode] === value[keyCode]
             }
             onChange={handleChange}
             noOptionsText={
               !field.value
-                ? "Digite o código"
+                ? "Digite..."
                 : !fleetGroups && !error
-                  ? "Carregando..."
-                  : "Nenhum resultado encontrado"
+                ? "Carregando..."
+                : "Nenhum resultado encontrado"
             }
             getOptionLabel={(option: FleetGroup) =>
               option.description
@@ -93,7 +96,7 @@ export function AutocompleteFleetGroup({
               />
             )}
           />
-        )
+        );
       }}
     />
   );
