@@ -222,6 +222,7 @@ export type FetchLinesParams = {
   code?: string;
   pageSize?: number;
   pageNumber?: number;
+  tripTypeId?: string;
 };
 
 export async function fetchLines({ args }: { args: FetchLinesParams }) {
@@ -230,6 +231,7 @@ export async function fetchLines({ args }: { args: FetchLinesParams }) {
     filter2Id: args.locationDestId,
     filter3Id: args.fleetGroupId,
     filter1String: args.code,
+    filter4Id: args.tripTypeId,
     PageSize: args.pageSize,
     PageNumber: args.pageNumber,
   };

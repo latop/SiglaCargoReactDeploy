@@ -31,7 +31,7 @@ export function AutocompleteLocation({
 
   const { data = [], error } = useGetLocationReleaseQuery({
     code: watch(name),
-    pageSize: 5000,
+    filter1Bool: null,
   });
 
   const locations = data?.data || [];

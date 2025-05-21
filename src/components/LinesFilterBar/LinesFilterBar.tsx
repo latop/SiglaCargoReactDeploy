@@ -14,7 +14,8 @@ import "dayjs/locale/pt-br";
 import { AutocompleteFleetGroup } from "../AutocompleteFleetGroup";
 import { AutocompleteLocation } from "../AutocompleteLocation";
 import { FleetGroup } from "@/interfaces/vehicle";
-import { Location } from "@/interfaces/trip";
+import { Location, TripType } from "@/interfaces/trip";
+import { AutocompleteTripType } from "../AutocompleteTripType";
 
 dayjs.extend(customParseFormat);
 
@@ -35,6 +36,11 @@ export function LinesFilterBar(props: React.HTMLProps<HTMLFormElement>) {
   const handleChangeLocationDest = (value?: Location | null) => {
     setValue("locationDestId", value?.id || "");
     setValue("locationDestCode", value?.code || "");
+  };
+
+  const handleChangeTripType = (value: TripType | null) => {
+    setValue("tripTypeId", value?.id || "");
+    setValue("tripTypeCode", value?.code || "");
   };
 
   return (
@@ -85,6 +91,13 @@ export function LinesFilterBar(props: React.HTMLProps<HTMLFormElement>) {
                   label="Destino"
                   keyCode="id"
                   onChange={handleChangeLocationDest}
+                />
+              </Grid>
+              <Grid item xs={1.6} paddingLeft="0">
+                <AutocompleteTripType
+                  name="tripTypeCode"
+                  label="Tipo de Viagem"
+                  onChange={handleChangeTripType}
                 />
               </Grid>
             </Grid>
