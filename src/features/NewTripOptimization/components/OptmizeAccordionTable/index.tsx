@@ -32,13 +32,22 @@ interface OptimizeAccordionTableProps {
   index: number;
 }
 
-const TABLE_CELL_BASE_STYLE = {
+interface RowComponentProps {
+  index: number;
+  style: React.CSSProperties;
+  data: {
+    headers: string[];
+    rowData: Record<string, string | number>[];
+  };
+}
+
+const TABLE_CELL_BASE_STYLE: React.CSSProperties = {
   flex: 1,
   display: "flex",
   alignItems: "center",
 } as const;
 
-const TABLE_CONTAINER_STYLE = {
+const TABLE_CONTAINER_STYLE: React.CSSProperties | Record<string, object> = {
   width: "100%",
   overflow: "auto",
   "& .MuiTableHead-root": {
@@ -51,56 +60,43 @@ const TABLE_CONTAINER_STYLE = {
   },
 } as const;
 
-const TABLE_STYLE = {
+const TABLE_STYLE: React.CSSProperties = {
   display: "flex",
   flexDirection: "column",
   width: "100%",
-} as const;
+};
 
-const RowComponent = memo(
-  ({
-    index,
-    style,
-    data,
-  }: {
-    index: number;
-    style: React.CSSProperties;
-    data: {
-      headers: string[];
-      rowData: Record<string, string | number>[];
-    };
-  }) => (
-    <div style={{ ...style, display: "flex", width: "100%" }}>
-      <TableRow
-        hover
-        sx={{
-          transition: "all 0.3s ease",
-          "&:hover": {
-            backgroundColor: "rgba(0, 0, 0, 0.04)",
-          },
-          display: "flex",
-          width: "100%",
-          borderBottom: "1px solid rgba(224, 224, 224, 1)",
-        }}
-      >
-        {data.headers.map((header, cellIndex) => (
-          <TableCell
-            key={cellIndex}
-            sx={{
-              ...TABLE_CELL_BASE_STYLE,
-              whiteSpace: "nowrap",
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-              borderBottom: "none",
-            }}
-          >
-            {data.rowData[index][header]}
-          </TableCell>
-        ))}
-      </TableRow>
-    </div>
-  ),
-);
+const RowComponent = memo(({ index, style, data }: RowComponentProps) => (
+  <div style={{ ...style, display: "flex", width: "100%" }}>
+    <TableRow
+      hover
+      sx={{
+        transition: "all 0.3s ease",
+        "&:hover": {
+          backgroundColor: "rgba(0, 0, 0, 0.04)",
+        },
+        display: "flex",
+        width: "100%",
+        borderBottom: "1px solid rgba(224, 224, 224, 1)",
+      }}
+    >
+      {data.headers.map((header, cellIndex) => (
+        <TableCell
+          key={cellIndex}
+          sx={{
+            ...TABLE_CELL_BASE_STYLE,
+            whiteSpace: "nowrap",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            borderBottom: "none",
+          }}
+        >
+          {data.rowData[index][header]}
+        </TableCell>
+      ))}
+    </TableRow>
+  </div>
+));
 
 export const OptimizeAccordionTable = memo(
   ({ optimization, index }: OptimizeAccordionTableProps) => {
@@ -228,7 +224,7 @@ export const OptimizeAccordionTable = memo(
           expandIcon={<ExpandMoreIcon />}
           sx={{
             "& .MuiAccordionSummary-content": { alignItems: "center" },
-            height: "0px",
+            height: "80px",
           }}
         >
           <Typography sx={{ flex: 1 }}>{optimization.description}</Typography>
@@ -238,7 +234,7 @@ export const OptimizeAccordionTable = memo(
             </IconButton>
           )}
         </AccordionSummary>
-        <AccordionDetails>{tableContent}</AccordionDetails>
+        {isExpanded && <AccordionDetails>{tableContent}</AccordionDetails>}
       </Accordion>
     );
   },

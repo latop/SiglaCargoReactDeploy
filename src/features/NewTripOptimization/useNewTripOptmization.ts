@@ -37,7 +37,10 @@ export const useNewTripOptimization = () => {
     mutate,
     isLoading,
     error,
-  } = useSWR<NewOptmizedTripType[]>(getKey, fetchNewOptmizedTrips);
+  } = useSWR<NewOptmizedTripType[]>(getKey, fetchNewOptmizedTrips, {
+    revalidateIfStale: true,
+    revalidateOnFocus: true,
+  });
 
   const optmizedTripsData = useMemo(() => {
     return (index: number) => optmizedTrips?.[index]?.dataList;
@@ -53,7 +56,7 @@ export const useNewTripOptimization = () => {
         header
           .normalize("NFKD")
           .toLowerCase()
-          .replace(/(?:^|\s)(\w)|[^\w\s]|\s+/g, (match, char) =>
+          .replace(/(?:^|\s)(\w)|[^\w\s]|\s+/g, (_, char) =>
             char ? char.toUpperCase() : "",
           )
           .replace(/^[A-Z]/, (char) => char.toLowerCase()),

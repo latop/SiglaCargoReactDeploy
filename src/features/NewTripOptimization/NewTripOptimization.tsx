@@ -49,10 +49,10 @@ export function NewTripOptimization() {
             overflow: "scroll",
           }}
         >
-          {isLoading ? (
+          {!isLoading ? (
             <OptimizeAccordionTableSkeleton count={10} />
           ) : (
-            optimizationData.map((optimization, index) => (
+            optimizationData?.map((optimization, index) => (
               <OptimizeAccordionTable
                 key={optimization.description}
                 optimization={optimization}
