@@ -3,6 +3,7 @@ import { ReactNode } from "react";
 import { PlanningModel } from "@/interfaces/planning";
 import { ActionsColumn } from "@/components/ActionsColumn";
 import dayjs from "dayjs";
+import { Location } from "@/interfaces/trip";
 
 interface DialogConfig {
   body?: ReactNode;
@@ -38,16 +39,18 @@ export const columnsConfig = ({
     valueFormatter: (value) => dayjs(value).format("DD/MM/YYYY"),
   },
   {
-    field: "locationOrig.code",
+    field: "locationOrig",
     headerName: "Local de Origem",
     flex: 1,
     minWidth: 150,
+    valueGetter: (value) => (value as Location)?.code,
   },
   {
-    field: "locationDest.code",
+    field: "locationDest",
     headerName: "Local de Destino",
     flex: 1,
     minWidth: 150,
+    valueGetter: (value) => (value as Location)?.code,
   },
   {
     field: "freqMon",

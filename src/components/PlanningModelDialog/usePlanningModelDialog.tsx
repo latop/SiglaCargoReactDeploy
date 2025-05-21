@@ -118,6 +118,8 @@ export const usePlanningModelDialog = () => {
             endDate: data.endDate,
             locationOrigId: data.locationOrig?.id,
             locationDestId: data.locationDest?.id,
+            locationOrig: data.locationOrig,
+            locationDest: data.locationDest,
             freqMon: data.freqMon,
             freqTue: data.freqTue,
             freqWed: data.freqWed,
