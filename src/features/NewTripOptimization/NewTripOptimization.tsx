@@ -10,7 +10,7 @@ import { useHash } from "@/hooks/useHash";
 import { useNewTripOptimization } from "./useNewTripOptmization";
 import { NewTripOptimizationDialog } from "@/components/TripOptimizationDialog/TripOptmizationDialog";
 import { OptimizeAccordionTable } from "./components/OptmizeAccordionTable";
-import { OptimizeAccordionTableSkeleton } from "./components/OptmizeAccordionTable/skeleton";
+import { AccordionSkeleton } from "@/components/AccordionSkeleton";
 
 export function NewTripOptimization() {
   const { optimizationData, isLoading } = useNewTripOptimization();
@@ -49,8 +49,8 @@ export function NewTripOptimization() {
             overflow: "scroll",
           }}
         >
-          {!isLoading ? (
-            <OptimizeAccordionTableSkeleton count={10} />
+          {isLoading ? (
+            <AccordionSkeleton count={8} />
           ) : (
             optimizationData?.map((optimization, index) => (
               <OptimizeAccordionTable

@@ -1,15 +1,20 @@
 import { Accordion, AccordionSummary, Skeleton, Stack } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { grey } from "@mui/material/colors";
 
-interface OptimizeAccordionTableSkeletonProps {
+interface AccordionSkeletonProps {
   count?: number;
   height?: string;
 }
 
-export const OptimizeAccordionTableSkeleton = ({
+const ACCORDION_SUMMARY_STYLE = {
+  backgroundColor: grey[500],
+};
+
+export const AccordionSkeleton = ({
   count = 3,
   height = "80px",
-}: OptimizeAccordionTableSkeletonProps) => {
+}: AccordionSkeletonProps) => {
   return (
     <Stack>
       {[...Array(count)].map((_, index) => (
@@ -18,6 +23,10 @@ export const OptimizeAccordionTableSkeleton = ({
           disabled
           sx={{
             height,
+            "&.Mui-disabled": {
+              opacity: 0.5,
+              backgroundColor: grey[100],
+            },
           }}
         >
           <AccordionSummary
@@ -27,12 +36,17 @@ export const OptimizeAccordionTableSkeleton = ({
               height: "60px",
             }}
           >
-            <Skeleton variant="rectangular" width="60%" height={24} />
+            <Skeleton
+              variant="text"
+              width="60%"
+              height={24}
+              sx={ACCORDION_SUMMARY_STYLE}
+            />
             <Skeleton
               variant="circular"
               width={24}
               height={24}
-              sx={{ ml: "auto" }}
+              sx={{ ml: "auto", ...ACCORDION_SUMMARY_STYLE }}
             />
           </AccordionSummary>
         </Accordion>

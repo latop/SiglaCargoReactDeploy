@@ -219,6 +219,12 @@ export const OptimizeAccordionTable = memo(
         key={index}
         expanded={isExpanded}
         onChange={handleAccordionChange}
+        disabled={!optimization.data.length}
+        sx={{
+          "&.Mui-disabled": {
+            backgroundColor: "white",
+          },
+        }}
       >
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
