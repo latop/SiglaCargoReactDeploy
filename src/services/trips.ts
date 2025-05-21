@@ -9,6 +9,11 @@ export interface FetchLocationGroupParams {
   code?: string;
 }
 
+export interface FetchNewOptmizedTripsParams {
+  locationGroupCode?: string;
+  start: string;
+}
+
 export async function fetchLocationGroup({
   args: params,
 }: {
@@ -140,6 +145,27 @@ export async function fetchTripTypes({
 export async function fetchOptmizedTrips() {
   try {
     const response = await axios.get("/Optimizer/getallotm");
+    const data = response.data;
+    return data;
+  } catch (error) {
+    console.error(error);
+    return error;
+  }
+}
+
+export async function fetchNewOptmizedTrips({
+  args,
+}: {
+  args: FetchNewOptmizedTripsParams;
+}) {
+  const params = {
+    locationGroupCode: args.locationGroupCode,
+    start: args.start,
+  };
+  try {
+    const response = await api.get("/Optimizer/GetOtmInfo", {
+      params,
+    });
     const data = response.data;
     return data;
   } catch (error) {
