@@ -15,7 +15,7 @@ interface DialogConfig {
 interface ColumnsConfigProps {
   closeDialog: () => void;
   openDialog: (config: DialogConfig) => void;
-  handleDeleteOptmitzationTrip: (id: string) => Promise<void>;
+  handleDelete?: (id: string) => Promise<void>;
   setHash: (hash: string) => void;
   isLoadingDelete?: boolean;
 }
@@ -23,7 +23,7 @@ interface ColumnsConfigProps {
 export const columnsConfig = ({
   closeDialog,
   openDialog,
-  handleDeleteOptmitzationTrip,
+  handleDelete,
   setHash,
   isLoadingDelete = false,
 }: ColumnsConfigProps): GridColDef[] => {
@@ -60,7 +60,7 @@ export const columnsConfig = ({
               openDialog({
                 body: "Deseja deletar esta otimização?",
                 onConfirm: async () => {
-                  await handleDeleteOptmitzationTrip(params.row.id).then(() => {
+                  await handleDelete?.(params.row.id).then(() => {
                     closeDialog();
                   });
                 },

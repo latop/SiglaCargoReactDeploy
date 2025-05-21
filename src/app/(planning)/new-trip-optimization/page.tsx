@@ -1,5 +1,5 @@
-import { TripOptimization as TripOptimizationTemplate } from "@/features/NewTripOptimization";
+import { NewTripOptimization as NewTripOptimizationTemplate } from "@/features/NewTripOptimization";
 
-export default function TripOptimization() {
-  return <TripOptimizationTemplate />;
+export default function NewTripOptimization() {
+  return <NewTripOptimizationTemplate />;
 }

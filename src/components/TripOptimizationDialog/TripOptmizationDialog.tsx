@@ -15,7 +15,7 @@ interface TripOptimizationDialogProps {
   onClose: () => void;
 }
 
-export function TripOptimizationDialog({
+export function NewTripOptimizationDialog({
   open,
   onClose,
 }: TripOptimizationDialogProps) {

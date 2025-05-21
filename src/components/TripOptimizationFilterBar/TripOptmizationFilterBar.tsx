@@ -13,11 +13,7 @@ import { useToast } from "@/hooks/useToast";
 import { useDialog } from "@/hooks/useDialog/useDialog";
 import dayjs from "dayjs";
 
-export function TripOptmizationFilterBar({
-  hasFinishDate = true,
-}: {
-  hasFinishDate?: boolean;
-}) {
+export function TripOptmizationFilterBar() {
   const { methods, onSubmit } = useTripOptmizationFilterBar();
 
   const { control, handleSubmit } = methods;
@@ -70,16 +66,14 @@ export function TripOptmizationFilterBar({
                 render={({ field }) => <DatePicker label="Início" {...field} />}
               />
             </Grid>
-            {hasFinishDate && (
-              <Grid item xs={1.5}>
-                <Controller
-                  name="end"
-                  rules={{ required: true }}
-                  control={control}
-                  render={({ field }) => <DatePicker label="Fim" {...field} />}
-                />
-              </Grid>
-            )}
+            <Grid item xs={1.5}>
+              <Controller
+                name="end"
+                rules={{ required: true }}
+                control={control}
+                render={({ field }) => <DatePicker label="Fim" {...field} />}
+              />
+            </Grid>
             <Grid item xs={2}>
               <AutocompleteLocationGroup
                 name="locationGroupCode"
