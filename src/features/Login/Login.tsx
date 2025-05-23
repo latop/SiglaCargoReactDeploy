@@ -54,6 +54,25 @@ export function Login() {
     getAuth("/api/Login", body);
   };
 
+  const handleSSO = () => {
+    getAuth(
+      "/Auth/Login",
+      {},
+      {
+        method: "get",
+      },
+    );
+  };
+  const handleWhoAmI = () => {
+    getAuth(
+      "/Auth/whoami",
+      {},
+      {
+        method: "get",
+      },
+    );
+  };
+
   const onSubmit = (data: FieldValues) => {
     const body = {
       ...data,
@@ -158,6 +177,28 @@ export function Login() {
             <Button type="submit" fullWidth variant="contained" sx={{ mt: 3 }}>
               {isLoading}
             </Button>
+            {process.env.NEXT_PUBLIC_NODE_ENV === "development" && (
+              <>
+                <Button
+                  type="button"
+                  fullWidth
+                  variant="contained"
+                  sx={{ mt: 3 }}
+                  onClick={handleSSO}
+                >
+                  Entrar com SSO
+                </Button>
+                <Button
+                  type="button"
+                  fullWidth
+                  variant="contained"
+                  sx={{ mt: 3 }}
+                  onClick={handleWhoAmI}
+                >
+                  Who Am I
+                </Button>
+              </>
+            )}
           </Box>
         </CardContent>
       </Card>
