@@ -6,13 +6,48 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { Controller, FormProvider } from "react-hook-form";
 import { useNewTripOptmizationFilterBar } from "./useNewTripOptmizationFilterBar";
 import { AutocompleteLocationGroup } from "../AutocompleteLocationGroup";
+import { useState } from "react";
 
 import SearchIcon from "@mui/icons-material/Search";
+import SettingsIcon from "@mui/icons-material/Settings";
+import RefreshIcon from "@mui/icons-material/Refresh";
 
 export function NewTripOptmizationFilterBar() {
   const { methods, onSubmit } = useNewTripOptmizationFilterBar();
+  const [isUpdating, setIsUpdating] = useState(false);
+  const [isOptimizing, setIsOptimizing] = useState(false);
 
   const { control, handleSubmit } = methods;
+
+  //TODO: Implementar a lógica de atualização
+  const handleUpdate = async () => {
+    setIsUpdating(true);
+    try {
+      // Mock API call
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+      // Add your success handling here
+    } catch (error) {
+      // Add your error handling here
+      console.error("Update failed:", error);
+    } finally {
+      setIsUpdating(false);
+    }
+  };
+
+  //TODO: Implementar a lógica de otimização
+  const handleOptimize = async () => {
+    setIsOptimizing(true);
+    try {
+      // Mock API call
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+      // Add your success handling here
+    } catch (error) {
+      // Add your error handling here
+      console.error("Optimization failed:", error);
+    } finally {
+      setIsOptimizing(false);
+    }
+  };
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
@@ -25,6 +60,14 @@ export function NewTripOptmizationFilterBar() {
                 rules={{ required: true }}
                 control={control}
                 render={({ field }) => <DatePicker label="Início" {...field} />}
+              />
+            </Grid>
+            <Grid item xs={1.5}>
+              <Controller
+                name="end"
+                rules={{ required: true }}
+                control={control}
+                render={({ field }) => <DatePicker label="Fim" {...field} />}
               />
             </Grid>
             <Grid item xs={2}>
@@ -44,6 +87,27 @@ export function NewTripOptmizationFilterBar() {
                 type="submit"
               >
                 <SearchIcon />
+              </Button>
+              {/* TODO: Implementar a lógica de otimização */}
+              <Button
+                size="large"
+                variant="contained"
+                color="primary"
+                onClick={handleOptimize}
+                disabled={isOptimizing}
+              >
+                {isOptimizing ? "Otimizando..." : "Otimizar"}
+                <SettingsIcon fontSize="inherit" sx={{ ml: "5px" }} />
+              </Button>
+              <Button
+                onClick={handleUpdate}
+                size="large"
+                variant="contained"
+                color="primary"
+                disabled={isUpdating}
+              >
+                {isUpdating ? "Atualizando..." : "Atualizar"}
+                <RefreshIcon fontSize="inherit" sx={{ ml: "5px" }} />
               </Button>
             </Grid>
           </Grid>
