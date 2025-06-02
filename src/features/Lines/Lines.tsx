@@ -5,7 +5,7 @@ import { MainContainer } from "@/components/MainContainer";
 import { AppBar } from "@/components/AppBar";
 import { HeaderTitle } from "@/components/HeaderTitle/HeaderTitle";
 import { DataGrid } from "@mui/x-data-grid";
-import { Box, Button, Card } from "@mui/material";
+import { Box, Card } from "@mui/material";
 import { EmptyResult } from "@/components/EmptyResult";
 import { ErrorResult } from "@/components/ErrorResult";
 import { useHash } from "@/hooks/useHash";
@@ -67,19 +67,10 @@ export function Lines() {
           margin: "auto",
           display: "flex",
           flexDirection: "column",
+          gap: "16px",
         }}
       >
-        <LinesFilterBar />
-        <Box display="flex" justifyContent="flex-end" mt="25px" mb="10px">
-          <Button
-            variant="outlined"
-            sx={{ maxWidth: "200px", alignSelf: "flex-end", width: "170px" }}
-            onClick={handleAddLine}
-            disabled={isLoading}
-          >
-            Adicionar rotas
-          </Button>
-        </Box>
+        <LinesFilterBar isLoading={isLoading} onAddLine={handleAddLine} />
         <Card
           sx={{
             width: "100%",
