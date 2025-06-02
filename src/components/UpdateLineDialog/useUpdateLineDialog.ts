@@ -139,6 +139,7 @@ export function useUpdateLineDialog() {
       lineSections: data?.lineSections?.map(
         (lineSection: LineSection): LineSection => {
           return {
+            id: isToAddLine ? undefined : lineSection.id,
             section: lineSection.section,
             lineId: lineSection.lineId,
             locationOrigId: lineSection.locationOrigId,
