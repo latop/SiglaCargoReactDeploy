@@ -4,26 +4,15 @@ import { HeaderTitle } from "@/components/HeaderTitle/HeaderTitle";
 import { ImportTripsFilterBar } from "@/components/ImportTripsFilterBar";
 import { MainContainer } from "@/components/MainContainer";
 import { useImportTrips } from "@/hooks/useImportTrips";
-import { ImportGtms } from "@/interfaces/import-trips";
-import { Box, Button, Card, CircularProgress, styled } from "@mui/material";
-import { DataGrid, GridAddIcon, GridColDef } from "@mui/x-data-grid";
-import dayjs from "dayjs";
-// import { UploadTripFileForm } from "@/components/UploadTripFileForm/UploadTripForm";
-import DeleteIcon from "@mui/icons-material/Delete";
-import ListAltIcon from "@mui/icons-material/ListAlt";
+import { Box, Button, Card } from "@mui/material";
+import { DataGrid, GridAddIcon } from "@mui/x-data-grid";
+
 import { EmptyResult } from "@/components/EmptyResult";
 import { ImportTripsDialog } from "@/components/ImportTripsDialog/ImportTripsDialog";
 import { ImportTripsCheckDialog } from "@/components/ImportTripsCheckDialog/ImportTripsCheckDialog";
-import { useState } from "react";
-
-const CustomTableButton = styled(Button)(() => ({
-  padding: 0,
-  width: "10px",
-  minWidth: "30px",
-  "&:hover": {
-    opacity: 0.7,
-  },
-}));
+import { useCallback, useState } from "react";
+import { columnsConfig } from "./columnsConfig";
+import LoadingTableSkeleton from "@/components/LoadingTableSkeleton/LoadingTableSkeleton";
 
 export function ImportTrips() {
   const {
@@ -36,57 +25,19 @@ export function ImportTrips() {
     handleCloseDialog,
   } = useImportTrips();
   const [openDialog, setOpenDialog] = useState(false);
-  const columns: GridColDef[] = [
-    {
-      field: "FileName",
-      headerName: "Nome do Arquivo",
-      width: 300,
-      valueGetter: (_, data: ImportGtms) => {
-        return data.FileName ? data.FileName.split(".xlsx")[0] : "";
-      },
-    },
-    {
-      field: "LocationCode",
-      headerName: "Cód. Loc",
-      width: 100,
-    },
-    {
-      field: "CreateAt",
-      headerName: "Data criação",
-      width: 200,
-      valueGetter: (_, data: ImportGtms) => {
-        return dayjs(data.CreateAt).format("DD-MM-YY HH:mm");
-      },
-    },
-    {
-      field: "action",
-      headerName: "Ações",
-      width: 100,
-      renderCell: (params) => {
-        return (
-          <Box>
-            <CustomTableButton
-              onClick={() => handleImportedTrip(params.id as string)}
-              size="small"
-              variant="text"
-            >
-              <ListAltIcon color="success" />
-            </CustomTableButton>
-            <CustomTableButton
-              onClick={() => handleDeleteDemand(params.id as string)}
-              variant="text"
-              size="small"
-            >
-              <DeleteIcon color="error" />
-            </CustomTableButton>
-          </Box>
-        );
-      },
-    },
-  ];
+
+  const handleOpenDialog = useCallback(() => {
+    setOpenDialog(true);
+  }, [setOpenDialog]);
+
+  const columns = columnsConfig({
+    handleImportedTrip,
+    handleDeleteDemand,
+  });
 
   const Content = () => {
-    if (isLoading && hasParamsToSearch) return <CircularProgress />;
+    if (isLoading && hasParamsToSearch)
+      return <LoadingTableSkeleton length={15} />;
     if (data?.length)
       return (
         <DataGrid
@@ -106,6 +57,7 @@ export function ImportTrips() {
       );
     if (!data?.length) return <EmptyResult />;
   };
+
   return (
     <MainContainer
       sx={{
@@ -162,10 +114,7 @@ export function ImportTrips() {
         </Card>
       </Box>
       <ImportTripsDialog open={!!importedTripId} onClose={handleCloseDialog} />
-      <ImportTripsCheckDialog
-        open={openDialog}
-        onClose={() => setOpenDialog(false)}
-      />
+      <ImportTripsCheckDialog open={openDialog} onClose={handleOpenDialog} />
     </MainContainer>
   );
 }
