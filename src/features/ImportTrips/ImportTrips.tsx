@@ -27,7 +27,7 @@ export function ImportTrips() {
   const [openDialog, setOpenDialog] = useState(false);
 
   const handleOpenDialog = useCallback(() => {
-    setOpenDialog(true);
+    setOpenDialog((prev) => !prev);
   }, [setOpenDialog]);
 
   const columns = columnsConfig({
