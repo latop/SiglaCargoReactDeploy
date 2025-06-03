@@ -53,22 +53,7 @@ export const ActionsColumn = ({
           </Tooltip>
         </CustomIcon>
       )}
-      {onDelete && (
-        <CustomIcon onClick={onDelete}>
-          <Tooltip title={tooltipDelete}>
-            <GridDeleteForeverIcon
-              sx={{
-                color: "#e53935",
-              }}
-              onClick={onDelete}
-              style={{
-                opacity: isLoadingDelete ? 0.5 : 1,
-                pointerEvents: isLoadingDelete ? "none" : "auto",
-              }}
-            />
-          </Tooltip>
-        </CustomIcon>
-      )}
+
       {additionalActions.map(
         ({ icon, onClick, tooltip, color, isLoading }, index) => (
           <CustomIcon
@@ -85,6 +70,22 @@ export const ActionsColumn = ({
             </Tooltip>
           </CustomIcon>
         ),
+      )}
+      {onDelete && (
+        <CustomIcon onClick={onDelete}>
+          <Tooltip title={tooltipDelete}>
+            <GridDeleteForeverIcon
+              sx={{
+                color: "#e53935",
+              }}
+              onClick={onDelete}
+              style={{
+                opacity: isLoadingDelete ? 0.5 : 1,
+                pointerEvents: isLoadingDelete ? "none" : "auto",
+              }}
+            />
+          </Tooltip>
+        </CustomIcon>
       )}
     </Box>
   );

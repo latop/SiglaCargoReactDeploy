@@ -157,7 +157,6 @@ export const useImportTrips = () => {
 
   const handleExportTrip = async (id: string, filename: string) => {
     const newFilename = formatFilename(filename);
-    addToast("Carregando arquivo...", { type: "info" });
     const fileToDownload = await downloadFile(id);
     downloadFileToUser(fileToDownload, newFilename);
   };
