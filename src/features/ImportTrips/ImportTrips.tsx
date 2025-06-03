@@ -13,6 +13,7 @@ import { ImportTripsCheckDialog } from "@/components/ImportTripsCheckDialog/Impo
 import { useCallback, useState } from "react";
 import { columnsConfig } from "./columnsConfig";
 import LoadingTableSkeleton from "@/components/LoadingTableSkeleton/LoadingTableSkeleton";
+import { useDialog } from "@/hooks/useDialog/useDialog";
 
 export function ImportTrips() {
   const {
@@ -25,11 +26,12 @@ export function ImportTrips() {
     handleCloseDialog,
     mutate,
   } = useImportTrips();
-  const [openDialog, setOpenDialog] = useState(false);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const { openDialog, closeDialog } = useDialog();
 
   const handleOpenDialog = useCallback(() => {
-    setOpenDialog((prev) => !prev);
-  }, [setOpenDialog]);
+    setIsDialogOpen((prev) => !prev);
+  }, [setIsDialogOpen]);
 
   const handleRefresh = useCallback(() => {
     mutate();
@@ -37,7 +39,9 @@ export function ImportTrips() {
 
   const columns = columnsConfig({
     handleImportedTrip,
-    handleDeleteDemand,
+    handleDelete: handleDeleteDemand,
+    openDialog,
+    closeDialog,
   });
 
   const Content = () => {
@@ -94,7 +98,7 @@ export function ImportTrips() {
             color="primary"
             variant="outlined"
             size="large"
-            onClick={() => setOpenDialog(true)}
+            onClick={handleOpenDialog}
           >
             Importar Viagem
             <GridAddIcon fontSize="small" />
@@ -121,7 +125,7 @@ export function ImportTrips() {
       <ImportTripsDialog open={!!importedTripId} onClose={handleCloseDialog} />
       <ImportTripsCheckDialog
         onRefreshItems={handleRefresh}
-        open={openDialog}
+        open={isDialogOpen}
         onClose={handleOpenDialog}
       />
     </MainContainer>

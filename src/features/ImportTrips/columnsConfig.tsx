@@ -1,10 +1,11 @@
-import { ImportGtms } from "@/interfaces/import-trips";
 import { Box, Button, styled, Tooltip } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import dayjs from "dayjs";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ListAltIcon from "@mui/icons-material/ListAlt";
 import MapIcon from "@mui/icons-material/Map";
+import { ImportGtms } from "@/interfaces/trip";
+import { ReactNode } from "react";
 
 const CustomTableButton = styled(Button)(() => ({
   padding: 0,
@@ -15,14 +16,24 @@ const CustomTableButton = styled(Button)(() => ({
   },
 }));
 
+interface DialogConfig {
+  body?: ReactNode;
+  onConfirm?: () => Promise<void>;
+  onCancel?: () => void;
+}
+
 interface ColumnsConfigProps {
   handleImportedTrip: (id: string) => Promise<void>;
-  handleDeleteDemand: (id: string) => Promise<void>;
+  closeDialog: () => void;
+  openDialog: (config: DialogConfig) => void;
+  handleDelete: (id: string) => Promise<void>;
 }
 
 export const columnsConfig = ({
   handleImportedTrip,
-  handleDeleteDemand,
+  handleDelete,
+  closeDialog,
+  openDialog,
 }: ColumnsConfigProps): GridColDef[] => [
   {
     field: "FileName",
@@ -71,7 +82,19 @@ export const columnsConfig = ({
             </Tooltip>
           </CustomTableButton>
           <CustomTableButton
-            onClick={() => handleDeleteDemand(params.id as string)}
+            onClick={() => {
+              openDialog({
+                body: "Deseja apagar este registro?",
+                onConfirm: async () => {
+                  await handleDelete(params.id as string).then(() => {
+                    closeDialog();
+                  });
+                },
+                onCancel: () => {
+                  closeDialog();
+                },
+              });
+            }}
             variant="text"
             size="small"
           >

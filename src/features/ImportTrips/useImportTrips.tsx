@@ -1,5 +1,4 @@
 import useSWRImmutable from "swr/immutable";
-import { fetchAllGtms } from "@/services/import-trips";
 import { useSearchParams } from "next/navigation";
 import { ChangeEvent, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -8,6 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useFetch } from "../../hooks/useFetch";
 import { useToast } from "../../hooks/useToast";
 import { useHash } from "../../hooks/useHash";
+import { fetchAllGtms } from "@/services/trips";
 
 const schema = z.object({
   Locationcode: z.string().min(1, {
