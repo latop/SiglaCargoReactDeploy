@@ -27,6 +27,8 @@ interface ColumnsConfigProps {
   closeDialog: () => void;
   openDialog: (config: DialogConfig) => void;
   handleDelete: (id: string) => Promise<void>;
+  handleExport: (id: string, filename: string) => Promise<void>;
+  isLoadingExport?: boolean;
 }
 
 export const columnsConfig = ({
@@ -34,6 +36,7 @@ export const columnsConfig = ({
   handleDelete,
   closeDialog,
   openDialog,
+  handleExport,
 }: ColumnsConfigProps): GridColDef[] => [
   {
     field: "FileName",
@@ -60,50 +63,50 @@ export const columnsConfig = ({
     field: "action",
     headerName: "Ações",
     width: 100,
-    renderCell: (params) => {
-      return (
-        <Box>
-          <CustomTableButton
-            onClick={() => handleImportedTrip(params.id as string)}
-            size="small"
-            variant="text"
-          >
-            <Tooltip title="Listar">
-              <ListAltIcon color="success" />
-            </Tooltip>
-          </CustomTableButton>
-          <CustomTableButton
-            onClick={() => alert(params.id)}
-            size="small"
-            variant="text"
-          >
-            <Tooltip title="Exportar">
-              <MapIcon color="primary" />
-            </Tooltip>
-          </CustomTableButton>
-          <CustomTableButton
-            onClick={() => {
-              openDialog({
-                body: "Deseja apagar este registro?",
-                onConfirm: async () => {
-                  await handleDelete(params.id as string).then(() => {
-                    closeDialog();
-                  });
-                },
-                onCancel: () => {
+    renderCell: (params) => (
+      <Box>
+        <CustomTableButton
+          onClick={() => handleImportedTrip(params.id as string)}
+          size="small"
+          variant="text"
+        >
+          <Tooltip title="Listar">
+            <ListAltIcon color="success" />
+          </Tooltip>
+        </CustomTableButton>
+        <CustomTableButton
+          onClick={() =>
+            handleExport(params.id as string, params.row.FileName as string)
+          }
+          size="small"
+          variant="text"
+        >
+          <Tooltip title="Exportar">
+            <MapIcon color="primary" />
+          </Tooltip>
+        </CustomTableButton>
+        <CustomTableButton
+          onClick={() => {
+            openDialog({
+              body: "Deseja apagar este registro?",
+              onConfirm: async () => {
+                await handleDelete(params.id as string).then(() => {
                   closeDialog();
-                },
-              });
-            }}
-            variant="text"
-            size="small"
-          >
-            <Tooltip title="Apagar">
-              <DeleteIcon color="error" />
-            </Tooltip>
-          </CustomTableButton>
-        </Box>
-      );
-    },
+                });
+              },
+              onCancel: () => {
+                closeDialog();
+              },
+            });
+          }}
+          variant="text"
+          size="small"
+        >
+          <Tooltip title="Apagar">
+            <DeleteIcon color="error" />
+          </Tooltip>
+        </CustomTableButton>
+      </Box>
+    ),
   },
 ];

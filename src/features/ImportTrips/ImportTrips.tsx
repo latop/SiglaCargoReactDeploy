@@ -25,6 +25,7 @@ export function ImportTrips() {
     handleImportedTrip,
     handleCloseDialog,
     mutate,
+    handleExportTrip,
   } = useImportTrips();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const { openDialog, closeDialog } = useDialog();
@@ -42,6 +43,7 @@ export function ImportTrips() {
     handleDelete: handleDeleteDemand,
     openDialog,
     closeDialog,
+    handleExport: handleExportTrip,
   });
 
   const Content = () => {
@@ -93,7 +95,6 @@ export function ImportTrips() {
           alignItems={"flex-start"}
         >
           <ImportTripsFilterBar />
-          {/* <UploadTripFileForm /> */}
           <Button
             color="primary"
             variant="outlined"

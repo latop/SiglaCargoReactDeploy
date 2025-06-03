@@ -7,7 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useFetch } from "../../hooks/useFetch";
 import { useToast } from "../../hooks/useToast";
 import { useHash } from "../../hooks/useHash";
-import { fetchAllGtms } from "@/services/trips";
+import { fetchAllGtms, fetchExportGtm } from "@/services/trips";
 
 const schema = z.object({
   Locationcode: z.string().min(1, {
@@ -135,6 +135,20 @@ export const useImportTrips = () => {
     }
   };
 
+  const handleExportTrip = async (id: string, filename: string) => {
+    const newFilename = filename.split(".")[0].replace(/\s+/g, "_");
+    const { file: fileToDownload } = await fetchExportGtm({ id });
+    const url = URL.createObjectURL(fileToDownload);
+
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = newFilename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(url);
+  };
+
   return {
     data,
     error,
@@ -153,5 +167,6 @@ export const useImportTrips = () => {
     importedTripId,
     handleImportedTrip,
     handleCloseDialog,
+    handleExportTrip,
   };
 };

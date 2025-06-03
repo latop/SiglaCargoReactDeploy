@@ -401,3 +401,18 @@ export const fetchGtmById = async ({ id }: { id: string }) => {
     throw new Error((error as Error)?.message);
   }
 };
+
+export const fetchExportGtm = async ({ id }: { id: string }) => {
+  try {
+    const response = await api.get(`/ExportGTMS/?tripGTMSId=${id}`, {
+      responseType: "blob",
+    });
+
+    return {
+      file: response.data as Blob,
+    };
+  } catch (error) {
+    console.error(error);
+    throw new Error((error as Error)?.message);
+  }
+};
