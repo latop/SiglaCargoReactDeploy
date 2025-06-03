@@ -135,18 +135,31 @@ export const useImportTrips = () => {
     }
   };
 
-  const handleExportTrip = async (id: string, filename: string) => {
-    const newFilename = filename.split(".")[0].replace(/\s+/g, "_");
-    const { file: fileToDownload } = await fetchExportGtm({ id });
-    const url = URL.createObjectURL(fileToDownload);
+  const formatFilename = (filename: string): string =>
+    filename.split(".")[0].replace(/\s+/g, "_");
 
+  const downloadFile = async (id: string) => {
+    const { file } = await fetchExportGtm({ id });
+    return file;
+  };
+
+  const downloadFileToUser = (file: Blob, filename: string) => {
+    const url = URL.createObjectURL(file);
     const link = document.createElement("a");
     link.href = url;
-    link.download = newFilename;
+    link.download = filename;
+
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-    window.URL.revokeObjectURL(url);
+    URL.revokeObjectURL(url);
+  };
+
+  const handleExportTrip = async (id: string, filename: string) => {
+    const newFilename = formatFilename(filename);
+    addToast("Carregando arquivo...", { type: "info" });
+    const fileToDownload = await downloadFile(id);
+    downloadFileToUser(fileToDownload, newFilename);
   };
 
   return {

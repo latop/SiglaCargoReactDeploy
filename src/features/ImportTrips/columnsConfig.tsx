@@ -1,20 +1,10 @@
-import { Box, Button, styled, Tooltip } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import dayjs from "dayjs";
-import DeleteIcon from "@mui/icons-material/Delete";
 import ListAltIcon from "@mui/icons-material/ListAlt";
 import MapIcon from "@mui/icons-material/Map";
 import { ImportGtms } from "@/interfaces/trip";
 import { ReactNode } from "react";
-
-const CustomTableButton = styled(Button)(() => ({
-  padding: 0,
-  width: "10px",
-  minWidth: "30px",
-  "&:hover": {
-    opacity: 0.7,
-  },
-}));
+import { ActionsColumn } from "@/components/ActionsColumn";
 
 interface DialogConfig {
   body?: ReactNode;
@@ -64,49 +54,34 @@ export const columnsConfig = ({
     headerName: "Ações",
     width: 100,
     renderCell: (params) => (
-      <Box>
-        <CustomTableButton
-          onClick={() => handleImportedTrip(params.id as string)}
-          size="small"
-          variant="text"
-        >
-          <Tooltip title="Listar">
-            <ListAltIcon color="success" />
-          </Tooltip>
-        </CustomTableButton>
-        <CustomTableButton
-          onClick={() =>
-            handleExport(params.id as string, params.row.FileName as string)
-          }
-          size="small"
-          variant="text"
-        >
-          <Tooltip title="Exportar">
-            <MapIcon color="primary" />
-          </Tooltip>
-        </CustomTableButton>
-        <CustomTableButton
-          onClick={() => {
-            openDialog({
-              body: "Deseja apagar este registro?",
-              onConfirm: async () => {
-                await handleDelete(params.id as string).then(() => {
-                  closeDialog();
-                });
-              },
-              onCancel: () => {
+      <ActionsColumn
+        onDelete={() => {
+          openDialog({
+            body: "Deseja apagar este registro?",
+            onConfirm: async () => {
+              await handleDelete(params.id as string).then(() => {
                 closeDialog();
-              },
-            });
-          }}
-          variant="text"
-          size="small"
-        >
-          <Tooltip title="Apagar">
-            <DeleteIcon color="error" />
-          </Tooltip>
-        </CustomTableButton>
-      </Box>
+              });
+            },
+            onCancel: () => {
+              closeDialog();
+            },
+          });
+        }}
+        additionalActions={[
+          {
+            icon: <ListAltIcon color="success" />,
+            onClick: () => handleImportedTrip(params.id as string),
+            tooltip: "Listar",
+          },
+          {
+            icon: <MapIcon color="primary" />,
+            onClick: () =>
+              handleExport(params.id as string, params.row.FileName as string),
+            tooltip: "Baixar arquivo",
+          },
+        ]}
+      />
     ),
   },
 ];
