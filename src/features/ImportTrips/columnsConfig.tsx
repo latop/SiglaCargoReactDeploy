@@ -62,7 +62,7 @@ export const columnsConfig = ({
             </Tooltip>
           </CustomTableButton>
           <CustomTableButton
-            onClick={() => handleDeleteDemand(params.id as string)}
+            onClick={() => alert(params.id)}
             size="small"
             variant="text"
           >

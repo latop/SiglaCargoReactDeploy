@@ -23,12 +23,17 @@ export function ImportTrips() {
     importedTripId,
     handleImportedTrip,
     handleCloseDialog,
+    mutate,
   } = useImportTrips();
   const [openDialog, setOpenDialog] = useState(false);
 
   const handleOpenDialog = useCallback(() => {
     setOpenDialog((prev) => !prev);
   }, [setOpenDialog]);
+
+  const handleRefresh = useCallback(() => {
+    mutate();
+  }, [mutate]);
 
   const columns = columnsConfig({
     handleImportedTrip,
@@ -114,7 +119,11 @@ export function ImportTrips() {
         </Card>
       </Box>
       <ImportTripsDialog open={!!importedTripId} onClose={handleCloseDialog} />
-      <ImportTripsCheckDialog open={openDialog} onClose={handleOpenDialog} />
+      <ImportTripsCheckDialog
+        onRefreshItems={handleRefresh}
+        open={openDialog}
+        onClose={handleOpenDialog}
+      />
     </MainContainer>
   );
 }
