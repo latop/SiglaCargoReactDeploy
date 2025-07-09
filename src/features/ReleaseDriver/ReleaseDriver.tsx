@@ -146,7 +146,7 @@ export function ReleaseDriver() {
                 }}
                 initialState={{
                   pagination: {
-                    paginationModel: { page: size - 1, pageSize: 15 },
+                    paginationModel: { page: size - 1, pageSize: 100 },
                   },
                 }}
                 density="compact"

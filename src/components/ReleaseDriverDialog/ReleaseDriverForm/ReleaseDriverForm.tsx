@@ -122,7 +122,7 @@ export const ReleaseDriverForm = () => {
                   }}
                 />
               </Box>
-              <Box sx={{ flexBasis: "135px" }}>
+              <Box sx={{ flexBasis: "170px" }}>
                 <AutocompleteDriver
                   label={"Motorista Planejado"}
                   disabled
@@ -132,7 +132,7 @@ export const ReleaseDriverForm = () => {
                   }}
                 />
               </Box>
-              <Box sx={{ flexBasis: "135px" }}>
+              <Box sx={{ flexBasis: "170px" }}>
                 <AutocompleteTruck
                   label="Veículo Planejado"
                   name="veiculoPlan"

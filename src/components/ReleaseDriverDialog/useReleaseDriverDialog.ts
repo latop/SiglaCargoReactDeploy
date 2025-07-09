@@ -12,7 +12,6 @@ export function useReleaseDriverDialog() {
 
   const match = (hash as string)?.match(/#releaseDriverId-(.+)/);
   const releaseDriverId = match?.[1];
-  console.log(releaseDriverId);
   const { drivers, driversMap, isLoading, error, mutate } = useReleaseDriver();
 
   const loading = isLoading && !error;
