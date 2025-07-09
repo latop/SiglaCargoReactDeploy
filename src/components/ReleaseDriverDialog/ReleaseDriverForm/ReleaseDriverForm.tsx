@@ -20,12 +20,13 @@ import "dayjs/locale/pt-br";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import { DateTimePicker } from "@mui/x-date-pickers";
 import { AutocompleteJustification } from "@/components/AutocompleteJustification";
+import { grey } from "@mui/material/colors";
 
 dayjs.extend(customParseFormat);
 
 export const ReleaseDriverForm = () => {
   const methods = useFormContext();
-  const { control, setError, clearErrors } = methods;
+  const { control } = methods;
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
@@ -44,7 +45,8 @@ export const ReleaseDriverForm = () => {
                         disabled
                         sx={{
                           "& .MuiInputBase-input.Mui-disabled": {
-                            WebkitTextFillColor: "#000000",
+                            WebkitTextFillColor: grey[700],
+                            cursor: "not-allowed",
                             opacity: 1,
                           },
                         }}
@@ -66,7 +68,8 @@ export const ReleaseDriverForm = () => {
                         disabled
                         sx={{
                           "& .MuiInputBase-input.Mui-disabled": {
-                            WebkitTextFillColor: "#000000",
+                            WebkitTextFillColor: grey[700],
+                            cursor: "not-allowed",
                             opacity: 1,
                           },
                         }}
@@ -88,7 +91,8 @@ export const ReleaseDriverForm = () => {
                         disabled
                         sx={{
                           "& .MuiInputBase-input.Mui-disabled": {
-                            WebkitTextFillColor: "#000000",
+                            WebkitTextFillColor: grey[700],
+                            cursor: "not-allowed",
                             opacity: 1,
                           },
                         }}
@@ -110,7 +114,8 @@ export const ReleaseDriverForm = () => {
                         disabled
                         sx={{
                           "& .MuiInputBase-input.Mui-disabled": {
-                            WebkitTextFillColor: "#000000",
+                            WebkitTextFillColor: grey[700],
+                            cursor: "not-allowed",
                             opacity: 1,
                           },
                         }}
@@ -127,6 +132,13 @@ export const ReleaseDriverForm = () => {
                   label={"Motorista Planejado"}
                   disabled
                   name="motoristaPlan"
+                  sx={{
+                    "& .MuiInputBase-input.Mui-disabled": {
+                      WebkitTextFillColor: grey[700],
+                      cursor: "not-allowed",
+                      opacity: 1,
+                    },
+                  }}
                   onChange={(value) => {
                     methods.setValue("motoristaPlan", value?.nickName);
                   }}
@@ -139,6 +151,13 @@ export const ReleaseDriverForm = () => {
                   disabled
                   onChange={(value) => {
                     methods.setValue("veiculoPlan", value?.licensePlate);
+                  }}
+                  sx={{
+                    "& .MuiInputBase-input.Mui-disabled": {
+                      WebkitTextFillColor: grey[700],
+                      cursor: "not-allowed",
+                      opacity: 1,
+                    },
                   }}
                 />
               </Box>
@@ -319,16 +338,10 @@ export const ReleaseDriverForm = () => {
                   <Controller
                     name="licensePlateTrailer"
                     control={control}
-                    rules={{
-                      validate: (value) => {
-                        if (!RegExp(/[A-z]{3}-*\d[A-j0-9]\d{2}/).exec(value)) {
-                          return "Placa inválida";
-                        }
-                      },
-                    }}
                     render={({ field, fieldState }) => {
                       return (
                         <TextField
+                          required={false}
                           error={fieldState.error ? true : false}
                           sx={{
                             width: "100%",
@@ -367,18 +380,6 @@ export const ReleaseDriverForm = () => {
                                 e.target.value,
                               ),
                             );
-                            if (
-                              !RegExp(/[A-z]{3}-*\d[A-j0-9]\d{2}/).exec(
-                                e.target.value,
-                              )
-                            ) {
-                              setError("licensePlateTrailer", {
-                                type: "manual",
-                                message: "Placa inválida",
-                              });
-                            } else {
-                              clearErrors("licensePlateTrailer");
-                            }
                           }}
                         />
                       );
