@@ -154,7 +154,7 @@ export const ReleaseDriverDialog: FC<ReleaseDriverDialogProps> = ({
                   sx={{ margin: "2px 11.45px" }}
                 />
               )}
-              {!isSubmitting && `Salvar`}
+              {!isSubmitting && `Liberar`}
             </Button>
           </Box>
         </DialogActions>
