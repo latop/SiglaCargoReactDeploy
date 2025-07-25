@@ -116,7 +116,9 @@ export function ReleaseDriver() {
           }}
         >
           {isLoading && <CircularProgress />}
-          {drivers.length === 0 && !isLoading && <EmptyResult />}
+          {!showContent && drivers.length === 0 && !isLoading && (
+            <EmptyResult />
+          )}
           {showContent && !isLoading && (
             <Box sx={{ height: "100%", width: "100%", overflowY: "auto" }}>
               <DataGrid

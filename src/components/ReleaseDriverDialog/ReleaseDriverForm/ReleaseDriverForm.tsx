@@ -206,7 +206,7 @@ export const ReleaseDriverForm = () => {
           </Box>
           <Accordion>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography fontWeight={500}>Mains informações</Typography>
+              <Typography fontWeight={500}>Mais informações</Typography>
             </AccordionSummary>
             <AccordionDetails>
               <Grid container gap={1}>
