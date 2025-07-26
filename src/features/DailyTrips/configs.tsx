@@ -1,6 +1,4 @@
-import dayjs from "dayjs";
 import { GridColDef } from "@mui/x-data-grid";
-import { DailyTrip } from "@/interfaces/daily-trip";
 
 const title = "Viagens diárias";
 
@@ -13,43 +11,34 @@ const columns: GridColDef[] = [
     width: 150,
     sortable: false,
     filterable: false,
-    valueFormatter: (value: string) =>
-      value ? dayjs(value).format("DD/MM/YYYY") : "",
   },
   {
     field: "sto",
     headerName: "Sto",
-    width: 150,
+    width: 200,
     sortable: false,
     filterable: false,
   },
   {
-    field: "flgStatus",
+    field: "status",
     headerName: "Status",
-    width: 80,
+    width: 100,
     sortable: false,
     filterable: false,
-    valueFormatter: (value: string) => (value === "C" ? "CANCELADO" : "ATIVO"),
   },
   {
-    field: "locationOrig.code",
+    field: "origin",
     headerName: "Origem",
     width: 140,
     sortable: false,
     filterable: false,
-    valueGetter: (_: unknown, data: DailyTrip) => {
-      return data.locationOrig ? data.locationOrig.code : "";
-    },
   },
   {
-    field: "locationDest.code",
+    field: "destination",
     headerName: "Destino",
     width: 140,
     sortable: false,
     filterable: false,
-    valueGetter: (_: unknown, data: DailyTrip) => {
-      return data.locationDest ? data.locationDest.code : "";
-    },
   },
   {
     field: "startPlanned",
@@ -57,8 +46,6 @@ const columns: GridColDef[] = [
     width: 150,
     sortable: false,
     filterable: false,
-    valueFormatter: (value: string) =>
-      value ? dayjs(value).format("DD/MM/YYYY HH:mm") : "",
   },
   {
     field: "endPlanned",
@@ -66,28 +53,28 @@ const columns: GridColDef[] = [
     width: 150,
     sortable: false,
     filterable: false,
-    valueFormatter: (value: string) =>
-      value ? dayjs(value).format("DD/MM/YYYY HH:mm") : "",
   },
   {
-    field: "tripType.code",
+    field: "tripType",
     headerName: "Tipo de viagem",
+    width: 120,
+    sortable: false,
+    filterable: false,
+  },
+  {
+    field: "licensePlate",
+    headerName: "Placa",
+    width: 120,
+    sortable: false,
+    filterable: false,
+    valueFormatter: (value: string | null) => value || "-",
+  },
+  {
+    field: "drivers",
+    headerName: "Motoristas",
     width: 150,
     sortable: false,
     filterable: false,
-    valueGetter: (_: unknown, data: DailyTrip) => {
-      return data.tripType ? data.tripType.code : "";
-    },
-  },
-  {
-    field: "lineCode",
-    headerName: "Cód. Rota",
-    width: 208,
-    sortable: false,
-    filterable: false,
-    valueGetter: (_: unknown, data: DailyTrip) => {
-      return data.line ? data.line.code : "";
-    },
   },
 ].map((column) => ({ ...column, headerClassName: headerClass }));
 
