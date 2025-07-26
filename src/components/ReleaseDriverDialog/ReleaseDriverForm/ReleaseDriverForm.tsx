@@ -374,12 +374,6 @@ export const ReleaseDriverForm = () => {
                               partials.push(matchs[0][4]);
                               e.target.value = partials.join("").toUpperCase();
                             }
-
-                            console.log(
-                              !RegExp(/[A-z]{3}-*\d[A-j0-9]\d{2}/).exec(
-                                e.target.value,
-                              ),
-                            );
                           }}
                         />
                       );

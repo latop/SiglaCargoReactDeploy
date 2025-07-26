@@ -41,7 +41,6 @@ export function ReleaseDriver() {
   });
 
   const handleCloseDialog = () => {
-    console.log("handleClose");
     setHash("");
   };
 

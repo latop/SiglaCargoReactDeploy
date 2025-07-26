@@ -80,7 +80,7 @@ export const ReleaseDriverDialog: FC<ReleaseDriverDialogProps> = ({
         },
       });
     } catch (e) {
-      console.log(e);
+      console.error(e);
     }
   };
 
