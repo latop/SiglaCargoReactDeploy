@@ -20,7 +20,7 @@ import { DailyTripsFilterBar } from "./DailyTripsFilterBar";
 import IsLoadingTable from "./isLoadindCard";
 
 import ModalBatchCancelTrip from "./batch/cancel-trip";
-import config from "./configs";
+import { columns } from "./configs";
 import { FieldValues } from "react-hook-form";
 import ModalBatchAlterCompanyTrip from "./batch/change-company";
 import ModalBatchAlterFleetTrip from "./batch/change-fleet";
@@ -56,6 +56,7 @@ export function DailyTrips() {
     data,
     isLoading: queryIsLoading,
     refetch,
+    error,
   } = useGetDailyTripsQuery({ ...filters, pageNumber: currentPage + 1 });
   const { mutateAsync, isPending: mutationIsLoading } =
     useDailyTripBatchChange();
@@ -92,7 +93,7 @@ export function DailyTrips() {
   return (
     <MainContainer>
       <AppBar>
-        <HeaderTitle>{config.title}</HeaderTitle>
+        <HeaderTitle>Viagens diárias</HeaderTitle>
       </AppBar>
       <Box
         sx={{
@@ -210,7 +211,7 @@ export function DailyTrips() {
           {((!data && !isLoading) || (data && data.data?.length === 0)) && (
             <EmptyResult />
           )}
-          {!data?.data && <ErrorResult />}
+          {error && <ErrorResult />}
           {isLoading && <IsLoadingTable />}
           {data && data.data?.length > 0 && (
             <div style={{ height: "100%", width: "100%" }}>
@@ -243,7 +244,7 @@ export function DailyTrips() {
                       }`,
                   },
                 }}
-                columns={config.columns}
+                columns={columns}
                 onCellDoubleClick={(params) => {
                   setTripId(params.row.dailyTripId);
                   setDailyTripModalIsOpen(true);

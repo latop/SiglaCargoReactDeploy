@@ -1,10 +1,8 @@
 import { GridColDef } from "@mui/x-data-grid";
 
-const title = "Viagens diárias";
-
 const headerClass = "blueColumnHeaders";
 
-const columns: GridColDef[] = [
+export const columns: GridColDef[] = [
   {
     field: "tripDate",
     headerName: "Data da viagem",
@@ -22,7 +20,7 @@ const columns: GridColDef[] = [
   {
     field: "status",
     headerName: "Status",
-    width: 100,
+    width: 70,
     sortable: false,
     filterable: false,
   },
@@ -36,7 +34,7 @@ const columns: GridColDef[] = [
   {
     field: "destination",
     headerName: "Destino",
-    width: 140,
+    width: 125,
     sortable: false,
     filterable: false,
   },
@@ -72,13 +70,8 @@ const columns: GridColDef[] = [
   {
     field: "drivers",
     headerName: "Motoristas",
-    width: 150,
+    width: 120,
     sortable: false,
     filterable: false,
   },
 ].map((column) => ({ ...column, headerClassName: headerClass }));
-
-export default {
-  title,
-  columns,
-};
