@@ -1,12 +1,28 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from "axios";
 import api from "./configs/api";
+import {
+  ImportGtm,
+  ImportGtmFilterParams,
+  ImportGtms,
+  ImportGtmsResponse,
+} from "@/interfaces/trip";
 
 axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_URL;
 
 export interface FetchLocationGroupParams {
   pageSize?: number;
   code?: string;
+}
+
+export interface FetchNewOptmizedTripsParams {
+  locationGroupCode?: string;
+  start: string;
+}
+
+interface ImportedGtm {
+  tripGTMS: ImportGtms & { fileName?: string };
+  tripGTMSDetails: ImportGtm[];
 }
 
 export async function fetchLocationGroup({
@@ -148,6 +164,27 @@ export async function fetchOptmizedTrips() {
   }
 }
 
+export async function fetchNewOptmizedTrips({
+  args,
+}: {
+  args: FetchNewOptmizedTripsParams;
+}) {
+  const params = {
+    locationGroupCode: args.locationGroupCode,
+    start: args.start,
+  };
+  try {
+    const response = await api.get("/Optimizer/GetOtmInfo", {
+      params,
+    });
+    const data = response.data;
+    return data;
+  } catch (error) {
+    console.error(error);
+    return error;
+  }
+}
+
 interface FetchGenerateScheduleCircuitParams {
   start: string;
   end: string;
@@ -196,6 +233,7 @@ export type FetchLinesParams = {
   code?: string;
   pageSize?: number;
   pageNumber?: number;
+  tripTypeId?: string;
 };
 
 export async function fetchLines({ args }: { args: FetchLinesParams }) {
@@ -204,6 +242,7 @@ export async function fetchLines({ args }: { args: FetchLinesParams }) {
     filter2Id: args.locationDestId,
     filter3Id: args.fleetGroupId,
     filter1String: args.code,
+    filter4Id: args.tripTypeId,
     PageSize: args.pageSize,
     PageNumber: args.pageNumber,
   };
@@ -328,5 +367,52 @@ export const fetchStopTypeById = async ({ id }: { id: string }) => {
   } catch (error) {
     console.error(error);
     return error;
+  }
+};
+
+export const fetchAllGtms = async ({
+  args,
+}: {
+  args: ImportGtmFilterParams;
+}): Promise<ImportGtmsResponse> => {
+  const params = {
+    startDate: args.startDate,
+    endDate: args.endDate,
+    locationGroupCode: args.locationGroupCode,
+  };
+
+  try {
+    const response = await api.get("/GetAllGTMS", { params });
+    const data = response.data;
+    return data;
+  } catch (error) {
+    console.error(error);
+    throw new Error((error as Error)?.message);
+  }
+};
+
+export const fetchGtmById = async ({ id }: { id: string }) => {
+  try {
+    const response = await api.get(`/GetGTMS/?Id=${id}`);
+    const data = response.data;
+    return data as ImportedGtm;
+  } catch (error) {
+    console.error(error);
+    throw new Error((error as Error)?.message);
+  }
+};
+
+export const fetchExportGtm = async ({ id }: { id: string }) => {
+  try {
+    const response = await api.get(`/ExportGTMS/?tripGTMSId=${id}`, {
+      responseType: "blob",
+    });
+
+    return {
+      file: response.data as Blob,
+    };
+  } catch (error) {
+    console.error(error);
+    throw new Error((error as Error)?.message);
   }
 };

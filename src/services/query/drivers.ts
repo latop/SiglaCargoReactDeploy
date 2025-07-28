@@ -1,8 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import api from "../configs/api";
-import { FetchBasicParams } from "./types";
 import dayjs from "dayjs";
 import { PaginationResponse } from "@/interfaces/pagination";
+import { FetchBasicParams } from "./trips";
 
 const resource = "/Drivers";
 
@@ -130,11 +130,9 @@ export const useDriverRequestQuery = (props?: DriverReleaseFilterPayload) => {
           Page: 1,
           PageSize: 3000,
         };
-        console.log("params", params);
         const response = await api.get(`${resource}/driverrequest`, {
           params,
         });
-        console.log("response", response);
         return response.data;
       } catch (error) {
         console.error(error);
