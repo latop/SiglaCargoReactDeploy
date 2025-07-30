@@ -241,7 +241,11 @@ export const DailyTripForm = () => {
 
         <Box gap="8px" display="flex" flexDirection="column">
           {dailyTripSections?.map((dailytrip: DailyTrip, index: number) => (
-            <DailyTripSectionForm key={index} seq={index} id={dailytrip.id} />
+            <DailyTripSectionForm
+              key={dailytrip.id}
+              seq={index}
+              id={dailytrip.id}
+            />
           ))}
         </Box>
       </Box>

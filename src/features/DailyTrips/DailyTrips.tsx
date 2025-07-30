@@ -113,7 +113,7 @@ export function DailyTrips() {
           mb="10px"
           gap={1}
         >
-          <div>
+          {/* <div>
             <Button
               variant="outlined"
               size="small"
@@ -132,7 +132,7 @@ export function DailyTrips() {
             >
               Adicionar viagem
             </Button>
-          </div>
+          </div> */}
           <div>
             {rowSelectionModel.length > 0 && (
               <>
