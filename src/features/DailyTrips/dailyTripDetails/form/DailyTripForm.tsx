@@ -161,6 +161,7 @@ export const DailyTripForm = () => {
               <Controller
                 name="startPlanned"
                 control={control}
+                disabled
                 render={({ field, fieldState: { error } }) => (
                   <DateTimePicker
                     disabled={false}
@@ -176,6 +177,7 @@ export const DailyTripForm = () => {
             <Grid item xs={2}>
               <Controller
                 name="endPlanned"
+                disabled
                 control={control}
                 render={({ field, fieldState: { error } }) => (
                   <DateTimePicker
