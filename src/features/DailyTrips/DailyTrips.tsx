@@ -265,6 +265,7 @@ export function DailyTrips() {
                 pageSizeOptions={[15]}
                 density="compact"
                 checkboxSelection
+                disableRowSelectionOnClick
                 onRowSelectionModelChange={(
                   newRowSelectionModel: GridRowSelectionModel,
                 ) => {
