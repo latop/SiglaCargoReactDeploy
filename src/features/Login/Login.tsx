@@ -55,14 +55,11 @@ export function Login() {
   };
 
   const handleSSO = () => {
-    getAuth(
-      "/Auth/Login",
-      {},
-      {
-        method: "get",
-      },
-    );
+    const targetUrl =
+      "https://apicargodev.azurewebsites.net/Auth/Login?returnUrl=https%3A%2F%2Fhomologpepsicobrasil.sigla.app%2Fhome";
+    window.location.href = targetUrl;
   };
+
   const handleWhoAmI = () => {
     getAuth(
       "/Auth/whoami",
