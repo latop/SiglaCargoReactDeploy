@@ -34,7 +34,9 @@ export const useJourneysByPeriod = (options?: SWRConfiguration) => {
     if (previousPageData && !previousPageData.hasNext) return null;
 
     return {
-      url: "/journeys-by-period",
+      url: searchParams.nickNames
+        ? `"/journeys-by-period-${searchParams.nickNames}`
+        : "/journeys-by-period",
       args: { ...searchParams, pageSize: 10, pageNumber: pageIndex + 1 },
     };
   };

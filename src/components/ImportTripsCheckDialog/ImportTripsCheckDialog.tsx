@@ -153,6 +153,7 @@ export const ImportTripsCheckDialog: React.FC<ImportTripsCheckDialogProps> = ({
       });
     } finally {
       setIsLoading(false);
+      onRefreshItems();
     }
   };
 
