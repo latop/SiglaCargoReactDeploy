@@ -72,7 +72,7 @@ export function useDailyTripsByPeriodFilterBar() {
       fleetGroupCode: params.get("fleetGroupCode") || "",
       locationGroupCode: params.get("locationGroupCode") || "",
       licensePlate: params.get("licensePlate") || "",
-      showTruckAssignment: Boolean(params.get("showTruckAssignment")) || false,
+      showTruckAssignment: Boolean(params.get("showTruckAssignment")) || true,
     },
   });
 
