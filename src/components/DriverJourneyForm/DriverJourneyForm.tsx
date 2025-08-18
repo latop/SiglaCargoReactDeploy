@@ -137,6 +137,7 @@ export const DriverJourneyForm = ({
     if (!showDemandDetails) {
       fetchDemandSections({
         demand: getValues(`tasksDriver.${seq}.demand`),
+        idTask: getValues(`tasksDriver.${seq}.idTask`),
       });
     } else {
       setShowDemandDetails(false);
