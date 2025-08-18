@@ -27,7 +27,6 @@ import { useDailyTripJourneyDetails } from "@/hooks/useDailyTripJourneyDetails";
 import { DailyTrip, TaskDriver } from "@/interfaces/schedule";
 import { useToast } from "@/hooks/useToast";
 import { SectionsReturnForm } from "@/components/SectionsReturnForm";
-import SectinReturnTimeline from "../SectionReturnTimeline/SectionReturnTimeline";
 import { AutocompleteLocation } from "@/components/AutocompleteLocation";
 
 dayjs.extend(customParseFormat);
@@ -197,12 +196,14 @@ export const DriverJourneyForm = ({
         <AutocompleteLocation
           name={`tasksDriver.${seq}.locOrig`}
           label="Origem"
+          disabled
         />
       </Grid>
       <Grid item xs={1.2}>
         <AutocompleteLocation
           name={`tasksDriver.${seq}.locDest`}
           label="Destino"
+          disabled
         />
       </Grid>
       <Grid item xs={1.7}>
@@ -245,6 +246,7 @@ export const DriverJourneyForm = ({
               label="Início realizado"
               error={error?.message}
               {...field}
+              disabled
               value={field.value ? dayjs(field.value) : null}
               onChange={(date) => field.onChange(date?.format())}
             />
@@ -259,6 +261,7 @@ export const DriverJourneyForm = ({
             <DateTimePicker
               label="Fim realizado"
               error={error?.message}
+              disabled
               {...field}
               value={field.value ? dayjs(field.value) : null}
               onChange={(date) => field.onChange(date?.format())}
@@ -314,11 +317,13 @@ export const DriverJourneyForm = ({
         <Controller
           name={`tasksDriver.${seq}.startActual`}
           control={control}
+          disabled
           render={({ field, fieldState: { error } }) => (
             <DateTimePicker
               label="Início realizado"
               error={error?.message}
               {...field}
+              disabled={true}
               value={field.value ? dayjs(field.value) : null}
               onChange={(date) => field.onChange(date?.format())}
             />
@@ -329,10 +334,12 @@ export const DriverJourneyForm = ({
         <Controller
           name={`tasksDriver.${seq}.endActual`}
           control={control}
+          disabled
           render={({ field, fieldState: { error } }) => (
             <DateTimePicker
               label="Fim realizado"
               error={error?.message}
+              disabled={true}
               {...field}
               value={field.value ? dayjs(field.value) : null}
               onChange={(date) => field.onChange(date?.format())}
@@ -410,16 +417,6 @@ export const DriverJourneyForm = ({
           <Box display="flex" alignItems="center" sx={{ position: "relative" }}>
             {sectionsReturn?.length && (
               <>
-                <SectinReturnTimeline
-                  size={sectionsReturn?.length}
-                  sx={{
-                    position: "absolute",
-                    top: 0,
-                    left: "-30px",
-                    zIndex: 2,
-                    marginTop: "20px",
-                  }}
-                />
                 <Box display="flex" flexDirection="column" gap="15px" mt="10px">
                   {sectionsReturn?.map((section: TaskDriver, index: number) => (
                     <SectionsReturnForm

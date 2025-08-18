@@ -79,6 +79,9 @@ export const JourneyForm = () => {
                 control={control}
                 render={({ field, fieldState: { error } }) => (
                   <DateTimePicker
+                    slots={{
+                      openPickerIcon: () => null,
+                    }}
                     disabled={false}
                     label="Fim planejado"
                     error={error?.message}
