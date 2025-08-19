@@ -134,14 +134,11 @@ export const DriverJourneyForm = ({
   };
 
   const handleShowDemandDetails = () => {
-    if (!showDemandDetails) {
-      fetchDemandSections({
-        demand: getValues(`tasksDriver.${seq}.demand`),
-        idTask: getValues(`tasksDriver.${seq}.idTask`),
-      });
-    } else {
-      setShowDemandDetails(false);
-    }
+    setShowDemandDetails((prev) => !prev);
+    fetchDemandSections({
+      demand: getValues(`tasksDriver.${seq}.demand`),
+      idTask: getValues(`tasksDriver.${seq}.idTask`),
+    });
   };
 
   const renderTravelFields = () => (
