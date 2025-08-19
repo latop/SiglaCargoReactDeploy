@@ -25,7 +25,7 @@ export const useReleaseDriver = (options?: SWRConfiguration) => {
     if (!searchParams.dtRef && !searchParams.locOrig) return null;
     if (previousPageData && !previousPageData.hasNext) return null;
     return {
-      url: "/release-driver",
+      url: `/release-driver`,
       args: { ...searchParams, pageSize: 15, pageNumber: pageIndex + 1 },
     };
   };
@@ -33,8 +33,9 @@ export const useReleaseDriver = (options?: SWRConfiguration) => {
   const { data, error, isLoading, size, setSize, isValidating, mutate } =
     useSWRInfinite<ReleaseDriverResponse>(getKey, fetchReleaseDriver, {
       revalidateFirstPage: false,
-      revalidateIfStale: false,
-      revalidateOnFocus: false,
+      revalidateIfStale: true,
+      revalidateOnFocus: true,
+      refreshInterval: 10000,
       ...options,
     });
 
