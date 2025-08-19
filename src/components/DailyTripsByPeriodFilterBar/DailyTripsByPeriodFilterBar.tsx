@@ -1,7 +1,7 @@
 import React from "react";
 import { Controller, FormProvider } from "react-hook-form";
 import dayjs from "dayjs";
-import { Button, Grid, Switch, TextField } from "@mui/material";
+import { Button, Grid } from "@mui/material";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@/components/DatePicker";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -56,13 +56,13 @@ export function DailyTripsByPeriodFilterBar(
               />
             </Grid>
 
-            <Grid item xs={1.2}>
+            <Grid item xs={1.5}>
               <AutocompleteFleetGroup />
             </Grid>
-            <Grid item xs={1.6}>
+            <Grid item xs={2}>
               <AutocompleteLocationGroup />
             </Grid>
-            <Grid item xs={1.5}>
+            <Grid item xs={1.8}>
               <AutocompleteTruck
                 onChange={(value) => {
                   methods.setValue("licensePlate", value?.licensePlate);
@@ -70,7 +70,7 @@ export function DailyTripsByPeriodFilterBar(
               />
             </Grid>
 
-            <Grid item xs={0.9}>
+            {/* <Grid item xs={0.9}>
               <Controller
                 name="showTruckAssignment"
                 control={control}
@@ -98,7 +98,7 @@ export function DailyTripsByPeriodFilterBar(
                   />
                 )}
               />
-            </Grid>
+            </Grid> */}
 
             <Grid item xs={0.5}>
               <Button

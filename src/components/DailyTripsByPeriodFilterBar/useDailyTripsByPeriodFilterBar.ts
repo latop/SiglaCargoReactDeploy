@@ -57,6 +57,9 @@ const schema = z
 
 export function useDailyTripsByPeriodFilterBar() {
   const router = useRouter();
+  const path = usePathname();
+  const isDriverScheduleTrip = path === "/daily-trips-schedule";
+
   const pathname = usePathname();
   const { refetch: refetchDailyTrips } = useDailyTripsByPeriod();
   const params = useSearchParams();
@@ -72,7 +75,7 @@ export function useDailyTripsByPeriodFilterBar() {
       fleetGroupCode: params.get("fleetGroupCode") || "",
       locationGroupCode: params.get("locationGroupCode") || "",
       licensePlate: params.get("licensePlate") || "",
-      showTruckAssignment: Boolean(params.get("showTruckAssignment")) || true,
+      showTruckAssignment: !isDriverScheduleTrip,
     },
   });
 
@@ -86,7 +89,9 @@ export function useDailyTripsByPeriodFilterBar() {
       }
     });
 
-    const newUrl = `/daily-trips-schedule?${query.toString()}`;
+    const newUrl = isDriverScheduleTrip
+      ? `/daily-trips-schedule?${query.toString()}`
+      : `/vehicle-link?${query.toString()}`;
     const oldUrl = `${pathname}?${params.toString()}`;
     if (oldUrl === newUrl) {
       refetchDailyTrips();
