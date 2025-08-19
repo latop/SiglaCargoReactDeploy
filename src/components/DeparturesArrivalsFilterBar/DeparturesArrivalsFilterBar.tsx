@@ -7,6 +7,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { TextField, MenuItem } from "@mui/material";
 import { useDeparturesArrivalsFilterBar } from "./useDeparturesArrivalsFilterBar";
+import { AutocompleteLocationRelease } from "../AutocompleteLocationRelease";
 
 export function DeparturesArrivalsFilterBar(
   props: React.HTMLProps<HTMLFormElement>,
@@ -26,19 +27,9 @@ export function DeparturesArrivalsFilterBar(
             gap="16px"
           >
             <Grid item xs={3} paddingLeft="0">
-              <Controller
+              <AutocompleteLocationRelease
+                label="Cód. localização"
                 name="locationCode"
-                control={control}
-                render={({ field, fieldState: { error } }) => (
-                  <TextField
-                    {...field}
-                    variant="outlined"
-                    fullWidth
-                    label="Cód. localização"
-                    error={!!error?.message}
-                    helperText={error?.message?.toString()}
-                  />
-                )}
               />
             </Grid>
             <Grid item xs={3} paddingLeft="0">
