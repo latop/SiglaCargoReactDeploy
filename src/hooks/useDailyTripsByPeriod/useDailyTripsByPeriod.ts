@@ -36,9 +36,7 @@ export const useDailyTripsByPeriod = (options?: SWRConfiguration) => {
       getKey,
       fetchDailyTripsByPeriod,
       {
-        revalidateFirstPage: false,
-        revalidateIfStale: false,
-        revalidateOnFocus: false,
+        refreshInterval: 30 * 60 * 1000, // 30min
         ...options,
       },
     );

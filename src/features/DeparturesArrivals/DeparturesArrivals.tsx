@@ -23,7 +23,10 @@ const columns: GridColDef[] = [
 
 export function DeparturesArrivals() {
   const { departuresArrivals, isLoading, showContent, isEmpty } =
-    useDeparturesArrivals();
+    useDeparturesArrivals({
+      revalidateOnMount: true,
+      refreshInterval: 30 * 60 * 1000, // 30min
+    });
 
   return (
     <MainContainer>
