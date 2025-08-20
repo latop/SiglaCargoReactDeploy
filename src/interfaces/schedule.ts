@@ -162,4 +162,5 @@ export interface DailyTrip {
   startPlanned: string;
   endPlanned: string;
   sectionsReturn: DailyTripSection[];
+  demand?: string;
 }

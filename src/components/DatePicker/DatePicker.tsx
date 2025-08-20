@@ -15,17 +15,18 @@ import { red } from "@mui/material/colors";
 
 interface DatePickerProps extends DatePickerBaseProps<Dayjs> {
   error?: string;
+  displayIcon?: boolean;
 }
 
 export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
-  ({ error, ...props }, ref: Ref<HTMLDivElement>) => (
+  ({ error, displayIcon = false, ...props }, ref: Ref<HTMLDivElement>) => (
     <Container>
       <DatePickerBase
         {...props}
         ref={ref as Ref<HTMLDivElement>}
         slots={{
           ...props.slots,
-          openPickerIcon: () => null,
+          ...(displayIcon && { openPickerIcon: () => null }),
         }}
       />
       {!!error && (
@@ -39,17 +40,18 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
 
 interface DateTimePickerProps extends DateTimePickerPropsBase<Dayjs> {
   error?: string;
+  displayIcon?: boolean;
 }
 
 export const DateTimePicker = forwardRef<HTMLDivElement, DateTimePickerProps>(
-  ({ error, ...props }, ref: Ref<HTMLDivElement>) => (
+  ({ error, displayIcon = false, ...props }, ref: Ref<HTMLDivElement>) => (
     <Container>
       <DateTimePickerBase
         {...props}
         ref={ref as Ref<HTMLDivElement>}
         slots={{
           ...props.slots,
-          openPickerIcon: () => null,
+          ...(displayIcon && { openPickerIcon: () => null }),
         }}
       />
       {!!error && (

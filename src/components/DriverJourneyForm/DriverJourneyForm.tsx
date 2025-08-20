@@ -69,7 +69,7 @@ export const DriverJourneyForm = ({
       tasksDriver.push({
         seq: tasksDriver.length + 1,
         type: "V",
-        demand: data.lineCode,
+        demand: data.demand,
         locOrig: data.locationOrigCode,
         locDest: data.locationDestCode,
         lineCode: data.lineCode,
