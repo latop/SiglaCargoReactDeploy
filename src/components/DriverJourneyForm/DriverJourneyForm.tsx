@@ -28,6 +28,7 @@ import { DailyTrip, TaskDriver } from "@/interfaces/schedule";
 import { useToast } from "@/hooks/useToast";
 import { SectionsReturnForm } from "@/components/SectionsReturnForm";
 import { AutocompleteLocation } from "@/components/AutocompleteLocation";
+import { SearchRouteModal } from "../SearchRouteDialog";
 
 dayjs.extend(customParseFormat);
 
@@ -41,8 +42,10 @@ export const DriverJourneyForm = ({
   seq,
 }: DriverJourneyFormProps) => {
   const [showDemandDetails, setShowDemandDetails] = React.useState(false);
+  const [isSearchLineOpen, setSearchLineOpen] = React.useState(false);
   const { addToast } = useToast();
   const { control, getValues, setValue, watch } = useFormContext();
+  // const [selectedTab, setSelectedTab] = useRecoilState(tabState);
 
   const handleSuccessDemand = (data: DailyTrip) => {
     if (data.sto) {
@@ -141,6 +144,10 @@ export const DriverJourneyForm = ({
     });
   };
 
+  const handleSearchLineModal = () => {
+    setSearchLineOpen((prev) => !prev);
+  };
+
   const renderTravelFields = () => (
     <Grid container spacing={1}>
       <Grid item xs={1.5}>
@@ -186,6 +193,19 @@ export const DriverJourneyForm = ({
               label="Cód. Rota"
               InputLabelProps={{ shrink: !!field.value }}
               fullWidth
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <Tooltip title="Buscar demanda" arrow>
+                      <SearchIcon
+                        fontSize="small"
+                        onClick={handleSearchLineModal}
+                        style={{ cursor: "pointer" }}
+                      />
+                    </Tooltip>
+                  </InputAdornment>
+                ),
+              }}
             />
           )}
         />
@@ -436,6 +456,11 @@ export const DriverJourneyForm = ({
           </Box>
         )}
       </Box>
+      <SearchRouteModal
+        seq={seq}
+        open={isSearchLineOpen}
+        onClose={handleSearchLineModal}
+      />
     </LocalizationProvider>
   );
 };
