@@ -26,7 +26,11 @@ export const useReleaseDriver = (options?: SWRConfiguration) => {
     if (previousPageData && !previousPageData.hasNext) return null;
     return {
       url: `/release-driver`,
-      args: { ...searchParams, pageSize: 15, pageNumber: pageIndex + 1 },
+      args: {
+        ...searchParams,
+        pageSize: 15,
+        pageNumber: pageIndex + 1,
+      },
     };
   };
 
@@ -56,6 +60,10 @@ export const useReleaseDriver = (options?: SWRConfiguration) => {
     drivers.map((driver) => [driver.dailyTripSectionId, driver]),
   );
 
+  const refetch = () => {
+    mutate();
+  };
+
   return {
     showContent,
     drivers,
@@ -70,5 +78,6 @@ export const useReleaseDriver = (options?: SWRConfiguration) => {
     totalCount,
     hasNext,
     mutate,
+    refetch,
   };
 };
