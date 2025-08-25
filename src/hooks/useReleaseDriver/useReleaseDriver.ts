@@ -33,9 +33,8 @@ export const useReleaseDriver = (options?: SWRConfiguration) => {
   const { data, error, isLoading, size, setSize, isValidating, mutate } =
     useSWRInfinite<ReleaseDriverResponse>(getKey, fetchReleaseDriver, {
       revalidateFirstPage: false,
-      revalidateIfStale: true,
       revalidateOnFocus: true,
-      refreshInterval: 10000,
+      refreshInterval: 10 * 60 * 1000, // 10 minutes
       ...options,
     });
 
