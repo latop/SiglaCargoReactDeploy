@@ -15,10 +15,14 @@ import {
   CircularProgress,
 } from "@mui/material";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/auth";
 import { useFetch } from "@/hooks/useFetch";
-import { useToast } from "@/hooks/useToast";
 import { Dayjs } from "dayjs";
-import { setCookie } from "nookies";
+
+const schema = z.object({
+  userLogin: z.string().email({ message: "Invalid email address" }),
+  password: z.string().min(1, { message: "Password is required" }),
+});
 
 type AuthenticatedResponse = {
   authenticated: boolean;
@@ -29,14 +33,9 @@ type AuthenticatedResponse = {
   message: string;
 };
 
-const schema = z.object({
-  userLogin: z.string().email({ message: "Invalid email address" }),
-  password: z.string().min(1, { message: "Password is required" }),
-});
-
 export function Login() {
-  const { addToast } = useToast();
-  const [getAuth, { data, loading }] = useFetch<AuthenticatedResponse>();
+  const { handleLogin, loading } = useAuth();
+
   const router = useRouter();
   const {
     control,
@@ -49,10 +48,10 @@ export function Login() {
   useEffect(() => {
     router.prefetch("/home");
   }, []);
-
-  const handleAuthetication = (body: object) => {
-    getAuth("/api/Login", body);
-  };
+  const [getAuth] = useFetch<AuthenticatedResponse>();
+  // const handleAuthetication = (body: object) => {
+  //   getAuth("/api/Login", body);
+  // };
 
   const handleSSO = () => {
     const targetUrl =
@@ -70,25 +69,21 @@ export function Login() {
     );
   };
 
-  const onSubmit = (data: FieldValues) => {
-    const body = {
-      ...data,
-      domain: "application",
-    };
-    handleAuthetication(body);
-  };
+  // const onSubmit = (data: FieldValues) => {
+  //   const body = {
+  //     ...data,
+  //     domain: "application",
+  //   };
 
-  useEffect(() => {
-    if (data?.authenticated && !loading) {
-      setCookie(null, "accessToken", data?.accessToken as string, {
-        maxAge: 60 * 60 * 24,
-      });
-      router.push("/home");
-      addToast("Login realizado com sucesso", { type: "success" });
-    } else if (data?.authenticated === false && !loading) {
-      addToast("Credenciais inválidas", { type: "error" });
-    }
-  }, [data, loading]);
+  //   handleAuthetication(body);
+  // };
+
+  const onSubmit = async ({ userLogin, password }: FieldValues) => {
+    await handleLogin({
+      username: userLogin,
+      password,
+    });
+  };
 
   const isLoading = loading ? (
     <CircularProgress

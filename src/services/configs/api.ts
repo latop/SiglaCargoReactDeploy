@@ -5,11 +5,13 @@ const api = axios.create({
 });
 
 api.interceptors.request.use((config) => {
-  // const token = localStorage.getItem("token");
-  // if (token) {
-  //   config.headers;
-  //   config.headers.Authorization = `Bearer ${token}`;
-  // }
+  const { accessToken } = JSON.parse(
+    localStorage.getItem("@pepsico:user") || "{}",
+  );
+
+  if (accessToken) {
+    config.headers.Authorization = `Bearer ${accessToken}`;
+  }
   return config;
 });
 
@@ -30,5 +32,16 @@ api.interceptors.response.use((response) => {
 
   return response;
 });
+
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401) {
+      localStorage.removeItem("@pepsico:user");
+      window.location.href = "/";
+    }
+    return Promise.reject(error);
+  },
+);
 
 export default api;
