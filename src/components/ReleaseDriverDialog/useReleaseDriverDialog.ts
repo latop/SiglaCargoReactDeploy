@@ -12,7 +12,11 @@ export function useReleaseDriverDialog() {
 
   const match = (hash as string)?.match(/#releaseDriverId-(.+)/);
   const releaseDriverId = match?.[1];
-  const { drivers, driversMap, isLoading, error, mutate } = useReleaseDriver();
+  const { drivers, driversMap, isLoading, error, mutate } = useReleaseDriver({
+    revalidateIfStale: false,
+    revalidateOnFocus: false,
+    refreshInterval: 0,
+  });
 
   const loading = isLoading && !error;
 

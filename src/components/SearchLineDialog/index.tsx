@@ -19,6 +19,7 @@ import { Line } from "@/interfaces/lines";
 import { fetchLines } from "@/services/trips";
 import { LinesTable } from "./components/LinesTable";
 import { useCallback, useState } from "react";
+import { GridSearchIcon } from "@mui/x-data-grid";
 
 interface SearchRouteModalProps {
   open: boolean;
@@ -76,33 +77,23 @@ export const SearchLineModal = ({
     },
   });
 
-  const { setValue, getValues: lineValues, reset } = methods;
+  const { setValue, getValues: lineValues, reset, handleSubmit } = methods;
 
   const getKey = (pageIndex: number) => {
     const args = lineValues();
-    if (!lineValues()) return null;
+    if (!args.locationOrigId || !args.locationDestId) return null;
     return {
       url: `/lines-${Object.values(args).join("")}`,
       args: { ...args, pageSize: 10, pageNumber: pageIndex + 1 },
     };
   };
 
-  const { data } = useSWRInfinite(getKey, fetchLines, {
+  const { data, mutate } = useSWRInfinite(getKey, fetchLines, {
     revalidateFirstPage: false,
     revalidateIfStale: false,
     revalidateOnFocus: false,
     revalidateOnMount: false,
   });
-
-  const handleChangeLocationOrig = (value?: Location | null) => {
-    setValue("locationOrigId", value?.id || "");
-    setValue("locationOrigCode", value?.code || "");
-  };
-
-  const handleChangeLocationDest = (value?: Location | null) => {
-    setValue("locationDestId", value?.id || "");
-    setValue("locationDestCode", value?.code || "");
-  };
 
   const onSetLine = () => {
     setValueDriverJourneyLine(
@@ -116,6 +107,11 @@ export const SearchLineModal = ({
   const onClose = () => {
     reset({});
     handleClose();
+  };
+
+  const onSubmit = (data: FormType) => {
+    if (!data) return;
+    mutate();
   };
 
   return (
@@ -137,13 +133,16 @@ export const SearchLineModal = ({
       <DialogContent dividers sx={{ padding: "16px" }}>
         <FormProvider {...methods}>
           <form>
-            <Grid container spacing={2} alignItems="flex-start">
+            <Grid container spacing={2} alignItems="center">
               <Grid item xs={5}>
                 <AutocompleteLocation
                   name="locationOrigCode"
                   label="Origem"
                   keyCode="id"
-                  onChange={handleChangeLocationOrig}
+                  onChange={(value?: Location | null) => {
+                    setValue("locationOrigId", value?.id || "");
+                    setValue("locationOrigCode", value?.code || "");
+                  }}
                 />
               </Grid>
               <Grid item xs={5}>
@@ -151,8 +150,24 @@ export const SearchLineModal = ({
                   name="locationDestCode"
                   label="Destino"
                   keyCode="id"
-                  onChange={handleChangeLocationDest}
+                  onChange={(value) => {
+                    setValue("locationDestId", value?.id || "");
+                    setValue("locationDestCode", value?.code || "");
+                  }}
                 />
+              </Grid>
+
+              <Grid item>
+                <Button
+                  type="submit"
+                  size="large"
+                  variant="contained"
+                  color="primary"
+                  onClick={handleSubmit(onSubmit)}
+                  fullWidth
+                >
+                  <GridSearchIcon />
+                </Button>
               </Grid>
             </Grid>
 

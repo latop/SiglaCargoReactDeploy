@@ -185,7 +185,11 @@ export const ReleaseDriverForm = () => {
                 />
               </Grid>
               <Grid item xs={2}>
-                <AutocompleteJustification />
+                <AutocompleteJustification
+                  onChange={(value) => {
+                    methods.setValue("justificationId", value?.id);
+                  }}
+                />
               </Grid>
               <Grid item xs={2}>
                 <Controller
