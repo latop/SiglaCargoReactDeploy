@@ -17,7 +17,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import useSWRInfinite from "swr/infinite";
 import { Line } from "@/interfaces/lines";
 import { fetchLines } from "@/services/trips";
-import { LinesTable } from "./TableLines";
+import { LinesTable } from "./components/LinesTable";
 import { useCallback, useState } from "react";
 
 interface SearchRouteModalProps {
@@ -35,7 +35,7 @@ const schema = z.object({
 
 type FormType = z.infer<typeof schema>;
 
-export const SearchRouteModal = ({
+export const SearchLineModal = ({
   onClose: handleClose,
   open,
   seq,

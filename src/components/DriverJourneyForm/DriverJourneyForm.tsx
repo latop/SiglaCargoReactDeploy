@@ -28,7 +28,7 @@ import { DailyTrip, TaskDriver } from "@/interfaces/schedule";
 import { useToast } from "@/hooks/useToast";
 import { SectionsReturnForm } from "@/components/SectionsReturnForm";
 import { AutocompleteLocation } from "@/components/AutocompleteLocation";
-import { SearchRouteModal } from "../SearchRouteDialog";
+import { SearchLineModal } from "../SearchLineDialog";
 
 dayjs.extend(customParseFormat);
 
@@ -456,7 +456,7 @@ export const DriverJourneyForm = ({
           </Box>
         )}
       </Box>
-      <SearchRouteModal
+      <SearchLineModal
         seq={seq}
         open={isSearchLineOpen}
         onClose={handleSearchLineModal}
