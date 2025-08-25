@@ -191,6 +191,18 @@ const theme = createTheme({
         },
       },
     },
+    MuiDatePicker: {
+      styleOverrides: {
+        root: {
+          "& .MuiInputBase-input.Mui-disabled": {
+            // Add your disabled styles here
+            opacity: 0.6,
+            backgroundColor: "#f5f5f5",
+            color: "#666",
+          },
+        },
+      },
+    },
   },
 });
 

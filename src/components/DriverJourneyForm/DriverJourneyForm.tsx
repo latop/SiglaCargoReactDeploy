@@ -149,7 +149,7 @@ export const DriverJourneyForm = ({
   };
 
   const renderTravelFields = () => (
-    <Grid container spacing={1}>
+    <Grid container spacing={0.5}>
       <Grid item xs={1.5}>
         <Controller
           name={`tasksDriver.${seq}.demand`}
@@ -210,14 +210,14 @@ export const DriverJourneyForm = ({
           )}
         />
       </Grid>
-      <Grid item xs={1.2}>
+      <Grid item xs={1.3}>
         <AutocompleteLocation
           name={`tasksDriver.${seq}.locOrig`}
           label="Origem"
           disabled
         />
       </Grid>
-      <Grid item xs={1.2}>
+      <Grid item xs={1.3}>
         <AutocompleteLocation
           name={`tasksDriver.${seq}.locDest`}
           label="Destino"
@@ -255,13 +255,14 @@ export const DriverJourneyForm = ({
           )}
         />
       </Grid>
-      <Grid item xs={1.6}>
+      <Grid item xs={1.5}>
         <Controller
           name={`tasksDriver.${seq}.startActual`}
           control={control}
           render={({ field, fieldState: { error } }) => (
             <DateTimePicker
               label="Início realizado"
+              disableOpenPicker
               error={error?.message}
               {...field}
               disabled
@@ -271,7 +272,7 @@ export const DriverJourneyForm = ({
           )}
         />
       </Grid>
-      <Grid item xs={1.6}>
+      <Grid item xs={1.5}>
         <Controller
           name={`tasksDriver.${seq}.endActual`}
           control={control}
@@ -280,6 +281,7 @@ export const DriverJourneyForm = ({
               label="Fim realizado"
               error={error?.message}
               disabled
+              disableOpenPicker
               {...field}
               value={field.value ? dayjs(field.value) : null}
               onChange={(date) => field.onChange(date?.format())}
