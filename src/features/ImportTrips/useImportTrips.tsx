@@ -129,9 +129,14 @@ export const useImportTrips = () => {
           mutate();
         },
         onError: (error) => {
-          addToast(error ? error.message : "Falha ao enviar arquivo.", {
-            type: "error",
-          });
+          addToast(
+            error
+              ? (error.response?.data as string)
+              : "Falha ao enviar arquivo.",
+            {
+              type: "error",
+            },
+          );
         },
       });
     } catch (error) {

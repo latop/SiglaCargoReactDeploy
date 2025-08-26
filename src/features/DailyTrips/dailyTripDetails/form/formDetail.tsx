@@ -26,7 +26,6 @@ export const DailyTripFormDetail = ({ initialValues, handleClose }: Params) => {
   const methods = useForm({
     defaultValues: initialValues,
   });
-  console.log(methods.getValues());
 
   const onSubmit = async (data: DailyTrip) => {
     const response = await mutateAsync(data);
