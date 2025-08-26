@@ -39,6 +39,8 @@ export function DailyTripDetailsDialog({
     stopType: "",
     companyId: "",
     id: "",
+    justification: { description: "" },
+    justificationId: "",
     dailyTripSections: [],
   };
   const initialValues =

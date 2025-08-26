@@ -118,13 +118,18 @@ export const useImportTrips = () => {
     try {
       await fetchAction(`/deleteDemand?id=${id} `, id, {
         method: "delete",
-        onSuccess: () => {
-          addToast("Arquivo apagado com sucesso!", { type: "success" });
+        onSuccess: (res) => {
+          addToast(
+            res.data ? (res.data as string) : "Arquivo apagado com sucesso!",
+            {
+              type: "success",
+            },
+          );
           handleClearFile();
           mutate();
         },
-        onError: () => {
-          addToast("Falha ao enviar arquivo.", {
+        onError: (error) => {
+          addToast(error ? error.message : "Falha ao enviar arquivo.", {
             type: "error",
           });
         },
