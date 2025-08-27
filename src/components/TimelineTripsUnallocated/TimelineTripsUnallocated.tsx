@@ -75,7 +75,6 @@ export function TimelineTripsUnallocated() {
   }) => {
     const { left: leftResizeProps, right: rightResizeProps } = getResizeProps();
     const currentTrip = findSectionById(item.id);
-    console.log(currentTrip);
     const selected =
       currentTrip?.dailyTripId === selectedDailyTrip?.dailyTripId ||
       itemContext.selected;
