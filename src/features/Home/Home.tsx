@@ -207,7 +207,6 @@ export function Home() {
               <Grid container rowSpacing={4} columnSpacing={4}>
                 {graphToShow.map((graph, index) => (
                   <Grid key={index} item xs={CalcGridColumns(index)}>
-                    {graph.name}
                     {graphSelected.includes(graph.name) && graph.data}
                   </Grid>
                 ))}

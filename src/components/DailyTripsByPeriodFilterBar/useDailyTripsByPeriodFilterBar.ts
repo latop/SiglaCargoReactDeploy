@@ -102,7 +102,9 @@ export function useDailyTripsByPeriodFilterBar() {
 
   const onClearParams = () => {
     methods.reset({});
-    router.push(`/vehicle-link`);
+    router.push(
+      isDriverScheduleTrip ? `/daily-trips-schedule` : `/vehicle-link`,
+    );
     setTimeout(() => window.location.reload(), 500);
   };
 
