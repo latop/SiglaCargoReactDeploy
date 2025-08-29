@@ -34,7 +34,9 @@ export const useJourneysByPeriod = (options?: SWRConfiguration) => {
     if (previousPageData && !previousPageData.hasNext) return null;
 
     return {
-      url: "/journeys-by-period",
+      url: searchParams.nickNames
+        ? `"/journeys-by-period-${searchParams.nickNames}`
+        : "/journeys-by-period",
       args: { ...searchParams, pageSize: 10, pageNumber: pageIndex + 1 },
     };
   };
@@ -43,6 +45,8 @@ export const useJourneysByPeriod = (options?: SWRConfiguration) => {
       revalidateFirstPage: false,
       revalidateIfStale: false,
       revalidateOnFocus: false,
+
+      refreshInterval: 30 * 60 * 1000, // 30min
       ...options,
     });
 

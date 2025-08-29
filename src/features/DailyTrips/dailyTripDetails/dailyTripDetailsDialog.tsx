@@ -39,13 +39,18 @@ export function DailyTripDetailsDialog({
     stopType: "",
     companyId: "",
     id: "",
+    justification: { description: "" },
+    justificationId: "",
     dailyTripSections: [],
   };
   const initialValues =
     id && data
       ? {
           ...data.dailyTrip,
-          dailyTripSections: data.dailyTripSections,
+          dailyTripSections: data.dailyTripSections.map((section: object) => ({
+            nickname: data.nickName,
+            ...section,
+          })),
         }
       : defaultValues;
 
