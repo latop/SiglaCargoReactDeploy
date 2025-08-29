@@ -46,8 +46,8 @@ export function DeparturesArrivalsFilterBar(
                     error={!!error?.message}
                     helperText={error?.message?.toString()}
                   >
-                    <MenuItem value="ARR">ARR</MenuItem>
-                    <MenuItem value="DEP">DEP</MenuItem>
+                    <MenuItem value="ARR">Chegadas</MenuItem>
+                    <MenuItem value="DEP">Partidas</MenuItem>
                   </TextField>
                 )}
               />

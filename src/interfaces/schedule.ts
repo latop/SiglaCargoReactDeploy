@@ -135,6 +135,7 @@ export interface DailyTripUnallocated {
   selected?: boolean;
   startPlanned?: string;
   endPlanned?: string;
+  lineCode?: string | null;
 }
 
 export interface DeparturesArrivals {

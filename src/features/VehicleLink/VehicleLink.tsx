@@ -46,15 +46,10 @@ export function VehicleLink() {
         padding="20px 20px 0"
       >
         <DailyTripsByPeriodFilterBar />
-        {hasShowTruckAssignment && (
-          <Button
-            variant="outlined"
-            onClick={() => setHash("#isNewAssignment")}
-          >
-            Adicionar atribuição
-            <AddIcon fontSize="small" />
-          </Button>
-        )}
+        <Button variant="outlined" onClick={() => setHash("#isNewAssignment")}>
+          Adicionar atribuição
+          <AddIcon fontSize="small" />
+        </Button>
       </Box>
 
       {showContent && (

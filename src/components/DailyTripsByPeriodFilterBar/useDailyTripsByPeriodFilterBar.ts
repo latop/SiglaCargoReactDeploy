@@ -100,8 +100,17 @@ export function useDailyTripsByPeriodFilterBar() {
     }
   };
 
+  const onClearParams = () => {
+    methods.reset({});
+    router.push(
+      isDriverScheduleTrip ? `/daily-trips-schedule` : `/vehicle-link`,
+    );
+    setTimeout(() => window.location.reload(), 500);
+  };
+
   return {
     methods,
     onSubmit,
+    onClearParams,
   };
 }
