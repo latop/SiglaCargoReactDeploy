@@ -183,7 +183,11 @@ export function DailyTripsFilterBar({ onChange }: Params) {
               />
             </Grid>
             <Grid item xs={1.5}>
-              <AutocompleteTruck />
+              <AutocompleteTruck
+                onChange={(value) => {
+                  methods.setValue("licensePlate", value?.licensePlate);
+                }}
+              />
             </Grid>
 
             <Grid item xs={1}>
