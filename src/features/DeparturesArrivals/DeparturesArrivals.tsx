@@ -20,7 +20,6 @@ export function DeparturesArrivals() {
     isError,
     hasData,
     currentPage,
-    isEmpty,
     totalCount,
     loadMore,
     isLoadingMore,
@@ -60,7 +59,7 @@ export function DeparturesArrivals() {
           }}
         >
           {isLoading && <LoadingTableSkeleton length={15} />}
-          {isEmpty && !hasData && !isLoading && <EmptyResult />}
+          {!hasData && !isLoading && <EmptyResult />}
           {isError && !isLoading && <ErrorResult />}
           {hasData && !isLoading && (
             <div style={{ height: "100%", width: "100%" }}>
@@ -71,7 +70,7 @@ export function DeparturesArrivals() {
                 }}
                 loading={isLoadingMore}
                 rows={departuresArrivals || []}
-                getRowId={(row) => row.id}
+                getRowId={(row) => row.seq}
                 localeText={{
                   noRowsLabel: "Nenhum registro encontrado",
                   columnMenuHideColumn: "Ocultar coluna",

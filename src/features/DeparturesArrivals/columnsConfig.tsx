@@ -34,7 +34,12 @@ const getDirectionLabel = (direction: string) => {
 };
 
 export const columnsConfig = (): GridColDef[] => [
-  { field: "sto", headerName: "STO", width: 140 },
+  {
+    field: "sto",
+    headerName: "STO",
+    width: 140,
+    renderCell: (params) => (params.row.sto ? params.row.sto : "-"),
+  },
   { field: "locCode", headerName: "Cód. Localização", width: 150 },
   { field: "timePlanned", headerName: "Planejado", width: 150 },
   { field: "timeEstimated", headerName: "Estimado", width: 150 },

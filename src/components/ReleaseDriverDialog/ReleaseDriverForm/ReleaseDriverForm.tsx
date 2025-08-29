@@ -186,8 +186,10 @@ export const ReleaseDriverForm = () => {
               </Grid>
               <Grid item xs={2}>
                 <AutocompleteJustification
+                  name="justificationCode"
+                  hasSkeleton
                   onChange={(value) => {
-                    methods.setValue("justificationId", value?.id);
+                    methods.setValue("justificationCode", value?.code);
                   }}
                 />
               </Grid>
