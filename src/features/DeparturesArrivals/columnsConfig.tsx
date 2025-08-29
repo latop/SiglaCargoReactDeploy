@@ -36,7 +36,7 @@ const getDirectionLabel = (direction: string) => {
 export const columnsConfig = (): GridColDef[] => [
   { field: "sto", headerName: "STO", width: 140 },
   { field: "locCode", headerName: "Cód. Localização", width: 150 },
-  { field: "timePlanned", headerName: "Planejado", width: 120 },
+  { field: "timePlanned", headerName: "Planejado", width: 150 },
   { field: "timeEstimated", headerName: "Estimado", width: 150 },
   {
     field: "statusTrip",
@@ -74,6 +74,6 @@ export const columnsConfig = (): GridColDef[] => [
       );
     },
   },
-  { field: "nickName", headerName: "Motorista", width: 150 },
+  { field: "nickName", headerName: "Motorista", width: 200 },
   { field: "licensePlate", headerName: "Placa do Veículo", width: 150 },
 ];
