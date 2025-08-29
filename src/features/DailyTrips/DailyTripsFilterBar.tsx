@@ -5,13 +5,13 @@ import { AutocompleteDriver } from "@/components/AutocompleteDriver";
 import { AutocompleteFleetGroup } from "@/components/AutocompleteFleetGroup";
 import { AutocompleteLocation } from "@/components/AutocompleteLocation";
 import { AutocompleteTripType } from "@/components/AutocompleteTripType";
+import { AutocompleteTruck } from "@/components/AutocompleteTruck";
 import { DatePicker } from "@/components/DatePicker";
 import {
   CollapseButton,
   FiltersCollapsable,
   useFiltersCollapse,
 } from "@/components/FiltersCollapsable";
-import { formatPlate } from "@/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import SearchIcon from "@mui/icons-material/Search";
 import { Box, Button, Grid, MenuItem, TextField } from "@mui/material";
@@ -176,41 +176,16 @@ export function DailyTripsFilterBar({ onChange }: Params) {
               />
             </Grid>
             <Grid item xs={1.5}>
-              <AutocompleteDriver />
+              <AutocompleteDriver
+                onChange={(value) => {
+                  methods.setValue("nickName", value?.nickName);
+                }}
+              />
             </Grid>
             <Grid item xs={1.5}>
-              <Controller
-                name="licensePlate"
-                control={control}
-                rules={{
-                  validate: (value) => {
-                    if (
-                      !RegExp(/[A-z]{3}-*\d[A-j0-9]\d{2}/).exec(value as string)
-                    ) {
-                      return "Placa inválida";
-                    }
-                  },
-                }}
-                render={({ field, fieldState }) => {
-                  return (
-                    <TextField
-                      error={fieldState.error ? true : false}
-                      sx={{
-                        width: "100%",
-                        "& .MuiInputBase-input.Mui-disabled": {
-                          WebkitTextFillColor: "#000000",
-                          opacity: 1,
-                        },
-                      }}
-                      label="Placa do Caminhão"
-                      {...field}
-                      value={field.value}
-                      inputProps={{ maxLength: 50 }}
-                      onInput={(e: React.ChangeEvent<HTMLInputElement>) => {
-                        e.target.value = formatPlate(e.target.value);
-                      }}
-                    />
-                  );
+              <AutocompleteTruck
+                onChange={(value) => {
+                  methods.setValue("licensePlate", value?.licensePlate);
                 }}
               />
             </Grid>

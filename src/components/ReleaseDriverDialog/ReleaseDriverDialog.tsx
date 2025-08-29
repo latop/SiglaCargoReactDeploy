@@ -65,7 +65,7 @@ export const ReleaseDriverDialog: FC<ReleaseDriverDialogProps> = ({
       productInvoice: data?.productInvoice,
       isReturnLoaded: data?.isReturnLoaded,
       licensePlateTrailer: data?.licensePlateTrailer,
-      justificationId: data?.justificationId,
+      justificationCode: data?.justificationCode,
     };
 
     try {

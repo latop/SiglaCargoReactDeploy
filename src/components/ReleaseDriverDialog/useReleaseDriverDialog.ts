@@ -59,18 +59,17 @@ export function useReleaseDriverDialog() {
       productInvoice: data?.productInvoice,
       isReturnLoaded: data?.isReturnLoaded,
       licensePlateTrailer: data?.licensePlateTrailer,
-      justificationId: data?.justificationId,
+      justificationCode: data?.justificationCode,
     };
     return defaultValues;
   };
-
   useEffect(() => {
     if (driverAndTruckToRelase) {
       // eslint-disable-next-line react-hooks/exhaustive-deps, @typescript-eslint/ban-ts-comment
       // @ts-ignore
       methods.reset(normalizeData(driverAndTruckToRelase));
     }
-  }, [driverAndTruckToRelase]);
+  }, [driverAndTruckToRelase, methods]);
 
   return {
     releaseDriverId,
