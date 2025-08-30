@@ -1,4 +1,5 @@
 import axios from "axios";
+import api from "./configs/api";
 
 axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -109,7 +110,7 @@ export async function fetchDeparturesArrivals({
   args: FetchDeparturesArrivalsParams;
 }) {
   try {
-    const response = await axios.get(`/gantt/GetArrivalDeparture`, {
+    const response = await api.get(`/gantt/GetArrivalDeparture`, {
       params,
     });
     const data = response.data;

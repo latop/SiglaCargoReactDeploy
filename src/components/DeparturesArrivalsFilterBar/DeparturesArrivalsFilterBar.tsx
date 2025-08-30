@@ -18,21 +18,19 @@ export function DeparturesArrivalsFilterBar(
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
       <FormProvider {...methods}>
-        <form onSubmit={handleSubmit(onSubmit)} {...props}>
-          <Grid
-            container
-            alignItems="flex-start"
-            margin="26px auto 10px"
-            width="1080px"
-            gap="16px"
-          >
-            <Grid item xs={3} paddingLeft="0">
+        <form
+          style={{ width: "100%", display: "flex" }}
+          onSubmit={handleSubmit(onSubmit)}
+          {...props}
+        >
+          <Grid container gap="16px" direction={"row"}>
+            <Grid item xs={2} paddingLeft="0">
               <AutocompleteLocationRelease
                 label="Cód. localização"
                 name="locationCode"
               />
             </Grid>
-            <Grid item xs={3} paddingLeft="0">
+            <Grid item xs={2} paddingLeft="0">
               <Controller
                 name="direction"
                 control={control}
@@ -52,17 +50,11 @@ export function DeparturesArrivalsFilterBar(
                 )}
               />
             </Grid>
-
-            <Grid item xs={0.9}>
-              <Button
-                type="submit"
-                variant="contained"
-                color="primary"
-                fullWidth
-              >
-                Buscar
-              </Button>
-            </Grid>
+          </Grid>
+          <Grid item xs={0.9}>
+            <Button type="submit" variant="contained" color="primary" fullWidth>
+              Buscar
+            </Button>
           </Grid>
         </form>
       </FormProvider>
