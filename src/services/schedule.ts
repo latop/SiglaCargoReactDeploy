@@ -55,17 +55,17 @@ export async function fetchDailyTripsByPeriod({
 }
 
 export type FetchCircuitParams = {
-  ciruictCode: string;
+  circuitCode: string;
 };
 
 export async function fetchCircuit({
-  args: { ciruictCode },
+  args: { circuitCode },
 }: {
   args: FetchCircuitParams;
 }) {
   try {
     const response = await axios.get(`/gantt/GetCircuit`, {
-      params: { circuitCode: ciruictCode },
+      params: { circuitCode },
     });
     const data = response.data;
     return data;
