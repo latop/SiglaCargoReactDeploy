@@ -74,16 +74,16 @@ export const useJourneysByPeriod = (options?: SWRConfiguration) => {
   const updateCircuit = (newCircuit: Circuit) => {
     const circuitToUpdate = data?.find((page) =>
       page.circuits.find(
-        (circuit) => circuit.ciruictCode === newCircuit.ciruictCode,
+        (circuit) => circuit.circuitCode === newCircuit.circuitCode,
       ),
     );
     if (!circuitToUpdate) return;
     const updatedCircuits = circuitToUpdate.circuits.map((circuit) =>
-      circuit.ciruictCode === newCircuit.ciruictCode ? newCircuit : circuit,
+      circuit.circuitCode === newCircuit.circuitCode ? newCircuit : circuit,
     );
     const updatedData = data?.map((page) =>
       page.circuits.find(
-        (circuit) => circuit.ciruictCode === newCircuit.ciruictCode,
+        (circuit) => circuit.circuitCode === newCircuit.circuitCode,
       )
         ? { ...page, circuits: updatedCircuits }
         : page,
