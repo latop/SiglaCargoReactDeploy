@@ -22,8 +22,8 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import dayjs from "dayjs";
 import "dayjs/locale/pt-br";
 import customParseFormat from "dayjs/plugin/customParseFormat";
-import { DailyTripSectionForm } from "./DailyTripSectionForm";
 import { AutocompleteJustification } from "@/components/AutocompleteJustification";
+import { DailyTripSectionForm } from "./DailyTripSectionForm";
 const TextArea = styled(TextField)`
   && {
     height: 100%;
@@ -37,7 +37,7 @@ const TextArea = styled(TextField)`
 
 dayjs.extend(customParseFormat);
 
-export const DailyTripForm = () => {
+export const DailyTripDetailsForm = () => {
   const { control, watch, setValue } = useFormContext();
   const dailyTripSections = watch("dailyTripSections");
 
@@ -45,6 +45,7 @@ export const DailyTripForm = () => {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
       <Box display="flex" flexDirection="column" gap="20px" mt="5px">
+        teste
         <Box display="flex" gap="20px">
           <Grid container spacing={1}>
             <Grid item xs={2}>

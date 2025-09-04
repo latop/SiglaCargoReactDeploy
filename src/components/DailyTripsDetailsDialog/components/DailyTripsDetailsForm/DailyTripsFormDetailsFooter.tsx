@@ -4,7 +4,7 @@ import { Box, Button, CircularProgress, Icon, Typography } from "@mui/material";
 import DialogActions from "@mui/material/DialogActions";
 import { useFormContext } from "react-hook-form";
 
-export function DailyTripFooterDetail() {
+export function DailyTripsFormDetailsFooter() {
   const {
     formState: { isSubmitting },
     watch,

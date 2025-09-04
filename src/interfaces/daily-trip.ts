@@ -1,3 +1,4 @@
+import { JustificationType } from "./parameters";
 import { FleetGroup } from "./vehicle";
 
 export interface Line {
@@ -19,7 +20,7 @@ export interface DailyTrip {
   flgStatus: string;
   notes: string | null;
   lineId: string | null;
-  line: Line;
+  line?: Line;
   dt: string | null;
   sto: string;
   locationOrigId: string | null;
@@ -55,6 +56,7 @@ export interface DailyTrip {
   userIdUpdate: string | null;
   dailyTripSections: DailyTrip[];
   justificationId?: string | null;
+  justification?: Partial<JustificationType>;
 }
 
 export interface DailyTripResponse {

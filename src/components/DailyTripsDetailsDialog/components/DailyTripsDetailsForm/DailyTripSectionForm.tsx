@@ -39,10 +39,10 @@ export const DailyTripSectionForm = ({ seq, id }: Params) => {
   };
 
   const steps = getValues("dailyTripSections");
-  console.log(steps);
-
+  TextField;
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
+      teste
       <Box
         display={"flex"}
         padding="8px"
@@ -53,7 +53,7 @@ export const DailyTripSectionForm = ({ seq, id }: Params) => {
         <Grid container spacing={1}>
           <Grid item xs={12}>
             <h5>
-              Seção {seq + 1} - {steps[seq].locationOrig.code}
+              Seção {seq + 1} - {steps[seq]?.locationOrig?.code}
             </h5>
           </Grid>
           <Grid item xs={2}>
