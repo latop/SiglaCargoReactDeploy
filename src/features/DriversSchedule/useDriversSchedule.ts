@@ -11,6 +11,7 @@ interface JourneySearchParams {
   fleetGroupCode?: string;
   locationGroupCode?: string;
   positionCode?: string;
+  nickNames?: string;
 }
 
 export function useDriverSchedule() {
@@ -24,6 +25,7 @@ export function useDriverSchedule() {
       "fleetGroupCode",
       "locationGroupCode",
       "positionCode",
+      "nickNames",
     ];
 
     paramKeys.forEach((key) => {
@@ -68,7 +70,7 @@ export function useDriverSchedule() {
     if (!circuits || !drivers) return;
 
     const circuitIndex = circuits.findIndex(
-      (circuit: Circuit) => circuit.ciruictCode === newCircuit.ciruictCode,
+      (circuit: Circuit) => circuit.circuitCode === newCircuit.circuitCode,
     );
     const currentCircuit = circuits[circuitIndex];
     const circuit = {
