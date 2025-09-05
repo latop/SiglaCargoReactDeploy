@@ -17,6 +17,8 @@ import { BurgerMenuGroup } from "../BurgerMenuGroup";
 
 import { groupments, GroupmentType, routes } from "./config";
 import { getVersion } from "@/utils/getVersion";
+import { useAuth } from "@/auth";
+import { blue } from "@mui/material/colors";
 
 const ButtonStyled = styled(Button)`
   transition: all 0.2s ease-in-out;
@@ -66,6 +68,8 @@ const saveOpenState = (state: Record<GroupmentType, boolean>) => {
 };
 
 export function BurgerMenu({ isOpen, toggleDrawer }: BurgerMenuProps) {
+  const { user } = useAuth();
+
   const [menuOpen, setOpenMenu] = useState(initialState);
 
   const handleMenuOpen = ({ group }: { group: GroupmentType }) => {
@@ -117,6 +121,9 @@ export function BurgerMenu({ isOpen, toggleDrawer }: BurgerMenuProps) {
             />
             <Typography fontSize={8} align="center">
               {getVersion()}
+            </Typography>
+            <Typography align="center" variant="body1" color={blue[900]}>
+              {user?.userName}
             </Typography>
           </Box>
           <Box
