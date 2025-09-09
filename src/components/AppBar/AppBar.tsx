@@ -10,11 +10,11 @@ import {
   Typography,
 } from "@mui/material";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
-import { destroyCookie } from "nookies";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useRouter } from "next/navigation";
 import { BurgerMenu } from "../BurgerMenu";
 import { grey } from "@mui/material/colors";
+import { useAuth } from "@/auth";
 
 interface AppBarProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
@@ -23,6 +23,7 @@ interface AppBarProps extends React.HTMLAttributes<HTMLDivElement> {
 export function AppBar({ children, ...props }: AppBarProps) {
   const router = useRouter();
   const [open, setOpen] = useState(false);
+  const { handleLogout } = useAuth();
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -45,11 +46,6 @@ export function AppBar({ children, ...props }: AppBarProps) {
   useEffect(() => {
     router.prefetch("/");
   }, []);
-
-  const handleLogout = () => {
-    destroyCookie(null, "accessToken");
-    router.push("/");
-  };
 
   return (
     <Box {...props}>

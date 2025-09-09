@@ -8,6 +8,7 @@ import { ThemeProvider } from "@mui/material/styles";
 import { ToastProvider } from "@/hooks/useToast/useToast";
 import { DialogProvider } from "./hooks/useDialog/useDialog";
 import QueryProvider from "./services/configs/provider";
+import { AuthProvider } from "./auth/AuthProvider";
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
@@ -17,7 +18,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
           <ToastProvider>
             <DialogProvider>
               <GlobalStyles />
-              {children}
+              <AuthProvider>{children}</AuthProvider>
             </DialogProvider>
           </ToastProvider>
         </ThemeProvider>
