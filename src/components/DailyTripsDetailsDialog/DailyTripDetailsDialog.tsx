@@ -35,7 +35,9 @@ export function DailyTripDetailsDialog({
     const cleanedDailyTrip = {
       ...dailyTrips,
       company: dailyTrips.company?.name || null,
-      justification: dailyTrips.justification?.description || null,
+      justification: dailyTrips.justificationId
+        ? dailyTrips.justification
+        : null,
     };
 
     const cleanedSections = dailyTripSections.map(
