@@ -1,6 +1,5 @@
-import theme from "@/styles/theme";
 import AddIcon from "@mui/icons-material/Add";
-import { Box, Button, CircularProgress, Icon, Typography } from "@mui/material";
+import { Box, Button, CircularProgress, Icon } from "@mui/material";
 import DialogActions from "@mui/material/DialogActions";
 import { useFormContext } from "react-hook-form";
 
@@ -14,78 +13,32 @@ export function DailyTripsFormDetailsFooter() {
   const handleAddStep = () => {
     const dailyTripSections = watch("dailyTripSections");
     dailyTripSections.push({
+      id: "",
+      createAt: null,
+      updateAt: null,
+      userIdCreate: null,
+      userIdUpdate: null,
       section: dailyTripSections.length + 1,
       truckId: null,
       truck: {
-        startDate: null,
-        endDate: null,
-        isRefurbished: false,
-        stateId: null,
-        state: null,
-        chassisNumber: null,
-        licensePlate: null,
-        regulatoryNumber: null,
-        regulatoryValidity: null,
-        manufactureYear: null,
-        serialNumber: null,
-        tare: null,
-        capacity: null,
-        locationGroupId: null,
-        locationGroup: null,
-        fleetTypeId: null,
-        fleetType: null,
-        note: null,
-        integrationCode: null,
-        fleetCode: null,
-        id: null,
-        createAt: null,
-        updateAt: null,
-        userIdCreate: null,
-        userIdUpdate: null,
-      },
-      locationOrig: {
-        code: null,
-        codeIntegration1: null,
-        codeIntegration2: null,
-        name: null,
-        cityId: null,
-        latitude: null,
-        longitude: null,
-        locationTypeId: null,
-        locationType: null,
-        timezoneId: null,
-        locationGroupId: null,
-        locationGroup: null,
-        delayGPS: null,
+        licensePlate: "",
       },
       locationOrigId: null,
-      locationDest: {
-        code: null,
-        codeIntegration1: null,
-        codeIntegration2: null,
-        name: null,
-        cityId: null,
-        latitude: null,
-        longitude: null,
-        locationTypeId: null,
-        locationType: null,
-        timezoneId: null,
-        locationGroupId: null,
-        locationGroup: null,
-        delayGPS: null,
-      },
+      locationOrig: null,
       locationDestId: null,
+      locationDest: null,
+      startPlanned: null,
+      endPlanned: null,
       startActual: null,
       endActual: null,
       startEstimated: null,
       endEstimated: null,
-      startPlanned: null,
-      endPlanned: null,
-      driverId: null,
-      driverName: null,
+      stopTypeId: null,
+      stopType: null,
       flgStatus: "N",
       notes: null,
       locationGroupId: null,
+      driverId: null,
     });
     setValue("dailyTripSections", dailyTripSections);
   };
@@ -106,13 +59,7 @@ export function DailyTripsFormDetailsFooter() {
             size="small"
           >
             <Icon component={AddIcon} fontSize="small" />
-            <Typography
-              variant="body2"
-              ml="5px"
-              color={theme.palette.primary.main}
-            >
-              Etapa
-            </Typography>
+            Etapa
           </Button>
           {/* <Button disabled variant="outlined">
             {isSubmitting && (

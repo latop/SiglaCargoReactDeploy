@@ -52,6 +52,7 @@ export const useDailyTrips = () => {
     data,
     isLoading: queryIsLoading,
     error,
+    refetch: refetchDailyTrips,
   } = useGetDailyTripsQuery({ ...params, pageNumber: currentPage + 1 });
 
   const { mutateAsync, isPending: mutationIsLoading } =
@@ -122,5 +123,6 @@ export const useDailyTrips = () => {
     handleOpenBulkActions,
     handleClose,
     handleBulkTripAction,
+    refetchDailyTrips,
   };
 };

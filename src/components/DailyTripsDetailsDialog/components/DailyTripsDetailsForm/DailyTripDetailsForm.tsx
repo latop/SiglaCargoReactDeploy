@@ -45,7 +45,6 @@ export const DailyTripDetailsForm = () => {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
       <Box display="flex" flexDirection="column" gap="20px" mt="5px">
-        teste
         <Box display="flex" gap="20px">
           <Grid container spacing={1}>
             <Grid item xs={2}>
@@ -212,7 +211,7 @@ export const DailyTripDetailsForm = () => {
             <Grid item xs={4}>
               <AutocompleteJustification
                 hasSkeleton
-                name="justification.description"
+                name="justification"
                 keyCode="description"
               />
             </Grid>

@@ -9,8 +9,12 @@ import { Box, CircularProgress } from "@mui/material";
 import { FieldValues, FormProvider } from "react-hook-form";
 import { useDailyTripDetails } from "@/hooks/useDailyTripDetails";
 import { DailyTripDetailsForm } from "./components/DailyTripsDetailsForm/DailyTripDetailsForm";
-import { useDailyTripDetailsDialog } from "./useDailyTripDetailsDialog";
+import {
+  DailyTripSection,
+  useDailyTripDetailsDialog,
+} from "./useDailyTripDetailsDialog";
 import { DailyTripsFormDetailsFooter } from "./components/DailyTripsDetailsForm/DailyTripsFormDetailsFooter";
+import { useDailyTrips } from "@/features/DailyTrips/useDailyTrips";
 
 interface DailyTripDetailsProps {
   isOpen: boolean;
@@ -24,19 +28,32 @@ export function DailyTripDetailsDialog({
   const { addToast } = useToast();
 
   const { updateDailyTripDetails } = useDailyTripDetails();
-
+  const { refetchDailyTrips } = useDailyTrips();
   const onSubmit = async (data: FieldValues) => {
-    console.log(data);
-    const { dailyTripSections, ...values } = data;
-    const body = {
-      dailyTrip: {
-        ...values,
-      },
-      dailyTripSections,
+    const { dailyTripSections, ...dailyTrips } = data;
+
+    const cleanedDailyTrip = {
+      ...dailyTrips,
+      company: dailyTrips.company?.name || null,
+      justification: dailyTrips.justification?.description || null,
     };
+
+    const cleanedSections = dailyTripSections.map(
+      (section: DailyTripSection) => ({
+        ...section,
+        truck: section.truck?.licensePlate ? section.truck : null,
+      }),
+    );
+
+    const body = {
+      dailyTrip: cleanedDailyTrip,
+      dailyTripSections: cleanedSections,
+    };
+
     await updateDailyTripDetails(body, {
       onSuccess: () => {
         addToast("Salvo com sucesso!");
+        refetchDailyTrips();
         onClose();
       },
       onError: () => {
@@ -70,7 +87,7 @@ export function DailyTripDetailsDialog({
         >
           <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
             <Box display="flex" justifyContent="space-between">
-              Viagem diária opa
+              Viagem diária
             </Box>
           </DialogTitle>
           <IconButton

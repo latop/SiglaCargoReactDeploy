@@ -1,5 +1,6 @@
-import { JustificationType } from "./parameters";
-import { FleetGroup } from "./vehicle";
+import { Company, JustificationType } from "./parameters";
+import { StopType, TripType } from "./trip";
+import { FleetGroup, Truck } from "./vehicle";
 
 export interface Line {
   id: string;
@@ -13,50 +14,44 @@ export interface Line {
 }
 
 export interface DailyTrip {
-  tripNumber: string;
-  tripDate: string;
-  fleetGroup: FleetGroup | null;
-  fleetGroupId: string | null;
-  flgStatus: string;
-  notes: string | null;
-  lineId: string | null;
-  line?: Line;
-  dt: string | null;
-  sto: string;
-  locationOrigId: string | null;
-  locationOrig: {
-    code: string;
-    description: string;
-  } | null;
-  driverId: string | null;
-  locationDestId: string | null;
-  locationDest: {
-    code: string;
-    description: string;
-  } | null;
-  startPlanned: string | null;
-  endPlanned: string | null;
-  startEstimated: string | null;
-  endEstimated: string | null;
-  tripTypeId: string | null;
-  tripType: {
-    code: string;
-    description: string;
-  } | null;
-  stopTypeId: string | null;
-  stopType: {
-    code: string;
-    description: string;
-  } | null;
-  companyId: string | null;
   id: string;
-  createAt: string;
+  createAt: string | null;
   updateAt: string | null;
   userIdCreate: string | null;
   userIdUpdate: string | null;
+  tripNumber: string;
+  tripDate: string;
+  fleetGroupId: string | null;
+  fleetGroup: FleetGroup | null;
+  flgStatus: string;
+  notes: string | null;
+  lineId: string | null;
+  line: Line | null;
+  dt: string | null;
+  sto: string | null;
+  locationOrigId: string | null;
+  locationOrig: Location | null;
+  locationDestId: string | null;
+  locationDest: Location | null;
+  startPlanned: string | null;
+  endPlanned: string | null;
+  startActual: string | null;
+  endActual: string | null;
+  startEstimated: string | null;
+  endEstimated: string | null;
+  tripTypeId: string | null;
+  tripType: TripType | null;
+  stopTypeId: string | null;
+  stopType: StopType | null;
+  companyId: string | null;
+  company: Company | null;
+  justificationId: string | null;
+  justification: JustificationType | null;
+  justificationMessage: string | null;
+  locationGroupId: string | null;
   dailyTripSections: DailyTrip[];
-  justificationId?: string | null;
-  justification?: Partial<JustificationType>;
+  truck?: Truck;
+  driverId?: string | null;
 }
 
 export interface DailyTripResponse {
