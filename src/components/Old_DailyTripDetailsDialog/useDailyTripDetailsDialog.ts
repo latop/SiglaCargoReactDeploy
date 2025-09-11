@@ -5,7 +5,7 @@ import { DailyTrip } from "@/interfaces/daily-trip";
 import dayjs from "dayjs";
 import { useForm } from "react-hook-form";
 
-export function useDailyTripDetailsDialog() {
+export function Old_useDailyTripDetailsDialog() {
   const methods = useForm({
     defaultValues: {
       tripNumber: "",
