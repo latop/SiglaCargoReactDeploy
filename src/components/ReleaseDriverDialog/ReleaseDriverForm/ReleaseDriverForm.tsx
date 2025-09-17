@@ -8,15 +8,15 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import dayjs from "dayjs";
 import "dayjs/locale/pt-br";
 import customParseFormat from "dayjs/plugin/customParseFormat";
-import { DateTimePicker } from "@mui/x-date-pickers";
 import { AutocompleteJustification } from "@/components/AutocompleteJustification";
 import { grey } from "@mui/material/colors";
+import { DateTimePicker } from "@/components/DatePicker";
 
 dayjs.extend(customParseFormat);
 
 export const ReleaseDriverForm = () => {
   const methods = useFormContext();
-  const { control } = methods;
+  const { control, setError } = methods;
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
@@ -187,14 +187,33 @@ export const ReleaseDriverForm = () => {
                 <Controller
                   name="presentationDate"
                   control={control}
-                  render={({ field }) => {
+                  render={({ field, fieldState }) => {
                     return (
                       <DateTimePicker
                         label="Data da Apresentação"
                         {...field}
                         value={field.value ? dayjs(field.value) : null}
                         onChange={(newValue) => {
+                          const daysDifference = newValue
+                            ? Math.abs(newValue.diff(dayjs(), "day"))
+                            : 0;
+
+                          if (daysDifference >= 5) {
+                            setError("presentationDate", {
+                              type: "manual",
+                              message: "Diferença de dias não pode passar de 5",
+                            });
+                            return;
+                          }
+
+                          methods.clearErrors("presentationDate");
                           field.onChange(newValue);
+                        }}
+                        error={fieldState.error?.message}
+                        slotProps={{
+                          textField: {
+                            error: !!fieldState.error,
+                          },
                         }}
                       />
                     );
