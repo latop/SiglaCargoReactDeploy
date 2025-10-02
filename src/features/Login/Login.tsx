@@ -185,7 +185,7 @@ export function Login() {
                 >
                   Entrar com SSO
                 </Button>
-                {/*<Button
+                <Button
                   type="button"
                   fullWidth
                   variant="contained"
@@ -193,7 +193,7 @@ export function Login() {
                   onClick={handleWhoAmI}
                 >
                   Who Am I
-                </Button>*/}
+                </Button>
               </>
             )}
           </Box>
