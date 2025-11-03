@@ -8,16 +8,15 @@ import { useToast } from "@/hooks/useToast";
 import { DailyTripForm } from "./components/DailyTripForm";
 import { Box, CircularProgress } from "@mui/material";
 import { FieldValues, FormProvider } from "react-hook-form";
-import { useDailyTripDetailsDialog } from "./useDailyTripDetailsDialog";
-import { DailyTripFormFooter } from "./components/DailyTripFormFooter";
+import { Old_useDailyTripDetailsDialog } from "./useDailyTripDetailsDialog";
 import { useDailyTripDetails } from "@/hooks/useDailyTripDetails";
 
 interface DailyTripDetailsProps {
   open: boolean;
   onClose: () => void;
 }
-
-export function DailyTripDetailsDialog({
+// TODO: Remove this code: Old_DailyTripDetailsDialog
+export function Old_DailyTripDetailsDialog({
   open,
   onClose,
 }: DailyTripDetailsProps) {
@@ -44,7 +43,8 @@ export function DailyTripDetailsDialog({
     });
   };
 
-  const { dailyTripDetails, isLoading, methods } = useDailyTripDetailsDialog();
+  const { dailyTripDetails, isLoading, methods } =
+    Old_useDailyTripDetailsDialog();
   const { formState } = methods;
   const { defaultValues } = formState;
   const loading = isLoading || (dailyTripDetails && !defaultValues?.id);
@@ -77,6 +77,7 @@ export function DailyTripDetailsDialog({
       dailyTripSections: [],
     });
   };
+
   const { handleSubmit } = methods;
 
   return (
@@ -123,7 +124,7 @@ export function DailyTripDetailsDialog({
               )}
               {!loading && <DailyTripForm />}
             </DialogContent>
-            <DailyTripFormFooter />
+            {/* <DailyTripFormFooter /> */}
           </>
         </form>
       </FormProvider>
